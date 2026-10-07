@@ -1046,6 +1046,15 @@ tr.cal-past td{opacity:.55}
 .ab-photo.sm{width:120px;height:120px}.ab-photo.sm .ab-mono{font-size:38px;border-width:4px}
 @media (max-width:820px){.ab-hero{grid-template-columns:1fr;justify-items:center;text-align:center}.ab-badges,.ab-cta{justify-content:center}.ab-grid2,.ab-vals{grid-template-columns:1fr}.ab-teaser{flex-direction:column;text-align:center}}
 .ab-quote{padding-top:52px!important}.ab-quote>span{top:-6px;font-size:96px}
+.mini-av{width:26px;height:26px;border-radius:50%;display:inline-grid;place-items:center;font-size:10.5px;font-weight:800;color:#fff;background:radial-gradient(circle at 30% 25%,#2B5BE0,var(--navy) 70%);box-shadow:0 0 0 2px #0B0D12,0 0 0 3.5px #F9C846;flex:none;letter-spacing:-.02em}
+.mini-av.lg{width:44px;height:44px;font-size:15px;box-shadow:0 0 0 3px #fff,0 0 0 5px #1D5BFF}
+.rp-founder{gap:8px!important;border:1px solid rgba(255,255,255,.22);border-radius:999px!important;padding:5px 12px 5px 6px!important;margin-inline-start:6px}
+[dir="rtl"] .rp-founder{padding:5px 6px 5px 12px!important}
+.rp-founder:hover{border-color:#F9C846}
+.m-founder{display:flex;align-items:center;gap:12px;padding:12px;margin:6px 0 4px;border-radius:14px;background:linear-gradient(135deg,#F4F7FF,#fff);border:1px solid #C9D5F2;text-decoration:none;color:var(--fg)}
+.m-founder b{display:block;font-size:15px}.m-founder small{color:var(--muted);font-size:12px}
+.ab-teaser{margin-top:28px!important}
+@media (max-width:1320px){.rp-nav .pal-btn{display:none!important}.rp-nav .rp-wrap{gap:14px}.rp-top{padding:9px 7px}}
 
 </style>
 </head><body>
@@ -4124,7 +4133,7 @@ function renderShell(){
  const IC_S='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>';
  const CHEV='<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
  const EXT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
- const menu=Object.keys(GROUPS).map(g=>{ const ps=PAGES.filter(p=>p.g===g), lab=T(...({fin:['التحليل المالي','Analysis'],tax:['الضرائب','Tax'],stat:['الإحصاء والمخاطر','Risk & stats'],lss:['لين ستة سيجما','Lean Six Sigma'],audit:['التدقيق','Audit'],mkt:['الأسواق','Markets'],help:['الموارد','Resources']}[g]||GROUPS[g]));
+ const menu=Object.keys(GROUPS).map(g=>{ const ps=PAGES.filter(p=>p.g===g&&p.id!=='about'), lab=T(...({fin:['التحليل المالي','Analysis'],tax:['الضرائب','Tax'],stat:['الإحصاء والمخاطر','Risk & stats'],lss:['لين ستة سيجما','Lean Six Sigma'],audit:['التدقيق','Audit'],mkt:['الأسواق','Markets'],help:['الموارد','Resources']}[g]||GROUPS[g]));
   if(ps.length===1) return `<a class="rp-top" href="#${ps[0].id}"${ps[0].id===cp.id?' aria-current="page"':''}>${lab}</a>`;
   return `<div class="rp-dd"><button type="button" class="rp-top" aria-haspopup="true">${lab}${CHEV}</button><div class="rp-panel"><div class="rp-panel-in">${ps.map(p=>`<a href="#${p.id}"${p.id===cp.id?' aria-current="page"':''}><span class="rp-pi">${icon(p.id)}</span><span><b>${T(p.ar,p.en)}</b><small>${T(p.dar,p.den)}</small></span></a>`).join('')}</div></div></div>`; }).join('');
  app.innerHTML=`<div class="shell rp">
@@ -4132,14 +4141,14 @@ function renderShell(){
    <div class="rp-util"><div class="rp-wrap"><button type="button" class="rp-ulink" id="lang-btn">${LI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>')}${lang==='ar'?'English':'العربية'}</button><span class="rp-sp"></span><span id="auth-slot"></span><a class="rp-ulink" href="#guide">${T('مركز المساعدة','Help center')}${EXT}</a><a class="rp-ulink" href="#privacy">${T('الخصوصية','Privacy')}</a></div></div>
    <div class="rp-nav"><div class="rp-wrap">
     <a class="rp-brand" href="#home" aria-label="figurdiscover">${logo()}<span><b dir="ltr">figur<i>discover</i></b><small>${T('منصة الذكاء المالي','Financial intelligence')}</small></span></a>
-    <nav class="rp-menu" aria-label="${T('الأدوات','Tools')}">${menu}</nav>
+    <nav class="rp-menu" aria-label="${T('الأدوات','Tools')}">${menu}<a class="rp-top rp-founder" href="#about"${cp.id==='about'?' aria-current="page"':''}><span class="mini-av" dir="ltr">MK</span>${T('المؤسس','Founder')}</a></nav>
     <button type="button" class="rp-icon pal-btn" aria-label="${T('ابحث عن أداة','Find a tool')}" title="Ctrl K">${IC_S}</button>
     <a class="btn rp-cta" href="#statements">${T('ابدأ التحليل','Start analysing')}</a>
     <span class="rp-mob"><span id="auth-slot2"></span><button class="rp-icon" id="lang-btn2">${lang==='ar'?'EN':'ع'}</button><button class="rp-icon menu-btn" id="menu-btn" aria-expanded="false" aria-controls="m-drawer" aria-label="${T('القائمة','Menu')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span>
    </div></div>
   </header>
   ${tickerHtml()}
-  <main class="main" id="main"></main></div><div class="m-drawer" id="m-drawer" hidden><div class="m-back" data-close></div><nav class="m-panel" aria-label="${T('الأدوات','Tools')}"><div class="m-head"><b>${T('كل الأدوات','All tools')}</b>${langSeg()}<button class="tool-btn" data-close aria-label="${T('إغلاق','Close')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>${navHtml}</nav></div><div id="toast" class="toast" role="status" hidden></div>`;
+  <main class="main" id="main"></main></div><div class="m-drawer" id="m-drawer" hidden><div class="m-back" data-close></div><nav class="m-panel" aria-label="${T('الأدوات','Tools')}"><div class="m-head"><b>${T('كل الأدوات','All tools')}</b>${langSeg()}<button class="tool-btn" data-close aria-label="${T('إغلاق','Close')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><a class="m-founder" href="#about"><span class="mini-av lg" dir="ltr">MK</span><span><b>${T('محمد خمايسة','Mohammad Khamaiseh')}</b><small>${T('المؤسس · خبير التحليل المالي والاقتصادي','Founder · Financial & economic analysis expert')}</small></span></a>${navHtml}</nav></div><div id="toast" class="toast" role="status" hidden></div>`;
  $$('.rp-dd').forEach(d=>{ const b=$('.rp-top',d); b.onclick=e=>{ e.stopPropagation(); const o=!d.classList.contains('open'); $$('.rp-dd.open').forEach(x=>x.classList.remove('open')); d.classList.toggle('open',o); b.setAttribute('aria-expanded',String(o)); }; $$('a',d).forEach(a=>a.addEventListener('click',()=>d.classList.remove('open'))); });
  document.addEventListener('click',e=>{ if(!e.target.closest('.rp-dd')) $$('.rp-dd.open').forEach(x=>x.classList.remove('open')); });
  const sw=()=>{ lang=lang==='ar'?'en':'ar'; store.set('raseen.lang2',lang); renderShell(); };
@@ -4202,7 +4211,7 @@ function homeLanding(){
  <section class="land-sec"><div class="land-hd"><span class="land-eyebrow">${T('أسئلة شائعة','FAQ')}</span><h2>${T('إجابات سريعة','Quick answers')}</h2></div>
   <div class="land-faq">${faq.map(f=>`<details class="panel"><summary>${T(f[0],f[1])}</summary><p>${T(f[2],f[3])}</p></details>`).join('')}</div>
   <p class="note" style="text-align:center;margin-top:10px"><a href="#guide">${T('مزيد من الأسئلة في دليل المستخدم ←','More questions in the user guide →')}</a></p></section>
- <section class="ab-teaser"><div class="ab-photo sm"><div class="ab-ring"><span class="ab-mono" dir="ltr">MK</span></div></div><div><span class="rp-eyebrow" style="color:var(--accent)">${T('من وراء المنصة','Behind the platform')}</span><h2>${T('محمد خمايسة','Mohammad Khamaiseh')}</h2><p>${T('خبير التحليل المالي والاقتصادي ومستشار ضريبي ومستشار لدى عدد من الشركات. بكالوريوس في المحاسبة والاقتصاد، وماجستير إدارة الأعمال من الجامعة السويسرية، وحاصل على العديد من الشهادات المهنية والأكاديمية.','Financial & economic analysis expert, tax adviser and adviser to a number of companies. Bachelor’s in Accounting & Economics, MBA from a Swiss university, and holder of numerous professional and academic certifications.')}</p><a class="rp-link" href="#about">${T('تعرّف على المؤسس ←','Meet the founder →')}</a></div></section>
+
  <section class="land-cta"><div><h2>${T('جاهز تكتشف ما وراء أرقامك؟','Ready to see beyond your numbers?')}</h2><p>${T('ابدأ بأي أداة الآن، مجاناً ودون تسجيل.','Start with any tool now, free and without signing up.')}</p></div>
   <div class="row"><a class="btn big light" href="#statements">${T('حلّل قوائمك المالية','Analyse your statements')}</a><a class="btn big outline-light" href="#feasibility">${T('ادرس جدوى مشروعك','Test your project')}</a></div></section>
  <footer class="land-foot"><div class="lf-brand"><span class="hb-mark sm">${logo()}</span><div><b dir="ltr">figur<i>discover</i></b><p>${T('منصة الذكاء المالي: تحليل، تنبؤ، واكتشاف ما وراء الأرقام.','The financial intelligence platform: analyse, forecast and see beyond the numbers.')}</p></div></div>
@@ -4229,6 +4238,7 @@ function homeRender(root){ setTimeout(()=>{ $$('.ha[data-grp]').forEach(b=>b.onc
    </div>
    <div class="hero-stats"><div><b>${PAGES.filter(p=>p.g&&!['help','mkt'].includes(p.g)).length}</b><span>${T('أداة تحليل','analysis tools')}</span></div><div><b>40+</b><span>${T('نسبة ومؤشر مالي','ratios and scores')}</span></div><div><b>118</b><span>${T('دولة في المستشار الضريبي','countries for tax')}</span></div><div><b>2</b><span>${T('لغتان: عربي وإنجليزي','languages')}</span></div></div>
   </section>
+ <section class="ab-teaser"><div class="ab-photo sm"><div class="ab-ring"><span class="ab-mono" dir="ltr">MK</span></div></div><div><span class="rp-eyebrow" style="color:var(--accent)">${T('من وراء المنصة','Behind the platform')}</span><h2>${T('محمد خمايسة','Mohammad Khamaiseh')}</h2><p>${T('خبير التحليل المالي والاقتصادي ومستشار ضريبي ومستشار لدى عدد من الشركات. بكالوريوس في المحاسبة والاقتصاد، وماجستير إدارة الأعمال من الجامعة السويسرية، وحاصل على العديد من الشهادات المهنية والأكاديمية.','Financial & economic analysis expert, tax adviser and adviser to a number of companies. Bachelor’s in Accounting & Economics, MBA from a Swiss university, and holder of numerous professional and academic certifications.')}</p><a class="rp-link" href="#about">${T('تعرّف على المؤسس ←','Meet the founder →')}</a></div></section>
  <section class="land-sec" id="land-tools"><div class="land-hd"><span class="land-eyebrow">${T('الأدوات','The toolkit')}</span><h2>${T('كل ما تحتاجه للتحليل في مكان واحد','Everything you need to analyse, in one place')}</h2><p>${T('أكثر من 14 أداة احترافية مقسّمة حسب المجال. افتح أي أداة وابدأ فوراً ببيانات مثال.','14+ professional tools grouped by field. Open any tool and start right away with example data.')}</p></div>
   ${Object.keys(GROUPS).filter(g=>g!=='help').map(g=>`<h2 class="grp-title" id="grp-${g}" style="scroll-margin-top:80px">${T(...GROUPS[g])}</h2><div class="cards">${PAGES.filter(p=>p.g===g).map(card).join('')}</div>`).join('')}</section>
   ${homeLanding()}`;
