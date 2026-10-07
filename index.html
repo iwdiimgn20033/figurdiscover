@@ -3089,7 +3089,7 @@ function guideRender(root){
 }
 
 /* ================= Privacy policy ================= */
-const PRIV_UPDATED='2026-10-07', PRIV_EMAIL='mohammadh5@yahoo.com';
+const PRIV_UPDATED='2026-10-07', PRIV_EMAIL='ceo@mohdhkhamaiseh.site';
 function privacyRender(root){
  const S=(ar,en,body)=>`<section class="panel pv-sec"><h2>${T(ar,en)}</h2>${body}</section>`, ul=a=>`<ul>${a.map(x=>`<li>${x}</li>`).join('')}</ul>`;
  root.innerHTML=pageHead('سياسة الخصوصية','Privacy policy',T(`آخر تحديث: ${new Date(PRIV_UPDATED).toLocaleDateString('ar',{day:'numeric',month:'long',year:'numeric'})}`,`Last updated: ${new Date(PRIV_UPDATED).toLocaleDateString('en',{day:'numeric',month:'long',year:'numeric'})}`),'')+`
@@ -3917,7 +3917,7 @@ function impInline(){ const m=$('#main'); if(!m) return; const id=curPage().id; 
  if(!$$('textarea',m).some(t=>IMP_MODE[t.id])){ const g=$$('.form-grid',m).find(vis); if(g&&!m.querySelector('.imp-inline')) g.before(impBar('kv',null)); } }
 
 /* ================= Floating contact button: AI assistant, WhatsApp, email ================= */
-const CONTACT={wa:'97450445575',waShow:'+974 5044 5575',email:'mohammadh5@yahoo.com'};
+const CONTACT={wa:'97450445575',waShow:'+974 5044 5575',email:'ceo@mohdhkhamaiseh.site'};
 let fabOpen=false, chatOpen=false, aiChat=[], aiCtl=null;
 const FAB_IC={
  chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01" stroke-width="2.6"/>',
@@ -4057,7 +4057,7 @@ function openAuth(mode){ $('.auth-modal')?.remove(); const w=document.createElem
  w.onclick=e=>{ if(e.target===w||e.target.closest('[data-close]')) close(); const m=e.target.closest('[data-m]'); if(m){ e.preventDefault(); openAuth(m.dataset.m); } };
  const ao=$('#au-out',w); if(ao) ao.onclick=signOut;
  const msg=(t,ok)=>{ const el=$('#au-msg',w); el.textContent=t; el.style.color=ok?'var(--good)':'var(--bad)'; };
- const errTxt=e=>{ const m=String(e&&e.message||e); if(/Invalid login/i.test(m)) return T('البريد أو كلمة المرور غير صحيحة','Wrong email or password'); if(/not confirmed/i.test(m)) return T('أكّد بريدك أولاً من الرسالة التي أرسلناها','Confirm your email first using the link we sent'); if(/already registered|already exists/i.test(m)) return T('هذا البريد مسجل مسبقاً، سجّل الدخول','This email is already registered. Sign in instead'); if(/rate|too many/i.test(m)) return T('محاولات كثيرة، انتظر قليلاً','Too many attempts. Wait a moment'); return T('حدث خطأ: ','Error: ')+m; };
+ const errTxt=e=>{ const m=String(e&&e.message||e); if(/Failed to fetch|NetworkError|Load failed|fetch/i.test(m)) return /claude\.ai|claudeusercontent|anthropic/.test(location.hostname)||!/^https?:/.test(location.protocol)?T('الحسابات لا تعمل داخل معاينة Claude. افتح الموقع من figurdiscover.com وسجّل من هناك.','Accounts do not work inside the Claude preview. Open figurdiscover.com and sign up there.'):T('تعذّر الاتصال بخادم الحسابات. تحقق من الإنترنت، وجرّب إيقاف مانع الإعلانات أو نافذة تصفح خفي، ثم حاول مجدداً.','Could not reach the accounts server. Check your connection, try disabling ad-blockers or use a private window, then try again.'); if(/Invalid login/i.test(m)) return T('البريد أو كلمة المرور غير صحيحة','Wrong email or password'); if(/not confirmed/i.test(m)) return T('أكّد بريدك أولاً من الرسالة التي أرسلناها','Confirm your email first using the link we sent'); if(/already registered|already exists/i.test(m)) return T('هذا البريد مسجل مسبقاً، سجّل الدخول','This email is already registered. Sign in instead'); if(/rate|too many/i.test(m)) return T('محاولات كثيرة، انتظر قليلاً','Too many attempts. Wait a moment'); return T('حدث خطأ: ','Error: ')+m; };
  const f=$('#au-f',w); if(f){ setTimeout(()=>{ const i=$('input',f); if(i) i.focus(); },30);
   f.onsubmit=async e=>{ e.preventDefault(); const btn=$('button[type=submit]',f); btn.disabled=true; msg('');
    const v=id=>($('#'+id,w)?.value||'').trim();
