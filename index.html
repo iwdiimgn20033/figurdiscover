@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%230891B2%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237C3AED%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%228%22%20fill%3D%22url%28%23g%29%22/%3E%3Cg%20transform%3D%22translate%284%204%29%20scale%28.75%29%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2213.5%22%20cy%3D%2213.5%22%20r%3D%2210%22%20stroke-width%3D%222.6%22/%3E%3Cpath%20d%3D%22M21%2021l7.2%207.2%22%20stroke-width%3D%223.4%22/%3E%3Crect%20x%3D%228%22%20y%3D%2214.5%22%20width%3D%222.8%22%20height%3D%225%22%20rx%3D%22.9%22%20fill%3D%22%23fff%22%20stroke%3D%22none%22%20opacity%3D%22.6%22/%3E%3Crect%20x%3D%2212.1%22%20y%3D%2211.5%22%20width%3D%222.8%22%20height%3D%228%22%20rx%3D%22.9%22%20fill%3D%22%23fff%22%20stroke%3D%22none%22%20opacity%3D%22.8%22/%3E%3Crect%20x%3D%2216.2%22%20y%3D%228%22%20width%3D%222.8%22%20height%3D%2211.5%22%20rx%3D%22.9%22%20fill%3D%22%23fff%22%20stroke%3D%22none%22/%3E%3C/g%3E%3C/svg%3E"><meta name="theme-color" content="#0891B2"><meta name="description" content="figurdiscover: financial statement analysis, feasibility studies, risk simulation, Lean Six Sigma, audit and tax tools.">
 <title>figurdiscover</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -660,6 +660,362 @@ main input.in-bad{border-color:var(--bad)!important;box-shadow:0 0 0 3px var(--b
 .hero h1 em{margin-inline-start:0!important}
 .hero h1 > span{color:inherit}
 .hero h1{width:fit-content!important;background-size:130% 100%!important}
+/* ================= language switch (top of menu) ================= */
+.lang-seg{display:flex;align-items:center;gap:2px;padding:3px;border-radius:12px;background:var(--glass);border:1px solid var(--glass-brd);margin:0 4px}
+.lang-seg svg{width:16px;height:16px;color:var(--muted);margin-inline:6px 2px;flex:none}
+.lang-seg button{flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:600;padding:6px 8px;border-radius:9px;cursor:pointer;transition:background .2s,color .2s}
+.lang-seg button:hover{color:var(--fg)}
+.lang-seg button[aria-pressed="true"]{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 12px -6px color-mix(in srgb,var(--accent2) 70%,transparent)}
+.m-head{flex-wrap:wrap;gap:8px}.m-head .lang-seg{order:3;flex-basis:100%;margin:4px 0 0}
+.side-link{color:var(--muted);font-size:12.5px;text-decoration:none}.side-link:hover{color:var(--accent);text-decoration:underline}
+.side .brand svg,.mobilebar .brand svg{color:var(--accent)}
+/* ================= guide ================= */
+.g-toc{margin-bottom:8px}.g-toc ol{margin:6px 0 0;padding-inline-start:20px;display:grid;gap:4px}
+.g-toc>ol{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 24px}
+.g-toc>ol>li{font-weight:600}.g-toc ol ol{font-weight:400;font-size:13.5px;gap:2px}
+.g-toc a{color:var(--fg);text-decoration:none}.g-toc a:hover{color:var(--accent);text-decoration:underline}
+.g-sec{scroll-margin-top:80px;margin-top:6px}
+.g-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.g-step{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--glass-brd)}
+.g-step>b{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));font-family:var(--f-mono)}
+.g-step h3{margin:0 0 2px;font-size:15px}
+.g-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+.g-tool{scroll-margin-top:80px}.g-tool header{display:flex;gap:12px;align-items:flex-start}.g-tool header>div{flex:1;min-width:0}.g-tool h3{margin:0}
+.g-tool .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,var(--accent-soft),var(--accent2-soft));color:var(--accent)}.g-tool .ic svg{width:20px;height:20px}
+.g-ol{margin:4px 0 0;padding-inline-start:22px;display:grid;gap:6px;font-size:14px}
+.g-filter{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:10px}.g-search{flex:1 1 260px;max-width:420px}
+.g-chips{display:flex;flex-wrap:wrap;gap:6px}
+.g-chips button{border:1px solid var(--glass-brd);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.g-chips button[aria-pressed="true"]{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+.g-cat{margin:18px 0 8px;font-size:16px;color:var(--accent)}.g-cat small{color:var(--muted);font-weight:500}
+.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.g-card{background:var(--surface);border:1px solid var(--glass-brd);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.g-card header{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.g-card h4{margin:0;font-size:15px}
+.g-card code{font-family:var(--f-mono);font-size:11.5px;background:var(--accent-soft);color:var(--accent);padding:2px 7px;border-radius:6px;white-space:nowrap}
+.g-card p{margin:0;font-size:13.5px;line-height:1.6}
+.g-f{font-family:var(--f-mono);font-size:12.5px;background:var(--sunk);border-radius:8px;padding:7px 10px;text-align:left;overflow-wrap:anywhere}
+.g-read{color:var(--muted)}.g-read b{color:var(--fg)}
+.g-faq{display:grid;gap:8px}.g-faq summary{cursor:pointer;font-weight:600}.g-faq p{margin:8px 0 0;color:var(--muted)}
+.home-help{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:18px}
+/* ================= privacy ================= */
+.pv{display:grid;gap:12px;max-width:900px}.pv-sec h2{font-size:17px;margin:0 0 6px}.pv-sec p,.pv-sec li{font-size:14.5px;line-height:1.75}.pv-sec ul{margin:4px 0;padding-inline-start:20px}
+/* ================= report toolbar ================= */
+.page-head{position:relative}
+.rep-tools{display:flex;gap:6px;align-items:center;align-self:flex-start;margin-inline-start:auto;order:-1;flex:none}
+.page-head:has(.rep-tools){flex-wrap:wrap}
+.rep-b{width:36px;height:36px;border-radius:10px;border:1px solid var(--glass-brd);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--muted);transition:transform .15s,border-color .2s,color .2s,box-shadow .2s;position:relative}
+.rep-b svg{width:18px;height:18px}
+.rep-b:hover{transform:translateY(-1px);box-shadow:var(--glow)}
+.rep-b.imp:hover{color:var(--accent);border-color:var(--accent)}
+.rep-b.xls{color:#15803D}.rep-b.xls:hover{border-color:#15803D;background:#F0FDF4}
+.rep-b.pdf{color:#DC2626}.rep-b.pdf:hover{border-color:#DC2626;background:#FEF2F2}
+.rep-b.prt:hover{color:var(--fg);border-color:var(--fg)}
+.rep-b.busy{opacity:.55;cursor:progress}.rep-b.busy svg{animation:rep-spin 1s linear infinite}
+@keyframes rep-spin{to{transform:rotate(360deg)}}
+.rep-b::after{content:attr(title);position:absolute;top:calc(100% + 6px);inset-inline-end:0;white-space:nowrap;background:var(--fg);color:#fff;font-size:11.5px;padding:4px 8px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
+.rep-b:hover::after,.rep-b:focus-visible::after{opacity:1}
+/* ================= insight boxes ================= */
+.ins-box{border-radius:16px;border:1px solid var(--glass-brd);background:var(--surface);padding:14px 16px;margin:12px 0}
+.ins-top{display:flex;gap:14px;align-items:flex-start;border-inline-start:4px solid var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--accent2-soft) 70%,var(--surface))}
+.ins-top.good{border-inline-start-color:var(--good)}.ins-top.warn{border-inline-start-color:var(--warn)}.ins-top.bad{border-inline-start-color:var(--bad)}
+.ins-ico{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;font-weight:800;color:#fff;background:var(--accent)}
+.ins-top.good .ins-ico{background:var(--good)}.ins-top.warn .ins-ico{background:var(--warn)}.ins-top.bad .ins-ico{background:var(--bad)}
+.ins-body{flex:1;min-width:0}
+.ins-k{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+[dir="rtl"] .ins-k{letter-spacing:0;font-size:12.5px}
+.ins-tag{font-size:11px;letter-spacing:0;text-transform:none;padding:2px 8px;border-radius:999px;font-weight:700}
+.ins-tag.good{background:var(--good-soft);color:var(--good)}.ins-tag.warn{background:var(--warn-soft);color:var(--warn)}.ins-tag.bad{background:var(--bad-soft);color:var(--bad)}.ins-tag.info{background:var(--accent-soft);color:var(--accent)}
+.ins-what{margin:4px 0 2px;font-size:13px;color:var(--muted)}
+.ins-h{margin:0;font-size:15px;line-height:1.65}
+.ins-bot{border-top:3px solid transparent;border-image:linear-gradient(90deg,var(--accent),var(--accent2)) 1;border-radius:0 0 16px 16px;margin-top:22px}
+.ins-sum{margin:8px 0;font-size:14.5px;line-height:1.7}
+.ins-tips{margin:6px 0 12px;padding-inline-start:22px;display:grid;gap:7px;font-size:14px;line-height:1.6}
+.ins-tips li::marker{color:var(--accent);font-weight:700}
+/* ================= print & pdf ================= */
+body.exporting .hero h1,body.exporting .hb-name b,body.exporting .page-head h1{background:none!important;-webkit-text-fill-color:currentColor!important;color:var(--fg)!important}
+body.exporting *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;animation:none!important;transition:none!important}
+body.exporting .ex-btn{display:none!important}
+@media print{
+ @page{size:A4;margin:12mm 10mm}
+ body{background:#fff!important}
+ .side,.mobilebar,.ticker,.tk-panel,.m-drawer,.toast,.rep-tools,.ex-btn,.ins-copy,#ins-bot .row .note,.palette-box{display:none!important}
+ .shell{display:block!important}.main{padding:0!important;max-width:none!important}
+ *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;animation:none!important;box-shadow:none!important}
+ .hero h1,.page-head h1,.hb-name b{-webkit-text-fill-color:currentColor!important;color:#0D1530!important;background:none!important}
+ .panel,.kpi,.ins-box,.chart-wrap,.g-card,tr{break-inside:avoid}
+ a{color:inherit;text-decoration:none}
+}
+.pdf-sheet{width:1060px;background:#fff;padding:0 6px;font-family:var(--f-ui,inherit);color:var(--fg)}
+.pdf-head{display:flex;justify-content:space-between;align-items:center;padding:10px 4px 12px;margin-bottom:12px;border-bottom:3px solid var(--accent);font-size:13px;color:var(--muted)}
+.pdf-brand{display:flex;align-items:center;gap:8px}.pdf-brand svg{width:26px;height:26px;color:var(--accent)}.pdf-brand b{font-size:20px;color:var(--fg);direction:ltr}.pdf-brand i{font-style:normal;color:var(--accent2)}
+.pdf-main{padding:0!important;max-width:none!important}
+.pdf-foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+.pdf-sheet *{box-shadow:none!important}
+/* report toolbar in the top corner */
+.rep-tools{order:-1;flex-basis:100%;justify-content:flex-end;margin:0 0 -8px!important}
+/* ================= landing page ================= */
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:2px}
+.btn.big{padding:11px 20px;font-size:15px;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn.ghost{background:var(--surface);border:1px solid var(--glass-brd);color:var(--fg)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.hero-trust{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13.5px;color:var(--muted)}
+.hero-trust li{display:inline-flex;align-items:center;gap:6px}.hero-trust svg{width:16px;height:16px;color:var(--good)}
+.land-sec{margin-top:46px;scroll-margin-top:80px}
+.land-hd{text-align:center;max-width:720px;margin:0 auto 22px}
+.land-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 12px;border-radius:999px}
+[dir="rtl"] .land-eyebrow{letter-spacing:0;font-size:13px}
+.land-hd h2{font-family:var(--f-display);font-size:clamp(22px,2.6vw,32px);letter-spacing:-.02em;margin:10px 0 6px;line-height:1.25}
+[dir="rtl"] .land-hd h2{letter-spacing:0}
+.land-hd p{color:var(--muted);margin:0;font-size:15.5px;line-height:1.7}
+.land-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;counter-reset:s}
+.land-step{position:relative;background:var(--surface);border:1px solid var(--glass-brd);border-radius:18px;padding:22px 20px;display:flex;flex-direction:column;gap:8px}
+.land-step h3{margin:6px 0 0;font-size:17px}.land-step p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
+.ls-n{position:absolute;top:14px;inset-inline-end:18px;font-family:var(--f-display);font-size:44px;font-weight:800;line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.22}
+.ls-ic,.lc-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;flex:none;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 22px -12px color-mix(in srgb,var(--accent2) 80%,transparent)}
+.ls-ic svg,.lc-ic svg{width:23px;height:23px}
+.land-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.land-card{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--glass-brd);border-radius:16px;padding:18px;transition:transform .2s,box-shadow .25s,border-color .2s}
+.land-card:hover{transform:translateY(-2px);box-shadow:var(--glow);border-color:color-mix(in srgb,var(--accent) 40%,var(--glass-brd))}
+.land-card h3{margin:0 0 4px;font-size:15.5px}.land-card p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.65}
+.land-grid.why .lc-ic{background:linear-gradient(135deg,var(--accent-soft),var(--accent2-soft));color:var(--accent);box-shadow:none}
+.land-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:980px;margin:0 auto}
+.land-faq summary{cursor:pointer;font-weight:600}.land-faq p{margin:8px 0 0;color:var(--muted);line-height:1.7}
+.land-cta{margin-top:46px;border-radius:22px;padding:30px 32px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;color:#fff;background:linear-gradient(120deg,#0E7490,var(--accent) 35%,#2563EB 65%,var(--accent2));box-shadow:0 24px 50px -28px color-mix(in srgb,var(--accent2) 80%,transparent);position:relative;overflow:hidden}
+.land-cta::after{content:"";position:absolute;inset:auto -60px -90px auto;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08)}
+.land-cta h2{margin:0;font-family:var(--f-display);font-size:clamp(20px,2.4vw,28px)}.land-cta p{margin:6px 0 0;opacity:.9}
+.btn.light{background:#fff;color:#0E3A5C;border:0;font-weight:700}.btn.light:hover{transform:translateY(-1px)}
+.btn.outline-light{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.7)}.btn.outline-light:hover{background:rgba(255,255,255,.12)}
+.land-foot{margin-top:40px;padding:28px 4px 8px;border-top:1px solid var(--glass-brd);display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px}
+.lf-brand{display:flex;gap:12px;align-items:flex-start}.lf-brand b{font-family:var(--f-display);font-size:20px}.lf-brand i{font-style:normal;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lf-brand p{margin:4px 0 0;color:var(--muted);font-size:13.5px;max-width:40ch}
+.hb-mark.sm{width:38px;height:38px;border-radius:11px}.hb-mark.sm svg{width:22px;height:22px;color:#fff}
+.lf-col{display:flex;flex-direction:column;gap:7px}.lf-col h4{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.lf-col a{color:var(--fg);text-decoration:none;font-size:14px}.lf-col a:hover{color:var(--accent)}
+.lf-bottom{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding-top:16px;border-top:1px solid var(--glass-brd);font-size:12.5px;color:var(--muted)}
+@media (max-width:900px){.land-steps,.land-grid{grid-template-columns:1fr 1fr}.land-faq{grid-template-columns:1fr}.land-foot{grid-template-columns:1fr 1fr}.lf-brand{grid-column:1/-1}}
+@media (max-width:600px){.land-steps,.land-grid{grid-template-columns:1fr}.land-cta{padding:24px 20px}.hero-cta .btn{flex:1 1 auto;justify-content:center}}
+@media (max-width:440px){.mobilebar .row1 .pal-btn{display:none}.mobilebar .row1 .row{gap:5px}.mobilebar .row1 .row .tool-btn,.mobilebar .row1 .row .lang-btn{padding:6px 9px}.mobilebar .brand b{font-size:16px}.mobilebar .brand svg{width:26px;height:26px}}
+/* inline import */
+.imp-inline{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:2px 0 6px}
+.imp-btn{display:inline-flex;align-items:center;gap:7px;border:1px dashed color-mix(in srgb,#15803D 55%,var(--glass-brd));color:#15803D;background:#F0FDF4}
+.imp-btn:hover{border-style:solid;border-color:#15803D}
+.imp-btn svg{width:16px;height:16px}
+.imp-inline small{color:var(--muted);font-size:12px}
+/* ================= floating contact ================= */
+#fab{position:fixed;bottom:20px;right:20px;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+#fab[dir="rtl"]{right:auto;left:20px;align-items:flex-start}
+.fab-btn{display:inline-flex;align-items:center;gap:8px;height:54px;padding:0 20px 0 16px;border:0;border-radius:999px;cursor:pointer;color:#fff;font:inherit;font-weight:700;font-size:14.5px;background:linear-gradient(120deg,var(--accent),var(--accent2));box-shadow:0 14px 30px -10px color-mix(in srgb,var(--accent2) 75%,transparent);transition:transform .2s}
+.fab-btn:hover{transform:translateY(-2px)}.fab-btn svg{width:24px;height:24px}
+.fab-btn.on{width:54px;padding:0;justify-content:center}.fab-btn.on .fab-lbl{display:none}
+.fab-menu{background:var(--surface);border:1px solid var(--glass-brd);border-radius:18px;padding:8px;box-shadow:0 24px 50px -20px rgba(13,21,48,.35);display:flex;flex-direction:column;gap:4px;min-width:270px}
+.fab-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;border:0;background:transparent;color:var(--fg);text-decoration:none;font:inherit;text-align:start;cursor:pointer}
+.fab-item:hover{background:var(--sunk)}.fab-item b{display:block;font-size:14.5px}.fab-item small{color:var(--muted);font-size:12.5px}
+.fab-ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;color:#fff}.fab-ic svg{width:21px;height:21px}
+.fab-item.ai .fab-ic,.fab-chat header .fab-ic{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.fab-item.wa .fab-ic{background:#25D366}.fab-item.mail .fab-ic{background:#EA580C}
+.fab-chat{width:min(380px,calc(100vw - 32px));height:min(540px,calc(100vh - 120px));background:var(--surface);border:1px solid var(--glass-brd);border-radius:20px;box-shadow:0 30px 60px -24px rgba(13,21,48,.4);display:flex;flex-direction:column;overflow:hidden}
+.fab-chat header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--glass-brd);background:linear-gradient(135deg,var(--accent-soft),var(--accent2-soft))}
+.fab-chat header div{flex:1;min-width:0}.fab-chat header b{display:block;font-size:14.5px}.fab-chat header small{color:var(--muted);font-size:12px}
+.fab-x{width:32px;height:32px;border-radius:9px;border:1px solid var(--glass-brd);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--muted)}.fab-x svg{width:16px;height:16px}
+.fab-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.ai-b{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.ai-b.bot{background:var(--sunk);align-self:flex-start;border-end-start-radius:4px}
+.ai-b.me{background:linear-gradient(120deg,var(--accent),var(--accent2));color:#fff;align-self:flex-end;border-end-end-radius:4px}
+.ai-b a{color:var(--accent)}
+.fab-sugg{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 8px}.fab-sugg:empty{display:none}
+.fab-sugg button{border:1px solid var(--glass-brd);background:var(--surface);border-radius:999px;padding:5px 10px;font:inherit;font-size:12.5px;cursor:pointer;color:var(--accent)}
+.fab-in{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--glass-brd)}
+.fab-in input{flex:1;min-height:40px;border-radius:12px!important}
+.fab-in button{width:42px;border:0;border-radius:12px;color:#fff;background:linear-gradient(120deg,var(--accent),var(--accent2));cursor:pointer;display:grid;place-items:center}.fab-in button svg{width:18px;height:18px}
+[dir="rtl"] .fab-in button svg{transform:scaleX(-1)}
+.fab-alt{margin:0;padding:0 14px 10px;font-size:12px;color:var(--muted)}.fab-alt a{color:var(--accent)}
+@media (max-width:600px){#fab{bottom:14px;right:14px}#fab[dir="rtl"]{left:14px}.fab-btn{height:50px}.fab-btn .fab-lbl{display:none}.fab-btn{width:50px;padding:0;justify-content:center}}
+@media print{#fab,.imp-inline{display:none!important}}
+
+/* ================= Corporate "treasury" design layer: dark header, sunset announcement bar, deep-blue hero bands, white canvas ================= */
+:root{
+ --accent:#1D5BFF; --accent-soft:rgba(29,91,255,.08); --accent2:#0B2E9E; --accent2-soft:rgba(11,46,158,.08);
+ --bg:#FFFFFF; --bg2:#F5F7FB; --surface:#FFFFFF; --sunk:#F3F5FA; --fg:#0B1324; --muted:#5B6478; --line:#E3E7EF;
+ --glass:#FFFFFF; --glass-brd:#E3E7EF; --glow:0 0 0 1px rgba(29,91,255,.25),0 12px 28px -14px rgba(11,46,158,.35);
+ --c1:#1D5BFF; --navy:#071A52; --navy2:#0A2A8A; --blue3:#1437C4; --ink:#0B0D12;
+ --rp-max:1240px;
+}
+html,body{background:#fff}
+body{background:#fff!important;overflow-x:hidden}
+.shell.rp{display:block;min-height:100vh}
+.rp-wrap{max-width:var(--rp-max);margin:0 auto;padding-inline:24px;display:flex;align-items:center;gap:18px}
+.main{max-width:var(--rp-max)!important;margin:0 auto;padding-inline:24px;padding-block:0 56px}
+
+/* ---------- header ---------- */
+.rp-header{background:var(--ink);color:#fff;position:sticky;top:0;z-index:40}
+.rp-util{border-bottom:1px solid rgba(255,255,255,.12);font-size:12.5px}
+.rp-util .rp-wrap{height:38px;gap:16px}
+.rp-sp{flex:1}
+.rp-ulink{display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;background:none;border:0;font:inherit;cursor:pointer;padding:0;opacity:.92}
+.rp-ulink:hover{opacity:1;text-decoration:underline}
+.rp-ulink svg{width:14px;height:14px}
+.rp-util #auth-slot .tool-btn{background:none!important;border:0!important;color:#fff!important;padding:0!important;font-size:12.5px;width:auto!important;box-shadow:none!important}
+.rp-util #auth-slot .tool-btn:hover{text-decoration:underline}
+.rp-util .auth-chip{display:flex;align-items:center;gap:6px;color:#fff}.rp-util .auth-chip small{display:none}.rp-util .auth-chip .tool-btn{color:#fff}
+.rp-nav .rp-wrap{height:68px;gap:26px}
+.rp-brand{display:flex;align-items:center;gap:9px;color:#fff;text-decoration:none;flex:none}
+.rp-brand svg{width:30px;height:30px;color:#5B8CFF}
+.rp-brand b{font-family:var(--f-display);font-size:21px;font-weight:700;letter-spacing:-.02em;display:block;line-height:1}
+.rp-brand b i{font-style:normal;color:#8FB0FF}
+.rp-brand small{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-top:3px}
+[dir="rtl"] .rp-brand small{letter-spacing:0;font-size:10.5px}
+.rp-menu{display:flex;align-items:center;gap:4px;flex:1;min-width:0}
+.rp-top{display:inline-flex;align-items:center;gap:5px;color:#fff;text-decoration:none;background:none;border:0;font:inherit;font-size:14.5px;font-weight:500;padding:10px 10px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.rp-top:hover,.rp-dd.open>.rp-top,.rp-top[aria-current="page"]{background:rgba(255,255,255,.08)}
+.rp-top .chev{width:14px;height:14px;opacity:.7;transition:transform .2s}.rp-dd.open .chev{transform:rotate(180deg)}
+.rp-dd{position:relative}
+.rp-panel{position:absolute;top:calc(100% + 10px);inset-inline-start:0;min-width:360px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s,transform .18s,visibility .18s;z-index:50}
+.rp-dd:hover .rp-panel,.rp-dd:focus-within .rp-panel,.rp-dd.open .rp-panel{opacity:1;visibility:visible;transform:none}
+.rp-dd::after{content:"";position:absolute;left:0;right:0;top:100%;height:12px}
+.rp-panel-in{background:#fff;color:var(--fg);border-radius:14px;box-shadow:0 24px 60px -18px rgba(7,26,82,.45);padding:10px;display:grid;gap:2px}
+.rp-panel a{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:10px;color:var(--fg);text-decoration:none}
+.rp-panel a:hover,.rp-panel a[aria-current="page"]{background:var(--sunk)}
+.rp-panel b{display:block;font-size:14px}.rp-panel small{display:block;color:var(--muted);font-size:12.5px;line-height:1.45;margin-top:2px}
+.rp-pi{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none;background:var(--accent-soft);color:var(--accent)}.rp-pi svg{width:18px;height:18px}
+.rp-icon{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);background:none;color:#fff;display:inline-grid;place-items:center;cursor:pointer;font:inherit;font-weight:700;font-size:13px;flex:none}
+.rp-icon:hover{background:rgba(255,255,255,.1)}.rp-icon svg{width:18px;height:18px}
+.rp-cta{background:var(--accent)!important;color:#fff!important;border:0!important;border-radius:999px!important;padding:10px 20px!important;font-weight:600;box-shadow:none!important;flex:none}
+.rp-cta:hover{background:#3B72FF!important}
+.rp-mob{display:none;align-items:center;gap:8px;margin-inline-start:auto}
+.rp-mob #auth-slot2 .tool-btn{background:none;border:1.5px solid rgba(255,255,255,.75);color:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px}
+.mobilebar,.side{display:none!important}
+@media (max-width:1100px){.rp-menu,.rp-cta,.rp-nav .pal-btn{display:none!important}.rp-mob{display:flex}.rp-util{display:none}.rp-nav .rp-wrap{height:60px}}
+@media (max-width:420px){.rp-brand small{display:none}.rp-wrap{padding-inline:14px}.rp-mob #auth-slot2{display:none}}
+
+/* ---------- announcement / news bar ---------- */
+.ticker{background:linear-gradient(90deg,#F2643A 0%,#F7883A 35%,#F9B43E 70%,#F8D44A 100%)!important;border:0!important;backdrop-filter:none!important;position:relative!important;top:auto!important;color:var(--ink);padding:9px max(16px,calc((100vw - var(--rp-max))/2 + 24px))!important;z-index:30}
+.ticker .tk-item{color:var(--ink)!important;border-inline-end-color:rgba(11,13,18,.18)!important;font-weight:500}
+.ticker .tk-item a{color:var(--ink)!important;text-decoration:underline;text-underline-offset:3px}
+.ticker .tk-item small,.ticker .tk-px small{color:rgba(11,13,18,.65)!important}
+.ticker .tk-dot{background:var(--ink)!important}
+.ticker .tk-badge{background:var(--ink)!important;color:#fff!important;border:0!important}
+.ticker .tk-badge.off{background:rgba(11,13,18,.12)!important;color:var(--ink)!important}
+.ticker .tk-lab{background:rgba(11,13,18,.12)!important;color:var(--ink)!important}
+.ticker .tk-when{background:rgba(255,255,255,.55)!important;color:var(--ink)!important}
+.ticker .tk-px b,.ticker .tk-lab.px{color:var(--ink)!important}
+.ticker .tk-btn{background:transparent!important;border:1.5px solid rgba(11,13,18,.55)!important;color:var(--ink)!important}
+.ticker .tk-btn:hover{background:rgba(255,255,255,.35)!important}
+.ticker .tk-view{-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.tk-panel{max-width:var(--rp-max);margin:0 auto}
+
+/* ---------- blue bands: home hero + every page header ---------- */
+.rp-hero,.page-head{position:relative;color:#fff;background:
+  linear-gradient(118deg,transparent 0 46%,rgba(255,255,255,.07) 46% 58%,transparent 58% 64%,rgba(255,255,255,.05) 64% 72%,transparent 72%),
+  linear-gradient(135deg,var(--navy) 0%,var(--navy2) 45%,var(--blue3) 100%)!important;
+  margin-inline:calc(50% - 50vw)!important;padding-inline:calc(50vw - 50% + 24px)!important;overflow:hidden}
+.rp-hero{padding-block:72px 84px}
+.rp-hero-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center}
+.rp-hero-copy{display:flex;flex-direction:column;gap:20px;min-width:0}
+.rp-eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#7FB2FF}
+[dir="rtl"] .rp-eyebrow{letter-spacing:0;font-size:14px}
+.rp-hero h1{font-family:var(--f-display);font-weight:500;font-size:clamp(34px,4.2vw,56px);line-height:1.08;letter-spacing:-.025em;margin:0;color:#fff}
+[dir="rtl"] .rp-hero h1{letter-spacing:0;line-height:1.3}
+.rp-hero .hero-lead{color:rgba(255,255,255,.88);font-size:17.5px;line-height:1.65;margin:0;max-width:56ch}
+.rp-hero .hero-trust{color:rgba(255,255,255,.8)}.rp-hero .hero-trust svg{color:#7FE3B5}
+.btn.rp-white{background:#fff!important;color:var(--ink)!important;border:0!important;border-radius:999px!important;padding:14px 28px!important;font-weight:600;box-shadow:none!important}
+.btn.rp-white:hover{background:#EAF0FF!important}
+.btn.rp-outline{background:transparent!important;color:#fff!important;border:1.5px solid rgba(255,255,255,.8)!important;border-radius:999px!important;padding:13px 26px!important;box-shadow:none!important}
+.btn.rp-outline:hover{background:rgba(255,255,255,.1)!important}
+/* dashboard mock */
+.rp-mock{background:#0E1E54;border:1px solid rgba(255,255,255,.18);border-radius:18px;box-shadow:0 40px 80px -30px rgba(0,0,0,.55);overflow:hidden;transform:perspective(1600px) rotateY(-4deg);min-width:0}
+[dir="rtl"] .rp-mock{transform:perspective(1600px) rotateY(4deg)}
+.mk-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#0A1640}
+.mk-logo svg{width:20px;height:20px;color:#5B8CFF}.mk-bar i{width:46px;height:8px;border-radius:5px;background:rgba(255,255,255,.18)}.mk-bar i.on{background:rgba(255,255,255,.5)}.mk-pill{margin-inline-start:auto;width:70px;height:16px;border-radius:9px;background:rgba(255,255,255,.22)}
+.mk-body{background:#F4F6FB;padding:14px;color:var(--fg)}
+.mk-title{font-weight:600;font-size:14px;margin-bottom:10px}
+.mk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mk-card{background:#fff;border-radius:10px;padding:10px;border:1px solid #E6E9F2;min-width:0}.mk-card.wide{grid-column:span 2}
+.mk-h{font-size:11px;font-weight:700;color:#1D3A8A;margin-bottom:8px}
+.mk-tiles{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mk-tiles .t{border-radius:8px;padding:8px 6px;font-size:9.5px;text-align:center;color:#334155;display:flex;flex-direction:column;gap:2px}
+.mk-tiles .t b{font-size:15px;color:var(--ink);font-family:var(--f-mono)}
+.mk-tiles .g{background:#BDF5D0}.mk-tiles .b{background:#BFE6FF}.mk-tiles .y{background:#FFF3A8}.mk-tiles .p{background:#FFC9D6}
+.mk-donut{width:96px;height:96px;display:block;margin:0 auto}
+.mk-leg{display:flex;justify-content:center;gap:5px;margin-top:6px}.mk-leg i{width:8px;height:8px;border-radius:50%}
+.mk-t{width:100%;font-size:9.5px;border-collapse:collapse}.mk-t td{padding:4px 2px;border-bottom:1px solid #EEF1F6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}.mk-t td:first-child{color:#1D5BFF;font-weight:600}
+.mk-bars{display:flex;align-items:flex-end;gap:5px;height:78px}.mk-bars i{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(#5B8CFF,#1D5BFF)}
+.mk-big{font-family:var(--f-mono);font-size:22px;font-weight:700;color:#047857;margin-top:6px}.mk-sub{font-size:10.5px;color:#047857}
+@media (max-width:1000px){.rp-hero-in{grid-template-columns:1fr}.rp-mock{transform:none!important}.rp-hero{padding-block:48px 56px}}
+@media (max-width:560px){.mk-grid{grid-template-columns:1fr 1fr}.mk-card.wide{grid-column:span 2}.rp-mock .mk-card:last-child{display:none}}
+.rp-quick{margin-top:-46px;position:relative;z-index:2;background:#fff;border-radius:18px;box-shadow:0 24px 60px -30px rgba(7,26,82,.45);border:1px solid var(--line);padding:18px}
+.rp-quick .hero-stats{margin-top:16px}
+
+/* page header band for every tool page */
+.page-head{padding-block:34px 38px!important;margin-bottom:26px!important;align-items:flex-end!important}
+.page-head h1{color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important;font-family:var(--f-display);font-weight:500!important;font-size:clamp(26px,3vw,40px)!important;letter-spacing:-.02em}
+[dir="rtl"] .page-head h1{letter-spacing:0}
+.page-head p{color:rgba(255,255,255,.85)!important;font-size:16px;max-width:72ch}
+.page-head::before{content:attr(data-eyebrow);display:block;width:100%;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#7FB2FF;order:-2}
+.page-head .ex-btn{background:#fff!important;color:var(--ink)!important;border:0!important;border-radius:999px!important;padding:10px 18px!important;box-shadow:none!important}
+.page-head .ex-btn.ex-confirm{background:#FDE68A!important}
+.page-head .rep-b{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.35);color:#fff!important}
+.page-head .rep-b:hover{background:rgba(255,255,255,.2);border-color:#fff}
+.page-head .rep-b::after{background:#fff;color:var(--ink)}
+.page-head .chip{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)}
+
+/* ---------- white canvas components ---------- */
+.panel,.kpi,.card,.det,.models,details.panel,.land-card,.land-step,.g-card,.g-step,.ins-box{background:#fff!important;border:1px solid var(--line)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:0 1px 2px rgba(11,19,36,.04)}
+.card:hover,.land-card:hover{box-shadow:0 18px 40px -24px rgba(7,26,82,.45)!important;border-color:#C9D5F2!important}
+.btn{border-radius:999px!important}
+.btn.primary{background:var(--accent)!important;border:0!important;color:#fff!important;box-shadow:none!important}
+.btn.primary:hover{background:#3B72FF!important;filter:none!important}
+.tabs{border-bottom:1px solid var(--line)!important}
+.tabs button{border-radius:0!important;background:none!important;color:var(--muted);font-weight:500}
+.tabs button[aria-selected="true"]{color:var(--accent)!important;background:none!important;border-bottom:2px solid var(--accent)!important}
+.tabs button[aria-selected="true"]::after{display:none!important}
+.grp-title{color:var(--accent)!important}
+.grp-title::after{background:var(--line)!important}
+.kpi.good,.kpi.warn,.kpi.bad{box-shadow:none!important}
+.kpi.good{background:#ECFDF3!important;border-color:#A7E8C3!important}.kpi.warn{background:#FFF8E6!important;border-color:#F5D88A!important}.kpi.bad{background:#FFF1F2!important;border-color:#FBC2C8!important}
+.ins-top{background:linear-gradient(135deg,#F4F7FF,#fff)!important}
+.calc-out div{background:#F4F7FF!important}
+main input:not([type=checkbox]):not([type=radio]):not([type=range]),main select,main textarea{border-color:#D3DAE8}
+.land-eyebrow{background:none!important;padding:0!important;color:var(--accent)!important;font-weight:600}
+.land-hd h2{font-weight:500!important;font-size:clamp(26px,3vw,38px)!important}
+.ls-ic,.lc-ic{background:var(--accent)!important;box-shadow:none!important}
+.land-grid.why .lc-ic{background:var(--accent-soft)!important;color:var(--accent)!important}
+.land-cta{background:linear-gradient(118deg,transparent 0 55%,rgba(255,255,255,.07) 55% 66%,transparent 66%),linear-gradient(135deg,var(--navy),var(--navy2) 50%,var(--blue3))!important;border-radius:20px}
+.land-cta .btn.light{border-radius:999px}
+/* dark footer */
+.land-foot{background:var(--ink);color:#fff;margin-inline:calc(50% - 50vw)!important;padding:48px calc(50vw - 50% + 24px) 24px!important;border:0!important;margin-bottom:-56px;margin-top:56px!important}
+.land-foot a{color:rgba(255,255,255,.85)!important}.land-foot a:hover{color:#fff!important}
+.land-foot .lf-col h4{color:rgba(255,255,255,.55)}.land-foot .lf-brand p,.land-foot .lf-bottom{color:rgba(255,255,255,.6)!important;border-color:rgba(255,255,255,.14)!important}
+.land-foot .lf-brand i{background:none;-webkit-text-fill-color:#8FB0FF;color:#8FB0FF}
+.hb-mark,.ha-ic{background:var(--accent)!important}.hb-mark svg,.ha-ic svg{color:#fff!important}
+.ha{border-radius:14px!important}
+.ha:hover{border-color:var(--accent)!important}
+.ha::before{background:linear-gradient(135deg,var(--accent),var(--accent2))!important}
+/* feature row */
+.rp-feature{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center;margin-top:64px}
+.rp-feature-art{border-radius:20px;padding:28px;background:linear-gradient(135deg,#F0457A 0%,#F7713A 45%,#F9C846 100%)}
+.rp-feature-art .rf-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 20px 40px -20px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:10px}
+.rf-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.rf-kpis div{border:1px solid var(--line);border-radius:8px;padding:8px}.rf-kpis small{display:block;font-size:10.5px;color:var(--muted)}.rf-kpis b{font-family:var(--f-mono);font-size:17px}
+.rf-note{font-size:12.5px;line-height:1.6;background:#F4F7FF;border-inline-start:3px solid var(--accent);border-radius:6px;padding:8px 10px}
+.rf-tips{margin:0;padding-inline-start:18px;font-size:12px;color:var(--muted);display:grid;gap:3px}
+.rp-feature-copy{display:flex;flex-direction:column;gap:14px}
+.rp-feature-copy h2{font-family:var(--f-display);font-weight:500;font-size:clamp(26px,3vw,38px);line-height:1.15;margin:0;letter-spacing:-.02em}
+.rp-feature-copy p{color:var(--muted);font-size:16px;line-height:1.7;margin:0}
+.rp-link{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:4px}
+@media (max-width:900px){.rp-feature{grid-template-columns:1fr;gap:28px}}
+/* calendar */
+.cal-filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.cal-filters button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer}
+.cal-filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.cal-day td{background:#F4F7FF;font-weight:700;color:var(--navy2)}
+.cal-imp{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px}.cal-imp.High{background:#E11D48}.cal-imp.Medium{background:#F59E0B}.cal-imp.Low{background:#FACC15}
+tr.cal-past td{opacity:.55}
+@media print{.rp-header,.ticker{display:none!important}.page-head,.rp-hero{background:none!important;color:var(--fg)!important;margin-inline:0!important;padding-inline:0!important}.page-head h1,.page-head p{color:var(--fg)!important;-webkit-text-fill-color:var(--fg)!important}}
+.pdf-sheet .page-head{margin-inline:0!important;padding-inline:22px!important;border-radius:12px}.pdf-sheet .land-foot{display:none}
+.rp-menu{overflow:visible}.rp-nav .rp-wrap{gap:18px}.rp-top{padding:10px 9px;font-size:14px}
+.ha::before{display:none!important}
+.ha:hover,.ha:hover *{color:var(--fg)!important}.ha:hover .ha-ic svg{color:#fff!important}
+.ha:hover{box-shadow:0 14px 30px -18px rgba(7,26,82,.45)!important;transform:translateY(-2px)}
+@media (max-width:1180px){.rp-menu,.rp-cta,.rp-nav .pal-btn{display:none!important}.rp-mob{display:flex}.rp-util{display:none}.rp-nav .rp-wrap{height:60px}}
 
 </style>
 </head><body>
@@ -2500,6 +2856,235 @@ function lsFmea(P){ const rows=fmeaRows(), tot=rows.reduce((a,r)=>a+r.rpn,0); le
   :`<p class="empty">${T('أدخل نمط فشل واحداً على الأقل بثلاث درجات من 1 إلى 10.','Enter at least one failure mode with three scores from 1 to 10.')}</p>`}</div>`;
  $('#ls-go').onclick=()=>{ ls.fmea=$('#ls-fmea').value; lsSave(); lsFmea(P); }; }
 
+/* ================= User guide: how-to index + indicator glossary + FAQ ================= */
+const G_TOOLS=[
+ ['statements','حلّل أداء شركة ومركزها المالي من قوائمها لسنتين أو أكثر.','Analyse a company’s performance and position from two or more years of statements.',
+  ['افتح تبويب «إدخال البيانات» واكتب اسم الشركة ووحدة الأرقام.','أدخل بنود قائمة الدخل والميزانية والتدفقات النقدية لكل سنة، أو الصقها من Excel.','انتقل إلى «النسب المالية» لترى كل نسبة مع تقييمها واتجاهها.','راجع «ديبونت» و«التعثر والتلاعب» ثم انسخ التقرير الجاهز من تبويب «التقرير».'],
+  ['Open “Data entry” and type the company name and units.','Enter income statement, balance sheet and cash-flow lines for each year, or paste from Excel.','Go to “Ratios” to see every ratio with its assessment and trend.','Check “DuPont” and “Distress & manipulation”, then copy the ready text from “Report”.']],
+ ['feasibility','قيّم مشروعاً جديداً: هل يستحق الاستثمار ومتى يسترد رأس ماله.','Evaluate a new project: is it worth investing in and when is the money back.',
+  ['أدخل الاستثمار ورأس المال العامل وعمر المشروع في «افتراضات المشروع».','في «المبيعات والمصروفات» أضف كل منتج بسعره وكميته (يومي/أسبوعي/شهري) وكل مصروف.','اكتب معدل الخصم والضريبة والقرض إن وجد.','اقرأ NPV وIRR والاسترداد ونقطة التعادل، ثم جرّب تبويب «الحساسية والسيناريوهات».'],
+  ['Enter investment, working capital and project life under “Project assumptions”.','In “Sales & expenses” add each product with price and quantity (daily/weekly/monthly) and each expense.','Set discount rate, tax rate and any loan.','Read NPV, IRR, payback and break-even, then try “Sensitivity & scenarios”.']],
+ ['calc','حاسبات سريعة: قرض، عائد إيجاري، نقطة تعادل، نمو مركب، ادخار.','Quick calculators: loan, rental yield, break-even, CAGR, savings.',
+  ['اختر الحاسبة المناسبة.','غيّر الأرقام في المربعات البيضاء.','النتائج في المربعات الملوّنة تحت «النتائج» وتتحدث فوراً.'],
+  ['Pick the calculator you need.','Change the numbers in the white boxes.','Results appear in the tinted “Results” boxes and update instantly.']],
+ ['tax','تقدير الضرائب والسيولة الضريبية والجاهزية للفوترة الإلكترونية، مع مستشار ذكي.','Estimate taxes, tax cash flow and e-invoicing readiness, with an AI advisor.',
+  ['اختر الدولة واملأ ملف الشركة (الإيرادات، الربح، المبيعات والمشتريات الشهرية).','راجع المؤشرات أعلى الصفحة: الضريبة التقديرية وصافي ضريبة القيمة المضافة والاحتياطي الشهري.','استخدم تبويبات التوقعات والفوترة الإلكترونية وفحص التخطيط.','اسأل المستشار الذكي سؤالك (يعمل داخل Claude فقط).'],
+  ['Choose the country and fill in the company profile (revenue, profit, monthly sales and purchases).','Review the top indicators: estimated tax, net VAT and suggested monthly reserve.','Use the forecast, e-invoicing and planning-check tabs.','Ask the AI advisor your question (works inside Claude only).']],
+ ['stats','وصف البيانات، والعلاقة بين متغيرين، والتنبؤ بالاتجاه، ومقارنة مجموعتين.','Describe data, relate two variables, forecast a trend and compare two groups.',
+  ['اختر التبويب المناسب للسؤال.','الصق الأرقام (عمود واحد، أو عمودين للانحدار).','اضغط «تحليل» واقرأ الشرح المبسّط تحت النتائج.'],
+  ['Pick the tab that matches your question.','Paste the numbers (one column, or two for regression).','Press “Analyze” and read the plain-language explanation under the results.']],
+ ['risk','محاكاة مونت كارلو: آلاف السيناريوهات لمعرفة احتمال تحقيق هدف.','Monte Carlo simulation: thousands of scenarios to find the chance of hitting a target.',
+  ['عرّف المتغيرات غير المؤكدة واختر لكل منها توزيعاً (مثل الأدنى/الأرجح/الأعلى).','اكتب معادلة النتيجة باستخدام أسماء المتغيرات، وحدد الهدف.','شغّل المحاكاة واقرأ P10 وP50 وP90 واحتمال تحقيق الهدف.','افتح «الحساسية» لمعرفة أكثر متغير يؤثر في النتيجة.'],
+  ['Define the uncertain inputs and pick a distribution for each (e.g. min / most likely / max).','Write the output formula using the input names and set a target.','Run and read P10, P50, P90 and the probability of reaching the target.','Open “Sensitivity” to see which input matters most.']],
+ ['lss','قياس جودة العملية وثباتها وهدرها بأدوات لين ستة سيجما.','Measure process quality, stability and waste with Lean Six Sigma tools.',
+  ['ابدأ بـ «مستوى سيجما» إذا كان لديك عدد عيوب، أو «قدرة العملية» إذا كانت لديك قياسات وحدود مواصفات.','استخدم «خريطة التحكم» للتأكد من استقرار العملية قبل حساب القدرة.','قِس الهدر بـ «مؤشرات لين»، ورتّب المخاطر بـ «FMEA».'],
+  ['Start with “Sigma level” if you count defects, or “Capability” if you have measurements and spec limits.','Use the “Control chart” to confirm the process is stable before trusting capability.','Measure waste with “Lean metrics” and rank risks with “FMEA”.']],
+ ['benford','كشف الأرقام المختلقة في الفواتير والقيود.','Spot invented numbers in invoices and journal entries.',
+  ['الصق عموداً من المبالغ (يفضّل 300 قيمة فأكثر).','اختر الاختبار: الرقم الأول أو الثاني أو أول رقمين.','قارن MAD بحدود نيغريني، وافحص الأرقام ذات الانحراف الأكبر.'],
+  ['Paste a column of amounts (ideally 300+ values).','Choose the test: first, second or first-two digits.','Compare MAD with Nigrini’s limits and inspect the digits with the largest deviation.']],
+ ['pareto','معرفة القلة التي تصنع معظم القيمة وتصنيفها A/B/C.','Find the few items that drive most value and class them A/B/C.',
+  ['الصق سطراً لكل بند: الاسم ثم القيمة.','اضبط حدود الفئات (مثل 80% و95%).','ركّز الرقابة على الفئة A.'],
+  ['Paste one line per item: name then value.','Set the class cut-offs (e.g. 80% and 95%).','Focus controls on class A.']],
+ ['duplicates','الفواتير المدفوعة مرتين أو بنفس المبلغ بأرقام مختلفة.','Invoices paid twice or with the same amount under new numbers.',
+  ['الصق جدول المعاملات (التاريخ، المورد، رقم الفاتورة، المبلغ).','راجع مجموعات التكرار المقترحة.','تحقق من المستندات الأصلية قبل أي إجراء.'],
+  ['Paste the transaction table (date, vendor, invoice number, amount).','Review the suggested duplicate groups.','Check source documents before acting.']],
+ ['numtests','تجزئة المشتريات تحت حد الاعتماد والمبالغ المستديرة.','Purchases split under approval limits and round amounts.',
+  ['الصق المعاملات نفسها.','اكتب حد الاعتماد المعمول به.','افحص المعاملات القريبة من الحد والمبالغ المستديرة المتكررة.'],
+  ['Paste the same transactions.','Enter your approval limit.','Inspect amounts just under the limit and repeated round amounts.']],
+ ['outliers','المبالغ الشاذة والمعاملات في أوقات غير معتادة.','Unusual amounts and transactions at odd times.',
+  ['الصق المعاملات.','راجع أعلى القيم في مؤشر RSF وZ-score.','افحص معاملات العطل ونهاية الأسبوع.'],
+  ['Paste the transactions.','Review the highest RSF and z-score values.','Inspect weekend and holiday entries.']],
+ ['sequence','الأرقام المفقودة والمكررة في تسلسل المستندات.','Missing and repeated numbers in document sequences.',
+  ['الصق أرقام المستندات.','راجع الفجوات والتكرارات.','اطلب تفسيراً لكل رقم مفقود.'],
+  ['Paste the document numbers.','Review gaps and repeats.','Ask for an explanation of every missing number.']],
+ ['sampling','حجم عينة التدقيق واختيارها.','Audit sample size and selection.',
+  ['أدخل قيمة المجتمع والأهمية النسبية ومستوى الثقة.','اختر طريقة وحدة النقد (MUS) أو العشوائية.','صدّر العينة وابدأ الفحص.'],
+  ['Enter population value, materiality and confidence level.','Choose monetary-unit (MUS) or random selection.','Export the sample and start testing.']]];
+
+const G_CATS={fs:['القوائم المالية','Financial statements'],fe:['دراسة الجدوى','Feasibility'],ca:['الحاسبات','Calculators'],tx:['الضرائب','Tax'],st:['الإحصاء','Statistics'],rk:['المخاطر','Risk'],ls:['لين ستة سيجما','Lean Six Sigma'],au:['التدقيق','Audit']};
+/* [cat, abbr, ar name, en name, ar meaning, en meaning, formula, ar how-to-read, en how-to-read] */
+const GLOSS=[
+ ['fs','Current ratio','نسبة التداول','Current ratio','قدرة الشركة على سداد التزاماتها قصيرة الأجل من أصولها المتداولة.','Ability to pay short-term obligations from current assets.','Current assets ÷ Current liabilities','فوق 1.5 مريح، وأقل من 1 تحذير.','Above 1.5 is comfortable; below 1 is a warning.'],
+ ['fs','Quick ratio','النسبة السريعة','Quick ratio','السيولة دون الاعتماد على بيع المخزون.','Liquidity without relying on selling inventory.','(Current assets − Inventory) ÷ Current liabilities','فوق 1 جيد.','Above 1 is good.'],
+ ['fs','Cash ratio','نسبة النقدية','Cash ratio','النقد المتاح لكل وحدة من الالتزامات قصيرة الأجل.','Cash available per unit of short-term liabilities.','Cash ÷ Current liabilities','0.2 فأكثر مقبول في معظم القطاعات.','0.2 or more is acceptable in most sectors.'],
+ ['fs','NWC','صافي رأس المال العامل','Net working capital','الفائض من الأصول المتداولة بعد تغطية الالتزامات المتداولة.','Current assets left after covering current liabilities.','Current assets − Current liabilities','السالب علامة تحذير.','Negative is a warning sign.'],
+ ['fs','Gross margin','هامش الربح الإجمالي','Gross margin','ما يتبقى من كل وحدة مبيعات بعد تكلفة البضاعة.','What remains of each unit of sales after cost of goods.','Gross profit ÷ Revenue','يختلف حسب القطاع؛ قارنه بالمنافسين وبالسنوات السابقة.','Industry-specific; compare with peers and prior years.'],
+ ['fs','EBITDA margin','هامش EBITDA','EBITDA margin','الربحية التشغيلية قبل الاستهلاك والفوائد والضرائب.','Operating profitability before depreciation, interest and tax.','EBITDA ÷ Revenue','كلما ارتفع كان أفضل؛ يعتمد على القطاع.','Higher is better; depends on the sector.'],
+ ['fs','Operating margin','هامش التشغيل','Operating margin','ربح النشاط الأساسي لكل وحدة مبيعات.','Core business profit per unit of sales.','Operating profit (EBIT) ÷ Revenue','التراجع المستمر يعني ضغطاً على التكاليف أو الأسعار.','A steady decline signals cost or pricing pressure.'],
+ ['fs','Net margin','هامش صافي الربح','Net margin','الربح النهائي لكل وحدة مبيعات.','Bottom-line profit per unit of sales.','Net income ÷ Revenue','قارنه بمتوسط القطاع.','Compare with the industry average.'],
+ ['fs','ROA','العائد على الأصول','Return on assets','كفاءة تحويل الأصول إلى ربح.','How well assets are turned into profit.','Net income ÷ Total assets','5% فأكثر جيد لمعظم الشركات غير المالية.','5% or more is good for most non-financial firms.'],
+ ['fs','ROE','العائد على حقوق الملكية','Return on equity','ما يكسبه الملاك على أموالهم.','What owners earn on their capital.','Net income ÷ Shareholders’ equity','15% فأكثر قوي، لكن تحقق أنه ليس ناتجاً عن ديون مرتفعة (راجع ديبونت).','15%+ is strong, but check it is not driven by high debt (see DuPont).'],
+ ['fs','ROCE','العائد على رأس المال المستخدم','Return on capital employed','ربح التشغيل مقابل رأس المال طويل الأجل.','Operating profit over long-term capital.','EBIT ÷ (Total assets − Current liabilities)','يجب أن يتجاوز تكلفة التمويل.','Should exceed the cost of funding.'],
+ ['fs','D/E','الدين إلى حقوق الملكية','Debt to equity','حجم الاقتراض مقابل أموال الملاك.','Borrowings per unit of owners’ capital.','Total debt ÷ Equity','أقل من 1 معتدل؛ فوق 2 مرتفع.','Below 1 is moderate; above 2 is high.'],
+ ['fs','Liabilities/Assets','الالتزامات إلى الأصول','Liabilities to assets','نسبة الأصول المموّلة بالالتزامات.','Share of assets funded by liabilities.','Total liabilities ÷ Total assets','فوق 60% يستحق المتابعة.','Above 60% deserves attention.'],
+ ['fs','Interest coverage','تغطية الفوائد','Interest coverage','عدد مرات تغطية ربح التشغيل للفوائد.','Times operating profit covers interest.','EBIT ÷ Interest expense','أقل من 2 خطر، وفوق 5 مريح.','Below 2 is risky; above 5 is comfortable.'],
+ ['fs','Net debt/EBITDA','صافي الدين إلى EBITDA','Net debt to EBITDA','عدد سنوات الربح التشغيلي اللازمة لسداد الدين.','Years of operating profit needed to repay debt.','(Debt − Cash) ÷ EBITDA','أقل من 3 مقبول للبنوك عادة.','Below 3 is usually acceptable to banks.'],
+ ['fs','Equity multiplier','مضاعف حقوق الملكية','Equity multiplier','الأصول لكل وحدة من حقوق الملكية؛ جزء من تحليل ديبونت.','Assets per unit of equity; part of DuPont.','Total assets ÷ Equity','الارتفاع يعني اعتماداً أكبر على الديون.','Higher means more reliance on debt.'],
+ ['fs','Asset turnover','دوران الأصول','Asset turnover','المبيعات التي تولّدها كل وحدة من الأصول.','Sales generated per unit of assets.','Revenue ÷ Total assets','الأعلى أفضل؛ يختلف كثيراً بين القطاعات.','Higher is better; varies widely by sector.'],
+ ['fs','DSO','أيام التحصيل','Days sales outstanding','متوسط الأيام لتحصيل المبيعات الآجلة.','Average days to collect credit sales.','Receivables ÷ Revenue × 365','ارتفاعه يعني بطء التحصيل.','Rising DSO means slower collection.'],
+ ['fs','DIO','أيام المخزون','Days inventory outstanding','متوسط بقاء المخزون قبل بيعه.','Average days before inventory is sold.','Inventory ÷ Cost of goods sold × 365','ارتفاعه يعني مخزوناً راكداً.','Rising DIO means slow-moving stock.'],
+ ['fs','DPO','أيام السداد','Days payables outstanding','متوسط الأيام قبل الدفع للموردين.','Average days before paying suppliers.','Payables ÷ Cost of goods sold × 365','الأطول يحسّن السيولة لكن لا تتأخر بما يضر العلاقة.','Longer helps cash, but not at the expense of suppliers.'],
+ ['fs','CCC','دورة التحويل النقدي','Cash conversion cycle','الأيام بين دفع ثمن البضاعة وتحصيل ثمنها من العميل.','Days between paying for goods and collecting from customers.','DSO + DIO − DPO','الأقصر أفضل.','Shorter is better.'],
+ ['fs','OCF/NI','التدفق التشغيلي إلى صافي الربح','Operating cash flow to net income','هل الأرباح مدعومة بنقد حقيقي؟','Are profits backed by cash?','Operating cash flow ÷ Net income','أقل من 0.7 يستحق الفحص.','Below 0.7 deserves scrutiny.'],
+ ['fs','FCF','التدفق النقدي الحر','Free cash flow','النقد المتبقي بعد الاستثمار في الأصول.','Cash left after investing in assets.','Operating cash flow − Capital expenditure','السالب المتكرر يعني اعتماداً على التمويل.','Repeatedly negative means reliance on funding.'],
+ ['fs','OCF ratio','نسبة التدفق التشغيلي','Operating cash flow ratio','قدرة النقد التشغيلي على سداد الالتزامات قصيرة الأجل.','Ability of operating cash to cover short-term liabilities.','Operating cash flow ÷ Current liabilities','فوق 1 قوي.','Above 1 is strong.'],
+ ['fs','Payout','نسبة توزيع الأرباح','Dividend payout','الجزء الموزع من صافي الربح.','Share of net income paid as dividends.','Dividends ÷ Net income','فوق 100% يستنزف الشركة.','Above 100% drains the company.'],
+ ['fs','Horizontal','التحليل الأفقي','Horizontal analysis','تغيّر كل بند من سنة لأخرى.','Change in each line year over year.','(This year − Last year) ÷ Last year','ابحث عن البنود التي تنمو أسرع من المبيعات.','Look for lines growing faster than sales.'],
+ ['fs','Vertical','التحليل الرأسي','Vertical analysis','كل بند كنسبة من الإيرادات أو من إجمالي الأصول.','Each line as a share of revenue or total assets.','Line ÷ Revenue (or Total assets)','يكشف تغيّر هيكل التكاليف والأصول.','Reveals shifts in cost and asset structure.'],
+ ['fs','DuPont','تحليل ديبونت','DuPont analysis','تفكيك العائد على حقوق الملكية إلى ربحية وكفاءة ورافعة.','Breaks ROE into profitability, efficiency and leverage.','Net margin × Asset turnover × Equity multiplier','يوضح مصدر العائد: من الربحية أم من الديون.','Shows whether ROE comes from profitability or debt.'],
+ ['fs','Altman Z','مؤشر ألتمان Z','Altman Z-score','مؤشر احتمال التعثر المالي.','Indicator of financial distress risk.',"Z'' = 6.56X1 + 3.26X2 + 6.72X3 + 1.05X4",'نموذج Z\'\': فوق 2.6 أمان، 1.1–2.6 رمادية، تحت 1.1 خطر.',"Z'' model: above 2.6 safe, 1.1–2.6 grey, below 1.1 distress."],
+ ['fs','Piotroski F','مؤشر بيوتروسكي F','Piotroski F-score','9 اختبارات بسيطة لقوة الوضع المالي (ربحية، رافعة، كفاءة).','Nine simple tests of financial strength (profitability, leverage, efficiency).','Sum of 9 pass/fail tests (0–9)','8–9 قوي، 0–2 ضعيف.','8–9 strong, 0–2 weak.'],
+ ['fs','Beneish M','مؤشر بينيش M','Beneish M-score','احتمال التلاعب في الأرباح من 8 متغيرات.','Likelihood of earnings manipulation from 8 variables.','−4.84 + 0.92 DSRI + 0.528 GMI + … + 4.679 TATA − 0.327 LVGI','فوق −1.78 احتمال مرتفع، −2.22 إلى −1.78 رمادية.','Above −1.78 high risk; −2.22 to −1.78 grey.'],
+ ['fe','NPV','صافي القيمة الحالية','Net present value','قيمة المشروع اليوم بعد خصم كل التدفقات بتكلفة رأس المال.','Project value today after discounting all cash flows at the cost of capital.','Σ CFt ÷ (1 + r)^t − Initial investment','موجب = المشروع يضيف قيمة.','Positive = the project adds value.'],
+ ['fe','IRR','معدل العائد الداخلي','Internal rate of return','معدل الخصم الذي يجعل NPV صفراً.','Discount rate at which NPV equals zero.','NPV(IRR) = 0','يجب أن يتجاوز تكلفة رأس المال.','Must exceed the cost of capital.'],
+ ['fe','MIRR','معدل العائد الداخلي المعدّل','Modified IRR','نسخة أكثر واقعية من IRR تفترض إعادة الاستثمار بتكلفة رأس المال.','A more realistic IRR assuming reinvestment at the cost of capital.','(FV of inflows ÷ PV of outflows)^(1/n) − 1','أدق من IRR عند المقارنة بين المشاريع.','More reliable than IRR for comparing projects.'],
+ ['fe','Payback','فترة الاسترداد','Payback period','السنوات اللازمة لاسترداد الاستثمار.','Years needed to recover the investment.','Year when cumulative cash flow turns positive','الأقصر أقل مخاطرة؛ «المخصومة» تراعي قيمة الزمن للنقود.','Shorter is less risky; “discounted” accounts for the time value of money.'],
+ ['fe','PI','مؤشر الربحية','Profitability index','القيمة الحالية لكل وحدة مستثمرة.','Present value per unit invested.','PV of future cash flows ÷ Initial investment','فوق 1 مقبول.','Above 1 is acceptable.'],
+ ['fe','Break-even','نقطة التعادل','Break-even revenue','المبيعات التي تغطي كل التكاليف دون ربح أو خسارة.','Sales that cover all costs with no profit or loss.','Fixed costs ÷ Contribution margin ratio','كلما ابتعدت المبيعات المتوقعة عنها كان أفضل.','The further expected sales are above it, the better.'],
+ ['fe','Margin of safety','هامش الأمان','Margin of safety','نسبة انخفاض المبيعات الممكن قبل الوصول للخسارة.','How far sales can fall before a loss.','(Expected sales − Break-even) ÷ Expected sales','فوق 20% مريح.','Above 20% is comfortable.'],
+ ['fe','DSCR','نسبة تغطية خدمة الدين','Debt service coverage ratio','قدرة التدفق النقدي على سداد أقساط القرض وفوائده.','Ability of cash flow to pay loan instalments and interest.','Cash flow available ÷ Debt service','البنوك تطلب عادة 1.25 فأكثر.','Banks usually require 1.25 or more.'],
+ ['fe','Discount rate','معدل الخصم','Discount rate (cost of capital)','العائد الأدنى المطلوب لتعويض المخاطر والبديل الاستثماري.','Minimum return required for the risk and the alternative investment.','Often WACC','ارفعه للمشاريع الأكثر مخاطرة.','Raise it for riskier projects.'],
+ ['fe','Sensitivity','تحليل الحساسية','Sensitivity analysis','أثر تغيّر متغير واحد (مثل السعر أو الكمية) على NPV.','Effect of changing one input (e.g. price or volume) on NPV.','NPV at ±10%, ±20% of each input','المتغير الأكثر تأثيراً يحتاج دراسة أدق.','The most influential input needs the closest study.'],
+ ['ca','PMT','القسط الدوري','Loan payment','القسط الثابت لسداد قرض خلال مدته.','Fixed instalment that repays a loan over its term.','P × i ÷ (1 − (1 + i)^−n)','قارن إجمالي الفوائد بأصل القرض.','Compare total interest with the principal.'],
+ ['ca','Gross yield','العائد الإجمالي','Gross rental yield','الإيجار السنوي مقابل سعر العقار.','Annual rent relative to property price.','Annual rent ÷ Price','لا يشمل المصاريف والشواغر.','Excludes expenses and vacancies.'],
+ ['ca','NOI','صافي الدخل التشغيلي','Net operating income','الإيجار الفعلي بعد الشواغر والمصاريف التشغيلية.','Actual rent after vacancy and operating costs.','Rent × Occupancy − Operating expenses','أساس حساب معدل الرسملة.','The basis of the cap rate.'],
+ ['ca','Cap rate','معدل الرسملة','Capitalization rate','العائد الصافي للعقار مقابل سعره.','Net return of a property relative to its price.','NOI ÷ Property price','قارنه بأسعار الفائدة والعقارات المماثلة.','Compare with interest rates and similar properties.'],
+ ['ca','Rent multiplier','مضاعف الإيجار','Gross rent multiplier','عدد سنوات الإيجار الإجمالي التي تساوي سعر العقار.','Years of gross rent equal to the price.','Price ÷ Annual rent','الأقل يعني عقاراً أرخص نسبياً.','Lower means a relatively cheaper property.'],
+ ['ca','CM','هامش المساهمة','Contribution margin','ما تساهم به كل وحدة في تغطية التكاليف الثابتة.','What each unit contributes to fixed costs.','Price − Variable cost per unit','كلما ارتفع قلّت الوحدات اللازمة للتعادل.','Higher means fewer units to break even.'],
+ ['ca','CAGR','معدل النمو السنوي المركب','Compound annual growth rate','متوسط النمو السنوي بين قيمتين.','Average yearly growth between two values.','(End ÷ Start)^(1/years) − 1','يُستخدم لمقارنة نمو المبيعات أو الاستثمارات.','Used to compare growth of sales or investments.'],
+ ['ca','FV','القيمة المستقبلية','Future value','قيمة مبلغ وإضافات منتظمة بعد سنوات بعائد ثابت.','Value of a sum plus regular additions after years at a fixed return.','PV(1+r)^n + PMT × ((1+r)^n − 1) ÷ r','العائد الفعلي غير مضمون.','Actual returns are not guaranteed.'],
+ ['tx','CIT','ضريبة الشركات','Corporate income tax','ضريبة على الربح الخاضع للضريبة.','Tax on taxable profit.','Taxable profit × Rate','تختلف النسبة والإعفاءات بين الدول.','Rates and exemptions vary by country.'],
+ ['tx','VAT','ضريبة القيمة المضافة','Value added tax','ضريبة على الاستهلاك يحصّلها البائع ويخصم ضريبة مشترياته.','Consumption tax collected on sales minus tax paid on purchases.','Output VAT − Recoverable input VAT','الصافي الموجب يُدفع للجهة الضريبية.','A positive net is paid to the tax authority.'],
+ ['tx','ETR','المعدل الفعلي للضريبة','Effective tax rate','الضريبة الفعلية كنسبة من الربح.','Actual tax as a share of profit.','Tax ÷ Profit before tax','قد يقل عن النسبة الرسمية بسبب الإعفاءات.','May be below the headline rate due to reliefs.'],
+ ['tx','Pillar Two','الحد الأدنى العالمي للضريبة','Global minimum tax (Pillar Two)','حد أدنى 15% للمجموعات الكبيرة متعددة الجنسيات.','15% minimum for large multinational groups.','Applies at €750m+ group revenue','لا ينطبق على معظم الشركات الصغيرة والمتوسطة.','Does not apply to most SMEs.'],
+ ['tx','Zakat','الزكاة','Zakat','في السعودية: 2.5% على الوعاء الزكوي للملكية الخليجية.','In Saudi Arabia: 2.5% on the zakat base for GCC ownership.','Zakat base × 2.5%','الأداة تقديرية؛ راجع مختصاً.','The tool is an estimate; consult a specialist.'],
+ ['tx','TP','تسعير المعاملات','Transfer pricing','تسعير المعاملات بين الأطراف ذات العلاقة بسعر السوق.','Pricing related-party transactions at market value.','Arm’s-length principle','يتطلب توثيقاً عند وجود معاملات كبيرة.','Requires documentation when transactions are material.'],
+ ['tx','E-invoicing','الفوترة الإلكترونية','E-invoicing','إصدار الفواتير بصيغة إلكترونية معتمدة مرتبطة بالجهة الضريبية.','Issuing invoices in an approved electronic format linked to the tax authority.','—','مؤشر الجاهزية يوضح الخطوات الناقصة.','The readiness score shows missing steps.'],
+ ['st','Mean','المتوسط','Mean','مجموع القيم مقسوماً على عددها.','Sum of values divided by their count.','Σx ÷ n','يتأثر بالقيم الشاذة.','Sensitive to outliers.'],
+ ['st','Median','الوسيط','Median','القيمة التي تقسم البيانات المرتبة إلى نصفين.','The middle value of sorted data.','50th percentile','أصدق من المتوسط عند وجود التواء.','Better than the mean for skewed data.'],
+ ['st','Mode','المنوال','Mode','القيمة الأكثر تكراراً.','The most frequent value.','—','قد لا يوجد أو يتعدد.','May not exist or may be multiple.'],
+ ['st','SD','الانحراف المعياري','Standard deviation','متوسط بُعد القيم عن المتوسط.','Typical distance of values from the mean.','√(Σ(x − mean)² ÷ (n − 1))','الأعلى = تشتت أكبر.','Higher = more spread.'],
+ ['st','Variance','التباين','Variance','مربع الانحراف المعياري.','Square of the standard deviation.','SD²','يُستخدم في الحسابات أكثر من التفسير.','Used in calculations more than interpretation.'],
+ ['st','CV','معامل الاختلاف','Coefficient of variation','التشتت نسبةً إلى المتوسط.','Spread relative to the mean.','SD ÷ Mean','أقل من 15% منخفض، فوق 35% مرتفع.','Below 15% low; above 35% high.'],
+ ['st','SE','الخطأ المعياري','Standard error','دقة تقدير المتوسط من العينة.','Precision of the sample mean.','SD ÷ √n','يقل كلما زاد حجم العينة.','Shrinks as the sample grows.'],
+ ['st','95% CI','فترة الثقة 95%','95% confidence interval','النطاق الذي يقع فيه المتوسط الحقيقي بثقة 95%.','Range likely to contain the true mean with 95% confidence.','Mean ± t × SE','النطاق الضيق يعني تقديراً أدق.','A narrow range means a precise estimate.'],
+ ['st','Q1/Q3, IQR','الربيعيات والمدى الربيعي','Quartiles & IQR','Q1 وQ3 يحدان نصف البيانات الأوسط، والفرق بينهما IQR.','Q1 and Q3 bound the middle half; their gap is the IQR.','IQR = Q3 − Q1','القيم خارج 1.5 × IQR شاذة.','Values beyond 1.5 × IQR are outliers.'],
+ ['st','Skewness','الالتواء','Skewness','عدم تماثل التوزيع.','Asymmetry of the distribution.','—','موجب = ذيل نحو القيم العالية.','Positive = tail towards high values.'],
+ ['st','Kurtosis','التفرطح','Excess kurtosis','حدة القمة وثقل الأطراف مقارنة بالتوزيع الطبيعي.','Peakedness and tail weight versus normal.','Kurtosis − 3','موجب = قيم متطرفة أكثر.','Positive = more extreme values.'],
+ ['st','Jarque-Bera','اختبار جاك-بيرا','Jarque-Bera test','هل البيانات طبيعية التوزيع؟','Are the data normally distributed?','n/6 × (S² + (K − 3)²/4)','p أقل من 0.05 = غير طبيعية.','p below 0.05 = not normal.'],
+ ['st','r','معامل الارتباط','Correlation (Pearson r)','قوة واتجاه العلاقة الخطية بين متغيرين (−1 إلى 1).','Strength and direction of a linear link (−1 to 1).','cov(x,y) ÷ (SDx × SDy)','فوق 0.6 قوي؛ الارتباط لا يعني السببية.','Above 0.6 is strong; correlation is not causation.'],
+ ['st','Spearman ρ','ارتباط سبيرمان','Spearman rank correlation','ارتباط مبني على الترتيب، مناسب للعلاقات غير الخطية والقيم الشاذة.','Rank-based correlation, robust to non-linearity and outliers.','Pearson r on ranks','يُستخدم إذا اختلف كثيراً عن r.','Use it when it differs a lot from r.'],
+ ['st','R²','معامل التحديد','R-squared','نسبة التغير في Y التي يفسرها X.','Share of the variation in Y explained by X.','1 − SSE ÷ SST','0.7 = يفسر 70% من التغير.','0.7 = explains 70% of the variation.'],
+ ['st','Slope','الميل','Regression slope','مقدار تغيّر Y عند زيادة X بوحدة.','Change in Y for one unit of X.','b = Sxy ÷ Sxx','انظر إلى p لمعرفة هل هو معنوي.','Check p to see if it is significant.'],
+ ['st','p-value','القيمة الاحتمالية','p-value','احتمال ظهور نتيجة كهذه بالصدفة إذا لم يكن هناك أثر.','Chance of a result this strong by luck if there were no effect.','—','أقل من 0.05 = نتيجة ذات دلالة.','Below 0.05 = statistically significant.'],
+ ['st','PI','نطاق التنبؤ','Prediction interval','النطاق المتوقع لقيمة جديدة واحدة.','Expected range for one new value.','ŷ ± t × SE × √(1 + 1/n + …)','أوسع دائماً من فترة الثقة.','Always wider than the confidence interval.'],
+ ['st','t-test','اختبار t','t-test','هل الفرق بين متوسطين حقيقي أم صدفة؟','Is the gap between two means real or chance?','(mean₁ − mean₂) ÷ SE of difference','p أقل من 0.05 = فرق حقيقي.','p below 0.05 = a real difference.'],
+ ['st','Exp. smoothing','التمهيد الأُسّي','Exponential smoothing (Holt)','تنبؤ يعطي وزناً أكبر للقيم الأحدث مع الاتجاه.','Forecast weighting recent values more, with trend.','Level α, Trend β','α أعلى = استجابة أسرع للتغيرات.','Higher α = faster reaction to change.'],
+ ['rk','Monte Carlo','محاكاة مونت كارلو','Monte Carlo simulation','تشغيل النموذج آلاف المرات بقيم عشوائية لرسم توزيع النتائج المحتملة.','Running the model thousands of times with random inputs to map possible outcomes.','—','كلما زادت التكرارات زادت الدقة.','More iterations = more precision.'],
+ ['rk','P10/P50/P90','المئينات P10 وP50 وP90','Percentiles P10 / P50 / P90','P10 = سيناريو متشائم (10% أقل منه)، P50 = الوسط، P90 = متفائل.','P10 = pessimistic (10% fall below), P50 = middle, P90 = optimistic.','—','المسافة بين P10 وP90 تقيس عدم اليقين.','The P10–P90 gap measures uncertainty.'],
+ ['rk','Prob. of target','احتمال تحقيق الهدف','Probability of target','نسبة السيناريوهات التي حققت الهدف.','Share of scenarios that reached the target.','Hits ÷ Iterations','قرار مدعوم بالأرقام بدل التخمين.','A numbers-based decision instead of a guess.'],
+ ['rk','Tornado','مخطط الحساسية','Tornado chart','ترتيب المتغيرات حسب تأثيرها على النتيجة.','Inputs ranked by their effect on the output.','Rank correlation / swing','ركّز جهدك على أعلى الأعمدة.','Focus effort on the top bars.'],
+ ['rk','Normal','التوزيع الطبيعي','Normal distribution','قيم متماثلة حول متوسط (منحنى الجرس).','Values symmetric around a mean (bell curve).','Mean, SD','للمتغيرات المستقرة نسبياً.','For fairly stable variables.'],
+ ['rk','Triangular/PERT','التوزيع المثلثي وبيرت','Triangular / PERT','أدنى وأرجح وأعلى قيمة؛ مناسب لتقديرات الخبراء.','Min, most likely and max; good for expert estimates.','Min, Mode, Max','PERT أكثر تركيزاً حول القيمة الأرجح.','PERT concentrates more around the most likely value.'],
+ ['rk','Uniform','التوزيع المنتظم','Uniform distribution','كل القيم بين حدين متساوية الاحتمال.','All values between two bounds equally likely.','Min, Max','عند عدم معرفة أي قيمة أرجح.','When no value is more likely.'],
+ ['rk','Lognormal','التوزيع اللوغاريتمي الطبيعي','Lognormal distribution','قيم موجبة ذات ذيل طويل نحو الأعلى (أسعار، تكاليف).','Positive values with a long upper tail (prices, costs).','Mean, SD','لا ينتج قيماً سالبة.','Never produces negatives.'],
+ ['rk','Correlation','الارتباط بين المدخلات','Input correlation','ربط متغيرين يتحركان معاً (مثل السعر والكمية).','Linking inputs that move together (e.g. price and volume).','−1 to 1','تجاهله قد يقلل أو يضخم المخاطر.','Ignoring it can under- or over-state risk.'],
+ ['ls','DPMO','العيوب لكل مليون فرصة','Defects per million opportunities','عدد العيوب المتوقع في مليون فرصة.','Expected defects in a million opportunities.','Defects ÷ (Units × Opportunities) × 1,000,000','6 سيجما = 3.4 فقط.','Six sigma = only 3.4.'],
+ ['ls','DPU','العيوب لكل وحدة','Defects per unit','متوسط العيوب في الوحدة الواحدة.','Average defects per unit.','Defects ÷ Units','الأقل أفضل.','Lower is better.'],
+ ['ls','Sigma level','مستوى سيجما','Sigma level','مقياس الجودة: كلما ارتفع قلّت العيوب.','Quality scale: higher means fewer defects.','Z(yield) + 1.5','4 متوسط الصناعة، 6 عالمي.','4 is industry average, 6 is world class.'],
+ ['ls','RTY','العائد المتدحرج','Rolled throughput yield','احتمال مرور الوحدة بكل الخطوات دون أي إعادة عمل.','Chance a unit passes every step without rework.','Yield₁ × Yield₂ × …','ابدأ التحسين بأضعف خطوة.','Start with the weakest step.'],
+ ['ls','Cp','مؤشر القدرة الكامنة','Process capability Cp','هل عرض التشتت يناسب عرض المواصفات؟','Does the spread fit inside the specification width?','(USL − LSL) ÷ 6σ within','1.33 فأكثر جيد.','1.33 or more is good.'],
+ ['ls','Cpk','مؤشر القدرة الفعلية','Process capability Cpk','مثل Cp لكن يراعي ابتعاد المتوسط عن المنتصف.','Like Cp but accounts for an off-centre mean.','min(USL − μ, μ − LSL) ÷ 3σ within','أقل من 1 غير قادرة، 1.33 قادرة، 1.67 ممتازة.','Below 1 not capable, 1.33 capable, 1.67 excellent.'],
+ ['ls','Pp / Ppk','الأداء الكلي','Process performance Pp / Ppk','مثل Cp وCpk لكن بالانحراف الكلي (المدى الطويل).','Like Cp/Cpk using overall (long-term) variation.','Uses overall σ','فرق كبير عن Cpk يعني عدم استقرار.','A big gap from Cpk signals instability.'],
+ ['ls','ppm','أجزاء لكل مليون','Parts per million defective','عدد الوحدات المتوقع خروجها عن المواصفات لكل مليون.','Expected out-of-spec units per million.','From the normal curve','الأقل أفضل.','Lower is better.'],
+ ['ls','UCL / LCL','حدود التحكم','Control limits','الحدود الطبيعية لتباين العملية المستقرة.','Natural limits of a stable process.','Mean ± 2.66 × MR̄','ليست حدود المواصفات.','Not the same as spec limits.'],
+ ['ls','WE rules','قواعد Western Electric','Western Electric rules','أنماط في خريطة التحكم تدل على سبب خاص.','Patterns on a control chart that signal a special cause.','e.g. 9 points on one side','ابحث عن السبب قبل تعديل العملية.','Find the cause before adjusting the process.'],
+ ['ls','Takt','زمن الإيقاع','Takt time','سرعة الإنتاج اللازمة لتلبية الطلب.','Production pace needed to meet demand.','Net available time ÷ Demand','المحطة الأبطأ منه عنق زجاجة.','Any slower station is a bottleneck.'],
+ ['ls','OEE','الفعالية الشاملة للمعدات','Overall equipment effectiveness','التوافر × الأداء × الجودة.','Availability × performance × quality.','A × P × Q','85% عالمي.','85% is world class.'],
+ ['ls','PCE','كفاءة دورة العملية','Process cycle efficiency','نسبة الوقت الذي يضيف قيمة من زمن التسليم.','Share of lead time that adds value.','Value-added time ÷ Lead time','25% فأكثر «لين».','25% or more is “lean”.'],
+ ['ls','Little’s law','قانون ليتل','Little’s law','العلاقة بين المخزون تحت التشغيل وزمن التسليم.','Link between work in progress and lead time.','Lead time = WIP ÷ Throughput','خفض WIP يقصّر زمن التسليم.','Cutting WIP shortens lead time.'],
+ ['ls','RPN','رقم أولوية المخاطر','Risk priority number','ترتيب أنماط الفشل في FMEA.','Ranks failure modes in FMEA.','Severity × Occurrence × Detection','أي خطورة 9–10 تُعالج فوراً.','Any severity 9–10 is treated first.'],
+ ['au','Benford','قانون بنفورد','Benford’s law','في البيانات الطبيعية يظهر الرقم 1 أولاً في نحو 30% من المرات.','In natural data the digit 1 leads about 30% of the time.','P(d) = log₁₀(1 + 1/d)','الانحراف الكبير يستحق الفحص وليس دليل احتيال بحد ذاته.','A large deviation deserves checking; it is not proof of fraud.'],
+ ['au','MAD','متوسط الانحراف المطلق','Mean absolute deviation','متوسط الفرق بين التكرار الفعلي والمتوقع.','Average gap between actual and expected frequencies.','Σ|actual − expected| ÷ k','الرقم الأول: أقل من 0.006 مطابقة قريبة، فوق 0.015 عدم مطابقة.','First digit: below 0.006 close, above 0.015 non-conformity.'],
+ ['au','Z-stat','إحصائية Z','Z-statistic','هل انحراف رقم محدد معنوي؟','Is one digit’s deviation significant?','(|p − p₀| − 1/2n) ÷ √(p₀(1 − p₀)/n)','فوق 1.96 معنوي.','Above 1.96 is significant.'],
+ ['au','χ²','اختبار مربع كاي','Chi-square test','اختبار شامل للمطابقة مع التوزيع المتوقع.','Overall test of fit with the expected distribution.','Σ(O − E)² ÷ E','مع العينات الكبيرة جداً اعتمد على MAD.','For very large samples rely on MAD.'],
+ ['au','ABC','تصنيف ABC','ABC classification','تقسيم البنود حسب مساهمتها التراكمية في القيمة.','Grouping items by cumulative contribution to value.','A ≤ 80%, B ≤ 95%, C rest','الفئة A تستحق أكبر رقابة.','Class A deserves the most control.'],
+ ['au','Gini','معامل جيني','Gini coefficient','درجة تركّز القيمة في عدد قليل من البنود (0 إلى 1).','How concentrated value is in few items (0 to 1).','—','الأقرب إلى 1 = تركّز أعلى.','Closer to 1 = more concentrated.'],
+ ['au','Split','تجزئة المشتريات','Split purchases','تقسيم مشتريات لتبقى تحت حد الاعتماد.','Breaking purchases to stay under an approval limit.','Same vendor, close dates, sum > limit','تحتاج تفسيراً من الإدارة.','Needs a management explanation.'],
+ ['au','RSF','عامل الحجم النسبي','Relative size factor','أكبر فاتورة للمورد مقارنة بثاني أكبر فاتورة.','A vendor’s largest invoice versus its second largest.','Largest ÷ Second largest','فوق 5 (الحد الافتراضي في الأداة) تستحق الفحص.','Above 5 (the tool’s default) deserves checking.'],
+ ['au','Z-score','درجة Z','Z-score','بُعد القيمة عن المتوسط بعدد الانحرافات المعيارية.','Distance from the mean in standard deviations.','(x − mean) ÷ SD','فوق 3 قيمة شاذة.','Above 3 is an outlier.'],
+ ['au','Gaps','فجوات التسلسل','Sequence gaps','أرقام مستندات مفقودة من التسلسل.','Document numbers missing from a sequence.','—','قد تعني مستندات ملغاة أو مخفية.','May mean cancelled or hidden documents.'],
+ ['au','MUS','العينة بوحدة النقد','Monetary unit sampling','اختيار العينة حسب قيمة المبالغ، فالمبالغ الكبيرة احتمال اختيارها أعلى.','Selecting by value, so large amounts are more likely chosen.','Interval = Population ÷ Sample size','مناسبة لاكتشاف المبالغة في الأرصدة.','Suits detecting overstatement.'],
+ ['au','Materiality','الأهمية النسبية','Materiality','أكبر خطأ مقبول لا يغيّر قرار مستخدم القوائم.','Largest error that would not change a user’s decision.','Often % of revenue or profit','أقل أهمية نسبية = عينة أكبر.','Lower materiality = larger sample.']];
+
+let gQ='', gCat='all';
+function guideRender(root){
+ const tools=G_TOOLS.map(t=>({t,p:PAGES.find(p=>p.id===t[0])})).filter(x=>x.p);
+ root.innerHTML=pageHead('دليل المستخدم','User guide','كيف تستخدم كل أداة خطوة بخطوة، ومعنى كل مؤشر وكيف تقرأه.','How to use each tool step by step, and what every indicator means and how to read it.')+`
+ <nav class="g-toc panel" aria-label="${T('الفهرس','Contents')}"><h3>${T('الفهرس','Contents')}</h3><ol>
+  <li><a href="#g-start" data-jump>${T('البداية السريعة','Quick start')}</a></li>
+  <li><a href="#g-tools" data-jump>${T('طريقة استخدام الأدوات','How to use the tools')}</a><ol>${tools.map(({p})=>`<li><a href="#g-t-${p.id}" data-jump>${T(p.ar,p.en)}</a></li>`).join('')}</ol></li>
+  <li><a href="#g-gloss" data-jump>${T('معاني المؤشرات','Indicator glossary')}</a><ol>${Object.keys(G_CATS).map(c=>`<li><a href="#g-gloss" data-jump data-cat="${c}">${T(...G_CATS[c])}</a></li>`).join('')}</ol></li>
+  <li><a href="#g-faq" data-jump>${T('أسئلة شائعة','FAQ')}</a></li></ol></nav>
+ <section id="g-start" class="g-sec"><h2 class="grp-title">${T('1. البداية السريعة','1. Quick start')}</h2><div class="g-steps">
+  ${[[T('ابدأ بالمثال','Start with the example'),T('كل أداة تفتح ببيانات مثال لترى النتائج فوراً.','Every tool opens with example data so you see results immediately.')],
+     [T('امسح وأدخل أرقامك','Clear and enter your numbers'),T('زر «محو البيانات» أعلى كل أداة يفرّغ المثال، و«المثال» يعيده.','The “Clear data” button at the top of each tool empties it; “Example” brings it back.')],
+     [T('اكتب في المربعات البيضاء','Type in the white boxes'),T('المربعات البيضاء للإدخال، والمتقطعة «محسوب تلقائياً»، والملوّنة تحت «النتائج».','White boxes are inputs, dashed ones are calculated, tinted ones under “Results” are outputs.')],
+     [T('الصق من Excel','Paste from Excel'),T('يمكنك نسخ عمود أو جدول من Excel ولصقه مباشرة.','Copy a column or table from Excel and paste it in.')],
+     [T('ابحث بسرعة','Search quickly'),T('اضغط Ctrl + K للبحث عن أي أداة.','Press Ctrl + K to find any tool.')],
+     [T('احفظ في حسابك','Save to your account'),T('بياناتك تُحفظ في متصفحك، وعند تسجيل الدخول تُزامن مع حسابك.','Data is saved in your browser and synced to your account when signed in.')]].map(([h,p],i)=>`<div class="g-step"><b>${i+1}</b><div><h3>${h}</h3><p class="note">${p}</p></div></div>`).join('')}</div></section>
+ <section id="g-tools" class="g-sec"><h2 class="grp-title">${T('2. طريقة استخدام الأدوات','2. How to use the tools')}</h2><div class="g-tools">
+  ${tools.map(({t,p})=>`<article class="panel g-tool" id="g-t-${p.id}"><header><span class="ic">${icon(p.id)}</span><div><h3>${T(p.ar,p.en)}</h3><p class="note">${T(t[1],t[2])}</p></div><a class="btn small" href="#${p.id}">${T('افتح الأداة','Open tool')}</a></header>
+   <ol class="g-ol">${(lang==='ar'?t[3]:t[4]).map(s=>`<li>${esc(s)}</li>`).join('')}</ol></article>`).join('')}</div></section>
+ <section id="g-gloss" class="g-sec"><h2 class="grp-title">${T('3. معاني المؤشرات','3. Indicator glossary')}</h2>
+  <div class="g-filter"><label class="pf g-search"><span>${T('ابحث عن مؤشر','Search an indicator')}</span><input id="g-q" type="search" value="${esc(gQ)}" placeholder="${T('مثال: ROE أو السيولة','e.g. ROE or liquidity')}"></label>
+   <div class="g-chips" role="group" aria-label="${T('التصنيف','Category')}"><button data-c="all" aria-pressed="${gCat==='all'}">${T('الكل','All')}</button>${Object.keys(G_CATS).map(c=>`<button data-c="${c}" aria-pressed="${gCat===c}">${T(...G_CATS[c])}</button>`).join('')}</div></div>
+  <div id="g-list"></div></section>
+ <section id="g-faq" class="g-sec"><h2 class="grp-title">${T('4. أسئلة شائعة','4. FAQ')}</h2><div class="g-faq">
+  ${[[T('أين تُحفظ بياناتي؟','Where is my data stored?'),T('في متصفحك على جهازك. إذا سجّلت الدخول تُنسخ إلى حسابك لتظهر على أجهزتك الأخرى. راجع <a href="#privacy">سياسة الخصوصية</a>.','In your browser on your device. If you sign in, a copy is kept in your account so it appears on your other devices. See the <a href="#privacy">privacy policy</a>.')],
+     [T('هل النتائج استشارة مالية؟','Are the results financial advice?'),T('لا. الأدوات تساعدك على التحليل، والقرارات المهمة تحتاج مراجعة مختص.','No. The tools support your analysis; important decisions need a professional’s review.')],
+     [T('لماذا لا يعمل المستشار الضريبي الذكي؟','Why is the AI tax advisor unavailable?'),T('يعمل عند فتح الموقع داخل Claude فقط. باقي تبويبات الضرائب تعمل في كل مكان.','It works only when the site is opened inside Claude. All other tax tabs work everywhere.')],
+     [T('كيف أعيد بيانات المثال؟','How do I bring back the example?'),T('اضغط زر «المثال» أعلى الأداة.','Press the “Example” button at the top of the tool.')],
+     [T('ظهرت رسالة «أدخل رقماً فقط»','I see “Numbers only”'),T('اكتب أرقاماً فقط دون حروف أو رموز عملة؛ الفواصل والنقطة العشرية مقبولة.','Type digits only, without letters or currency symbols; commas and a decimal point are fine.')],
+     [T('كيف أغيّر اللغة؟','How do I change the language?'),T('من زر اللغة أعلى القائمة الجانبية، أو زر «ع / EN» في الجوال.','Use the language switch at the top of the side menu, or the “ع / EN” button on mobile.')]].map(([q,a])=>`<details class="panel"><summary>${q}</summary><p>${a}</p></details>`).join('')}</div></section>`;
+ const draw=()=>{ const q=gQ.trim().toLowerCase(), L=$('#g-list'); const rows=GLOSS.filter(g=>(gCat==='all'||g[0]===gCat)&&(!q||g.slice(1).join(' ').toLowerCase().includes(q)));
+  const by={}; rows.forEach(g=>(by[g[0]]=by[g[0]]||[]).push(g));
+  L.innerHTML=rows.length?Object.keys(by).map(c=>`<h3 class="g-cat">${T(...G_CATS[c])} <small>${by[c].length}</small></h3><div class="g-grid">${by[c].map(g=>`<article class="g-card"><header><h4>${T(g[2],g[3])}</h4>${g[1]!==g[3]||lang==='ar'?`<code dir="ltr">${esc(g[1])}</code>`:''}</header><p>${esc(T(g[4],g[5]))}</p>${g[6]&&g[6]!=='—'?`<div class="g-f" dir="ltr">${esc(g[6])}</div>`:''}<p class="g-read"><b>${T('كيف تقرأه:','How to read it:')}</b> ${esc(T(g[7],g[8]))}</p></article>`).join('')}</div>`).join('')
+   :`<p class="empty">${T('لا توجد نتائج. جرّب كلمة أخرى.','No matches. Try another word.')}</p>`; };
+ draw();
+ $('#g-q').oninput=e=>{ gQ=e.target.value; draw(); };
+ $$('.g-chips button').forEach(b=>b.onclick=()=>{ gCat=b.dataset.c; $$('.g-chips button').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); draw(); });
+ $$('[data-jump]',root).forEach(a=>a.onclick=e=>{ e.preventDefault(); if(a.dataset.cat){ gCat=a.dataset.cat; gQ=''; $('#g-q').value=''; $$('.g-chips button').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.c===gCat))); draw(); }
+  const t=$(a.getAttribute('href')); if(t) t.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); });
+}
+
+/* ================= Privacy policy ================= */
+const PRIV_UPDATED='2026-10-07', PRIV_EMAIL='mohammadh5@yahoo.com';
+function privacyRender(root){
+ const S=(ar,en,body)=>`<section class="panel pv-sec"><h2>${T(ar,en)}</h2>${body}</section>`, ul=a=>`<ul>${a.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+ root.innerHTML=pageHead('سياسة الخصوصية','Privacy policy',T(`آخر تحديث: ${new Date(PRIV_UPDATED).toLocaleDateString('ar',{day:'numeric',month:'long',year:'numeric'})}`,`Last updated: ${new Date(PRIV_UPDATED).toLocaleDateString('en',{day:'numeric',month:'long',year:'numeric'})}`),'')+`
+ <div class="pv">
+ <div class="callout info"><span>${T('باختصار: أرقامك تبقى في متصفحك. لا نبيع بياناتك، ولا نعرض إعلانات، ولا نستخدم ملفات تعريف للتتبع. إنشاء حساب اختياري، ويُستخدم فقط لحفظ بياناتك ومزامنتها بين أجهزتك.','In short: your numbers stay in your browser. We do not sell your data, show ads or use tracking cookies. An account is optional and is used only to save and sync your data across your devices.')}</span></div>
+ ${S('1. من نحن','1. Who we are',`<p>${T('<bdi>figurdiscover</bdi> (<bdi>figurdiscover.com</bdi>) منصة إلكترونية لأدوات التحليل المالي والإحصائي ودراسات الجدوى والتدقيق. توضح هذه السياسة ما نجمعه من بيانات وكيف نستخدمها.','figurdiscover (figurdiscover.com) is an online platform of financial and statistical analysis, feasibility and audit tools. This policy explains what data we collect and how we use it.')}</p>`)}
+ ${S('2. البيانات التي تُدخلها في الأدوات','2. Data you enter in the tools',`<p>${T('الأرقام والنصوص التي تكتبها في الأدوات تُعالج داخل متصفحك وتُحفظ فيه (التخزين المحلي localStorage). لا تُرسل إلى خوادمنا إلا إذا سجّلت الدخول، كما في البند 3.','Numbers and text you enter are processed and stored inside your browser (localStorage). They are not sent to our servers unless you sign in, as described in section 3.')}</p><p>${T('يمكنك حذفها في أي وقت بزر «محو البيانات» في كل أداة، أو بمسح بيانات الموقع من إعدادات المتصفح.','You can delete them at any time with the “Clear data” button in each tool, or by clearing site data in your browser settings.')}</p>`)}
+ ${S('3. الحساب (اختياري)','3. Your account (optional)',`<p>${T('إذا أنشأت حساباً نجمع:','If you create an account we collect:')}</p>${ul([T('بريدك الإلكتروني وكلمة المرور (تُخزّن مشفّرة ولا نطّلع عليها).','Your email address and password (stored hashed; we cannot see it).'),T('نسخة من بيانات الأدوات المحفوظة في متصفحك، لمزامنتها بين أجهزتك.','A copy of the tool data saved in your browser, to sync it between your devices.'),T('تاريخ آخر تحديث لهذه البيانات.','The time this data was last updated.')])}<p>${T('تُخزّن هذه البيانات لدى مزوّد الخدمة Supabase، وكل مستخدم لا يستطيع الوصول إلا إلى بياناته فقط. عند تسجيل الخروج تُمسح النسخة المحلية من جهازك.','This data is stored with our provider Supabase, and each user can access only their own data. When you sign out, the local copy is removed from your device.')}</p>`)}
+ ${S('4. المستشار الضريبي الذكي','4. AI tax advisor',`<p>${T('يعمل فقط عند فتح الموقع داخل Claude. عندما تسأل سؤالاً يُرسل نص سؤالك مع ملف الشركة الضريبي الذي أدخلته (مثل الدولة والإيرادات والأرباح) إلى Claude من Anthropic، وذلك من حسابك أنت في Claude وبعد موافقتك. لا تُدخل معلومات شخصية حساسة في الأسئلة.','It works only when the site is opened inside Claude. When you ask a question, your question and the tax profile you entered (such as country, revenue and profit) are sent to Claude by Anthropic, through your own Claude account and after your consent. Do not include sensitive personal information in questions.')}</p>`)}
+ ${S('5. خدمات خارجية يتصل بها متصفحك','5. Third-party services your browser contacts',`<p>${T('لتشغيل الموقع يتصل متصفحك مباشرة بالخدمات التالية، وهي ترى عنوان IP الخاص بك ومعلومات المتصفح وفق سياساتها:','To run the site, your browser connects directly to these services, which see your IP address and browser details under their own policies:')}</p>${ul([
+  T('<b>Railway</b>: استضافة الموقع، وقد يحتفظ بسجلات تقنية للطلبات.','<b>Railway</b>: hosts the site and may keep technical request logs.'),
+  T('<b>Supabase</b>: الحسابات وحفظ البيانات (عند تسجيل الدخول فقط).','<b>Supabase</b>: accounts and data storage (only when signed in).'),
+  T('<b>Google Fonts</b>: الخطوط.','<b>Google Fonts</b>: fonts.'),
+  T('<b>jsDelivr</b>: تحميل مكتبة تسجيل الدخول.','<b>jsDelivr</b>: delivers the sign-in library.'),
+  T('<b>gold-api.com</b> و<b>ForexFactory</b> و<b>GDELT</b>: أسعار الذهب والأجندة والأخبار الاقتصادية في شريط الأخبار.','<b>gold-api.com</b>, <b>ForexFactory</b> and <b>GDELT</b>: gold prices, economic calendar and news in the ticker.')])}<p>${T('لا تُرسل أرقامك المالية إلى أي من خدمات شريط الأخبار.','None of your financial figures are sent to the ticker services.')}</p>`)}
+ ${S('6. ملفات تعريف الارتباط والتخزين المحلي','6. Cookies and local storage',`<p>${T('لا نستخدم ملفات تعريف ارتباط إعلانية أو تحليلية. نستخدم التخزين المحلي في متصفحك لحفظ: بيانات الأدوات، واللغة المختارة، وجلسة تسجيل الدخول.','We do not use advertising or analytics cookies. We use your browser’s local storage to keep tool data, your chosen language and your sign-in session.')}</p>`)}
+ ${S('7. كيف نستخدم البيانات','7. How we use data',ul([T('لتشغيل الأدوات وعرض النتائج.','To run the tools and show results.'),T('لحفظ بياناتك ومزامنتها إذا سجّلت الدخول.','To save and sync your data if you sign in.'),T('لإرسال رسائل الحساب الضرورية فقط، مثل تأكيد البريد أو استعادة كلمة المرور.','To send essential account emails only, such as email confirmation or password reset.')])+`<p>${T('لا نبيع بياناتك ولا نشاركها لأغراض تسويقية.','We do not sell your data or share it for marketing.')}</p>`)}
+ ${S('8. الاحتفاظ والحذف','8. Retention and deletion',`<p>${T(`نحتفظ ببيانات الحساب ما دام الحساب قائماً. لحذف حسابك وكل بياناته راسلنا على <a href="mailto:${PRIV_EMAIL}">${PRIV_EMAIL}</a> من البريد المسجّل، وسنحذفها خلال 30 يوماً.`,`We keep account data while the account exists. To delete your account and all its data, email <a href="mailto:${PRIV_EMAIL}">${PRIV_EMAIL}</a> from your registered address and we will delete it within 30 days.`)}</p>`)}
+ ${S('9. حقوقك','9. Your rights',ul([T('معرفة البيانات المحفوظة عنك والحصول على نسخة منها.','Know what data we hold about you and get a copy.'),T('تصحيحها أو حذفها.','Correct or delete it.'),T('سحب موافقتك بتسجيل الخروج وحذف الحساب.','Withdraw consent by signing out and deleting your account.')]))}
+ ${S('10. الأمان','10. Security',`<p>${T('نستخدم اتصالاً مشفّراً (HTTPS)، وكلمات المرور مشفّرة، والوصول لبيانات الحساب مقيّد بصاحبها. لا توجد وسيلة نقل أو تخزين آمنة بنسبة 100%.','We use encrypted connections (HTTPS), hashed passwords and access rules that limit account data to its owner. No method of transmission or storage is 100% secure.')}</p>`)}
+ ${S('11. الأطفال','11. Children',`<p>${T('الموقع غير موجّه لمن هم دون 16 عاماً، ولا نجمع بياناتهم عن قصد.','The site is not directed at people under 16, and we do not knowingly collect their data.')}</p>`)}
+ ${S('12. إخلاء المسؤولية','12. Disclaimer',`<p>${T('نتائج الأدوات للمساعدة في التحليل ولا تُعد استشارة مالية أو محاسبية أو ضريبية أو قانونية.','Tool results support analysis and are not financial, accounting, tax or legal advice.')}</p>`)}
+ ${S('13. التعديلات والتواصل','13. Changes and contact',`<p>${T(`قد نحدّث هذه السياسة، وسيظهر تاريخ آخر تحديث أعلى الصفحة. لأي سؤال: <a href="mailto:${PRIV_EMAIL}">${PRIV_EMAIL}</a>.`,`We may update this policy; the last-updated date appears at the top. Questions: <a href="mailto:${PRIV_EMAIL}">${PRIV_EMAIL}</a>.`)}</p>`)}
+ </div>`; }
+
 /* ================= worldwide headline tax rates =================
    Corporate: statutory headline rates (Tax Foundation, 2025). VAT/GST: standard rates (VATupdate, July 2026).
    [code, region, ar, en, currency, corporate %, VAT % (null = no VAT/GST), note ar, note en] */
@@ -2892,7 +3477,7 @@ function tickerPanel(){ const up=newsUpcoming(), w=calWin(), heads=LIVE.heads&&L
   <div class="stack" style="gap:8px">${nextCal}<h3>${T('الأحداث الاقتصادية المنتظرة','Upcoming economic events')}</h3><div class="tk-events">${up.map(([a,b,ar,en])=>{ const w2=newsWhen(a,b); return `<div class="tk-ev"><span class="tk-date"><b>${new Date(a+'T00:00:00').getDate()}</b><small>${new Date(a+'T00:00:00').toLocaleDateString(lang==='ar'?'ar':'en',{month:'short'})}</small></span><span style="flex:1;min-width:0">${esc(T(ar,en))}${b?` <small class="note">(${newsDate(a)} – ${newsDate(b)})</small>`:''}</span><span class="tk-when ${w2.cls}">${w2.txt}</span></div>`; }).join('')||`<p class="note">${T('لا توجد أحداث قادمة في القائمة.','No upcoming events listed.')}</p>`}</div></div></div>
   <p class="note">${isLive()?T('بيانات مباشرة: سعر الذهب والفضة من gold-api.com (يتحدث كل دقيقة)، والأجندة الاقتصادية من ForexFactory، والعناوين من GDELT (تتحدث كل 10 دقائق). الأوقات بتوقيت جهازك.','Live data: gold and silver from gold-api.com (refreshed every minute), economic calendar from ForexFactory, headlines from GDELT (refreshed every 10 minutes). Times are in your local time zone.')
    :T(`تعذّر الاتصال بمصادر البيانات المباشرة هنا، فتظهر قائمة محفوظة بتاريخ ${newsDate(NEWS.updated)} 2026. على موقعك المستضاف تُجلب الأسعار والأخبار مباشرة.`,`Live sources could not be reached here, so a saved list from ${newsDate(NEWS.updated)} 2026 is shown. On your hosted site, prices and news load live.`)}</p>`; }
-function refreshTicker(){ const tr=$('.tk-track'), b=$('#tk-badge'); if(!tr) return; tr.innerHTML=`${tickSeq()}<span aria-hidden="true" style="display:contents">${tickSeq()}</span>`; tr.style.setProperty('--dur',Math.max(60,tickCount()*7)+'s');
+function refreshTicker(){ if(typeof calDraw==='function'&&curPage().id==='calendar') calDraw(); const tr=$('.tk-track'), b=$('#tk-badge'); if(!tr) return; tr.innerHTML=`${tickSeq()}<span aria-hidden="true" style="display:contents">${tickSeq()}</span>`; tr.style.setProperty('--dur',Math.max(60,tickCount()*7)+'s');
  if(b){ b.innerHTML=badgeHtml(); b.classList.toggle('off',!isLive()); } const panel=$('#tk-panel'); if(panel&&!panel.hidden) panel.innerHTML=tickerPanel(); }
 let newsTimers=null;
 function startLive(){ if(newsTimers||typeof fetch!=='function') return; newsTimers=1;
@@ -2904,6 +3489,28 @@ function bindTicker(){ const p=$('#tk-pause'), a=$('#tk-all'), panel=$('#tk-pane
  p.onclick=()=>{ tickPaused=!tickPaused; $('.tk-track').classList.toggle('paused',tickPaused); p.innerHTML=tickPaused?'<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M7 5v14l12-7z"/></svg>':'<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>'; p.setAttribute('aria-label',tickPaused?T('تشغيل الشريط','Play ticker'):T('إيقاف الشريط','Pause ticker')); };
  a.onclick=()=>{ const open=panel.hidden; panel.hidden=!open; a.setAttribute('aria-expanded',String(open)); a.textContent=open?T('إخفاء','Hide'):T('عرض الكل','View all'); if(open) panel.innerHTML=tickerPanel(); };
  startLive(); }
+
+/* ================= Global economic calendar ================= */
+let calImp='hm', calCur='all';
+const CAL_CC={USD:'🇺🇸',EUR:'🇪🇺',GBP:'🇬🇧',JPY:'🇯🇵',CNY:'🇨🇳',CAD:'🇨🇦',AUD:'🇦🇺',NZD:'🇳🇿',CHF:'🇨🇭'};
+function calendarRender(root){
+ root.innerHTML=pageHead('الأجندة الاقتصادية العالمية','Global economic calendar','مواعيد البيانات الاقتصادية وقرارات البنوك المركزية المهمة هذا الأسبوع، والأحداث الكبرى القادمة، مع العد التنازلي بتوقيتك المحلي.','This week’s key economic releases and central-bank decisions, plus major upcoming events, with countdowns in your local time.')+`
+ <section class="panel"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><h3 style="margin:0">${T('بيانات هذا الأسبوع','This week’s releases')}</h3><span class="note" id="cal-src"></span></div>
+  <div class="cal-filters" id="cal-f"></div><div class="tbl-wrap"><table id="cal-t"></table></div></section>
+ <section class="panel" style="margin-top:16px"><h3 style="margin:0">${T('أحداث اقتصادية عالمية كبرى قادمة','Major upcoming global events')}</h3>
+  <div class="tbl-wrap"><table><thead><tr><th>${T('التاريخ','Date')}</th><th>${T('الحدث','Event')}</th><th>${T('متى','When')}</th></tr></thead><tbody>
+  ${newsUpcoming().map(([a,b,ar,en])=>{ const w=newsWhen(a,b); return `<tr><td class="n" style="text-align:start;white-space:nowrap">${newsDate(a)}${b?` – ${newsDate(b)}`:''}</td><td>${esc(T(ar,en))}</td><td><span class="tk-when ${w.cls}">${w.txt}</span></td></tr>`; }).join('')}
+  </tbody></table></div><p class="note">${T('المصادر: تقويمات الاحتياطي الفيدرالي والبنك المركزي الأوروبي ومكتب إحصاءات العمل وصندوق النقد الدولي ومجموعة العشرين والجهات الضريبية الخليجية.','Sources: Fed, ECB, BLS, IMF and G20 calendars and GCC tax authorities.')}</p></section>`;
+ calDraw(); if(typeof startLive==='function') startLive(); }
+function calDraw(){ const T1=$('#cal-t'), F=$('#cal-f'), S=$('#cal-src'); if(!T1) return;
+ const all=LIVE.cal||[]; const curs=[...new Set(all.map(e=>e.c))].sort();
+ F.innerHTML=[['hm',T('مرتفع ومتوسط','High & medium')],['h',T('مرتفع فقط','High only')]].map(([k,l])=>`<button type="button" data-imp="${k}" aria-pressed="${calImp===k}">${l}</button>`).join('')+'<span style="width:12px"></span>'+['all',...curs].map(c=>`<button type="button" data-cur="${c}" aria-pressed="${calCur===c}">${c==='all'?T('كل العملات','All currencies'):(CAL_CC[c]||'')+' '+c}</button>`).join('');
+ $$('[data-imp]',F).forEach(b=>b.onclick=()=>{ calImp=b.dataset.imp; calDraw(); }); $$('[data-cur]',F).forEach(b=>b.onclick=()=>{ calCur=b.dataset.cur; calDraw(); });
+ if(S) S.textContent=LIVE.cal?T('مباشر من ForexFactory · بتوقيتك المحلي','Live from ForexFactory · your local time'):T('البيانات المباشرة تظهر على موقعك المستضاف','Live data appears on your hosted site');
+ if(!LIVE.cal){ T1.innerHTML=`<tbody><tr><td class="note" style="padding:18px">${T('جارٍ تحميل الأجندة… إذا لم تظهر، فالاتصال بالمصدر غير متاح من هنا. على figurdiscover.com تظهر بيانات الأسبوع مباشرة.','Loading the calendar… If nothing appears, the source cannot be reached from here. On figurdiscover.com this week’s data loads live.')}</td></tr></tbody>`; return; }
+ const rows=all.filter(e=>(calImp==='h'?e.imp==='High':true)&&(calCur==='all'||e.c===calCur)).sort((a,b)=>a.t-b.t); let day='', n=Date.now();
+ T1.innerHTML=`<thead><tr><th>${T('الوقت','Time')}</th><th>${T('العملة','Currency')}</th><th>${T('الحدث','Event')}</th><th>${T('الأثر','Impact')}</th><th class="n">${T('المتوقع','Forecast')}</th><th class="n">${T('السابق','Previous')}</th><th>${T('متى','When')}</th></tr></thead><tbody>${rows.map(e=>{ const d=e.t.toLocaleDateString(lang==='ar'?'ar':'en',{weekday:'long',day:'numeric',month:'long'}); const head=d!==day?(day=d,`<tr class="cal-day"><td colspan="7">${d}</td></tr>`):''; const past=e.t<n;
+  return head+`<tr class="${past?'cal-past':''}"><td style="white-space:nowrap">${hm(e.t)}</td><td style="white-space:nowrap">${CAL_CC[e.c]||''} ${esc(e.c)}</td><td>${esc(e.title)}</td><td><span class="cal-imp ${e.imp}"></span>${e.imp==='High'?T('مرتفع','High'):T('متوسط','Medium')}</td><td class="n">${esc(e.f||'—')}</td><td class="n">${esc(e.pr||'—')}</td><td><span class="tk-when ${!past&&e.t-n<3*36e5?'soon':''}">${past?ago(e.t):inT(e.t)}</span></td></tr>`; }).join('')||`<tr><td colspan="7" class="note">${T('لا توجد أحداث بهذه الفلاتر.','No events match these filters.')}</td></tr>`}</tbody>`; }
 
 /* ================= form clarity: units inside fields, thousands separators, calculated tags, validation ================= */
 const FE_BIG=/^-?\d{4,}(\.\d+)?$/;
@@ -2931,6 +3538,380 @@ function formEnhance(){ const m=$('#main'); if(!m||curPage().id==='risk') return
    if(numeric) pf.insertAdjacentHTML('beforeend',`<small class="pf-err" role="alert">${T('أدخل رقماً فقط','Numbers only')}</small>`); } });
  $$('.calc-out',m).forEach(c=>{ if(!c.dataset.cap) c.dataset.cap=T('النتائج','Results'); }); }
 
+/* ================= Insights: plain-language summary on top + report summary with improvement tips at the bottom ================= */
+const fin2=(...a)=>a.every(Number.isFinite);
+const pc=(v,d=1)=>pct(v,d);
+const toneOf=(bad,warn)=>bad>0?'bad':warn>0?'warn':'good';
+const VERD={good:['وضع جيد','Looking good'],warn:['يحتاج انتباه','Needs attention'],bad:['يحتاج إجراء','Action needed'],info:['نتيجة','Result']};
+
+const INS={
+ statements(){ const ds=fsAll(); if(!ds.length) return null; const d=ds[ds.length-1], p=ds.length>1?ds[ds.length-2]:null; if(!(d.revenue>0)) return null;
+  const cr=d.ca/d.cl, nm=d.net/d.revenue, de=d.totalDebt/d.equity, ic=d.ebit/d.interest, oc=d.cfo/d.net, dso=d.rec/d.revenue*365, dio=d.inv/d.cogs*365, g=p&&p.revenue?d.revenue/p.revenue-1:NaN, z=altman(d), pio=p?piotroski(d,p):null, ben=p?beneish(d,p):null;
+  const tips=[], good=[]; let bad=0, warn=0;
+  if(cr<1){bad++; tips.push(T('السيولة ضعيفة: سرّع تحصيل الذمم، وحوّل جزءاً من الديون قصيرة الأجل إلى طويلة الأجل، وأجّل المصروفات غير الضرورية.','Liquidity is weak: speed up collections, move part of short-term debt to long-term, and defer non-essential spending.'));}
+  else if(cr<1.5){warn++; tips.push(T(`نسبة التداول ${fmt(cr,2)} أقل من المستوى المريح 1.5: راقب النقد وتوقيت سداد الالتزامات.`,`Current ratio ${fmt(cr,2)} is below the comfortable 1.5: watch cash and the timing of payments.`));} else good.push(T('السيولة جيدة','liquidity is healthy'));
+  if(p&&nm<p.net/p.revenue){warn++; tips.push(T(`هامش صافي الربح تراجع إلى ${pc(nm)}: راجع التسعير وتكلفة البضاعة والمصاريف الإدارية.`,`Net margin fell to ${pc(nm)}: review pricing, cost of goods and overheads.`));} else if(nm>0) good.push(T(`هامش الربح ${pc(nm)}`,`net margin ${pc(nm)}`));
+  if(nm<=0){bad++; tips.push(T('الشركة تخسر: حدّد المنتجات أو الفروع الخاسرة وأوقفها أو أعد تسعيرها.','The company is loss-making: find loss-making products or branches and stop or re-price them.'));}
+  if(de>2){bad++; tips.push(T(`الديون مرتفعة (${fmt(de,2)}× حقوق الملكية): خفّض الاقتراض أو زد رأس المال قبل أي توسع.`,`Debt is high (${fmt(de,2)}× equity): reduce borrowing or add equity before expanding.`));} else if(de>1){warn++; tips.push(T('الرافعة المالية متوسطة: تجنّب قروضاً جديدة حتى يتحسن التدفق النقدي.','Leverage is moderate: avoid new loans until cash flow improves.'));}
+  if(Number.isFinite(ic)&&ic<3){(ic<2?bad++:warn++); tips.push(T(`تغطية الفوائد ${fmt(ic,2)} مرة فقط: فاوض البنك على سعر أو مدة أفضل، أو سدّد الديون الأعلى فائدة أولاً.`,`Interest cover is only ${fmt(ic,2)}×: negotiate a better rate or term, or repay the costliest debt first.`));}
+  if(Number.isFinite(oc)&&d.net>0&&oc<0.7){warn++; tips.push(T('الأرباح غير مدعومة بنقد كافٍ: افحص الذمم المدينة والمخزون وسياسة الاعتراف بالإيراد.','Profits are not backed by enough cash: check receivables, inventory and revenue recognition.'));}
+  if(dso>60){warn++; tips.push(T(`التحصيل يستغرق ${fmt(dso,0)} يوماً: اختصر مدة الائتمان، وقدّم خصماً للدفع المبكر، وتابع المتأخرين أسبوعياً.`,`Collection takes ${fmt(dso,0)} days: shorten credit terms, offer early-payment discounts and chase late payers weekly.`));}
+  if(dio>90){warn++; tips.push(T(`المخزون يبقى ${fmt(dio,0)} يوماً: صفِّ الأصناف الراكدة وقلّل كميات الطلب.`,`Inventory sits for ${fmt(dio,0)} days: clear slow items and order smaller quantities.`));}
+  if(d.fcf<0){warn++; tips.push(T('التدفق النقدي الحر سالب: أجّل الإنفاق الرأسمالي غير العاجل.','Free cash flow is negative: postpone non-urgent capital spending.'));}
+  if(z.zone==='bad'){bad++; tips.push(T('مؤشر ألتمان في منطقة الخطر: ضع خطة نقدية لـ 13 أسبوعاً وراجع هيكل التمويل فوراً.','Altman Z is in the distress zone: build a 13-week cash plan and review funding now.'));} else if(z.zone==='warn'){warn++;}
+  if(ben&&ben.zone==='bad'){warn++; tips.push(T('مؤشر بينيش يشير لاحتمال تضخيم الأرباح: راجع المستحقات ونمو الذمم مقارنة بالمبيعات.','Beneish flags possible earnings inflation: review accruals and receivables growth versus sales.'));}
+  const tone=toneOf(bad,warn);
+  const sum=T(`الإيرادات ${fmt(d.revenue)}${Number.isFinite(g)?` (${g>=0?'+':''}${pc(g)} عن السنة السابقة)`:''}، وصافي الربح ${fmt(d.net)} بهامش ${pc(nm)}. نسبة التداول ${fmt(cr,2)}، والدين إلى حقوق الملكية ${fmt(de,2)}، ومؤشر ألتمان ${fmt(z.z,2)}${pio?`، وبيوتروسكي ${pio.score}/${pio.max}`:''}.`,
+   `Revenue ${fmt(d.revenue)}${Number.isFinite(g)?` (${g>=0?'+':''}${pc(g)} vs prior year)`:''}, net income ${fmt(d.net)} at a ${pc(nm)} margin. Current ratio ${fmt(cr,2)}, debt to equity ${fmt(de,2)}, Altman Z ${fmt(z.z,2)}${pio?`, Piotroski ${pio.score}/${pio.max}`:''}.`);
+  return {tone,headline:tone==='good'?T('الشركة في وضع مالي جيد بشكل عام.','The company is in good overall financial shape.'):tone==='warn'?T('الوضع مقبول مع نقاط تحتاج متابعة.','Acceptable, with points to watch.'):T('توجد نقاط ضعف تحتاج إجراءً سريعاً.','There are weaknesses that need prompt action.'),
+   simple:T(`ببساطة: ${good.length?`نقاط القوة: ${good.join('، ')}. `:''}${tips.length?`وجدنا ${tips.length} نقطة تحتاج تحسيناً، تفاصيلها أسفل الصفحة.`:'لا توجد نقاط ضعف واضحة.'}`,`In short: ${good.length?`strengths: ${good.join(', ')}. `:''}${tips.length?`we found ${tips.length} point(s) to improve, detailed at the bottom.`:'no obvious weaknesses.'}`),sum,tips}; },
+
+ feasibility(){ const c=feCalc(feEff(fe)); if(!c||c.err) return null; const ok=c.npv>0&&c.irr>c.r, tips=[]; let bad=0,warn=0;
+  if(c.npv<=0){bad++; tips.push(T('صافي القيمة الحالية سالب: ارفع السعر أو الكمية، أو خفّض الاستثمار والتكاليف الثابتة، ثم أعد الحساب.','NPV is negative: raise price or volume, or cut investment and fixed costs, then recalculate.'));}
+  if(Number.isFinite(c.mos)&&c.mos<0.2){warn++; tips.push(T(`هامش الأمان ${pc(c.mos)} فقط: أي انخفاض بسيط في المبيعات يسبب خسارة؛ ابحث عن تكاليف ثابتة يمكن تحويلها لمتغيرة.`,`Margin of safety is only ${pc(c.mos)}: a small sales drop means a loss; turn fixed costs into variable where possible.`));}
+  if(Number.isFinite(c.pb)&&c.pb>c.N/2){warn++; tips.push(T(`الاسترداد بعد ${fmt(c.pb,1)} سنة، أي أكثر من نصف عمر المشروع: قلّل الاستثمار الأولي أو ابدأ بمرحلة أصغر.`,`Payback takes ${fmt(c.pb,1)} years, over half the project life: reduce the initial investment or start smaller.`));}
+  if(Number.isFinite(c.minD)&&c.minD<1.25){warn++; tips.push(T(`أدنى تغطية لخدمة الدين ${fmt(c.minD,2)} أقل من 1.25 التي تطلبها البنوك: اطلب مدة قرض أطول أو فترة سماح.`,`Minimum DSCR ${fmt(c.minD,2)} is below the 1.25 banks expect: ask for a longer term or a grace period.`));}
+  tips.push(T('افتح تبويب «الحساسية والسيناريوهات» لمعرفة أكثر متغير يؤثر في النتيجة، وجرّب «تحليل المخاطر بمونت كارلو».','Open “Sensitivity & scenarios” to see which input matters most, and try “Analyze risk with Monte Carlo”.'));
+  const tone=toneOf(bad,warn);
+  return {tone,headline:ok?T('المشروع مجدٍ مالياً وفق افتراضاتك.','The project is financially viable on your assumptions.'):T('المشروع غير مجدٍ بالأرقام الحالية.','The project is not viable with the current numbers.'),
+   simple:T(`ببساطة: ${c.npv>0?`المشروع يضيف قيمة قدرها ${fmt(c.npv)} بعد تعويض تكلفة رأس المال`:`المشروع يخسر ${fmt(-c.npv)} من القيمة بعد تعويض تكلفة رأس المال`}، ويسترد استثماره خلال ${Number.isFinite(c.pb)?fmt(c.pb,1)+' سنة':'مدة أطول من عمره'}.`,`In short: ${c.npv>0?`the project adds ${fmt(c.npv)} of value after paying for its capital`:`the project destroys ${fmt(-c.npv)} of value after paying for its capital`}, and pays back ${Number.isFinite(c.pb)?`in ${fmt(c.pb,1)} years`:'later than its life'}.`),
+   sum:T(`صافي القيمة الحالية ${fmt(c.npv)}، ومعدل العائد الداخلي ${pc(c.irr)} مقابل تكلفة رأس مال ${pc(c.r)}، ومؤشر الربحية ${fmt(c.pi,2)}، ونقطة التعادل ${fmt(c.be)} سنوياً بهامش أمان ${pc(c.mos)}.`,`NPV ${fmt(c.npv)}, IRR ${pc(c.irr)} vs a ${pc(c.r)} cost of capital, profitability index ${fmt(c.pi,2)}, break-even ${fmt(c.be)} a year with a ${pc(c.mos)} margin of safety.`),tips}; },
+
+ calc(){ const n=k=>num(ca[k]); const tips=[], parts=[];
+  const P=n('loanP'), r=n('loanR')/100, y=n('loanY'), k=n('loanPerYear');
+  if(P>0&&r>=0&&y>0&&k>0){ const m=pmt(r/k,Math.round(y*k),P), ti=m*Math.round(y*k)-P; parts.push(T(`قسط القرض ${fmt(m)} وإجمالي الفوائد ${fmt(ti)} (${pc(ti/P)} من المبلغ)`,`loan payment ${fmt(m)} with ${fmt(ti)} total interest (${pc(ti/P)} of the principal)`)); if(ti/P>0.5) tips.push(T('الفوائد تتجاوز نصف مبلغ القرض: مدة أقصر أو دفعة مقدمة أكبر توفر كثيراً.','Interest exceeds half the loan: a shorter term or a bigger down payment saves a lot.')); }
+  const pr=n('yPrice'), rent=n('yRent')*12, oc=n('yOcc')/100, ex=n('yExp'), fee=n('yFees')/100;
+  if(pr>0&&rent>=0){ const noi=rent*oc-ex, ny=noi/(pr*(1+fee)); parts.push(T(`صافي العائد الإيجاري ${pc(ny,2)}`,`net rental yield ${pc(ny,2)}`)); if(ny<0.05) tips.push(T('العائد الإيجاري الصافي أقل من 5%: فاوض على السعر، أو ارفع الإيجار، أو خفّض المصاريف والشواغر.','Net rental yield is under 5%: negotiate the price, raise rent, or cut costs and vacancy.')); }
+  const F=n('bF'), p=n('bP'), v=n('bV'), Tp=n('bT')||0;
+  if(p>v&&F>=0){ const u=F/(p-v); parts.push(T(`نقطة التعادل ${fmt(u,0)} وحدة`,`break-even at ${fmt(u,0)} units`)); if((p-v)/p<0.3) tips.push(T('هامش المساهمة أقل من 30%: ارفع السعر قليلاً أو خفّض التكلفة المتغيرة لتقليل وحدات التعادل.','Contribution margin is under 30%: a small price rise or lower variable cost cuts the break-even volume.')); }
+  const s=n('cS'), e=n('cE'), cy=n('cY'); if(s>0&&e>0&&cy>0){ const g=Math.pow(e/s,1/cy)-1; parts.push(T(`النمو السنوي المركب ${pc(g)}`,`CAGR ${pc(g)}`)); if(g<0.03) tips.push(T('النمو أقل من 3% سنوياً، وقد لا يغطي التضخم.','Growth is below 3% a year and may not beat inflation.')); }
+  if(!parts.length) return null;
+  return {tone:tips.length?'warn':'good',headline:T('ملخص نتائج الحاسبات','Calculator results at a glance'),simple:T('ببساطة: غيّر أي رقم في المربعات البيضاء وتتحدث النتائج والملخص فوراً.','In short: change any number in the white boxes and the results and this summary update instantly.'),sum:T(parts.join('، ')+'.',parts.join('; ')+'.'),tips:tips.length?tips:[T('الأرقام في حدود معقولة. جرّب سيناريوهات مختلفة (فائدة أعلى، إيجار أقل) لمعرفة هامش الأمان.','The figures look reasonable. Try other scenarios (higher rate, lower rent) to test your safety margin.')]}; },
+
+ tax(){ let c; try{ c=taxCalc(); }catch(e){ return null; } if(!c) return null; const e=einvScore(), tips=[]; let warn=0;
+  if(e.pct<0.7){warn++; tips.push(T(`جاهزية الفوترة الإلكترونية ${pc(e.pct,0)}: ابدأ بالبنود الناقصة: ${e.missing.slice(0,3).join('، ')}.`,`E-invoicing readiness ${pc(e.pct,0)}: start with the missing items: ${e.missing.slice(0,3).join(', ')}.`));}
+  if(c.reserve>0) tips.push(T(`حوّل ${fmt(c.reserve)} شهرياً إلى حساب منفصل للضرائب حتى لا تتأثر السيولة عند السداد.`,`Move ${fmt(c.reserve)} a month into a separate tax account so payments do not squeeze cash.`));
+  if(tax.related&&tax.related!=='none'){warn++; tips.push(T('لديك معاملات مع أطراف ذات علاقة: جهّز سياسة تسعير موثّقة بسعر السوق.','You have related-party transactions: prepare a documented arm’s-length pricing policy.'));}
+  if(num(tax.purch)>0&&num(tax.recov)<90) tips.push(T('نسبة استرداد ضريبة المدخلات أقل من 90%: تأكد أن فواتير الموردين ضريبية ومكتملة البيانات.','Input VAT recovery is under 90%: make sure supplier invoices are valid tax invoices.'));
+  tips.push(T('هذه تقديرات للتخطيط؛ راجع مستشاراً ضريبياً مرخصاً قبل القرارات.','These are planning estimates; confirm with a licensed tax adviser before acting.'));
+  return {tone:warn?'warn':'good',headline:T(`الاحتياطي الضريبي المقترح ${fmt(c.reserve)} شهرياً.`,`Suggested tax reserve: ${fmt(c.reserve)} a month.`),
+   simple:T(`ببساطة: الضرائب المتوقعة على شركتك حوالي ${fmt(c.annual)} في السنة، فاحجز ${fmt(c.reserve)} كل شهر.`,`In short: expected taxes are about ${fmt(c.annual)} a year, so set aside ${fmt(c.reserve)} every month.`),
+   sum:T(`ضريبة الشركات التقديرية ${fmt(c.cit)}${c.zakat?` والزكاة ${fmt(c.zakat)}`:''} بمعدل فعلي ${pc(c.etr)}، وصافي ضريبة القيمة المضافة ${fmt(c.vatM)} شهرياً، وجاهزية الفوترة الإلكترونية ${e.done}/${e.total}.`,`Estimated corporate tax ${fmt(c.cit)}${c.zakat?` and zakat ${fmt(c.zakat)}`:''} at a ${pc(c.etr)} effective rate, net VAT ${fmt(c.vatM)} a month, e-invoicing readiness ${e.done}/${e.total}.`),tips}; },
+
+ stats(){ if(stS.sub==='desc'){ const r=descStats(numList(stS.desc).filter(Number.isFinite)); if(!r) return null; const tips=[];
+   if(r.outs.length) tips.push(T(`افحص القيم الشاذة (${r.outs.map(v=>fmt(v)).join('، ')}): هل هي أخطاء إدخال أم أحداث حقيقية؟`,`Check the outliers (${r.outs.map(v=>fmt(v)).join(', ')}): data errors or real events?`));
+   if(r.cv>0.35) tips.push(T('التشتت مرتفع: قسّم البيانات إلى مجموعات (فرع، منتج، شهر) لمعرفة مصدر التباين.','Spread is high: split the data into groups (branch, product, month) to find the source.'));
+   if(r.jbp<0.05) tips.push(T('البيانات ليست طبيعية التوزيع: اعتمد على الوسيط بدل المتوسط في التقارير.','Data are not normal: report the median rather than the mean.'));
+   return {tone:tips.length?'warn':'good',headline:T(`المتوسط ${fmt(r.mean)} والوسيط ${fmt(r.med)}.`,`Mean ${fmt(r.mean)}, median ${fmt(r.med)}.`),simple:T(`ببساطة: القيمة النموذجية حوالي ${fmt(r.med)}، ومعظم القيم بين ${fmt(r.q1)} و${fmt(r.q3)}.`,`In short: a typical value is about ${fmt(r.med)}, and most values lie between ${fmt(r.q1)} and ${fmt(r.q3)}.`),
+    sum:T(`${r.n} قيمة، الانحراف المعياري ${fmt(r.sd)}، معامل الاختلاف ${pc(r.cv)}، و${r.outs.length} قيمة شاذة.`,`${r.n} values, standard deviation ${fmt(r.sd)}, coefficient of variation ${pc(r.cv)}, ${r.outs.length} outlier(s).`),tips:tips.length?tips:[T('البيانات متوازنة ولا تحتاج معالجة خاصة.','The data are well-behaved and need no special treatment.')]}; }
+  if(stS.sub==='reg'){ const {xs,ys}=parsePairs(stS.reg), r=regress(xs,ys); if(!r) return null; const sig=r.p<0.05, tips=[];
+   if(!sig) tips.push(T('العلاقة غير ذات دلالة إحصائية: اجمع بيانات أكثر أو جرّب متغيراً مفسراً آخر.','The relationship is not significant: collect more data or try another driver.'));
+   if(r.r2<0.5) tips.push(T(`X يفسر ${pc(r.r2,0)} فقط من التغير: هناك عوامل أخرى مؤثرة.`,`X explains only ${pc(r.r2,0)} of the variation: other factors matter.`));
+   tips.push(T('لا تستخدم المعادلة للتنبؤ بعيداً خارج نطاق البيانات المدخلة.','Do not use the equation far outside the range of your data.'));
+   return {tone:sig&&r.r2>=0.5?'good':'warn',headline:T(`كل زيادة بوحدة في X تغيّر Y بمقدار ${fmt(r.b)}.`,`Each 1-unit rise in X changes Y by ${fmt(r.b)}.`),simple:T(`ببساطة: العلاقة ${sig?'حقيقية':'غير مؤكدة'}، وX يفسر ${pc(r.r2,0)} من التغير في Y.`,`In short: the link is ${sig?'real':'not proven'}, and X explains ${pc(r.r2,0)} of the change in Y.`),
+    sum:`Y = ${fmt(r.a)} + ${fmt(r.b)} × X · R² = ${r.r2.toFixed(3)} · r = ${r.r.toFixed(3)} · p = ${r.p<0.001?'<0.001':r.p.toFixed(3)} · n = ${r.n}`,tips}; }
+  return null; },
+
+ risk(){ if(typeof R==='undefined'||!R||!R.outs||!R.outs.length) return null; const o=R.outs[Math.min(sel,R.outs.length-1)]; if(!o||!o.st||!o.st.n) return null;
+  const s=o.st.sorted, p10=pctile(s,.1), p50=pctile(s,.5), p90=pctile(s,.9), ti=targetInfo(o), tips=[]; let top=null;
+  try{ const sv=sens(o); if(sv&&sv.items&&sv.items.length) top=[...sv.items].sort((a,b)=>Math.abs(b.rho)-Math.abs(a.rho))[0]; }catch(e){}
+  if(ti&&ti.p<0.5) tips.push(T(`احتمال تحقيق الهدف ${pc(ti.p,0)} فقط: راجع الافتراضات أو خفّض الهدف أو أضف خطة لتقليل المخاطر.`,`Only a ${pc(ti.p,0)} chance of reaching the target: revisit assumptions, lower the target or add a mitigation plan.`));
+  if(top) tips.push(T(`أكثر متغير يؤثر في النتيجة هو «${top.label}»: ركّز جهدك على تقدير أدق له أو التحكم فيه.`,`The input that matters most is “${top.label}”: focus on estimating or controlling it better.`));
+  if(R.N<10000) tips.push(T('زِد عدد التكرارات إلى 10,000 أو أكثر لنتائج أدق.','Raise iterations to 10,000+ for more precise results.'));
+  tips.push(T('أضف ارتباطات بين المتغيرات المترابطة (مثل السعر والكمية) لنتيجة أكثر واقعية.','Add correlations between linked inputs (e.g. price and volume) for more realistic results.'));
+  return {tone:ti?ti.cls:'info',headline:ti?T(`احتمال تحقيق الهدف ${pc(ti.p,0)}.`,`Chance of reaching the target: ${pc(ti.p,0)}.`):T(`النتيجة الأرجح حوالي ${fmt(p50)}.`,`Most likely result: about ${fmt(p50)}.`),
+   simple:T(`ببساطة: في 80% من السيناريوهات تقع «${o.label}» بين ${fmt(p10)} و${fmt(p90)}، والقيمة الوسطى ${fmt(p50)}.`,`In short: in 80% of scenarios “${o.label}” falls between ${fmt(p10)} and ${fmt(p90)}, with a middle value of ${fmt(p50)}.`),
+   sum:T(`${fmt(R.N,0)} تكرار. P10 = ${fmt(p10)}، P50 = ${fmt(p50)}، P90 = ${fmt(p90)}، المتوسط ${fmt(o.st.mean)}.`,`${fmt(R.N,0)} iterations. P10 = ${fmt(p10)}, P50 = ${fmt(p50)}, P90 = ${fmt(p90)}, mean ${fmt(o.st.mean)}.`),tips}; },
+
+ lss(){ const sub=ls.sub, tips=[];
+  if(sub==='sigma'){ const u=num(ls.units), op=num(ls.opps), d=num(ls.defects); if(!(u>0&&op>0&&d>=0)) return null; const dpmo=d/(u*op)*1e6, sg=sigmaOf(1-d/(u*op)), st=numList(ls.steps).filter(v=>v>0&&v<=100);
+   if(sg<4) tips.push(T('ابدأ مشروع تحسين DMAIC على أكثر نوع عيب تكراراً (استخدم نموذج باريتو لترتيب العيوب).','Start a DMAIC project on the most frequent defect type (use the Pareto Model to rank defects).'));
+   if(st.length) tips.push(T(`أضعف خطوة عائدها ${Math.min(...st)}%: حسّنها أولاً لأنها ترفع العائد المتدحرج أكثر من غيرها.`,`The weakest step yields ${Math.min(...st)}%: fix it first, it lifts rolled yield the most.`));
+   tips.push(T('ضع فحصاً أو منعاً للخطأ (Poka-Yoke) عند مصدر العيب بدل الفحص في النهاية.','Add error-proofing (poka-yoke) at the source instead of end-of-line inspection.'));
+   return {tone:sg>=4.5?'good':sg>=3.5?'warn':'bad',headline:T(`العملية عند ${sg.toFixed(2)} سيجما.`,`The process runs at ${sg.toFixed(2)} sigma.`),simple:T(`ببساطة: من كل مليون فرصة يحدث حوالي ${fmt(dpmo,0)} عيب.`,`In short: about ${fmt(dpmo,0)} defects happen in every million opportunities.`),sum:T(`DPMO ${fmt(dpmo,0)}، مستوى سيجما ${sg.toFixed(2)}.`,`DPMO ${fmt(dpmo,0)}, sigma level ${sg.toFixed(2)}.`),tips}; }
+  if(sub==='cap'){ const r=capCalc(); if(!r||!Number.isFinite(r.cpk)) return null;
+   if(r.cp-r.cpk>0.2) tips.push(T('المتوسط بعيد عن منتصف المواصفات: اضبط إعدادات العملية لتوسيطها، وهذا أسرع تحسين.','The mean is off-centre: adjust the set-up to centre it; it is the quickest win.'));
+   if(r.cp<1.33) tips.push(T('التشتت كبير: وحّد طريقة العمل والمواد والمعايرة لتقليل التباين.','Spread is too wide: standardise methods, materials and calibration to reduce variation.'));
+   tips.push(T('تأكد من استقرار العملية في «خريطة التحكم» قبل الاعتماد على مؤشرات القدرة.','Confirm stability on the “Control chart” before trusting capability.'));
+   return {tone:lsBand(r.cpk,1.33,1),headline:T(`Cpk = ${fmt(r.cpk,2)}.`,`Cpk = ${fmt(r.cpk,2)}.`),simple:T(`ببساطة: ${r.cpk>=1.33?'العملية تلتزم بالمواصفات بشكل موثوق':r.cpk>=1?'العملية تلتزم بالمواصفات بالكاد':'العملية تنتج وحدات خارج المواصفات'}، والمتوقع ${fmt(r.ppm,0)} وحدة معيبة لكل مليون.`,`In short: ${r.cpk>=1.33?'the process reliably meets spec':r.cpk>=1?'the process barely meets spec':'the process makes out-of-spec units'}; expect ${fmt(r.ppm,0)} defective per million.`),sum:`Cp ${fmt(r.cp,2)} · Cpk ${fmt(r.cpk,2)} · Pp ${fmt(r.pp,2)} · Ppk ${fmt(r.ppk,2)} · ppm ${fmt(r.ppm,0)}`,tips}; }
+  if(sub==='spc'){ const r=spcCalc(); if(!r) return null; const n=r.flags.size;
+   if(n){ tips.push(T(`ابحث عن السبب الخاص عند النقاط ${[...r.flags.keys()].sort((a,b)=>a-b).slice(0,8).map(i=>i+1).join('، ')}: تغيير مادة، مشغّل، آلة، أو طريقة؟`,`Find the special cause at points ${[...r.flags.keys()].sort((a,b)=>a-b).slice(0,8).map(i=>i+1).join(', ')}: a change of material, operator, machine or method?`)); tips.push(T('لا تعدّل العملية عند كل نقطة طبيعية؛ تدخّل فقط عند الإشارات.','Do not adjust for every normal point; act only on signals.')); }
+   else tips.push(T('العملية مستقرة: لتحسينها يجب تغيير النظام نفسه (طريقة، معدات، مواد).','The process is stable: improving it means changing the system itself (method, equipment, materials).'));
+   return {tone:n?'warn':'good',headline:n?T(`${n} نقطة تشير إلى سبب خاص.`,`${n} point(s) signal a special cause.`):T('العملية مستقرة إحصائياً.','The process is in statistical control.'),simple:T(`ببساطة: ${n?'حدث شيء غير معتاد غيّر سلوك العملية ويجب معرفته':'التغيرات طبيعية ويمكن التنبؤ بالعملية'}.`,`In short: ${n?'something unusual changed the process and needs finding':'the variation is normal and the process is predictable'}.`),sum:`CL ${fmt(r.mean)} · UCL ${fmt(r.ucl)} · LCL ${fmt(r.lcl)} · n ${r.n}`,tips}; }
+  if(sub==='lean'){ const pl=num(ls.plan), dn=num(ls.down), ict=num(ls.ict), tot=num(ls.total), gd=num(ls.good); if(!(pl>0&&dn<pl&&ict>0&&tot>0)) return null;
+   const A=(pl-dn)/pl, Pf=Math.min(1,ict*tot/(pl-dn)), Q=gd/tot, O=A*Pf*Q, pce=num(ls.va)/num(ls.lead);
+   if(A<0.9) tips.push(T('التوافر منخفض: طبّق الصيانة الوقائية وقلّل زمن تغيير القوالب (SMED).','Availability is low: use preventive maintenance and cut changeover time (SMED).'));
+   if(Pf<0.95) tips.push(T('الأداء أقل من السرعة المثالية: ابحث عن التوقفات القصيرة والتباطؤ.','Performance is below ideal speed: look for minor stops and slowdowns.'));
+   if(Q<0.99) tips.push(T('الجودة تُضيع إنتاجاً: عالج أسباب العيوب بدل إعادة العمل.','Quality loses output: fix defect causes rather than reworking.'));
+   if(Number.isFinite(pce)&&pce<0.25) tips.push(T('معظم زمن التسليم انتظار: ارسم خريطة تدفق القيمة واحذف الانتظار والنقل غير الضروري.','Most lead time is waiting: map the value stream and remove unnecessary waiting and moves.'));
+   return {tone:lsBand(O,.85,.6),headline:T(`الفعالية الشاملة OEE = ${pc(O)}.`,`OEE = ${pc(O)}.`),simple:T(`ببساطة: من كل ساعة مخططة تستفيد فعلياً من ${fmt(O*60,0)} دقيقة فقط.`,`In short: of every planned hour, only ${fmt(O*60,0)} minutes are truly productive.`),sum:T(`التوافر ${pc(A)}، الأداء ${pc(Pf)}، الجودة ${pc(Q)}${Number.isFinite(pce)?`، كفاءة دورة العملية ${pc(pce)}`:''}.`,`Availability ${pc(A)}, performance ${pc(Pf)}, quality ${pc(Q)}${Number.isFinite(pce)?`, PCE ${pc(pce)}`:''}.`),tips:tips.length?tips:[T('الأداء قريب من المستوى العالمي؛ حافظ عليه بالمعايير اليومية.','Performance is near world class; sustain it with daily standards.')]}; }
+  if(sub==='fmea'){ const rows=fmeaRows(); if(!rows.length) return null; const urgent=rows.filter(r=>r.rpn>=200||r.s>=9);
+   rows.slice(0,3).forEach(r=>tips.push(T(`«${r.mode}» (RPN ${r.rpn}): ${r.d>=6?'حسّن طريقة الاكتشاف أولاً':r.o>=6?'قلّل تكرار حدوثه بمعالجة السبب الجذري':'خفّض أثره بخطة احتواء'}.`,`“${r.mode}” (RPN ${r.rpn}): ${r.d>=6?'improve detection first':r.o>=6?'reduce occurrence by fixing the root cause':'reduce its impact with a containment plan'}.`)));
+   return {tone:urgent.length?'bad':'warn',headline:T(`أعلى خطر: «${rows[0].mode}» برقم ${rows[0].rpn}.`,`Top risk: “${rows[0].mode}” at RPN ${rows[0].rpn}.`),simple:T(`ببساطة: ${urgent.length?`${urgent.length} بند يحتاج إجراءً عاجلاً`:'لا بنود عاجلة، لكن ابدأ بالأعلى'}.`,`In short: ${urgent.length?`${urgent.length} item(s) need urgent action`:'nothing urgent, but start with the top items'}.`),sum:T(`${rows.length} أنماط فشل؛ مجموع RPN ${rows.reduce((a,r)=>a+r.rpn,0)}.`,`${rows.length} failure modes; total RPN ${rows.reduce((a,r)=>a+r.rpn,0)}.`),tips}; }
+  return null; },
+
+ benford(){ const r=benState&&benState.res; if(!r||r.err) return null; const ok=r.conf[1]==='good', tips=[];
+  if(r.flagged.length) tips.push(T(`افحص المبالغ التي تبدأ بـ ${r.flagged.slice(0,3).map(f=>f.d).join('، ')}: هي الأكثر انحرافاً عن المتوقع.`,`Inspect amounts starting with ${r.flagged.slice(0,3).map(f=>f.d).join(', ')}: they deviate most.`));
+  if(r.N<300) tips.push(T('العينة أقل من 300 قيمة: أضف بيانات أكثر لنتيجة موثوقة.','The sample has under 300 values: add more data for a reliable result.'));
+  tips.push(T('الانحراف ليس دليل احتيال بحد ذاته؛ قارن بالمستندات الأصلية وبأنماط الأعمال المعتادة (أسعار ثابتة، حدود اعتماد).','A deviation is not proof of fraud; compare with source documents and normal patterns (fixed prices, approval limits).'));
+  return {tone:ok?'good':r.conf[1],headline:r.conf[0]+'.',simple:T(`ببساطة: ${ok?'توزيع الأرقام طبيعي ولا يوحي بأرقام مختلقة':'توزيع الأرقام يختلف عن الطبيعي وبعض المبالغ تستحق المراجعة'}.`,`In short: ${ok?'the digit pattern looks natural, with no sign of invented numbers':'the digit pattern differs from normal and some amounts deserve review'}.`),sum:`N ${fmt(r.N,0)} · MAD ${r.mad.toFixed(4)} · χ² p ${r.p<0.001?'<0.001':r.p.toFixed(3)} · ${T('أرقام بارزة','flagged digits')}: ${r.flagged.map(f=>f.d).join(', ')||'—'}`,tips}; },
+
+ pareto(){ const r=parState&&parState.res; if(!r||r.err) return null; const A=r.classes[0], tips=[
+   T(`ركّز الرقابة والتفاوض على ${A.n} بنود من الفئة A لأنها تمثل ${pc(A.v/r.total,0)} من القيمة.`,`Focus control and negotiation on the ${A.n} class-A items: they make up ${pc(A.v/r.total,0)} of the value.`),
+   T('راجع الفئة C لتقليل عدد البنود أو دمج الموردين وتوفير الوقت الإداري.','Review class C to cut item count or consolidate suppliers and save admin time.')];
+  if(r.gini>0.6) tips.push(T('التركّز مرتفع: الاعتماد على عدد قليل من البنود مخاطرة، فضع بدائل.','Concentration is high: relying on a few items is a risk, so line up alternatives.'));
+  return {tone:'info',headline:T(`${r.k80} من ${r.n} بنود تصنع 80% من القيمة.`,`${r.k80} of ${r.n} items make 80% of the value.`),simple:T(`ببساطة: عدد قليل من البنود هو الأهم، وهي التي تستحق وقتك أولاً.`,`In short: a few items matter most, and they deserve your time first.`),sum:T(`الإجمالي ${fmt(r.total)}، ومعامل جيني ${fmt(r.gini,2)}.`,`Total ${fmt(r.total)}, Gini ${fmt(r.gini,2)}.`),tips}; }};
+
+/* generic fallback: read the KPI tiles the page already shows */
+const INS_TIPS={
+ duplicates:[['تواصل مع الموردين لاسترداد المبالغ المكررة المؤكدة.','Contact vendors to recover confirmed duplicates.'],['فعّل منع تكرار رقم الفاتورة لنفس المورد في نظامك المحاسبي.','Turn on duplicate-invoice blocking per vendor in your accounting system.']],
+ numtests:[['راجع المعاملات القريبة من حد الاعتماد مع المسؤول عن الشراء.','Review amounts just under the approval limit with the buyer.'],['اجمع مشتريات المورد الواحد خلال أيام قريبة للتأكد من عدم تجزئتها.','Group same-vendor purchases on close dates to rule out splitting.']],
+ outliers:[['اطلب مستندات المعاملات الأعلى في مؤشر RSF وZ-score.','Request documents for the highest RSF and z-score items.'],['حدّد سياسة لاعتماد المعاملات في العطل ونهاية الأسبوع.','Set a policy for approving weekend and holiday entries.']],
+ sequence:[['اطلب تفسيراً مكتوباً لكل رقم مفقود أو مكرر.','Ask for a written explanation of every missing or repeated number.'],['استخدم الترقيم الآلي غير القابل للتعديل في النظام.','Use locked automatic numbering in the system.']],
+ sampling:[['وثّق طريقة اختيار العينة ونقطة البداية العشوائية.','Document the selection method and random start.'],['إذا وجدت أخطاء في العينة، قدّر أثرها على المجتمع كاملاً.','If you find errors, project them to the whole population.']],
+ stats:[['اقرأ الشرح المبسط تحت النتائج لفهم معناها.','Read the plain-language note under the results.']]};
+function insGeneric(id){ const m=$('#main'); const ks=$$('.kpi',m).filter(k=>!k.closest('.ins-box')).slice(0,6); if(!ks.length) return null;
+ const vals=ks.map(k=>{ const l=($('.k',k)||k).textContent.trim().replace(/\s+/g,' '), v=($('.v',k)||k).textContent.trim(); return {l,v,cls:k.classList.contains('bad')?'bad':k.classList.contains('warn')?'warn':''}; });
+ const nb=vals.filter(v=>v.cls==='bad').length, nw=vals.filter(v=>v.cls==='warn').length, tone=toneOf(nb,nw);
+ const flag=vals.filter(v=>v.cls);
+ return {tone,headline:tone==='good'?T('لا توجد إشارات تحذير في النتائج الحالية.','No warning signals in the current results.'):T(`${flag.length} مؤشر يستحق المراجعة.`,`${flag.length} indicator(s) worth reviewing.`),
+  simple:T(`ببساطة: ${flag.length?`انتبه إلى: ${flag.map(v=>v.l).join('، ')}.`:'النتائج ضمن الحدود المعتادة.'}`,`In short: ${flag.length?`pay attention to: ${flag.map(v=>v.l).join(', ')}.`:'results are within normal bounds.'}`),
+  sum:vals.map(v=>`${v.l}: ${v.v}`).join(' · '),tips:(INS_TIPS[id]||[]).map(([a,e])=>T(a,e))}; }
+
+let insT=null;
+function insSchedule(){ clearTimeout(insT); insT=setTimeout(insRender,120); }
+function insRender(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(['home','guide','privacy','calendar'].includes(id)){ $$('.ins-box',m).forEach(b=>b.remove()); return; }
+ let r=null; try{ r=INS[id]?INS[id]():null; if(!r) r=insGeneric(id); }catch(e){ r=null; }
+ const head=$('.page-head',m); let top=$('#ins-top',m), bot=$('#ins-bot',m);
+ if(!r||!head){ if(top) top.remove(); if(bot) bot.remove(); return; }
+ const p=PAGES.find(x=>x.id===id), gt=G_TOOLS.find(t=>t[0]===id), what=gt?T(gt[1],gt[2]):T(p.dar,p.den);
+ const vt=VERD[r.tone]||VERD.info;
+ const topH=`<div class="ins-ico" aria-hidden="true">${r.tone==='good'?'✓':r.tone==='info'?'i':'!'}</div><div class="ins-body"><div class="ins-k">${T('ملخص الاستخدام','How to read this')} <span class="ins-tag ${r.tone}">${T(...vt)}</span></div><p class="ins-what">${esc(what)}</p><p class="ins-h"><b>${esc(r.headline)}</b> ${esc(r.simple)}</p></div>`;
+ const text=`${T('ملخص التقرير','Report summary')} — ${T(p.ar,p.en)}\n${r.headline}\n${r.sum}\n\n${T('نصائح التحسين','Improvement tips')}:\n${r.tips.map((t,i)=>`${i+1}. ${t}`).join('\n')}`;
+ const botH=`<div class="ins-k">${T('ملخص التقرير ونصائح التحسين','Report summary & improvement tips')}</div><p class="ins-sum">${esc(r.headline)} ${esc(r.sum)}</p>${r.tips.length?`<ol class="ins-tips">${r.tips.map(t=>`<li>${esc(t)}</li>`).join('')}</ol>`:''}<div class="row"><button class="btn small ins-copy" type="button">${T('نسخ الملخص','Copy summary')}</button><span class="note">${T('يتحدّث تلقائياً مع كل تغيير في بياناتك.','Updates automatically as your data changes.')}</span></div>`;
+ if(!top){ top=document.createElement('section'); top.id='ins-top'; top.className='ins-box ins-top'; top.setAttribute('aria-live','polite'); }
+ if(head.nextElementSibling!==top) head.after(top);
+ if(top.dataset.h!==topH){ top.dataset.h=topH; top.innerHTML=topH; } top.className='ins-box ins-top '+r.tone;
+ if(!bot){ bot=document.createElement('section'); bot.id='ins-bot'; bot.className='ins-box ins-bot'; }
+ if(m.lastElementChild!==bot) m.appendChild(bot);
+ if(bot.dataset.h!==botH){ bot.dataset.h=botH; bot.innerHTML=botH; } bot._text=text;
+ const cb=$('.ins-copy',bot); if(cb) cb.onclick=()=>copyText(bot._text); }
+
+/* ================= Report toolbar: import (Excel / CSV / PDF), export Excel, export PDF, print ================= */
+const LIBS={xlsx:'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',h2c:'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',jspdf:'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+ pdf:'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',pdfw:'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'};
+const libP={};
+function loadLib(k,test){ if(test()) return Promise.resolve(); if(libP[k]) return libP[k];
+ return libP[k]=new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=LIBS[k]; s.async=true; s.onload=()=>test()?res():rej(new Error('lib')); s.onerror=()=>{ libP[k]=null; rej(new Error('lib')); }; document.head.appendChild(s); }); }
+const needXLSX=()=>loadLib('xlsx',()=>!!window.XLSX), needH2P=()=>Promise.all([loadLib('h2c',()=>!!window.html2canvas),loadLib('jspdf',()=>!!(window.jspdf&&window.jspdf.jsPDF))]), needPDF=()=>loadLib('pdf',()=>!!window.pdfjsLib).then(()=>{ window.pdfjsLib.GlobalWorkerOptions.workerSrc=LIBS.pdfw; });
+const REP_IC={
+ imp:'<path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/>',
+ xls:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M8 8l8 8M16 8l-8 8"/>',
+ pdf:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 17v-4h1.5a1.25 1.25 0 0 1 0 2.5H8M13 17v-4h1a2 2 0 0 1 0 4zM18 13h-1.5v4M16.5 15H18" stroke-width="1.3"/>',
+ prt:'<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/>'};
+const repBtn=(k,label,cls='')=>`<button type="button" class="rep-b ${cls}" data-rep="${k}" title="${label}" aria-label="${label}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${REP_IC[k]}</svg></button>`;
+const REP_NOIMP=['home','guide','privacy','risk','sampling','tax','calendar'];
+function repInject(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(id==='home') return; const h=$('.page-head',m); if(h&&!h.dataset.eyebrow){ const pg=curPage(); h.dataset.eyebrow=pg.g?(pg.g==='help'?T('الموارد','Resources'):T(...GROUPS[pg.g])):''; } if(!h||$('.rep-tools',h)) return;
+ const d=document.createElement('div'); d.className='rep-tools'; d.setAttribute('data-html2canvas-ignore','true'); d.setAttribute('role','toolbar'); d.setAttribute('aria-label',T('أدوات التقرير','Report tools'));
+ const info=['guide','privacy'].includes(id);
+ d.innerHTML=(REP_NOIMP.includes(id)?'':repBtn('imp',T('استيراد بيانات من Excel أو CSV أو PDF','Import data from Excel, CSV or PDF'),'imp'))+(info?'':repBtn('xls',T('تحميل Excel','Download Excel'),'xls'))+repBtn('pdf',T('تحميل PDF','Download PDF'),'pdf')+repBtn('prt',T('طباعة','Print'),'prt')+'<input type="file" class="rep-file" accept=".xlsx,.xls,.csv,.txt,.pdf" hidden>';
+ h.appendChild(d);
+ d.onclick=e=>{ const b=e.target.closest('[data-rep]'); if(!b) return; const k=b.dataset.rep;
+  if(k==='prt') return repPrint(); if(k==='pdf') return repPdf(b); if(k==='xls') return repXls(b); if(k==='imp') $('.rep-file',d).click(); };
+ $('.rep-file',d).onchange=e=>{ const f=e.target.files[0]; e.target.value=''; if(f) repImport(f,$('[data-rep="imp"]',d)); }; }
+const repName=ext=>`figurdiscover-${curPage().id}-${new Date().toISOString().slice(0,10)}.${ext}`;
+const busy=(b,on)=>{ if(b){ b.classList.toggle('busy',on); b.disabled=on; } };
+
+/* ---------- print & PDF ---------- */
+const C_PROPS=['color','background-color','background-image','border-top-color','border-right-color','border-bottom-color','border-left-color','box-shadow','outline-color','text-decoration-color','fill','stroke','column-rule-color','caret-color','border-image-source','-webkit-text-fill-color'];
+const toRgb=v=>v.replace(/color\(srgb\s+([\d.e-]+)\s+([\d.e-]+)\s+([\d.e-]+)(?:\s*\/\s*([\d.e-]+%?))?\)/g,(m,r,g,b,a)=>{ const c=x=>Math.round(Math.max(0,Math.min(1,+x))*255); const al=a==null?1:(String(a).endsWith('%')?parseFloat(a)/100:+a); return `rgba(${c(r)},${c(g)},${c(b)},${al})`; }).replace(/\b(?:oklab|oklch|lab|lch|color)\([^()]*\)/g,'rgba(0,0,0,0)');
+function fixColors(doc){ const w=doc.defaultView; doc.querySelectorAll('*').forEach(el=>{ const cs=w.getComputedStyle(el); C_PROPS.forEach(p=>{ const v=cs.getPropertyValue(p); if(v&&/(?:color|oklab|oklch|lab|lch)\(/.test(v)&&!/^url/.test(v)) el.style.setProperty(p,toRgb(v),'important'); }); }); }
+function repPrint(){ document.body.classList.add('printing'); setTimeout(()=>{ window.print(); setTimeout(()=>document.body.classList.remove('printing'),300); },50); }
+function repClone(){ const m=$('#main'), c=m.cloneNode(true); c.removeAttribute('id'); c.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));
+ const src=$$('input,textarea,select',m), dst=[...c.querySelectorAll('input,textarea,select')];
+ src.forEach((e,i)=>{ const d=dst[i]; if(!d) return; if(e.tagName==='TEXTAREA') d.textContent=e.value; else if(e.tagName==='SELECT'){ [...d.options].forEach((o,j)=>{ if(j===e.selectedIndex) o.setAttribute('selected',''); else o.removeAttribute('selected'); }); } else if(e.type==='checkbox'){ if(e.checked) d.setAttribute('checked',''); } else d.setAttribute('value',e.value); });
+ c.querySelectorAll('.rep-tools,.ex-btn,.ins-copy,[data-html2canvas-ignore]').forEach(e=>e.remove());
+ const w=document.createElement('div'); w.className='pdf-sheet'; w.dir=$('#app').dir; w.lang=lang;
+ w.innerHTML=`<div class="pdf-head"><span class="pdf-brand">${logo()}<b>figur<i>discover</i></b></span><span>${esc(T(curPage().ar,curPage().en))} · ${new Date().toLocaleDateString(lang==='ar'?'ar':'en',{day:'numeric',month:'long',year:'numeric'})}</span></div>`;
+ c.className='main pdf-main'; w.appendChild(c); w.insertAdjacentHTML('beforeend',`<div class="pdf-foot">figurdiscover.com — ${T('النتائج للمساعدة في التحليل وليست استشارة مالية.','Results support analysis and are not financial advice.')}</div>`);
+ w.style.cssText='position:absolute;left:-12000px;top:0'; document.body.appendChild(w); return w; }
+async function repPdf(b){ busy(b,true); toast(T('جارٍ تجهيز ملف PDF…','Preparing PDF…')); let w=null;
+ try{ await needH2P(); document.body.classList.add('exporting'); w=repClone();
+  const sc=2, cv=await window.html2canvas(w,{scale:sc,useCORS:true,backgroundColor:'#ffffff',windowWidth:1100,onclone:fixColors,logging:false});
+  const top0=w.getBoundingClientRect().top, safe=[...new Set($$('.kpi,.calc-out,.chart-wrap,tr,.panel,.g-card,.ins-box,.g-step,.g-tool,h2,h3,.callout,.pv-sec,.pdf-head',w).map(e=>Math.round((e.getBoundingClientRect().bottom-top0)*sc)))].sort((a,b)=>a-b);
+  const pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4',orientation:'portrait'}), PW=194, PH=277, pagePx=Math.floor(cv.width*PH/PW);
+  let y=0, first=true;
+  while(y<cv.height-4){ let end=Math.min(cv.height,y+pagePx); if(end<cv.height){ const cand=safe.filter(v=>v>y+pagePx*0.55&&v<=end); if(cand.length) end=cand[cand.length-1]+2; }
+   const h=end-y, pc=document.createElement('canvas'); pc.width=cv.width; pc.height=h; const cx=pc.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,pc.width,h); cx.drawImage(cv,0,y,cv.width,h,0,0,cv.width,h);
+   if(!first) pdf.addPage(); first=false; pdf.addImage(pc.toDataURL('image/jpeg',0.92),'JPEG',8,8,PW,h*PW/cv.width); y=end; }
+  const n=pdf.getNumberOfPages(); for(let i=1;i<=n;i++){ pdf.setPage(i); pdf.setFontSize(8); pdf.setTextColor(120); pdf.text(`${i} / ${n}`,105,292,{align:'center'}); }
+  pdf.save(repName('pdf'));
+  toast(T('تم تحميل ملف PDF','PDF downloaded')); }
+ catch(e){ console.warn('pdf-err',e&&e.message); toast(T('تعذّر إنشاء PDF هنا، فتحتُ نافذة الطباعة: اختر «حفظ بصيغة PDF».','Could not build the PDF here, so the print window opened: choose “Save as PDF”.')); repPrint(); }
+ finally{ if(w) w.remove(); document.body.classList.remove('exporting'); busy(b,false); } }
+
+/* ---------- Excel export ---------- */
+const vis=el=>!!(el.offsetParent||el.getClientRects().length);
+async function repXls(b){ busy(b,true);
+ try{ await needXLSX(); const X=window.XLSX, m=$('#main'), p=curPage(), wb=X.utils.book_new(), rows=[];
+  rows.push([`figurdiscover — ${T(p.ar,p.en)}`]); rows.push([T('التاريخ','Date'),new Date().toLocaleString(lang==='ar'?'ar':'en')]); rows.push([]);
+  const bot=$('#ins-bot',m); if(bot&&bot._text){ rows.push([T('الملخص ونصائح التحسين','Summary & improvement tips')]); bot._text.split('\n').filter(Boolean).forEach(l=>rows.push([l])); rows.push([]); }
+  const ks=$$('.kpi',m).filter(vis); if(ks.length){ rows.push([T('المؤشرات','Indicators'),T('القيمة','Value')]); ks.forEach(k=>rows.push([($('.k',k)||k).textContent.trim().replace(/\s+/g,' '),($('.v',k)||k).textContent.trim()])); rows.push([]); }
+  const co=$$('.calc-out div',m).filter(vis); if(co.length){ rows.push([T('النتائج','Results'),T('القيمة','Value')]); co.forEach(c=>rows.push([($('span',c)||c).textContent.trim(),($('b',c)||c).textContent.trim()])); rows.push([]); }
+  const pf=$$('.pf',m).filter(vis).map(l=>{ const i=$('input,select',l); if(!i||i.type==='file') return null; const lab=($(':scope > span',l)||l).textContent.replace(/محسوب تلقائياً|auto/,'').trim(), u=$('.unit',l); return [lab+(u?` (${u.textContent})`:''),i.tagName==='SELECT'?(i.selectedOptions[0]||{}).textContent:i.value]; }).filter(Boolean);
+  if(pf.length){ rows.push([T('المدخلات','Inputs'),T('القيمة','Value')]); pf.forEach(r=>rows.push(r)); }
+  const ws=X.utils.aoa_to_sheet(rows); ws['!cols']=[{wch:48},{wch:22}]; X.utils.book_append_sheet(wb,ws,T('الملخص','Summary'));
+  $$('table',m).filter(vis).slice(0,20).forEach((t,i)=>{ const s=X.utils.table_to_sheet(t,{raw:false}); X.utils.book_append_sheet(wb,s,`${T('جدول','Table')} ${i+1}`); });
+  const ta=$$('textarea',m).filter(t=>vis(t)&&!t.readOnly&&t.value.trim()&&t.id!=='tax-q')[0];
+  if(ta){ const data=ta.value.split(/\r?\n/).filter(Boolean).map(l=>l.split(/\t|,(?!\d{3}\b)|;/).map(c=>{ const v=num(c); return Number.isFinite(v)&&c.trim()!==''?v:c.trim(); })); X.utils.book_append_sheet(wb,X.utils.aoa_to_sheet(data),T('البيانات','Data')); }
+  if(lang==='ar') wb.Workbook={Views:[{RTL:true}]};
+  X.writeFile(wb,repName('xlsx')); toast(T('تم تحميل ملف Excel','Excel downloaded')); }
+ catch(e){ toast(T('تعذّر تحميل مكتبة Excel. تحقق من الاتصال وحاول مجدداً.','Could not load the Excel library. Check your connection and try again.')); }
+ finally{ busy(b,false); } }
+
+/* ---------- Import ---------- */
+async function readRows(f){ const name=f.name.toLowerCase();
+ if(name.endsWith('.pdf')){ await needPDF(); const doc=await window.pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise, out=[];
+  for(let pn=1;pn<=Math.min(doc.numPages,30);pn++){ const pg=await doc.getPage(pn), tc=await pg.getTextContent(), lines=new Map();
+   tc.items.forEach(it=>{ const s=it.str; if(!s||!s.trim()) return; const y=Math.round(it.transform[5]/3)*3; if(!lines.has(y)) lines.set(y,[]); lines.get(y).push({x:it.transform[4],w:it.width||0,s}); });
+   [...lines.keys()].sort((a,b)=>b-a).forEach(y=>{ const its=lines.get(y).sort((a,b)=>a.x-b.x), cells=[]; let cur='', end=-1e9;
+    its.forEach(it=>{ if(cur&&it.x-end>10){ cells.push(cur.trim()); cur=''; } cur+=(cur&&it.x-end>1.5?' ':'')+it.s; end=it.x+it.w; }); if(cur.trim()) cells.push(cur.trim());
+    out.push(cells.flatMap(c=>c.split(/\s{2,}/))); }); }
+  return out; }
+ if(/\.(xlsx|xls)$/.test(name)){ await needXLSX(); const wb=window.XLSX.read(await f.arrayBuffer(),{type:'array'}); const sh=wb.SheetNames.map(n=>wb.Sheets[n]).find(s=>s['!ref'])||wb.Sheets[wb.SheetNames[0]];
+  return window.XLSX.utils.sheet_to_json(sh,{header:1,raw:false,blankrows:false}).map(r=>r.map(c=>c==null?'':String(c).trim())); }
+ const txt=await f.text(); const sep=txt.includes('\t')?'\t':(txt.split(';').length>txt.split(',').length?';':',');
+ return txt.split(/\r?\n/).filter(l=>l.trim()).map(l=>l.split(sep).map(c=>c.replace(/^"|"$/g,'').trim())); }
+const cnum=c=>{ if(c==null) return NaN; let s=normDigits(String(c)).replace(/[^\d.,()\-−]/g,''); if(!s||!/\d/.test(s)) return NaN; const neg=/^\(.*\)$/.test(s)||/^[-−]/.test(s); s=s.replace(/[()\-−]/g,'').replace(/,/g,''); const v=Number(s); return Number.isFinite(v)?(neg?-v:v):NaN; };
+const isNumCell=c=>{ const s=String(c||'').trim(); return s!==''&&Number.isFinite(cnum(s))&&/^[\s\d.,()\-−%$€£A-Za-zء-ي]{0,4}[\d.,()\-−]+[\s%A-Za-zء-ي.]{0,6}$/.test(s); };
+const normL=s=>String(s||'').toLowerCase().replace(/[ً-ْ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/[^a-zء-ي0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const isSeqCol=v=>v.length>3&&v.every((x,i)=>i===0||x-v[i-1]===1);
+const isYearCol=v=>v.length>2&&v.every(x=>Number.isInteger(x)&&x>=1900&&x<=2100);
+function numCols(rows){ const w=Math.max(...rows.map(r=>r.length)); const sc=[]; for(let j=0;j<w;j++){ const v=rows.map(r=>r[j]).filter(isNumCell).map(cnum); const pen=isSeqCol(v)||isYearCol(v); sc.push({j,n:v.length,s:v.length*(pen?0.4:1)}); } return sc.filter(s=>s.n>0).sort((a,b)=>b.s-a.s||a.j-b.j); }
+const colVals=(rows,j)=>rows.map(r=>r[j]).filter(isNumCell).map(cnum);
+const textCol=rows=>{ const w=Math.max(...rows.map(r=>r.length)); let best=-1,bn=0; for(let j=0;j<w;j++){ const n=rows.filter(r=>r[j]&&!isNumCell(r[j])).length; if(n>bn){bn=n;best=j;} } return best; };
+
+const IMP_MODE={'ben-text':'one','st-desc':'one','ls-cap':'one','ls-spc':'one','st-tr':'one','fit-text':'one','st-reg':'pair','par-text':'nv','tx-text':'table','ls-fmea':'table'};
+async function repImport(f,b,target){ busy(b,true);
+ try{ const rows=(await readRows(f)).filter(r=>r.some(c=>String(c).trim())); if(!rows.length) throw new Error('empty');
+  const n=impApply(rows,target);
+  toast(n>0?T(`تم استيراد ${n} قيمة من «${f.name}». راجع البيانات قبل الاعتماد على النتائج.`,`Imported ${n} value(s) from “${f.name}”. Check the data before relying on the results.`)
+   :T('لم أجد بيانات مطابقة لهذه الأداة في الملف. تأكد أن الأعمدة تحتوي أرقاماً، أو أن أسماء البنود تطابق أسماء الحقول.','No matching data for this tool was found. Make sure the columns contain numbers, or the row labels match the field names.')); }
+ catch(e){ toast(e.message==='lib'?T('تعذّر تحميل مكتبة القراءة. تحقق من الاتصال.','Could not load the reader library. Check your connection.'):T('تعذّرت قراءة الملف. إذا كان PDF ممسوحاً ضوئياً (صورة) فلا يحتوي نصاً قابلاً للقراءة.','Could not read the file. A scanned (image) PDF has no readable text.')); }
+ finally{ busy(b,false); } }
+function setTA(ta,text){ ta.value=text; ['input','change'].forEach(ev=>ta.dispatchEvent(new Event(ev,{bubbles:true})));
+ const scope=ta.closest('.panel')||$('#main'); const go=$$('button.btn.primary',scope).find(x=>vis(x)&&!x.closest('.rep-tools'))||$$('#main button.btn.primary').find(vis); if(go) go.click(); }
+function impApply(rows,target){ const id=curPage().id; if(id==='statements') return impStatements(rows);
+ const m=$('#main'), tas=target&&target.tagName==='TEXTAREA'?[target]:$$('textarea',m).filter(t=>vis(t)&&!t.readOnly&&IMP_MODE[t.id]);
+ if(id==='stats'&&$('#st-a')&&$('#st-b')&&$('#st-a').tagName==='TEXTAREA'){ const c=numCols(rows); if(c.length>=2){ $('#st-a').value=colVals(rows,c[0].j).join(' '); setTA($('#st-b'),colVals(rows,c[1].j).join(' ')); return c[0].n+c[1].n; } }
+ if(tas.length){ const ta=tas[0], mode=IMP_MODE[ta.id], c=numCols(rows); let text='', n=0;
+  if(mode==='one'&&c.length){ const v=colVals(rows,c[0].j); text=v.join(' '); n=v.length; }
+  else if(mode==='pair'&&c.length>=2){ const [a,bb]=[c[0].j,c[1].j].sort((x,y)=>x-y); const ps=rows.filter(r=>isNumCell(r[a])&&isNumCell(r[bb])).map(r=>`${cnum(r[a])}\t${cnum(r[bb])}`); text=ps.join('\n'); n=ps.length*2; }
+  else if(mode==='nv'&&c.length){ const tj=textCol(rows); const ps=rows.filter(r=>isNumCell(r[c[0].j])&&(tj<0||r[tj])).map((r,i)=>`${tj<0?'#'+(i+1):String(r[tj]).replace(/[\t,]/g,' ')}\t${cnum(r[c[0].j])}`); text=ps.join('\n'); n=ps.length; }
+  else if(mode==='table'){ const ps=rows.filter(r=>r.some(isNumCell)).map(r=>r.map(x=>String(x).replace(/\t/g,' ')).join(ta.id==='ls-fmea'?', ':'\t')); text=ps.join('\n'); n=ps.length; }
+  if(n){ setTA(ta,text); return n; } }
+ /* key-value: row label → field label */
+ const fields=$$('.pf',m).filter(vis).map(l=>({l,i:$('input:not([readonly]):not([type=file]):not([type=checkbox]),select',l),t:normL(($(':scope > span',l)||l).textContent.replace(/محسوب تلقائياً|auto/,''))})).filter(x=>x.i&&x.t.length>=3);
+ let n=0; const used=new Set();
+ rows.forEach(r=>{ const lab=r.find(c=>c&&!isNumCell(c)), val=r.find(isNumCell); if(!lab||val==null) return; const L=normL(lab); if(L.length<3) return;
+  const f=fields.find(x=>!used.has(x)&&(x.t===L||x.t.includes(L)||L.includes(x.t))); if(!f||f.i.tagName==='SELECT') return;
+  used.add(f); f.i.value=String(cnum(val)); ['input','change'].forEach(ev=>f.i.dispatchEvent(new Event(ev,{bubbles:true}))); n++; });
+ return n; }
+const FS_SYN={revenue:['sales','net sales','total revenue','turnover','المبيعات','صافي المبيعات','الايرادات'],cogs:['cost of sales','cost of revenue','تكلفه البضاعه المباعه','تكلفه الايرادات'],sga:['operating expenses','selling general','مصاريف عموميه واداريه','المصاريف التشغيليه'],dep:['depreciation','amortization','الاستهلاك','الاهلاك'],interest:['finance cost','interest expense','تكاليف التمويل','مصروف الفوائد'],tax:['income tax','zakat','ضريبه الدخل','الزكاه'],net:['net income','net profit','profit for the year','صافي الربح','صافي الدخل','ربح السنه'],cash:['cash and cash equivalents','النقد وما في حكمه','النقديه'],rec:['receivables','trade receivables','accounts receivable','الذمم المدينه','المدينون'],inv:['inventory','inventories','المخزون'],ppe:['property plant','fixed assets','الممتلكات والمعدات','الاصول الثابته'],payables:['trade payables','accounts payable','الذمم الدائنه','الدائنون'],stDebt:['short term loans','current portion','قروض قصيره الاجل'],ltDebt:['long term loans','borrowings','قروض طويله الاجل'],equity:['total equity','shareholders equity','حقوق الملكيه','حقوق المساهمين'],retained:['retained earnings','الارباح المبقاه','الارباح المحتجزه'],cfo:['cash from operating','operating activities','التدفقات النقديه من الانشطه التشغيليه'],capex:['capital expenditure','purchase of property','الانفاق الراسمالي'],dividends:['dividends paid','توزيعات الارباح']};
+function impStatements(rows){ let hdr=-1, yc=[];
+ rows.forEach((r,i)=>{ if(hdr>=0) return; const c=r.map((x,j)=>/^(19|20)\d{2}$/.test(String(x).trim())?j:-1).filter(j=>j>=0); if(c.length>=1){ hdr=i; yc=c; } });
+ const body=hdr>=0?rows.slice(hdr+1):rows; if(!yc.length){ const w=Math.max(...body.map(r=>r.length)); for(let j=1;j<w;j++) if(body.some(r=>isNumCell(r[j]))) yc.push(j); }
+ if(!yc.length) return 0; const years=hdr>=0?yc.map(j=>String(rows[hdr][j]).trim()):yc.map((_,i)=>fs.years[i]||String(new Date().getFullYear()-yc.length+1+i));
+ const order=years.map((y,i)=>({y,j:yc[i]})).sort((a,b)=>String(a.y).localeCompare(String(b.y)));
+ const items=FS_ITEMS.filter(it=>!it.calc), data={}; let n=0;
+ items.forEach(it=>{ const keys=[it.ar,it.en,...(FS_SYN[it.k]||[])].map(normL).filter(Boolean);
+  const r=body.find(r=>{ const L=normL(r.find(c=>c&&!isNumCell(c))||''); return L&&keys.some(k=>L===k||(k.length>4&&(L.startsWith(k)||L.includes(k)))); });
+  if(r){ data[it.k]=order.map(o=>{ const v=cnum(r[o.j]); return Number.isFinite(v)?String(v):''; }); n+=data[it.k].filter(Boolean).length; } });
+ if(!n) return 0;
+ /* totals → put the difference into the matching "other" line so the balance sheet adds up */
+ const findRow=keys=>body.find(r=>{ const L=normL(r.find(c=>c&&!isNumCell(c))||''); return L&&keys.some(k=>L===normL(k)||L.startsWith(normL(k))); });
+ const tot={ca:['total current assets','اجمالي الاصول المتداوله','مجموع الموجودات المتداوله'],ta:['total assets','اجمالي الاصول','مجموع الموجودات'],cl:['total current liabilities','اجمالي الخصوم المتداوله','اجمالي المطلوبات المتداوله'],tl:['total liabilities','اجمالي الخصوم','اجمالي المطلوبات']};
+ const tv={}; Object.keys(tot).forEach(k=>{ const r=findRow(tot[k]); if(r) tv[k]=order.map(o=>cnum(r[o.j])); });
+ const g=(k,i)=>{ const v=data[k]&&num(data[k][i]); return Number.isFinite(v)?v:0; };
+ const resid=(other,total,parts,i)=>{ if(data[other]||!tv[total]||!Number.isFinite(tv[total][i])) return; const r=tv[total][i]-parts.reduce((a,k)=>a+(k.startsWith('=')?(tv[k.slice(1)]?tv[k.slice(1)][i]:0):g(k,i)),0); if(!data[other+'_t']) data[other+'_t']=order.map(()=> ''); data[other+'_t'][i]=String(Math.round(r*1e6)/1e6); };
+ order.forEach((_,i)=>{ resid('otherCA','ca',['cash','rec','inv'],i); resid('otherNCA','ta',['=ca','ppe'],i); resid('otherCL','cl',['payables','stDebt'],i); resid('otherNCL','tl',['=cl','ltDebt'],i); });
+ ['otherCA','otherNCA','otherCL','otherNCL'].forEach(k=>{ if(data[k+'_t']){ data[k]=data[k+'_t']; delete data[k+'_t']; } });
+ fs.years=order.map(o=>o.y); Object.keys(fs.data).forEach(k=>{ fs.data[k]=data[k]||fs.years.map(()=>''); }); items.forEach(it=>{ if(!fs.data[it.k]) fs.data[it.k]=data[it.k]||fs.years.map(()=>''); });
+ fs.sample=false; fsSave(); renderPage(); return n; }
+
+/* ---------- inline import buttons next to the data boxes ---------- */
+const IMP_HINT={one:['عمود أرقام واحد يكفي','One column of numbers is enough'],pair:['عمودان: X ثم Y','Two columns: X then Y'],nv:['عمودان: الاسم ثم القيمة','Two columns: name then value'],table:['الجدول كما هو','The table as it is'],fs:['البنود في العمود الأول والسنوات في الأعلى','Line items in the first column, years across the top'],kv:['اسم الحقل في عمود والقيمة بجانبه','Field name in one column, value next to it']};
+function impBar(kind,target){ const d=document.createElement('div'); d.className='imp-inline'; d.setAttribute('data-html2canvas-ignore','true');
+ d.innerHTML=`<button type="button" class="btn small imp-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${REP_IC.imp}</svg>${T('جلب البيانات من Excel / CSV / PDF','Load data from Excel / CSV / PDF')}</button><small>${T(...IMP_HINT[kind])}</small><input type="file" accept=".xlsx,.xls,.csv,.txt,.pdf" hidden>`;
+ const b=$('button',d), fi=$('input',d); b.onclick=()=>fi.click(); fi.onchange=e=>{ const f=e.target.files[0]; e.target.value=''; if(f) repImport(f,b,target); }; return d; }
+function impInline(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(REP_NOIMP.includes(id)||['home','guide','privacy'].includes(id)) return;
+ $$('textarea',m).forEach(ta=>{ const k=IMP_MODE[ta.id]; if(!k||ta.readOnly||ta.previousElementSibling?.classList.contains('imp-inline')) return; ta.before(impBar(k,ta)); });
+ if(id==='statements'&&fsSub==='input'){ const t=$('.tbl-wrap',m); if(t&&!t.previousElementSibling?.classList.contains('imp-inline')) t.before(impBar('fs',null)); return; }
+ if(!$$('textarea',m).some(t=>IMP_MODE[t.id])){ const g=$$('.form-grid',m).find(vis); if(g&&!m.querySelector('.imp-inline')) g.before(impBar('kv',null)); } }
+
+/* ================= Floating contact button: AI assistant, WhatsApp, email ================= */
+const CONTACT={wa:'97450445575',waShow:'+974 5044 5575',email:'mohammadh5@yahoo.com'};
+let fabOpen=false, chatOpen=false, aiChat=[], aiCtl=null;
+const FAB_IC={
+ chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01" stroke-width="2.6"/>',
+ ai:'<path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4z"/><path d="M18.5 14.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8zM5 15l.6 1.4L7 17l-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z"/>',
+ wa:'<path d="M3.5 20.5l1.3-4.4A8.5 8.5 0 1 1 8 19.3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1.3-1.6-2-1-1 .9a5 5 0 0 1-2.6-2.6l.9-1-1-2z" fill="currentColor" stroke="none"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/>',
+ x:'<path d="M6 6l12 12M18 6L6 18"/>',
+ send:'<path d="M4 12l16-8-6 16-2.5-6.5z"/>'};
+const fi=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${FAB_IC[k]}</svg>`;
+function fabRender(){ let w=$('#fab'); if(!w){ w=document.createElement('div'); w.id='fab'; w.setAttribute('data-html2canvas-ignore','true'); document.body.appendChild(w); }
+ w.dir=lang==='ar'?'rtl':'ltr';
+ const waText=encodeURIComponent(T('مرحباً، لدي استفسار عن موقع figurdiscover','Hello, I have a question about figurdiscover'));
+ w.innerHTML=`<div class="fab-menu" ${fabOpen?'':'hidden'} role="menu">
+   <button type="button" class="fab-item ai" role="menuitem" data-f="ai"><span class="fab-ic">${fi('ai')}</span><span><b>${T('المساعد الذكي','AI assistant')}</b><small>${T('اسأل عن أي أداة أو مؤشر','Ask about any tool or indicator')}</small></span></button>
+   <a class="fab-item wa" role="menuitem" href="https://wa.me/${CONTACT.wa}?text=${waText}" target="_blank" rel="noopener noreferrer"><span class="fab-ic">${fi('wa')}</span><span><b>${T('واتساب','WhatsApp')}</b><small dir="ltr">${CONTACT.waShow}</small></span></a>
+   <a class="fab-item mail" role="menuitem" href="mailto:${CONTACT.email}?subject=${encodeURIComponent('figurdiscover')}"><span class="fab-ic">${fi('mail')}</span><span><b>${T('البريد الإلكتروني','Email')}</b><small dir="ltr">${CONTACT.email}</small></span></a></div>
+  <section class="fab-chat" ${chatOpen?'':'hidden'} aria-label="${T('المساعد الذكي','AI assistant')}">
+   <header><span class="fab-ic">${fi('ai')}</span><div><b>${T('مساعد figurdiscover','figurdiscover assistant')}</b><small id="ai-mode"></small></div><button type="button" class="fab-x" data-f="close-chat" aria-label="${T('إغلاق','Close')}">${fi('x')}</button></header>
+   <div class="fab-msgs" id="ai-msgs"></div>
+   <div class="fab-sugg" id="ai-sugg"></div>
+   <form class="fab-in" id="ai-form"><input id="ai-q" autocomplete="off" placeholder="${T('اكتب سؤالك…','Type your question…')}" aria-label="${T('سؤالك','Your question')}"><button type="submit" aria-label="${T('إرسال','Send')}">${fi('send')}</button></form>
+   <p class="fab-alt">${T('تفضّل التحدث مع شخص؟','Prefer a person?')} <a href="https://wa.me/${CONTACT.wa}?text=${waText}" target="_blank" rel="noopener noreferrer">${T('واتساب','WhatsApp')}</a> · <a href="mailto:${CONTACT.email}">${T('البريد','Email')}</a></p></section>
+  <button type="button" class="fab-btn${fabOpen||chatOpen?' on':''}" data-f="toggle" aria-expanded="${fabOpen}" aria-label="${T('تواصل معنا','Contact us')}">${fi(fabOpen||chatOpen?'x':'chat')}<span class="fab-lbl">${T('تواصل معنا','Contact us')}</span></button>`;
+ w.onclick=e=>{ const t=e.target.closest('[data-f]'); if(!t) return; const f=t.dataset.f;
+  if(f==='toggle'){ if(chatOpen){ chatOpen=false; fabOpen=false; } else fabOpen=!fabOpen; fabRender(); }
+  else if(f==='ai'){ fabOpen=false; chatOpen=true; fabRender(); setTimeout(()=>$('#ai-q')&&$('#ai-q').focus(),50); }
+  else if(f==='close-chat'){ chatOpen=false; fabRender(); }
+  else if(f==='sugg'){ aiAsk(t.textContent); } };
+ const form=$('#ai-form'); if(form) form.onsubmit=e=>{ e.preventDefault(); const q=$('#ai-q').value.trim(); if(q){ $('#ai-q').value=''; aiAsk(q); } };
+ if(chatOpen) aiDraw(); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&(fabOpen||chatOpen)){ fabOpen=false; chatOpen=false; fabRender(); } });
+document.addEventListener('click',e=>{ if(fabOpen&&!e.composedPath().some(n=>n.id==='fab')){ fabOpen=false; fabRender(); } });
+
+const aiLive=()=>typeof taxSampleFn==='function';
+function aiDraw(){ const box=$('#ai-msgs'), mode=$('#ai-mode'), sg=$('#ai-sugg'); if(!box) return;
+ if(mode) mode.textContent=aiLive()?T('مدعوم بـ Claude','Powered by Claude'):T('إجابات من دليل الموقع','Answers from the site guide');
+ const hello=T('مرحباً! أنا مساعد figurdiscover. اسألني عن أي أداة أو مؤشر، أو عن نتيجة الصفحة التي تفتحها الآن.','Hi! I’m the figurdiscover assistant. Ask me about any tool or indicator, or about the results on the page you are viewing.');
+ box.innerHTML=`<div class="ai-b bot">${esc(hello)}</div>`+aiChat.map(m=>`<div class="ai-b ${m.role==='user'?'me':'bot'}">${m.role==='user'?esc(m.content):(m.content?mdLite(m.content):`<span class="note">${T('يكتب…','Typing…')}</span>`)}${m.err?`<p class="note" style="color:var(--bad);margin:6px 0 0">${esc(m.err)}</p>`:''}</div>`).join('');
+ box.scrollTop=box.scrollHeight;
+ if(sg) sg.innerHTML=aiChat.length?'':[T('اشرح نتيجة هذه الصفحة','Explain this page’s result'),T('ما معنى ROE؟','What does ROE mean?'),T('كيف أستورد بياناتي من Excel؟','How do I import from Excel?')].map(s=>`<button type="button" data-f="sugg">${esc(s)}</button>`).join(''); }
+function aiContext(){ const p=curPage(), bot=$('#ins-bot'); return `${T('الصفحة الحالية','Current page')}: ${T(p.ar,p.en)}\n${bot&&bot._text?bot._text:''}`; }
+function aiLocal(q){ const Q=normL(q), words=Q.split(' ').filter(w=>w.length>1);
+ if(/(نتيج|هذه الصفح|this page|result|explain)/.test(Q)){ const bot=$('#ins-bot'); if(bot&&bot._text) return bot._text.replace(/\n/g,'\n\n'); return T('افتح أي أداة وسأشرح لك نتيجتها هنا.','Open any tool and I will explain its result here.'); }
+ if(/(استيراد|استورد|import|excel|اكسل|pdf)/.test(Q)) return T('اضغط أيقونة **الاستيراد** (السهم للأعلى) في أعلى زاوية التقرير، واختر ملف Excel أو CSV أو PDF نصي. للتصدير استخدم أيقونات **Excel** و**PDF** و**الطباعة** بجانبها.','Click the **import** icon (up arrow) in the top corner of the report and choose an Excel, CSV or text PDF file. To export, use the **Excel**, **PDF** and **print** icons next to it.');
+ if(/(خصوص|privacy|بيانات|data safe|امان)/.test(Q)) return T('أرقامك تبقى في متصفحك، ولا تُحفظ في حسابك إلا إذا سجّلت الدخول. التفاصيل في [سياسة الخصوصية](#privacy).','Your numbers stay in your browser and are saved to your account only if you sign in. Details in the [privacy policy](#privacy).');
+ const sc=g=>{ const hay=normL(g.slice(1).join(' ')); let s=0; words.forEach(w=>{ if(normL(g[1])===w||normL(g[2])===w||normL(g[3])===w) s+=6; else if(hay.includes(w)) s+=1; }); return s; };
+ const best=GLOSS.map(g=>({g,s:sc(g)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,2); if(best.length>1&&best[0].s>=6&&best[1].s<6) best.length=1;
+ const tool=G_TOOLS.map(t=>{ const p=PAGES.find(x=>x.id===t[0]); const hay=normL([p.ar,p.en,t[1],t[2]].join(' ')); return {t,p,s:words.filter(w=>hay.includes(w)).length}; }).filter(x=>x.s>0).sort((a,b)=>b.s-a.s)[0];
+ if(best.length&&best[0].s>=tool?.s){ return best.map(({g})=>`**${T(g[2],g[3])}** (${g[1]})\n${T(g[4],g[5])}\n${g[6]&&g[6]!=='—'?`${T('المعادلة','Formula')}: ${g[6]}\n`:''}${T('كيف تقرأه','How to read it')}: ${T(g[7],g[8])}`).join('\n\n'); }
+ if(tool){ const st=lang==='ar'?tool.t[3]:tool.t[4]; return `**${T(tool.p.ar,tool.p.en)}**: ${T(tool.t[1],tool.t[2])}\n\n${st.map((s,i)=>`${i+1}. ${s}`).join('\n')}\n\n[${T('افتح الأداة','Open the tool')}](#${tool.p.id})`; }
+ return T(`لم أجد إجابة دقيقة في الدليل. جرّب كلمة أخرى، أو تواصل معنا عبر [واتساب](https://wa.me/${CONTACT.wa}) أو [البريد](mailto:${CONTACT.email}).`,`I couldn’t find an exact answer in the guide. Try another word, or reach us on [WhatsApp](https://wa.me/${CONTACT.wa}) or by [email](mailto:${CONTACT.email}).`); }
+async function aiAsk(q){ aiChat.push({role:'user',content:q}); const msg={role:'assistant',content:''}; aiChat.push(msg); aiDraw();
+ if(!aiLive()){ setTimeout(()=>{ msg.content=aiLocal(q); aiDraw(); },250); return; }
+ if(aiCtl) aiCtl.abort(); const ctl=new AbortController(); aiCtl=ctl;
+ const sys=T(`أنت مساعد موقع figurdiscover للتحليل المالي والإحصائي. أجب بالعربية بإيجاز ووضوح. اشرح الأدوات والمؤشرات وطريقة استخدام الموقع، وفسّر نتائج المستخدم بلغة بسيطة. لا تقدّم استشارة مالية أو قانونية ملزمة، ونبّه لمراجعة مختص في القرارات المهمة. للتواصل البشري: واتساب ${CONTACT.waShow} أو ${CONTACT.email}.\n\n${aiContext()}`,`You are the assistant of figurdiscover, a financial and statistical analysis site. Answer in English, briefly and clearly. Explain tools, indicators and how to use the site, and interpret the user’s results in plain language. Do not give binding financial or legal advice; suggest a professional for important decisions. Human contact: WhatsApp ${CONTACT.waShow} or ${CONTACT.email}.\n\n${aiContext()}`);
+ const turns=[{role:'user',content:sys},{role:'assistant',content:T('فهمت. كيف أساعدك؟','Understood. How can I help?')},...aiChat.filter(m=>m!==msg&&m.content).slice(-8).map(m=>({role:m.role,content:m.content}))];
+ let raf=0; const paint=()=>{ raf=0; aiDraw(); };
+ try{ const r=await taxSampleFn(turns,{signal:ctl.signal,cache:false,onText:({text})=>{ msg.content=text; if(!raf) raf=requestAnimationFrame(paint); }}); msg.content=r.text; }
+ catch(e){ const code=e&&e.code; msg.content=msg.content||aiLocal(q); if(code&&code!=='cancelled'&&code!=='refused') msg.err=T('تعذّر الاتصال بـ Claude، فهذه إجابة من دليل الموقع.','Could not reach Claude, so this answer comes from the site guide.'); }
+ aiDraw(); }
+
 /* ================= per-tool "Clear data / Example" toggle ================= */
 const EX={
  statements:{is:()=>!!fs.sample,clear:()=>{ Object.keys(fs.data).forEach(k=>fs.data[k]=fs.years.map(()=>'')); fs.company=''; fs.sample=false; fsSub='input'; fsSave(); },restore:()=>{ fs=fsSample(); fsSave(); }},
@@ -2956,7 +3937,7 @@ function exClick(b){ const id=curPage().id, ex=EX[id]; if(!ex) return;
  if(!exCleared.has(id)&&!b.dataset.c){ b.dataset.c='1'; b.classList.add('ex-confirm'); b.textContent=T('اضغط مرة أخرى: ستُستبدل بياناتك بالمثال','Click again: your data will be replaced'); setTimeout(()=>{ if(b.isConnected){ delete b.dataset.c; b.classList.remove('ex-confirm'); b.dataset.s=''; exInject(); } },3500); return; }
  ex.restore(); exCleared.delete(id); toast(T('عادت بيانات المثال','Example data restored')); renderPage(); }
 let exObs=null;
-function exWatch(){ const m=$('#main'); if(!m) return; if(exObs) exObs.disconnect(); let q=false; exObs=new MutationObserver(()=>{ if(q) return; q=true; queueMicrotask(()=>{ q=false; exInject(); formEnhance(); }); }); exObs.observe(m,{childList:true,subtree:true}); }
+function exWatch(){ const m=$('#main'); if(!m) return; if(exObs) exObs.disconnect(); let q=false; exObs=new MutationObserver(()=>{ if(q) return; q=true; queueMicrotask(()=>{ q=false; exInject(); formEnhance(); repInject(); impInline(); insSchedule(); }); }); exObs.observe(m,{childList:true,subtree:true}); }
 ['input','change'].forEach(ev=>document.addEventListener(ev,e=>{ if(!e.target.closest||!e.target.closest('#main')) return; exCleared.delete(curPage().id); setTimeout(exInject,0); }));
 document.addEventListener('click',e=>{ if(e.target.closest&&e.target.closest('#main button:not(.ex-btn)')) setTimeout(exInject,50); });
 
@@ -3038,6 +4019,9 @@ const IC={
  sequence:'<path d="M4 6h3M10 6h3M4 12h3M16 12h4M4 18h3M10 18h3M16 18h4"/><path d="M16 4l4 4M20 4l-4 4"/>',
  tax:'<path d="M7 3h10l3 3v15H4V3z"/><path d="M9 15l6-6"/><circle cx="9.5" cy="9.5" r="1.2"/><circle cx="14.5" cy="14.5" r="1.2"/><path d="M18 2l.6 1.4L20 4l-1.4.6L18 6l-.6-1.4L16 4l1.4-.6z"/>',
  lss:'<path d="M17 5H7l5.5 7L7 19h10"/><path d="M19 3v4M21 5h-4"/>',
+ calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7 14h3M7 17h3M14 14h3"/>',
+ guide:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7M8 11h7M8 15h4"/>',
+ privacy:'<path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><rect x="9" y="10.5" width="6" height="5" rx="1"/><path d="M10.5 10.5V9a1.5 1.5 0 0 1 3 0v1.5"/>',
  sampling:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>'};
 const icon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
 const PAGES=[
@@ -3055,65 +4039,130 @@ const PAGES=[
  {id:'numtests',g:'audit',ar:'اختبارات الأرقام والحدود',en:'Number & threshold tests',render:numRender,dar:'تجزئة المشتريات تحت حد الاعتماد، المبالغ المستديرة، آخر رقمين.',den:'Splits under approval limits, round amounts, last-two digits.',tags:['Split','Round','χ²']},
  {id:'outliers',g:'audit',ar:'القيم الشاذة والتوقيت',en:'Outliers & timing',render:outRender,dar:'الفاتورة الاستثنائية لكل مورد، والمبالغ الشاذة، ومعاملات أيام العطل.',den:'Exceptional invoice per vendor, outlier amounts, weekend entries.',tags:['RSF','Z-score','Weekend']},
  {id:'sequence',g:'audit',ar:'فحص تسلسل المستندات',en:'Sequence check',render:seqRender,dar:'الأرقام المفقودة والمكررة في الفواتير والشيكات والسندات.',den:'Missing and duplicated invoice, cheque and voucher numbers.',tags:['Gaps','Backdating']},
+ {id:'calendar',g:'mkt',ar:'الأجندة الاقتصادية',en:'Economic calendar',render:calendarRender,dar:'البيانات الاقتصادية وقرارات البنوك المركزية والأحداث العالمية القادمة.',den:'Economic releases, central-bank decisions and upcoming global events.',tags:['CPI','Fed','ECB']},
+ {id:'guide',g:'help',ar:'دليل المستخدم',en:'User guide',render:guideRender,dar:'طريقة استخدام كل أداة ومعنى كل مؤشر.',den:'How to use each tool and what every indicator means.',tags:['How-to','Glossary']},
+ {id:'privacy',g:'help',ar:'سياسة الخصوصية',en:'Privacy policy',render:privacyRender,dar:'ما نجمعه من بيانات وكيف نستخدمها.',den:'What data we collect and how we use it.',tags:['Privacy']},
  {id:'sampling',g:'audit',ar:'عينات التدقيق',en:'Audit sampling',render:sampRender,dar:'حجم العينة واختيارها بطريقة وحدة النقد (MUS) أو العشوائية.',den:'Sample size and selection by monetary unit (MUS) or random.',tags:['MUS','Materiality']}];
-const GROUPS={fin:['التحليل المالي','Financial analysis'],tax:['الاستشارات الضريبية','Tax advisory'],stat:['الإحصاء والمخاطر','Statistics & risk'],lss:['لين ستة سيجما','Lean Six Sigma'],audit:['التدقيق وكشف الاحتيال','Audit & fraud detection']};
+const GROUPS={fin:['التحليل المالي','Financial analysis'],tax:['الاستشارات الضريبية','Tax advisory'],stat:['الإحصاء والمخاطر','Statistics & risk'],lss:['لين ستة سيجما','Lean Six Sigma'],audit:['التدقيق وكشف الاحتيال','Audit & fraud detection'],mkt:['الأسواق','Markets'],help:['المساعدة','Help']};
 const curPage=()=>{ const h=(location.hash||'').replace('#',''); return PAGES.find(p=>p.id===h)||PAGES[0]; };
-function logo(){ return `<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 26C9 26 11 7 16 7s7 19 12 19"/><path d="M16 7v20M6 27h20"/><circle cx="16" cy="7" r="2.2" fill="currentColor"/></svg>`; }
+function logo(){ return `<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="13.5" r="10" stroke-width="2.4"/><path d="M21 21l7.2 7.2" stroke-width="3.2"/><rect x="8" y="14.5" width="2.8" height="5" rx=".9" fill="currentColor" stroke="none" opacity=".55"/><rect x="12.1" y="11.5" width="2.8" height="8" rx=".9" fill="currentColor" stroke="none" opacity=".78"/><rect x="16.2" y="8" width="2.8" height="11.5" rx=".9" fill="currentColor" stroke="none"/><path d="M7.6 11.6l4.2-3.3 3 1.7 4.6-4" stroke-width="1.6"/><path d="M17.4 5.6h2.2v2.2" stroke-width="1.6"/></svg>`; }
+function langSeg(){ return `<div class="lang-seg" role="group" aria-label="${T('اللغة','Language')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg><button type="button" data-lang="en" aria-pressed="${lang==='en'}">English</button><button type="button" data-lang="ar" aria-pressed="${lang==='ar'}">العربية</button></div>`; }
 function renderShell(){
  document.documentElement.lang=lang; document.title='figurdiscover'; const app=$('#app'); app.dir=lang==='ar'?'rtl':'ltr';
  const cp=curPage();
  const navHtml=['home',...Object.keys(GROUPS)].map(g=>{ if(g==='home') return `<div class="navgrp"><a href="#home"${cp.id==='home'?' aria-current="page"':''}>${icon('home')}${T('الرئيسية','Home')}</a></div>`;
   return `<div class="navgrp"><h4>${T(...GROUPS[g])}</h4>${PAGES.filter(p=>p.g===g).map(p=>`<a href="#${p.id}"${p.id===cp.id?' aria-current="page"':''}>${icon(p.id)}${T(p.ar,p.en)}</a>`).join('')}</div>`; }).join('');
- app.innerHTML=`<div class="shell">
-  <aside class="side"><a class="brand" href="#home">${logo()}<span><b>figurdiscover</b><small>${T('للتحليل المالي والإحصائي','Financial & statistical analysis')}</small></span></a>
-   <nav aria-label="${T('الأدوات','Tools')}">${navHtml}</nav>
-   <button class="tool-btn search-btn pal-btn"><span>${T('ابحث عن أداة','Find a tool')}</span><kbd>Ctrl K</kbd></button>
-   <div class="side-foot"><div id="auth-slot"></div><button class="lang-btn" id="lang-btn">${lang==='ar'?'English':'العربية'}</button><p>${T('بياناتك تبقى في متصفحك ولا تُرسل لأي خادم.','Your data stays in your browser and is never sent to a server.')}</p></div></aside>
-  <div style="min-width:0">
-   <div class="mobilebar"><div class="row1"><a class="brand" href="#home">${logo()}<span><b>figurdiscover</b></span></a><div class="row"><span id="auth-slot2"></span><button class="tool-btn pal-btn" aria-label="${T('ابحث عن أداة','Find a tool')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button><button class="lang-btn" id="lang-btn2">${lang==='ar'?'EN':'ع'}</button><button class="tool-btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="m-drawer" aria-label="${T('القائمة','Menu')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div>
-</div>
-   ${tickerHtml()}
-   <main class="main" id="main"></main></div></div><div class="m-drawer" id="m-drawer" hidden><div class="m-back" data-close></div><nav class="m-panel" aria-label="${T('الأدوات','Tools')}"><div class="m-head"><b>${T('كل الأدوات','All tools')}</b><button class="tool-btn" data-close aria-label="${T('إغلاق','Close')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>${navHtml}</nav></div><div id="toast" class="toast" role="status" hidden></div>`;
+ const IC_S='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>';
+ const CHEV='<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+ const EXT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
+ const menu=Object.keys(GROUPS).map(g=>{ const ps=PAGES.filter(p=>p.g===g), lab=T(...({fin:['التحليل المالي','Analysis'],tax:['الضرائب','Tax'],stat:['الإحصاء والمخاطر','Risk & stats'],lss:['لين ستة سيجما','Lean Six Sigma'],audit:['التدقيق','Audit'],mkt:['الأسواق','Markets'],help:['الموارد','Resources']}[g]||GROUPS[g]));
+  if(ps.length===1) return `<a class="rp-top" href="#${ps[0].id}"${ps[0].id===cp.id?' aria-current="page"':''}>${lab}</a>`;
+  return `<div class="rp-dd"><button type="button" class="rp-top" aria-haspopup="true">${lab}${CHEV}</button><div class="rp-panel"><div class="rp-panel-in">${ps.map(p=>`<a href="#${p.id}"${p.id===cp.id?' aria-current="page"':''}><span class="rp-pi">${icon(p.id)}</span><span><b>${T(p.ar,p.en)}</b><small>${T(p.dar,p.den)}</small></span></a>`).join('')}</div></div></div>`; }).join('');
+ app.innerHTML=`<div class="shell rp">
+  <header class="rp-header">
+   <div class="rp-util"><div class="rp-wrap"><button type="button" class="rp-ulink" id="lang-btn">${LI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>')}${lang==='ar'?'English':'العربية'}</button><span class="rp-sp"></span><span id="auth-slot"></span><a class="rp-ulink" href="#guide">${T('مركز المساعدة','Help center')}${EXT}</a><a class="rp-ulink" href="#privacy">${T('الخصوصية','Privacy')}</a></div></div>
+   <div class="rp-nav"><div class="rp-wrap">
+    <a class="rp-brand" href="#home" aria-label="figurdiscover">${logo()}<span><b dir="ltr">figur<i>discover</i></b><small>${T('منصة الذكاء المالي','Financial intelligence')}</small></span></a>
+    <nav class="rp-menu" aria-label="${T('الأدوات','Tools')}">${menu}</nav>
+    <button type="button" class="rp-icon pal-btn" aria-label="${T('ابحث عن أداة','Find a tool')}" title="Ctrl K">${IC_S}</button>
+    <a class="btn rp-cta" href="#statements">${T('ابدأ التحليل','Start analysing')}</a>
+    <span class="rp-mob"><span id="auth-slot2"></span><button class="rp-icon" id="lang-btn2">${lang==='ar'?'EN':'ع'}</button><button class="rp-icon menu-btn" id="menu-btn" aria-expanded="false" aria-controls="m-drawer" aria-label="${T('القائمة','Menu')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span>
+   </div></div>
+  </header>
+  ${tickerHtml()}
+  <main class="main" id="main"></main></div><div class="m-drawer" id="m-drawer" hidden><div class="m-back" data-close></div><nav class="m-panel" aria-label="${T('الأدوات','Tools')}"><div class="m-head"><b>${T('كل الأدوات','All tools')}</b>${langSeg()}<button class="tool-btn" data-close aria-label="${T('إغلاق','Close')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>${navHtml}</nav></div><div id="toast" class="toast" role="status" hidden></div>`;
+ $$('.rp-dd').forEach(d=>{ const b=$('.rp-top',d); b.onclick=e=>{ e.stopPropagation(); const o=!d.classList.contains('open'); $$('.rp-dd.open').forEach(x=>x.classList.remove('open')); d.classList.toggle('open',o); b.setAttribute('aria-expanded',String(o)); }; $$('a',d).forEach(a=>a.addEventListener('click',()=>d.classList.remove('open'))); });
+ document.addEventListener('click',e=>{ if(!e.target.closest('.rp-dd')) $$('.rp-dd.open').forEach(x=>x.classList.remove('open')); });
  const sw=()=>{ lang=lang==='ar'?'en':'ar'; store.set('raseen.lang2',lang); renderShell(); };
- $('#lang-btn').onclick=sw; $('#lang-btn2').onclick=sw;
+ $('#lang-btn2').onclick=sw; $('#lang-btn').onclick=sw; $$('.lang-seg button').forEach(b=>b.onclick=()=>{ if(b.dataset.lang!==lang) sw(); });
  $$('.theme-btn').forEach(b=>b.onclick=toggleTheme); $$('.pal-btn').forEach(b=>b.onclick=openPalette);
  const dr=$('#m-drawer'), mb=$('#menu-btn'), setDr=o=>{ dr.hidden=!o; mb.setAttribute('aria-expanded',String(o)); document.body.style.overflow=o?'hidden':''; };
  mb.onclick=()=>setDr(dr.hidden); dr.addEventListener('click',e=>{ if(e.target.closest('[data-close]')||e.target.closest('a')) setDr(false); });
  document.onkeydown=e=>{ if(e.key==='Escape'&&!dr.hidden) setDr(false); };
- renderAuthChip(); exWatch(); bindTicker();
+ renderAuthChip(); exWatch(); bindTicker(); fabRender();
  renderPage();
 }
 function renderPage(){ const cp=curPage(), m=$('#main'); clearTimeout(autoT);
- $$('.navgrp a').forEach(a=>{ if(a.getAttribute('href')==='#'+cp.id) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+ $$('.navgrp a, .rp-menu a').forEach(a=>{ if(a.getAttribute('href')==='#'+cp.id) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
  const ch=$(`.mobilebar .chips a[href="#${cp.id}"]`); if(ch&&ch.scrollIntoView) ch.scrollIntoView({block:'nearest',inline:'center'});
- m.innerHTML=''; cp.render(m); window.scrollTo(0,0); enterAnim(m); exInject(); formEnhance(); }
+ m.innerHTML=''; cp.render(m); window.scrollTo(0,0); enterAnim(m); exInject(); formEnhance(); repInject(); impInline(); insSchedule(); }
 window.addEventListener('hashchange',renderPage);
 
+const LI=(d)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+function heroMock(){ const up=newsUpcoming().slice(0,3);
+ const donut=[[38,'#1D5BFF'],[24,'#5EC8F2'],[16,'#8B7CF6'],[12,'#F472B6'],[10,'#FBBF24']]; let a0=-90; const arc=(v,c)=>{ const a1=a0+v*3.6, r=34, cx=44, cy=44, p=(a)=>[cx+r*Math.cos(a*Math.PI/180),cy+r*Math.sin(a*Math.PI/180)], [x0,y0]=p(a0), [x1,y1]=p(a1); const d=`M${x0.toFixed(1)} ${y0.toFixed(1)}A${r} ${r} 0 ${v>50?1:0} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; a0=a1; return `<path d="${d}" stroke="${c}" stroke-width="16" fill="none"/>`; };
+ const bars=[42,55,48,63,58,72,69,80,76,88];
+ return `<div class="rp-mock" aria-hidden="true"><div class="mk-bar"><span class="mk-logo">${logo()}</span><i></i><i></i><i class="on"></i><i></i><i></i><i></i><span class="mk-pill"></span></div>
+  <div class="mk-body"><div class="mk-title">${T('مساحة عملي في figurdiscover','My figurdiscover workspace')}</div>
+   <div class="mk-grid">
+    <div class="mk-card"><div class="mk-h">${T('صحة الشركة','Company health')}</div><div class="mk-tiles"><span class="t g"><b>4.14</b>Altman Z</span><span class="t b"><b>33.6%</b>IRR</span><span class="t y"><b>3.99σ</b>Sigma</span><span class="t p"><b>2</b>${T('مخاطر','Risks')}</span></div></div>
+    <div class="mk-card"><div class="mk-h">${T('الإنفاق حسب المورد','Spend by supplier')}</div><svg viewBox="0 0 88 88" class="mk-donut">${donut.map(([v,c])=>arc(v,c)).join('')}</svg><div class="mk-leg">${donut.map(([,c])=>`<i style="background:${c}"></i>`).join('')}</div></div>
+    <div class="mk-card"><div class="mk-h">${T('أحداث قادمة','Upcoming events')}</div><table class="mk-t"><tbody>${up.map(([a,,ar,en])=>`<tr><td>${newsDate(a)}</td><td>${esc(T(ar,en)).slice(0,34)}…</td></tr>`).join('')}</tbody></table></div>
+    <div class="mk-card wide"><div class="mk-h">${T('التدفق النقدي الشهري','Monthly cash flow')}</div><div class="mk-bars">${bars.map(v=>`<i style="height:${v}%"></i>`).join('')}</div></div>
+    <div class="mk-card"><div class="mk-h">${T('صافي القيمة الحالية','Net present value')}</div><div class="mk-big">950,950</div><div class="mk-sub">${T('المشروع مجدٍ','Project is viable')} ✓</div></div>
+   </div></div></div>`; }
+function homeLanding(){
+ const steps=[['1','اختر الأداة','Pick a tool','من القوائم المالية إلى لين ستة سيجما. كل أداة تفتح ببيانات مثال توضّح المطلوب.','From financial statements to Lean Six Sigma. Each tool opens with example data that shows what is needed.','<path d="M4 6h16M4 12h10M4 18h7"/>'],
+  ['2','أدخل أرقامك أو استوردها','Enter or import your numbers','اكتب في المربعات، أو الصق من Excel، أو استورد ملف Excel أو CSV أو PDF بضغطة واحدة.','Type in the boxes, paste from Excel, or import an Excel, CSV or PDF file in one click.','<path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/>'],
+  ['3','افهم النتيجة وطبّق النصائح','Understand and act','ملخص مبسّط أعلى كل تقرير، ونصائح تحسين عملية في أسفله، مع تحميل PDF وExcel والطباعة.','A plain-language summary on top of every report, practical tips at the bottom, plus PDF, Excel and print.','<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/>']];
+ const who=[['المدير المالي والمحاسب','CFOs & accountants','نسب مالية، تحليل أفقي ورأسي، وتقارير جاهزة للإدارة.','Ratios, horizontal and vertical analysis, and management-ready reports.','<path d="M5 3h10l4 4v14H5z"/><path d="M8 12h8M8 16h8"/>'],
+  ['المدقق ومراجع الحسابات','Auditors','بنفورد والمكررات والقيم الشاذة والعينات لاكتشاف ما يستحق الفحص.','Benford, duplicates, outliers and sampling to find what deserves testing.','<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>'],
+  ['رائد الأعمال وصاحب المشروع','Founders & business owners','دراسة جدوى يومية وشهرية وسنوية قبل أن تستثمر.','A daily, monthly and yearly feasibility study before you invest.','<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'],
+  ['المستثمر والمحلل','Investors & analysts','مخاطر مونت كارلو، احتمالات الربح، ومؤشرات التعثر والتلاعب.','Monte Carlo risk, profit odds, and distress and manipulation scores.','<path d="M3 19c4 0 4-14 9-14s5 14 9 14"/>'],
+  ['مهندس الجودة والعمليات','Quality & operations','مستوى سيجما، Cpk، خرائط التحكم، OEE وFMEA.','Sigma level, Cpk, control charts, OEE and FMEA.','<path d="M17 5H7l5.5 7L7 19h10"/>'],
+  ['المسؤول الضريبي','Tax managers','تقدير الضرائب والاحتياطي الشهري وجاهزية الفوترة الإلكترونية.','Tax estimates, a monthly reserve and e-invoicing readiness.','<path d="M7 3h10l3 3v15H4V3z"/><path d="M9 15l6-6"/>']];
+ const why=[['خصوصية أولاً','Privacy first','أرقامك تُعالج في متصفحك ولا تُرسل لخوادمنا إلا إذا اخترت حفظها في حسابك.','Your numbers are processed in your browser and only reach our servers if you choose to save them to your account.','<path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/>'],
+  ['نتائج تفهمها','Results you understand','كل تقرير يشرح النتيجة بلغة بسيطة ويقترح خطوات تحسين.','Every report explains the result in plain language and suggests next steps.','<path d="M4 5h16v11H8l-4 4z"/>'],
+  ['استيراد وتصدير','Import & export','استورد من Excel أو CSV أو PDF، وصدّر إلى PDF أو Excel أو اطبع.','Import from Excel, CSV or PDF; export to PDF or Excel, or print.','<path d="M7 10l5 5 5-5M12 15V3"/><path d="M4 21h16"/>'],
+  ['عربي وإنجليزي','Arabic & English','واجهة كاملة باللغتين مع تبديل فوري.','A full interface in both languages with instant switching.','<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>'],
+  ['يعمل على أي جهاز','Works on any device','كمبيوتر أو جوال أو جهاز لوحي، دون تثبيت.','Desktop, phone or tablet, with nothing to install.','<rect x="3" y="4" width="13" height="10" rx="1.5"/><rect x="17" y="8" width="4" height="12" rx="1"/><path d="M7 18h6"/>'],
+  ['معايير معتمدة','Proven methods','نماذج معروفة: ألتمان، بيوتروسكي، بينيش، نيغريني، Western Electric.','Recognised models: Altman, Piotroski, Beneish, Nigrini, Western Electric.','<path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.8L12 16.9 5.8 20.3l1.6-6.8L2.2 8.9l6.9-.6z"/>']];
+ const faq=[['هل الموقع مجاني؟','Is it free?','نعم، كل الأدوات مجانية. إنشاء حساب اختياري لحفظ بياناتك على أكثر من جهاز.','Yes, every tool is free. An account is optional, to keep your data across devices.'],
+  ['هل بياناتي آمنة؟','Is my data safe?','الأرقام تبقى في متصفحك. عند تسجيل الدخول تُحفظ في حسابك ولا يصل إليها غيرك. التفاصيل في سياسة الخصوصية.','Numbers stay in your browser. When signed in they are stored in your account and only you can access them. See the privacy policy.'],
+  ['هل أحتاج خبرة مالية؟','Do I need finance experience?','لا. كل تقرير يبدأ بملخص مبسّط، ودليل المستخدم يشرح كل مؤشر.','No. Every report starts with a simple summary, and the user guide explains every indicator.'],
+  ['هل يمكن الاعتماد على النتائج في القرارات؟','Can I base decisions on the results?','النتائج تساعدك على الفهم والتحليل، والقرارات المهمة تحتاج مراجعة مختص.','The results support your analysis; important decisions need a professional review.']];
+ const toolLinks=PAGES.filter(p=>p.g&&p.g!=='help').slice(0,8);
+ return `<section class="rp-feature"><div class="rp-feature-art"><div class="rf-card"><b style="font-size:13px">${T('تحليل القوائم المالية','Financial statement analysis')}</b><div class="rf-kpis"><div><small>${T('هامش الربح','Net margin')}</small><b>15.8%</b></div><div><small>${T('نسبة التداول','Current ratio')}</small><b>1.65×</b></div><div><small>Altman Z</small><b>4.67</b></div></div><div class="rf-note"><b>${T('الوضع مقبول مع نقاط تحتاج متابعة.','Acceptable, with points to watch.')}</b> ${T('السيولة جيدة، والتحصيل بطيء.','Liquidity is healthy; collections are slow.')}</div><ol class="rf-tips"><li>${T('اختصر مدة الائتمان وتابع المتأخرين أسبوعياً.','Shorten credit terms and chase late payers weekly.')}</li><li>${T('صفِّ المخزون الراكد.','Clear slow-moving stock.')}</li></ol></div></div>
+  <div class="rp-feature-copy"><span class="rp-eyebrow" style="color:var(--accent)">${T('تقارير ذكية','Insight-driven reports')}</span><h2>${T('تقارير تشرح نفسها وتقترح الخطوة التالية','Reports that explain themselves and suggest the next step')}</h2><p>${T('كل أداة تعطيك ملخصاً مبسّطاً لنتيجتك في الأعلى، ونصائح تحسين عملية في الأسفل، مع استيراد البيانات من Excel أو PDF وتصدير التقرير بضغطة واحدة.','Every tool gives you a plain-language summary at the top and practical improvement tips at the bottom, with Excel or PDF import and one-click report export.')}</p><a class="rp-link" href="#guide">${T('تعرّف على المؤشرات في دليل المستخدم ←','Learn the indicators in the user guide →')}</a></div></section>
+ <section class="land-sec" id="land-how"><div class="land-hd"><span class="land-eyebrow">${T('كيف يعمل','How it works')}</span><h2>${T('ثلاث خطوات من الأرقام إلى القرار','Three steps from numbers to decisions')}</h2></div>
+  <div class="land-steps">${steps.map(s=>`<div class="land-step"><span class="ls-n">${s[0]}</span><span class="ls-ic">${LI(s[5])}</span><h3>${T(s[1],s[2])}</h3><p>${T(s[3],s[4])}</p></div>`).join('')}</div></section>
+ <section class="land-sec"><div class="land-hd"><span class="land-eyebrow">${T('لمن صُمّم','Who it is for')}</span><h2>${T('أداة واحدة لكل من يتعامل مع الأرقام','One workspace for everyone who works with numbers')}</h2></div>
+  <div class="land-grid">${who.map(w=>`<div class="land-card"><span class="lc-ic">${LI(w[4])}</span><div><h3>${T(w[0],w[1])}</h3><p>${T(w[2],w[3])}</p></div></div>`).join('')}</div></section>
+ <section class="land-sec"><div class="land-hd"><span class="land-eyebrow">${T('لماذا figurdiscover','Why figurdiscover')}</span><h2>${T('مصمم ليكون دقيقاً وسهلاً وآمناً','Built to be accurate, simple and safe')}</h2></div>
+  <div class="land-grid why">${why.map(w=>`<div class="land-card"><span class="lc-ic">${LI(w[4])}</span><div><h3>${T(w[0],w[1])}</h3><p>${T(w[2],w[3])}</p></div></div>`).join('')}</div></section>
+ <section class="land-sec"><div class="land-hd"><span class="land-eyebrow">${T('أسئلة شائعة','FAQ')}</span><h2>${T('إجابات سريعة','Quick answers')}</h2></div>
+  <div class="land-faq">${faq.map(f=>`<details class="panel"><summary>${T(f[0],f[1])}</summary><p>${T(f[2],f[3])}</p></details>`).join('')}</div>
+  <p class="note" style="text-align:center;margin-top:10px"><a href="#guide">${T('مزيد من الأسئلة في دليل المستخدم ←','More questions in the user guide →')}</a></p></section>
+ <section class="land-cta"><div><h2>${T('جاهز تكتشف ما وراء أرقامك؟','Ready to see beyond your numbers?')}</h2><p>${T('ابدأ بأي أداة الآن، مجاناً ودون تسجيل.','Start with any tool now, free and without signing up.')}</p></div>
+  <div class="row"><a class="btn big light" href="#statements">${T('حلّل قوائمك المالية','Analyse your statements')}</a><a class="btn big outline-light" href="#feasibility">${T('ادرس جدوى مشروعك','Test your project')}</a></div></section>
+ <footer class="land-foot"><div class="lf-brand"><span class="hb-mark sm">${logo()}</span><div><b dir="ltr">figur<i>discover</i></b><p>${T('منصة الذكاء المالي: تحليل، تنبؤ، واكتشاف ما وراء الأرقام.','The financial intelligence platform: analyse, forecast and see beyond the numbers.')}</p></div></div>
+  <nav class="lf-col"><h4>${T('الأدوات','Tools')}</h4>${toolLinks.map(p=>`<a href="#${p.id}">${T(p.ar,p.en)}</a>`).join('')}</nav>
+  <nav class="lf-col"><h4>${T('المساعدة','Help')}</h4><a href="#guide">${T('دليل المستخدم','User guide')}</a><a href="#privacy">${T('سياسة الخصوصية','Privacy policy')}</a><a href="mailto:${PRIV_EMAIL}">${T('تواصل معنا','Contact us')}</a></nav>
+  <div class="lf-bottom"><span>© ${new Date().getFullYear()} figurdiscover. ${T('جميع الحقوق محفوظة.','All rights reserved.')}</span><span>${T('النتائج للمساعدة في التحليل ولا تُعد استشارة مالية أو محاسبية أو ضريبية.','Results support analysis and are not financial, accounting or tax advice.')}</span></div></footer>`; }
 function homeRender(root){ setTimeout(()=>{ $$('.ha[data-grp]').forEach(b=>b.onclick=()=>{ const t=$('#grp-'+b.dataset.grp); if(!t) return; t.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});
   const c=b.dataset.card?$(`.cards a.card[href="#${b.dataset.card}"]`):null, list=c?[c]:$$('.cards a.card',t.nextElementSibling);
   list.forEach(x=>{ x.classList.remove('flash'); void x.offsetWidth; x.classList.add('flash'); setTimeout(()=>x.classList.remove('flash'),2200); }); }); },0);
  const card=p=>`<a class="card" href="#${p.id}"><svg class="go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="ic">${icon(p.id)}</span><h3>${T(p.ar,p.en)}</h3><p>${T(p.dar,p.den)}</p><span class="tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</span></a>`;
- root.innerHTML=`<section class="hero"><div class="hero-copy">
-   <div class="hero-brand"><span class="hb-mark">${logo()}</span><span class="hb-name" dir="ltr">figur<b>discover</b></span><span class="hb-sep" aria-hidden="true"></span><span class="hb-tag">${T('منصة الذكاء المالي','Financial intelligence platform')}</span></div>
-   <h1>${T('<span>حلّل.</span> <span>تنبّأ.</span><br><em>انظر لما وراء الأرقام.</em>','<span>Analyze.</span> <span>Forecast.</span><br><em>See beyond the numbers.</em>')}</h1>
+ root.innerHTML=`<section class="rp-hero"><div class="rp-hero-in"><div class="rp-hero-copy">
+   <span class="rp-eyebrow">${T('منصة الذكاء المالي','Financial intelligence platform')}</span>
+   <h1>${T('حلّل. تنبّأ.<br>انظر لما وراء الأرقام.','Analyze. Forecast.<br>See beyond the numbers.')}</h1>
    <p class="hero-lead">${T('كل ما يحتاجه فريق المالية في مساحة عمل واحدة: تحليل القوائم المالية، ودراسات الجدوى، ومحاكاة المخاطر، وكشف الاحتيال، ولين ستة سيجما، ومستشار ضريبي ذكي. الصق أرقامك واحصل على إجابات واضحة خلال ثوانٍ.','Everything a finance team needs in one workspace: statement analysis, feasibility studies, risk simulation, fraud detection, Lean Six Sigma and an AI tax advisor. Paste your numbers and get clear answers in seconds.')}</p>
-   <div class="hero-actions">
+   <div class="hero-cta"><a class="btn big rp-white" href="#statements">${T('ابدأ التحليل مجاناً','Start analysing free')}</a><button type="button" class="btn big rp-outline" data-go="#land-how">${T('كيف يعمل؟','How it works')}</button></div>
+   <ul class="hero-trust">${[['مجاني بالكامل','Completely free'],['بدون تثبيت','Nothing to install'],['عربي وإنجليزي','Arabic & English'],['بياناتك في متصفحك','Your data stays in your browser']].map(([a,e])=>`<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>${T(a,e)}</li>`).join('')}</ul>
+   </div>${heroMock()}</div></section>
+  <section class="rp-quick"><div class="hero-actions">
     ${[['statements','fin:statements','تحليل القوائم المالية','Financial statements','النسب، ألتمان، بينيش','Ratios, Altman, Beneish'],
        ['feasibility','fin:feasibility','دراسة جدوى مشروع','Feasibility study','NPV، IRR، نقطة التعادل','NPV, IRR, break-even'],
        ['duplicates','audit:','أدوات التدقيق','Audit tools','بنفورد، المكررات، العينات','Benford, duplicates, outliers'],
        ['tax','tax:tax','الاستشارات الضريبية','Tax advisory','مستشار ذكي لـ 118 دولة','AI advisor, 118 countries'],
        ['lss','lss:lss','لين ستة سيجما','Lean Six Sigma','سيجما، Cpk، OEE، FMEA','Sigma, Cpk, OEE, FMEA']].map(([ic,to,ar,en,dar,den])=>{ const [g,c]=to.split(':'); return `<button type="button" class="ha" data-grp="${g}"${c?` data-card="${c}"`:''}><span class="ha-ic">${icon(ic)}</span><span class="ha-t"><b>${T(ar,en)}</b><small>${T(dar,den)}</small></span><svg class="ha-go" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></button>`; }).join('')}
    </div>
-   <div class="hero-stats"><div><b>${PAGES.length-1}</b><span>${T('أداة تحليل','analysis tools')}</span></div><div><b>40+</b><span>${T('نسبة ومؤشر مالي','ratios and scores')}</span></div><div><b>118</b><span>${T('دولة في المستشار الضريبي','countries for tax')}</span></div><div><b>2</b><span>${T('لغتان: عربي وإنجليزي','languages')}</span></div></div></div>
+   <div class="hero-stats"><div><b>${PAGES.filter(p=>p.g&&!['help','mkt'].includes(p.g)).length}</b><span>${T('أداة تحليل','analysis tools')}</span></div><div><b>40+</b><span>${T('نسبة ومؤشر مالي','ratios and scores')}</span></div><div><b>118</b><span>${T('دولة في المستشار الضريبي','countries for tax')}</span></div><div><b>2</b><span>${T('لغتان: عربي وإنجليزي','languages')}</span></div></div>
   </section>
-  ${Object.keys(GROUPS).map(g=>`<h2 class="grp-title" id="grp-${g}" style="scroll-margin-top:80px">${T(...GROUPS[g])}</h2><div class="cards">${PAGES.filter(p=>p.g===g).map(card).join('')}</div>`).join('')}
-  <h2 class="grp-title">${T('كيف تستخدم المنصة','How to use it')}</h2>
-  <div class="two">
-   <div class="panel"><h3>${T('1. ابدأ بالمثال','1. Start from the example')}</h3><p class="note">${T('كل أداة تفتح ببيانات مثال واضحة، لترى النتائج فوراً وتفهم المطلوب.','Every tool opens with clearly marked example data so you see results immediately.')}</p></div>
-   <div class="panel"><h3>${T('2. استبدل بأرقامك','2. Replace with your numbers')}</h3><p class="note">${T('اكتب أو الصق من Excel. النتائج تتحدث فوراً وتُحفظ في متصفحك.','Type or paste from Excel. Results update instantly and are saved in your browser.')}</p></div>
-   <div class="panel"><h3>${T('3. انسخ التقرير','3. Copy the report')}</h3><p class="note">${T('كل أداة فيها تقرير نصي جاهز ونسخ CSV للصقه في Excel أو بريد أو عرض تقديمي.','Each tool has a ready text report and CSV copy for Excel, email or a presentation.')}</p></div>
-  </div>
-  <p class="note" style="margin-top:18px">${T('تنبيه: النتائج أدوات مساعدة للتحليل ولا تُعد استشارة مالية أو محاسبية. راجع مختصاً قبل القرارات المهمة.','Note: results support analysis and are not financial or accounting advice. Consult a professional before major decisions.')}</p>`;
+ <section class="land-sec" id="land-tools"><div class="land-hd"><span class="land-eyebrow">${T('الأدوات','The toolkit')}</span><h2>${T('كل ما تحتاجه للتحليل في مكان واحد','Everything you need to analyse, in one place')}</h2><p>${T('أكثر من 14 أداة احترافية مقسّمة حسب المجال. افتح أي أداة وابدأ فوراً ببيانات مثال.','14+ professional tools grouped by field. Open any tool and start right away with example data.')}</p></div>
+  ${Object.keys(GROUPS).filter(g=>g!=='help').map(g=>`<h2 class="grp-title" id="grp-${g}" style="scroll-margin-top:80px">${T(...GROUPS[g])}</h2><div class="cards">${PAGES.filter(p=>p.g===g).map(card).join('')}</div>`).join('')}</section>
+  ${homeLanding()}`;
+ root.querySelectorAll('[data-go]').forEach(x=>x.onclick=()=>{ const t=$(x.dataset.go); if(t) t.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); });
 }
 renderShell();
 authInit();
