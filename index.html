@@ -631,6 +631,35 @@ main input.in-bad{border-color:var(--bad)!important;box-shadow:0 0 0 3px var(--b
 #auth-slot2 button,#auth-slot2 a{white-space:nowrap}
 .palette-box input:not([type=checkbox]),.palette-box .pf input{background:var(--surface);border:1px solid #C9D3E6;border-radius:10px;min-height:42px;padding:8px 12px;width:100%}
 .palette-box .pf input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+/* ================= hero header v4: elegant wordmark + headline ================= */
+.hero-brand{display:flex!important;align-items:center;gap:12px!important;flex-wrap:wrap}
+.hb-mark{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 8px 22px -8px color-mix(in srgb,var(--accent2) 70%,transparent),inset 0 1px 0 rgba(255,255,255,.35);flex:none}
+.hero .hero-brand .hb-mark svg{width:26px!important;height:26px!important;color:#fff}
+.hero-brand .hb-name{font-family:var(--f-display);font-size:clamp(26px,2.6vw,34px)!important;font-weight:700!important;letter-spacing:-.025em!important;line-height:1!important;color:var(--fg)!important;background:none!important;-webkit-text-fill-color:currentColor}
+.hb-name b{font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.hb-sep{width:1px;height:26px;background:linear-gradient(var(--glass-brd),color-mix(in srgb,var(--accent) 40%,transparent),var(--glass-brd));margin-inline:4px}
+.hero-brand .hb-tag{font-family:inherit;font-size:12px!important;font-weight:600!important;letter-spacing:.14em!important;text-transform:uppercase;color:var(--muted)!important;background:none!important;-webkit-text-fill-color:currentColor;line-height:1.2!important}
+[dir="rtl"] .hero-brand .hb-tag{letter-spacing:0!important;font-size:13px!important}
+.hero h1{font-family:var(--f-display);font-weight:700;font-size:clamp(32px,4vw,54px)!important;letter-spacing:-.035em;line-height:1.08;padding-bottom:16px;position:relative;
+ background:linear-gradient(100deg,#0E7490 0%,var(--accent) 22%,#2563EB 48%,var(--accent2) 72%,#A855F7 100%)!important;background-size:220% 100%!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
+[dir="rtl"] .hero h1{letter-spacing:0;line-height:1.35}
+.hero h1 em{background:none!important;-webkit-text-fill-color:inherit;color:inherit;font-style:normal;font-weight:800}
+.hero h1::after{content:"";position:absolute;inset-inline-start:2px;bottom:0;width:72px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));box-shadow:0 4px 14px -2px color-mix(in srgb,var(--accent2) 60%,transparent)}
+@media (prefers-reduced-motion:no-preference){
+ .hero h1{animation:hero-sheen 9s ease-in-out infinite alternate}
+ .hero h1::after{animation:hero-bar 1.1s cubic-bezier(.2,.8,.2,1) .2s both}
+ .hb-mark{animation:hb-pop .7s cubic-bezier(.2,.8,.2,1) both}
+}
+@keyframes hero-sheen{from{background-position:0% 50%}to{background-position:100% 50%}}
+@keyframes hero-bar{from{width:0;opacity:0}to{width:72px;opacity:1}}
+@keyframes hb-pop{from{transform:scale(.7) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+@media (max-width:520px){.hb-sep,.hero-brand .hb-tag{display:none}.hb-mark{width:38px;height:38px;border-radius:11px}}
+.hero-brand .hb-mark{background:linear-gradient(135deg,var(--accent),var(--accent2))!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#fff!important;-webkit-text-fill-color:#fff}
+.hero h1{width:auto!important;max-width:100%;background-size:160% 100%!important}
+.hero h1 br{display:inline!important}
+.hero h1 em{margin-inline-start:0!important}
+.hero h1 > span{color:inherit}
+.hero h1{width:fit-content!important;background-size:130% 100%!important}
 
 </style>
 </head><body>
@@ -3065,8 +3094,8 @@ function homeRender(root){ setTimeout(()=>{ $$('.ha[data-grp]').forEach(b=>b.onc
   list.forEach(x=>{ x.classList.remove('flash'); void x.offsetWidth; x.classList.add('flash'); setTimeout(()=>x.classList.remove('flash'),2200); }); }); },0);
  const card=p=>`<a class="card" href="#${p.id}"><svg class="go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="ic">${icon(p.id)}</span><h3>${T(p.ar,p.en)}</h3><p>${T(p.dar,p.den)}</p><span class="tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</span></a>`;
  root.innerHTML=`<section class="hero"><div class="hero-copy">
-   <div class="hero-brand">${logo()}<span>figurdiscover</span></div>
-   <h1>${T('حلّل. تنبّأ.<br><em>انظر لما وراء الأرقام.</em>','Analyze. Forecast.<br><em>See beyond the numbers.</em>')}</h1>
+   <div class="hero-brand"><span class="hb-mark">${logo()}</span><span class="hb-name" dir="ltr">figur<b>discover</b></span><span class="hb-sep" aria-hidden="true"></span><span class="hb-tag">${T('منصة الذكاء المالي','Financial intelligence platform')}</span></div>
+   <h1>${T('<span>حلّل.</span> <span>تنبّأ.</span><br><em>انظر لما وراء الأرقام.</em>','<span>Analyze.</span> <span>Forecast.</span><br><em>See beyond the numbers.</em>')}</h1>
    <p class="hero-lead">${T('كل ما يحتاجه فريق المالية في مساحة عمل واحدة: تحليل القوائم المالية، ودراسات الجدوى، ومحاكاة المخاطر، وكشف الاحتيال، ولين ستة سيجما، ومستشار ضريبي ذكي. الصق أرقامك واحصل على إجابات واضحة خلال ثوانٍ.','Everything a finance team needs in one workspace: statement analysis, feasibility studies, risk simulation, fraud detection, Lean Six Sigma and an AI tax advisor. Paste your numbers and get clear answers in seconds.')}</p>
    <div class="hero-actions">
     ${[['statements','fin:statements','تحليل القوائم المالية','Financial statements','النسب، ألتمان، بينيش','Ratios, Altman, Beneish'],
