@@ -1497,6 +1497,16 @@ body.mo-lock{overflow:hidden}
 @keyframes aifSpin{to{transform:rotate(360deg)}}
 @media print{.go-row,.ai-file-out{display:none!important}}
 
+/* ===== comparison-years bar ===== */
+.yr-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:4px 0 12px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.yr-l{font-weight:700;font-size:13.5px;margin-inline-end:4px}
+.yr-chip{border:1px solid #C7D2E0;background:#F6F8FB;color:#334155;border-radius:999px;padding:5px 14px;font:inherit;font-size:13px;font-family:var(--f-mono);cursor:pointer}
+.yr-chip.on{background:#1D5BFF;border-color:#1D5BFF;color:#fff}
+.yr-sep{width:1px;height:22px;background:var(--line);margin:0 4px}
+.yr-q{background:none;border:0;color:#1D5BFF;font:inherit;font-size:12.5px;cursor:pointer;padding:4px 6px}.yr-q:hover{text-decoration:underline}
+.yr-note{margin-inline-start:auto;font-size:12.5px;color:var(--muted)}
+@media print{.yr-bar{display:none}}
+
 </style>
 </head><body>
 <div id="app" dir="ltr"></div>
@@ -2532,7 +2542,19 @@ let fs=store.get(FS_KEY,null); if(!fs||!Array.isArray(fs.years)) fs=fsSample();
 let fsSub='ratios', fsSaveT=null;
 const fsSave=()=>{ clearTimeout(fsSaveT); fsSaveT=setTimeout(()=>store.set(FS_KEY,fs),300); };
 function fsYear(i){ const d={}; FS_ITEMS.forEach(it=>{ if(!it.calc){ const v=num(fs.data[it.k]?.[i]); d[it.k]=it.k==='shares'?v:(Number.isFinite(v)?v:0); } else d[it.k]=it.calc(d); }); d.totalDebt=d.stDebt+d.ltDebt; return d; }
-const fsAll=()=>fs.years.map((_,i)=>fsYear(i));
+const fsYNum=y=>{ const m=String(y).match(/(19|20)\d{2}/); return m?+m[0]:NaN; };
+function fsIdx(){ const off=new Set(fs.off||[]); let idx=fs.years.map((_,i)=>i).filter(i=>!off.has(String(fs.years[i]))); if(!idx.length) idx=fs.years.map((_,i)=>i);
+ if(idx.every(i=>Number.isFinite(fsYNum(fs.years[i])))) idx.sort((a,b)=>fsYNum(fs.years[a])-fsYNum(fs.years[b])); return idx; }
+const fsAll=()=>fsIdx().map(fsYear);
+const fsY=()=>fsIdx().map(i=>fs.years[i]);
+function fsYearBar(onChange){ const sel=fsY(), all=fs.years.map((y,i)=>({y,i})).sort((a,b)=>(fsYNum(a.y)||a.i)-(fsYNum(b.y)||b.i)), n=sel.length;
+ const w=document.createElement('div'); w.className='yr-bar'; w.setAttribute('data-html2canvas-ignore','true');
+ w.innerHTML=`<span class="yr-l">${T('سنوات المقارنة:','Comparison years:')}</span>${all.map(({y})=>`<button type="button" class="yr-chip${sel.includes(y)?' on':''}" data-y="${esc(String(y))}" aria-pressed="${sel.includes(y)}">${esc(String(y))}</button>`).join('')}
+  <span class="yr-sep"></span><button type="button" class="yr-q" data-q="2">${T('آخر سنتين','Last 2')}</button><button type="button" class="yr-q" data-q="all">${T('كل السنوات','All years')}</button>
+  <span class="yr-note">${n>1?T(`التحليل يقارن <b>${esc(sel[n-1])}</b> مع <b>${esc(sel[n-2])}</b>`,`Analysis compares <b>${esc(sel[n-1])}</b> with <b>${esc(sel[n-2])}</b>`):T(`سنة واحدة: <b>${esc(sel[0])}</b> (بدون مقارنة)`,`One year: <b>${esc(sel[0])}</b> (no comparison)`)}</span>`;
+ $$('.yr-chip',w).forEach(b=>b.onclick=()=>{ const y=b.dataset.y, off=new Set(fs.off||[]); if(off.has(y)) off.delete(y); else { if(sel.length<=1){ toast(T('اختر سنة واحدة على الأقل','Keep at least one year')); return; } off.add(y); } fs.off=[...off]; fsSave(); onChange(); });
+ $$('.yr-q',w).forEach(b=>b.onclick=()=>{ if(b.dataset.q==='all') fs.off=[]; else { const ys=all.map(x=>String(x.y)); fs.off=ys.slice(0,-2); } fsSave(); onChange(); });
+ return w; }
 const div=(a,b)=>b?a/b:NaN;
 
 const RG=[['liq','السيولة','Liquidity'],['prof','الربحية','Profitability'],['lev','الرفع المالي والملاءة','Leverage & solvency'],['eff','الكفاءة التشغيلية','Efficiency'],['cf','جودة التدفقات النقدية','Cash flow quality'],['mk','مؤشرات السهم','Per share']];
@@ -2613,13 +2635,14 @@ function finRender(root){
  root.innerHTML=pageHead('تحليل القوائم المالية','Financial Statement Analysis','أدخل قائمة الدخل والميزانية والتدفقات النقدية لسنتين أو أكثر، واحصل على النسب المالية والتحليل الأفقي والرأسي وتحليل ديبونت ونماذج التنبؤ بالتعثر وكشف التلاعب.','Enter the income statement, balance sheet and cash flows for two or more years to get financial ratios, horizontal and vertical analysis, DuPont, and distress and manipulation scores.')+`
   ${fs.sample?`<div class="callout info" style="margin-bottom:14px">${T('البيانات الحالية <b>مثال لشركة افتراضية</b>. افتح تبويب «إدخال البيانات» واستبدلها بأرقام شركتك.','The current figures are an <b>example of a fictional company</b>. Open the Data entry tab and replace them with your company’s numbers.')}</div>`:''}
   <div class="kpis" style="margin-bottom:14px">
-   <div class="kpi"><span class="k"><span>${T('الإيرادات','Revenue')} ${esc(fs.years[n-1])}</span></span><span class="v">${fmt(d.revenue)}</span><span class="s">${isFinite(g)?`${g>=0?'+':''}${pct(g)} ${T('عن العام السابق','vs prior year')}`:esc(fs.unit)}</span></div>
+   <div class="kpi"><span class="k"><span>${T('الإيرادات','Revenue')} ${esc(fsY()[n-1])}</span></span><span class="v">${fmt(d.revenue)}</span><span class="s">${isFinite(g)?`${g>=0?'+':''}${pct(g)} ${T('عن العام السابق','vs prior year')}`:esc(fs.unit)}</span></div>
    ${['nm','roe','current','de'].map(k=>{ const r=RATIOS.find(x=>x.k===k), v=r.f(d), a=rAssess(r,v); return `<div class="kpi ${a||''}"><span class="k"><span>${T(r.ar,r.en)}</span></span><span class="v">${fmtR(v,r.u)}</span><span class="s">${a?T(...ASSESS_TXT[a]):''}</span></div>`; }).join('')}
    <div class="kpi ${z.zone||''}"><span class="k"><span>Altman Z</span></span><span class="v">${isFinite(z.z)?z.z.toFixed(2):'—'}</span><span class="s">${z.zone?T(...ZONE_TXT[z.zone]):''}</span></div>
   </div>
   ${tabsHtml([['input','إدخال البيانات','Data entry'],['ratios','النسب المالية','Ratios'],['trends','التحليل الأفقي والرأسي','Horizontal & vertical'],['dupont','تحليل ديبونت','DuPont'],['scores','التعثر والتلاعب','Distress & manipulation'],['ceo','مؤشرات CEO الـ18','18 CEO metrics'],['report','التقرير','Report']],fsSub)}
   <div class="panel" id="fs-panel" style="margin-top:14px"></div>`;
  $$('[data-sub]').forEach(b=>b.onclick=()=>{ fsSub=b.dataset.sub; finRender(root); });
+ if(fsSub!=='input'&&fs.years.length>1){ const tb=root.querySelector('.tabs'); if(tb) tb.before(fsYearBar(()=>finRender(root))); }
  const P=$('#fs-panel');
  ({input:fsInput,ratios:fsRatios,trends:fsTrends,dupont:fsDupont,scores:fsScores,ceo:fsCeo,report:fsReport})[fsSub](P,root);
 }
@@ -2648,7 +2671,7 @@ function fsInput(P,root){
   Object.keys(fs.data).forEach(k=>fs.data[k]=fs.years.map(()=>'')); fs.sample=false; fs.company=''; fsSave(); finRender(root); };
 }
 function fsRatios(P){
- const ds=fsAll(), Y=fs.years, n=ds.length, hasShares=ds.some(d=>isFinite(d.shares)&&d.shares>0);
+ const ds=fsAll(), Y=fsY(), n=ds.length, hasShares=ds.some(d=>isFinite(d.shares)&&d.shares>0);
  const counts={good:0,warn:0,bad:0};
  let html='';
  RG.forEach(([g,ar,en])=>{ if(g==='mk'&&!hasShares) return; const list=RATIOS.filter(r=>r.g===g);
@@ -2660,7 +2683,7 @@ function fsRatios(P){
   <div class="tbl-wrap"><table><thead><tr><th>${T('النسبة','Ratio')}</th>${Y.map(y=>`<th class="n">${esc(y)}</th>`).join('')}<th>${T('الاتجاه','Trend')}</th><th></th><th>${T('التقييم','Assessment')}</th></tr></thead><tbody>${html}</tbody></table></div>`;
 }
 function fsTrends(P){
- const ds=fsAll(), Y=fs.years, n=ds.length;
+ const ds=fsAll(), Y=fsY(), n=ds.length;
  const chg=(a,b)=>b?((a-b)/Math.abs(b)):NaN;
  let h='', sec='';
  FS_ITEMS.forEach(it=>{ if(it.k==='shares') return; if(it.sec!==sec){ sec=it.sec; h+=`<tr class="sec"><td colspan="${2*n}">${T(...FS_SECS[sec])}</td></tr>`; }
@@ -2677,7 +2700,7 @@ function fsTrends(P){
   <div class="tbl-wrap"><table><thead><tr><th>${T('البند','Line item')}</th>${Y.map(y=>`<th class="n">${esc(y)}</th>`).join('')}</tr></thead><tbody>${v}</tbody></table></div>`;
 }
 function fsDupont(P){
- const ds=fsAll(), Y=fs.years, n=ds.length;
+ const ds=fsAll(), Y=fsY(), n=ds.length;
  const F=[['tb','عبء الضريبة','Tax burden','صافي الربح ÷ الربح قبل الضريبة','Net income ÷ pre-tax profit',d=>div(d.net,d.ebt)],
   ['ib','عبء الفوائد','Interest burden','الربح قبل الضريبة ÷ الربح التشغيلي','Pre-tax profit ÷ EBIT',d=>div(d.ebt,d.ebit)],
   ['om','الهامش التشغيلي','Operating margin','الربح التشغيلي ÷ الإيرادات','EBIT ÷ revenue',d=>div(d.ebit,d.revenue)],
@@ -2699,7 +2722,7 @@ function fsDupont(P){
   <div class="chart-wrap">${comboSvg({labels:Y,lines:[{vals:roe,cls:'s1'},{vals:ds.map(d=>div(d.net,d.revenue)),cls:'s2'},{vals:ds.map(d=>div(d.net,d.ta)),cls:'s3'}],fmtY:v=>pct(v,0),aria:'DuPont'})}</div>`;
 }
 function fsScores(P,root){
- const ds=fsAll(), Y=fs.years, n=ds.length, M=ZMODELS[fs.zModel]||ZMODELS.z2;
+ const ds=fsAll(), Y=fsY(), n=ds.length, M=ZMODELS[fs.zModel]||ZMODELS.z2;
  const zs=ds.map(altman);
  const zRows=fs.zModel==='zp'?[['x1','رأس المال العامل ÷ الأصول','Working capital ÷ assets'],['x2','الأرباح المحتجزة ÷ الأصول','Retained earnings ÷ assets'],['x3','الربح التشغيلي ÷ الأصول','EBIT ÷ assets'],['x4','حقوق الملكية ÷ الخصوم','Equity ÷ liabilities'],['x5','الإيرادات ÷ الأصول','Revenue ÷ assets']]
   :[['x1','رأس المال العامل ÷ الأصول','Working capital ÷ assets'],['x2','الأرباح المحتجزة ÷ الأصول','Retained earnings ÷ assets'],['x3','الربح التشغيلي ÷ الأصول','EBIT ÷ assets'],['x4','حقوق الملكية ÷ الخصوم','Equity ÷ liabilities']];
@@ -2728,7 +2751,7 @@ function fsScores(P,root){
  $('#zmodel').onchange=e=>{ fs.zModel=e.target.value; fsSave(); finRender(root); };
 }
 function fsReportText(){
- const ds=fsAll(), Y=fs.years, n=ds.length, d=ds[n-1], p=n>1?ds[n-2]:null, L=[];
+ const ds=fsAll(), Y=fsY(), n=ds.length, d=ds[n-1], p=n>1?ds[n-2]:null, L=[];
  L.push(`${T('تقرير التحليل المالي','Financial analysis report')}: ${fs.company||''}`); L.push(`${T('السنوات','Years')}: ${Y.join(' · ')} (${fs.unit})`); L.push('');
  if(n>1){ const cagr=Math.pow(d.revenue/ds[0].revenue,1/(n-1))-1; L.push(T(`■ النمو: الإيرادات من ${fmt(ds[0].revenue)} إلى ${fmt(d.revenue)}، بمعدل نمو سنوي مركب ${pct(cagr)}.`,`■ Growth: revenue from ${fmt(ds[0].revenue)} to ${fmt(d.revenue)}, a compound annual growth rate of ${pct(cagr)}.`));
   const nm0=div(p.net,p.revenue), nm1=div(d.net,d.revenue); L.push(T(`  هامش صافي الربح ${nm1>=nm0?'تحسّن':'تراجع'} من ${pct(nm0)} إلى ${pct(nm1)}.`,`  Net margin ${nm1>=nm0?'improved':'declined'} from ${pct(nm0)} to ${pct(nm1)}.`)); }
@@ -2744,7 +2767,7 @@ function fsReportText(){
  L.push(''); L.push(T('ملاحظة: التقييمات مبنية على معايير عامة، ويجب مقارنتها بمتوسطات القطاع.','Note: assessments use general benchmarks and should be compared with industry averages.'));
  return L.join('\n'); }
 function fsReport(P){ const t=fsReportText();
- const ds=fsAll(); const csv=['ratio,'+fs.years.join(','),...RATIOS.map(r=>`"${r.en}",`+ds.map(d=>{ const v=r.f(d); return isFinite(v)?+v.toPrecision(6):''; }).join(','))].join('\n');
+ const ds=fsAll(); const csv=['ratio,'+fsY().join(','),...RATIOS.map(r=>`"${r.en}",`+ds.map(d=>{ const v=r.f(d); return isFinite(v)?+v.toPrecision(6):''; }).join(','))].join('\n');
  P.innerHTML=`<div class="row"><button class="btn primary" id="fs-copy">${T('نسخ التقرير','Copy report')}</button><button class="btn" id="fs-csv">${T('نسخ النسب CSV (لـ Excel)','Copy ratios as CSV (for Excel)')}</button></div>
   <textarea class="report" id="fs-rep" readonly aria-label="${T('نص التقرير','Report text')}">${esc(t)}</textarea>`;
  $('#fs-copy').onclick=()=>copyText(t,$('#fs-rep')); $('#fs-csv').onclick=()=>copyText(csv,$('#fs-rep')); }
@@ -2779,7 +2802,7 @@ function xrMoney(d){ const r=d.revenue, items=[[d.cogs,'تكلفة البضاع�
   <div class="xr-legend">${items.map(x=>`<div><i style="background:${x[3]}"></i><span>${T(x[1],x[2])}</span><b dir="ltr">${per(x[0]).toFixed(1)}</b></div>`).join('')}</div>`; }
 function xrBridge(d,p){ if(!p) return `<p class="note">${T('أضف سنة سابقة في القوائم المالية لرؤية جسر الأرباح.','Add a prior year in Financial statements to see the profit bridge.')}</p>`;
  const gmp=p.gross/p.revenue, vol=(d.revenue-p.revenue)*gmp, mar=d.revenue*(d.gross/d.revenue-gmp);
- const steps=[[T(`ربح ${fs.years[fs.years.length-2]}`,`${fs.years[fs.years.length-2]} profit`),p.net,'t'],[T('نمو المبيعات','Sales growth'),vol],[T('تغيّر الهامش','Margin change'),mar],[T('المصاريف البيعية والإدارية','SG&A'),-(d.sga-p.sga)],[T('الإهلاك','Depreciation'),-(d.dep-p.dep)],[T('الفوائد','Interest'),-(d.interest-p.interest)],[T('الضرائب','Tax'),-(d.tax-p.tax)]];
+ const steps=[[T(`ربح ${fsY()[fsY().length-2]}`,`${fsY()[fsY().length-2]} profit`),p.net,'t'],[T('نمو المبيعات','Sales growth'),vol],[T('تغيّر الهامش','Margin change'),mar],[T('المصاريف البيعية والإدارية','SG&A'),-(d.sga-p.sga)],[T('الإهلاك','Depreciation'),-(d.dep-p.dep)],[T('الفوائد','Interest'),-(d.interest-p.interest)],[T('الضرائب','Tax'),-(d.tax-p.tax)]];
  const sum=steps.reduce((a,x,i)=>a+(i?x[1]:0),p.net), oth=d.net-sum; if(Math.abs(oth)>Math.abs(d.net)*0.01) steps.push([T('أخرى','Other'),oth]); steps.push([T(`ربح ${fs.years[fs.years.length-1]}`,`${fs.years[fs.years.length-1]} profit`),d.net,'t']);
  let run=0; const bars=steps.map(([l,v,t])=>{ let a,b; if(t){ a=0; b=v; run=v; } else { a=run; b=run+v; run=b; } return {l,v,t,a,b}; });
  const mx=Math.max(...bars.map(x=>Math.max(x.a,x.b)),0), mn=Math.min(...bars.map(x=>Math.min(x.a,x.b)),0), W=760,H=280,m={l:20,r:20,t:24,b:58}, bw=(W-m.l-m.r)/bars.length, Y=v=>m.t+(mx-v)/(mx-mn||1)*(H-m.t-m.b);
@@ -2800,11 +2823,11 @@ function xrStory(s,d,p,gr){ const parts=[];
  parts.push(T(`النقد يحتاج ${fmt(s.ccc,0)} يوماً ليعود إليك بعد شراء البضاعة${s.ccc>90?'، وهذه مدة طويلة تحبس سيولتك':''}.`,`Cash takes ${fmt(s.ccc,0)} days to come back after you buy stock${s.ccc>90?', a long time that locks up your liquidity':''}.`));
  const tenDays=d.revenue/365*10; parts.push(T(`💡 لو حصّلت من عملائك أسرع بـ 10 أيام فقط، ستحرر حوالي ${fmt(tenDays)} نقداً دون أي تمويل إضافي.`,`💡 Collecting from customers just 10 days faster would free about ${fmt(tenDays)} in cash with no extra financing.`));
  return parts.join(' '); }
-function xrayRender(root){
+function xrayRender(root){ setTimeout(()=>{ const src=$('.xr-src',root); if(src&&fs.years.length>1&&!root.querySelector('.yr-bar')) src.after(fsYearBar(()=>xrayRender(root))); },0);
  const ds=fsAll(), n=ds.length, d=ds[n-1], p=n>1?ds[n-2]:null;
  root.innerHTML=pageHead('الأشعة المالية','Financial X-Ray','صورة شاملة لصحة شركتك في دقيقة: درجة من 100، ورادار لست نقاط قوة وضعف، وأين يذهب كل 100 من مبيعاتك، وما الذي غيّر أرباحك، ومحاكي «ماذا لو» لتجربة قراراتك قبل اتخاذها.','A complete picture of your company’s health in a minute: a score out of 100, a six-point strength radar, where every 100 of sales goes, what moved your profit, and a what-if simulator to test decisions before you make them.')+
  (!d||!(d.revenue>0)?`<div class="panel"><p>${T('أدخل القوائم المالية أولاً.','Enter your financial statements first.')}</p><a class="btn primary" href="#statements">${T('افتح تحليل القوائم المالية','Open Financial statements')}</a></div>`:`
- <div class="xr-src"><span>${T('المصدر: بيانات أداة تحليل القوائم المالية','Source: data from the Financial statements tool')} · <b>${esc(fs.company||'')}</b> · ${esc(fs.years.join(' / '))}</span><a class="rp-link" href="#statements">${T('تعديل البيانات ←','Edit the data →')}</a></div>
+ <div class="xr-src"><span>${T('المصدر: بيانات أداة تحليل القوائم المالية','Source: data from the Financial statements tool')} · <b>${esc(fs.company||'')}</b> · ${esc(fsY().join(' / '))}</span><a class="rp-link" href="#statements">${T('تعديل البيانات ←','Edit the data →')}</a></div>
  <section class="xr-top"><div class="panel xr-score"><h3>${T('درجة الصحة المالية','Financial health score')}</h3><div id="xr-gauge"></div><div id="xr-grade"></div></div>
   <div class="panel"><h3>${T('رادار نقاط القوة والضعف','Strength & weakness radar')}</h3><div id="xr-radar"></div><div id="xr-dims" class="xr-dims"></div></div></section>
  <section class="panel xr-story"><span class="land-eyebrow">${T('قصة أرقامك','Your numbers’ story')}</span><p id="xr-story"></p></section>
@@ -2837,8 +2860,8 @@ const FE_KEY='raseen.feas.v1';
 const feDetSample=()=>({days:30,
  sales:[[T('قهوة مختصة','Specialty coffee'),22,70,'day',6],[T('مشروبات باردة','Cold drinks'),24,30,'day',7],[T('حلويات ومخبوزات','Pastries & desserts'),18,30,'day',8],[T('ساندويتشات','Sandwiches'),28,12,'day',12]].map(([name,price,qty,per,cost])=>({id:rid(),name,price,qty,per,cost})),
  exps:[[T('الإيجار','Rent'),12000,'month'],[T('رواتب الموظفين (5)','Staff salaries (5)'),17500,'month'],[T('الكهرباء والماء','Electricity & water'),3000,'month'],[T('التسويق والإعلان','Marketing'),2000,'month'],[T('الصيانة والنظافة','Maintenance & cleaning'),1200,'month'],[T('مستهلكات يومية (أكواب ومناديل)','Daily consumables (cups, napkins)'),60,'day'],[T('الرخص والتأمين','Licences & insurance'),9000,'year']].map(([name,amt,per])=>({id:rid(),name,amt,per}))});
-const feSample=()=>({sample:true,lang,mode:'detail',name:T('مقهى متخصص (مثال)','Specialty café (example)'),inv:850000,wc:60000,years:7,rate:10,tax:10,rev1:1100000,g:6,varPct:38,fixed:420000,fg:3,salvage:50000,loan:400000,loanRate:7,loanYears:5,...feDetSample()});
-let fe=store.get(FE_KEY,null); if(!fe||fe.inv==null) fe=feSample();
+const feSample=()=>({sample:true,start:String(new Date().getFullYear()),lang,mode:'detail',name:T('مقهى متخصص (مثال)','Specialty café (example)'),inv:850000,wc:60000,years:7,rate:10,tax:10,rev1:1100000,g:6,varPct:38,fixed:420000,fg:3,salvage:50000,loan:400000,loanRate:7,loanYears:5,...feDetSample()});
+let fe=store.get(FE_KEY,null); if(!fe||fe.inv==null) fe=feSample(); if(fe.start==null) fe.start=String(new Date().getFullYear());
 if(!Array.isArray(fe.sales)){ Object.assign(fe,feDetSample()); fe.mode=fe.mode||'simple'; }
 let feSub='detail', feSaveT=null, feRoot=null;
 const PER={day:['يومياً','Daily'],week:['أسبوعياً','Weekly'],month:['شهرياً','Monthly'],year:['سنوياً','Yearly']};
@@ -2858,6 +2881,7 @@ const FE_FIELDS=[
  ['wc','رأس المال العامل','Working capital'],
  ['salvage','القيمة المتبقية في النهاية','Salvage value at end'],
  ['years','عمر المشروع (سنوات)','Project life (years)'],
+ ['start','سنة بدء التشغيل','First operating year'],
  ['grp','الإيرادات والتكاليف','Revenue and costs'],
  ['rev1','إيرادات السنة الأولى','Year-1 revenue'],
  ['g','نمو الإيرادات السنوي %','Annual revenue growth %'],
@@ -2870,6 +2894,7 @@ const FE_FIELDS=[
  ['loan','مبلغ القرض','Loan amount'],
  ['loanRate','فائدة القرض %','Loan interest %'],
  ['loanYears','مدة القرض (سنوات)','Loan term (years)']];
+const feYL=(t,pre)=>{ const s=Math.round(num(String(fe.start||'').replace(/,/g,''))); if(!(s>1900&&s<2200)) return (pre?T('سنة ','Yr '):'')+t; return t===0?T('البداية','Start'):String(s+t-1); };
 function feCalc(f){
  const N=Math.max(1,Math.min(30,Math.round(num(f.years)))), r=num(f.rate)/100, tx=num(f.tax)/100, I=num(f.inv), W=num(f.wc), S=num(f.salvage), R1=num(f.rev1), g=num(f.g)/100, v=num(f.varPct)/100, F=num(f.fixed), fg=num(f.fg)/100;
  if(![N,r,tx,I,W,S,R1,g,v,F,fg].every(Number.isFinite)) return {err:T('أكمل كل الحقول بأرقام صحيحة','Fill every field with a valid number')};
@@ -2933,7 +2958,7 @@ function feResults(res){
  if(feSub==='detail') return feDetailPanel(P,res);
  if(c.err){ P.innerHTML=`<p class="empty">${c.err}</p>`; return; }
  if(feSub==='ceo') return feCeo(P,c);
- const Y=c.rows.map(x=>String(x.t));
+ const Y=c.rows.map(x=>feYL(x.t));
  if(feSub==='summary'){
   P.innerHTML=`<div class="legend"><span><i style="background:var(--accent)"></i>${T('التدفق النقدي الحر للسنة','Annual free cash flow')}</span><span><i style="background:var(--c2)"></i>${T('التراكمي','Cumulative')}</span><span><i style="background:var(--c3)"></i>${T('التراكمي المخصوم','Discounted cumulative')}</span></div>
    <div class="chart-wrap">${comboSvg({labels:Y,bars:[{vals:c.rows.map(x=>x.fcf),cls:v=>v>=0?'pos':'neg'}],lines:[{vals:c.rows.map(x=>x.cum),cls:'s2'},{vals:c.rows.map(x=>x.dcum),cls:'s3',dash:true}],aria:T('التدفقات النقدية','Cash flows')})}</div>
@@ -2945,7 +2970,7 @@ function feResults(res){
  if(feSub==='table'){
   const L=[['rev','الإيرادات','Revenue'],['varc','التكاليف المتغيرة','Variable costs'],['fix','التكاليف الثابتة','Fixed costs'],['ebitda','الربح قبل الإهلاك (EBITDA)','EBITDA',1],['dep','الإهلاك','Depreciation'],['ebit','الربح التشغيلي','Operating profit',1],['tax','الضريبة','Tax'],['nopat','صافي الربح التشغيلي بعد الضريبة','NOPAT',1],['ocf','التدفق التشغيلي','Operating cash flow'],['term','القيمة المتبقية ورأس المال العامل','Salvage and working capital'],['fcf','التدفق النقدي الحر','Free cash flow',1]];
   const yrs=c.rows.slice(1);
-  P.innerHTML=`<div class="tbl-wrap"><table><thead><tr><th>${T('البند','Line item')}</th>${yrs.map(x=>`<th class="n">${T('سنة','Yr')} ${x.t}</th>`).join('')}</tr></thead><tbody>
+  P.innerHTML=`<div class="tbl-wrap"><table><thead><tr><th>${T('البند','Line item')}</th>${yrs.map(x=>`<th class="n">${feYL(x.t,1)}</th>`).join('')}</tr></thead><tbody>
    ${L.map(([k,ar,en,s])=>`<tr${s?' class="sub"':''}><td>${T(ar,en)}</td>${yrs.map(x=>`<td class="n">${fmt(x[k])}</td>`).join('')}</tr>`).join('')}
    <tr><td>${T('هامش EBITDA','EBITDA margin')}</td>${yrs.map(x=>`<td class="n">${pct(x.ebitda/x.rev)}</td>`).join('')}</tr></tbody></table></div>
    <p class="note">${T(`الإهلاك بالقسط الثابت: (الاستثمار − القيمة المتبقية) ÷ ${c.N} سنوات. متوسط العائد المحاسبي على الاستثمار ${pct(c.roi)}.`,`Straight-line depreciation: (investment − salvage) ÷ ${c.N} years. Average accounting return on investment ${pct(c.roi)}.`)}</p>`; }
@@ -2956,7 +2981,7 @@ function feResults(res){
     <div class="kpi ${c.eqIrr>c.r?'good':'bad'}"><span class="k"><span>${T('العائد الداخلي للملاك','Equity IRR')}</span></span><span class="v">${pct(c.eqIrr)}</span><span class="s">${T('بعد القرض','with the loan')}</span></div>
     <div class="kpi"><span class="k"><span>${T('رأس المال الذاتي المطلوب','Owner equity needed')}</span></span><span class="v">${fmt(c.I+c.W-(num(fe.loan)||0))}</span></div></div>
    <div class="tbl-wrap"><table><thead><tr><th class="n">${T('السنة','Year')}</th><th class="n">${T('رصيد أول المدة','Opening balance')}</th><th class="n">${T('الفائدة','Interest')}</th><th class="n">${T('أصل الدين','Principal')}</th><th class="n">${T('القسط','Payment')}</th><th class="n">${T('الرصيد الختامي','Closing balance')}</th><th class="n">DSCR</th></tr></thead><tbody>
-    ${c.sched.map(s=>`<tr><td class="n">${s.t}</td><td class="n">${fmt(s.open)}</td><td class="n">${fmt(s.int)}</td><td class="n">${fmt(s.prin)}</td><td class="n">${fmt(s.pay)}</td><td class="n">${fmt(Math.max(0,s.close))}</td><td class="n"><span class="${s.dscr>=1.25?'up':'down'}">${isFinite(s.dscr)?s.dscr.toFixed(2)+'×':'—'}</span></td></tr>`).join('')}</tbody></table></div>
+    ${c.sched.map(s=>`<tr><td class="n">${feYL(s.t)}</td><td class="n">${fmt(s.open)}</td><td class="n">${fmt(s.int)}</td><td class="n">${fmt(s.prin)}</td><td class="n">${fmt(s.pay)}</td><td class="n">${fmt(Math.max(0,s.close))}</td><td class="n"><span class="${s.dscr>=1.25?'up':'down'}">${isFinite(s.dscr)?s.dscr.toFixed(2)+'×':'—'}</span></td></tr>`).join('')}</tbody></table></div>
    <p class="note">${T('DSCR = (EBITDA − الضريبة) ÷ القسط السنوي. أقل من 1 يعني أن المشروع لا يغطي أقساطه من تشغيله.','DSCR = (EBITDA − tax) ÷ annual payment. Below 1 means operations cannot cover the instalments.')}</p>`
   :`<p class="empty">${T('أدخل مبلغ قرض في الافتراضات لعرض جدول السداد وتغطية خدمة الدين.','Enter a loan amount to see the repayment schedule and debt service coverage.')}</p>`; }
  if(feSub==='sens'){
@@ -2988,7 +3013,7 @@ function feResults(res){
    T(`■ مؤشر الربحية: ${c.pi.toFixed(2)}`,`■ Profitability index: ${c.pi.toFixed(2)}`),T(`■ نقطة التعادل: إيرادات ${fmt(c.be)} سنوياً، بهامش أمان ${pct(c.mos)}`,`■ Break-even revenue ${fmt(c.be)} per year, margin of safety ${pct(c.mos)}`),
    c.sched.length?T(`■ القرض: قسط سنوي ${fmt(c.pay)}، وأدنى تغطية لخدمة الدين ${isFinite(c.minD)?c.minD.toFixed(2):'—'}×، والعائد الداخلي للملاك ${pct(c.eqIrr)}`,`■ Loan: annual payment ${fmt(c.pay)}, minimum DSCR ${isFinite(c.minD)?c.minD.toFixed(2):'—'}×, equity IRR ${pct(c.eqIrr)}`):'',
    '',ok?T('■ التوصية: المشروع مجدٍ مالياً بالافتراضات الحالية. راجع تحليل الحساسية وحلّل المخاطر قبل القرار النهائي.','■ Recommendation: viable under current assumptions. Review sensitivity and run the risk simulation before deciding.'):T('■ التوصية: المشروع غير مجدٍ بالافتراضات الحالية. راجع التسعير والتكاليف أو حجم الاستثمار.','■ Recommendation: not viable under current assumptions. Revisit pricing, costs or investment size.')].filter(x=>x!=='').join('\n');
-  const csv=['year,revenue,ebitda,ebit,tax,fcf,pv,cumulative',...c.rows.map(x=>[x.t,x.rev??'',x.ebitda??'',x.ebit??'',x.tax??'',x.fcf,x.pv,x.cum].map(v=>typeof v==='number'?Math.round(v):v).join(','))].join('\n');
+  const csv=['year,revenue,ebitda,ebit,tax,fcf,pv,cumulative',...c.rows.map(x=>[feYL(x.t),x.rev??'',x.ebitda??'',x.ebit??'',x.tax??'',x.fcf,x.pv,x.cum].map(v=>typeof v==='number'?Math.round(v):v).join(','))].join('\n');
   P.innerHTML=`<div class="row"><button class="btn primary" id="fe-copy">${T('نسخ التقرير','Copy report')}</button><button class="btn" id="fe-csv">${T('نسخ التدفقات CSV','Copy cash flows as CSV')}</button></div><textarea class="report" id="fe-rep" readonly aria-label="${T('نص التقرير','Report text')}">${esc(t)}</textarea>`;
   $('#fe-copy').onclick=()=>copyText(t,$('#fe-rep')); $('#fe-csv').onclick=()=>copyText(csv,$('#fe-rep')); }
 }
@@ -3135,7 +3160,7 @@ function fsCeoVals(){ const ds=fsAll(), n=ds.length, d=ds[n-1], p=n>1?ds[n-2]:nu
  V.arpa=Number.isFinite(arpa)?{v:arpa,disp:fmtShort(arpa),sub:T('لكل عميل في السنة','per customer per year')}:{na:1};
  return V; }
 function fsCeo(P,root){ if(!fs.op) fs.op=fs.sample?{...FS_OP_SAMPLE}:{};
- const draw=()=>{ $('#ceo-out',P).innerHTML=ceoCards(fsCeoVals(),T(`سنة ${esc(fs.years[fs.years.length-1])} · المبالغ ${esc(fs.unit)}. المؤشرات 1–6 و14 و16–17 تُحسب من القوائم مباشرة.`,`Year ${esc(fs.years[fs.years.length-1])} · amounts in ${esc(fs.unit)}. Metrics 1–6, 14 and 16–17 come straight from the statements.`)); };
+ const draw=()=>{ $('#ceo-out',P).innerHTML=ceoCards(fsCeoVals(),T(`سنة ${esc(fsY()[fsY().length-1])} · المبالغ ${esc(fs.unit)}. المؤشرات 1–6 و14 و16–17 تُحسب من القوائم مباشرة.`,`Year ${esc(fsY()[fsY().length-1])} · amounts in ${esc(fs.unit)}. Metrics 1–6, 14 and 16–17 come straight from the statements.`)); };
  P.innerHTML=`<h3 style="margin-top:0">${T('18 مؤشراً يجب أن يعرفها كل رئيس تنفيذي ويتابعها','18 key metrics every CEO should know and track')}</h3>${ceoForm(FS_OP_F,fs.op,'fsop')}<div id="ceo-out" style="margin-top:14px"></div>`;
  P.addEventListener('input',e=>{ const k=e.target.dataset.ceo; if(!k) return; fs.op[k]=e.target.value; fsSave(); draw(); }); draw(); }
 
@@ -4903,7 +4928,7 @@ function formEnhance(){ const m=$('#main'); if(!m) return; if(curPage().id==='ri
   m.addEventListener('focusout',e=>{ const i=e.target; if(i.dataset&&i.dataset.fe==='n'){ const g=feGroup(i.value); if(g) i.value=g; } });
   m.addEventListener('input',e=>{ const i=e.target; if(!i.dataset||i.dataset.fe!=='n') return; const v=i.value.trim(), bad=v!==''&&!isFinite(num(v)); i.classList.toggle('in-bad',bad); const w=i.closest('.pf'); if(w) w.classList.toggle('pf-bad',bad); }); }
  $$('input',m).forEach(i=>{ if(i.dataset.fe||i.type==='checkbox'||i.type==='radio'||i.type==='range') return;
-  const numeric=i.getAttribute('inputmode')==='decimal'||(i.dir==='ltr'&&i.closest('.pf')&&!i.readOnly&&isFinite(num(i.value||'0')));
+  const numeric=!/^(fe-start|fs-year-\d+)$/.test(i.id)&&(i.getAttribute('inputmode')==='decimal'||(i.dir==='ltr'&&i.closest('.pf')&&!i.readOnly&&isFinite(num(i.value||'0'))));
   i.dataset.fe=numeric?'n':'t';
   if(numeric&&document.activeElement!==i){ const g=feGroup(i.value); if(g) i.value=g; }
   const pf=i.closest('.pf'), span=pf&&pf.querySelector(':scope > span');
@@ -4954,6 +4979,7 @@ const FH={
 'fe-inv':['كل تكلفة التأسيس: معدات، ديكور، تراخيص.','All start-up costs: equipment, fit-out, licences.','كلما زاد طالت فترة الاسترداد.','Higher means a longer payback.','',''],
 'fe-wc':['النقد اللازم للمخزون والذمم قبل التحصيل.','Cash needed for stock and receivables before collections.','يُسترد في نهاية المشروع.','Recovered at the end of the project.','2–3 أشهر من المصاريف التشغيلية.','2–3 months of operating costs.'],
 'fe-salvage':['قيمة بيع الأصول في نهاية المشروع.','Resale value of assets at the end.','تضاف للتدفق في السنة الأخيرة.','Added to the last year’s cash flow.','',''],
+'fe-start':['السنة الأولى لتشغيل المشروع، مثل 2026.','The first operating year, e.g. 2026.','تُكتب بها سنوات الجداول والرسوم بدل 1، 2، 3.','Tables and charts show real years instead of 1, 2, 3.','',''],
 'fe-years':['عمر المشروع بالسنوات (عادة 5–10).','Project life in years (usually 5–10).','مدة حساب صافي القيمة الحالية.','The NPV horizon.','',''],
 'fe-rev1':['يُحسب من جدول المبيعات بالأسفل.','Calculated from the sales table below.','أساس كل التدفقات النقدية.','Base for every cash flow.','',''],
 'fe-g':['نسبة نمو المبيعات السنوية المتوقعة.','Expected annual sales growth.','تؤثر بقوة على صافي القيمة الحالية.','Strongly affects NPV.','كن متحفظاً: 3–8% واقعية.','Be conservative: 3–8% is realistic.'],
