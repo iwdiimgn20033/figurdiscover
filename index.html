@@ -1025,7 +1025,7 @@ tr.cal-past td{opacity:.55}
  .rp-panel{min-width:280px!important;max-width:calc(100vw - 32px)}
  .rp-panel-in:not(.mega-in){max-height:70vh;overflow-y:auto!important}
  .rp-item.has-sub .rp-more{display:none}
- .rp-sub{position:static;opacity:1;visibility:visible;transform:none!important;padding:0 0 6px;display:block}
+ .rp-sub{position:static;opacity:1;visibility:inherit;transform:none!important;padding:0 0 6px;display:block}
  .rp-sub-in{box-shadow:none;border:0;padding:0 0 0 44px;min-width:0;background:transparent}
  [dir="rtl"] .rp-sub-in{padding:0 44px 0 0}
  .rp-sub-h{display:none}.rp-sub-in a{padding:6px 10px!important;font-size:13px;white-space:normal}
@@ -1248,7 +1248,7 @@ td.cp-miss{background:#FFF1F2;color:#B91C1C}
 .nv-sub a:hover{background:#F4F7FF;color:var(--accent)!important}
 .nv-ph{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;padding:8px 12px 2px}
 @media (max-width:1180px){
- .rp-sub{position:static!important;opacity:1!important;visibility:visible!important;transform:none!important;padding:0 0 6px!important;display:block!important}
+ .rp-sub{position:static!important;opacity:1!important;visibility:inherit!important;transform:none!important;padding:0 0 6px!important;display:block!important}
  .rp-sub-in{box-shadow:none!important;border:0!important;padding:0 0 0 44px!important;min-width:0!important;background:transparent!important}
  [dir="rtl"] .rp-sub-in{padding:0 44px 0 0!important}
  .rp-sub-h,.rp-more{display:none!important}
@@ -1455,6 +1455,9 @@ button,[role=tab],.rp-top,.showme a,.dmaic button,.tabs button{-webkit-user-sele
 @media (max-width:900px){.tmap{grid-template-columns:1fr}.tmap-panel{position:static;max-height:none}}
 @media (prefers-reduced-motion:reduce){.tm-g .tm-in{transition:none;opacity:1;transform:none}}
 .tp-hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+.hero-map svg{width:18px;height:18px;margin-inline-end:6px;vertical-align:-3px}
+.rp-mapbtn svg{width:20px;height:20px}
+.home-map-sec{padding-top:34px}
 
 </style>
 </head><body>
@@ -5773,7 +5776,7 @@ function renderShell(){
     <nav class="rp-menu" aria-label="${T('الأدوات','Tools')}">${menu}<a class="rp-top rp-founder" href="#about"${cp.id==='about'?' aria-current="page"':''}><span class="mini-av" dir="ltr">MK</span>${T('المؤسس','Founder')}</a></nav>
     <button type="button" class="rp-icon pal-btn" aria-label="${T('ابحث عن أداة','Find a tool')}" title="Ctrl K">${IC_S}</button>
     <a class="btn rp-cta" href="#statements">${T('ابدأ التحليل','Start analysing')}</a>
-    <span class="rp-mob"><span id="auth-slot2"></span><button class="rp-icon" id="lang-btn2">${lang==='ar'?'EN':'ع'}</button><button class="rp-icon menu-btn" id="menu-btn" aria-expanded="false" aria-controls="m-drawer" aria-label="${T('القائمة','Menu')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span>
+    <span class="rp-mob"><span id="auth-slot2"></span><a class="rp-icon rp-mapbtn" href="#map" aria-label="${T('خريطة الأدوات','Tools map')}" title="${T('خريطة الأدوات','Tools map')}">${LI(IC.map)}</a><button class="rp-icon" id="lang-btn2">${lang==='ar'?'EN':'ع'}</button><button class="rp-icon menu-btn" id="menu-btn" aria-expanded="false" aria-controls="m-drawer" aria-label="${T('القائمة','Menu')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span>
    </div></div>
   </header>
   ${mktBarHtml()}
@@ -5862,7 +5865,7 @@ function homeRender(root){ setTimeout(()=>{ const hm=$('#home-map'); if(hm) mapM
    <span class="rp-eyebrow">${T('منصة الذكاء المالي','Financial intelligence platform')}</span>
    <h1>${T('حلّل. تنبّأ.<br>انظر لما وراء الأرقام.','Analyze. Forecast.<br>See beyond the numbers.')}</h1>
    <p class="hero-lead">${T('كل ما يحتاجه فريق المالية في مساحة عمل واحدة: تحليل القوائم المالية، ودراسات الجدوى، ومحاكاة المخاطر، وكشف الاحتيال، ولين ستة سيجما، ومستشار ضريبي ذكي. الصق أرقامك واحصل على إجابات واضحة خلال ثوانٍ.','Everything a finance team needs in one workspace: statement analysis, feasibility studies, risk simulation, fraud detection, Lean Six Sigma and an AI tax advisor. Paste your numbers and get clear answers in seconds.')}</p>
-   <div class="hero-cta"><a class="btn big rp-white" href="#statements">${T('ابدأ التحليل مجاناً','Start analysing free')}</a><button type="button" class="btn big rp-outline" data-go="#land-how">${T('كيف يعمل؟','How it works')}</button></div>
+   <div class="hero-cta"><a class="btn big rp-white" href="#statements">${T('ابدأ التحليل مجاناً','Start analysing free')}</a><a class="btn big rp-outline hero-map" href="#map">${LI(IC.map)}${T('خريطة الأدوات التفاعلية','Interactive tools map')}</a><button type="button" class="btn big rp-outline" data-go="#land-how">${T('كيف يعمل؟','How it works')}</button></div>
    <ul class="hero-trust">${[['مجاني بالكامل','Completely free'],['بدون تثبيت','Nothing to install'],['عربي وإنجليزي','Arabic & English'],['بياناتك في متصفحك','Your data stays in your browser']].map(([a,e])=>`<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>${T(a,e)}</li>`).join('')}</ul>
    </div>${heroMock()}</div></section>
   <section class="rp-quick"><div class="hero-actions">
@@ -5874,10 +5877,10 @@ function homeRender(root){ setTimeout(()=>{ const hm=$('#home-map'); if(hm) mapM
    </div>
    <div class="hero-stats"><div><b>${PAGES.filter(p=>p.g&&!['help','mkt'].includes(p.g)).length}</b><span>${T('أداة تحليل','analysis tools')}</span></div><div><b>40+</b><span>${T('نسبة ومؤشر مالي','ratios and scores')}</span></div><div><b>118</b><span>${T('دولة في المستشار الضريبي','countries for tax')}</span></div><div><b>2</b><span>${T('لغتان: عربي وإنجليزي','languages')}</span></div></div>
   </section>
+ <section class="land-sec home-map-sec" id="land-map"><div class="land-hd"><span class="land-eyebrow">${T('خريطة الأدوات','Tools map')}</span><h2>${T('كل أدوات الموقع في خريطة تفاعلية واحدة','Every tool on one interactive map')}</h2><p>${T('مرّر على أي دائرة لترى ملخص القسم، واضغط لتقترب منه وتفتح أدواته.','Hover any circle for a section summary; click to zoom in and open its tools.')}</p></div><div id="home-map" class="home-map"></div></section>
  <section class="ab-teaser"><div class="ab-photo sm"><div class="ab-ring"><span class="ab-mono" dir="ltr">MK</span></div></div><div><span class="rp-eyebrow" style="color:var(--accent)">${T('من وراء المنصة','Behind the platform')}</span><h2>${T('محمد خمايسة','Mohammad Khamaiseh')}</h2><p>${T('خبير التحليل المالي والاقتصادي ومستشار ضريبي ومستشار لدى عدد من الشركات. بكالوريوس في المحاسبة والاقتصاد، وماجستير إدارة الأعمال من الجامعة السويسرية، وحاصل على العديد من الشهادات المهنية والأكاديمية.','Financial & economic analysis expert, tax adviser and adviser to a number of companies. Bachelor’s in Accounting & Economics, MBA from a Swiss university, and holder of numerous professional and academic certifications.')}</p><a class="rp-link" href="#about">${T('تعرّف على المؤسس ←','Meet the founder →')}</a></div></section>
  <a class="xr-promo" href="#xray"><span class="new-b big">${T('جديد','New')}</span><span class="xr-promo-ic">${icon('xray')}</span><span><b>${T('الأشعة المالية: افحص صحة شركتك في دقيقة','Financial X-Ray: check your company’s health in a minute')}</b><small>${T('درجة من 100، رادار نقاط القوة والضعف، أين يذهب كل 100 من مبيعاتك، ومحاكي «ماذا لو» لتجربة قراراتك.','A score out of 100, a strength radar, where every 100 of sales goes, and a what-if simulator for your decisions.')}</small></span><span class="xr-promo-go">→</span></a>
  <section class="land-sec" id="land-tools"><div class="land-hd"><span class="land-eyebrow">${T('الأدوات','The toolkit')}</span><h2>${T('كل ما تحتاجه للتحليل في مكان واحد','Everything you need to analyse, in one place')}</h2><p>${T('أكثر من 14 أداة احترافية مقسّمة حسب المجال. افتح أي أداة وابدأ فوراً ببيانات مثال.','14+ professional tools grouped by field. Open any tool and start right away with example data.')}</p></div>
-  <div id="home-map" class="home-map"></div>
   ${Object.keys(GROUPS).filter(g=>g!=='help').map(g=>`<h2 class="grp-title" id="grp-${g}" style="scroll-margin-top:80px">${T(...GROUPS[g])}</h2><div class="cards">${PAGES.filter(p=>p.g===g).map(card).join('')}</div>`).join('')}</section>
   ${homeLanding()}`;
   if('IntersectionObserver' in window){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{threshold:.12}); root.querySelectorAll('.land-sec,.rp-feature,.ab-teaser,.land-cta').forEach(x=>{ x.classList.add('rv'); io.observe(x); }); }
