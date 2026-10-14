@@ -1507,6 +1507,22 @@ body.mo-lock{overflow:hidden}
 .yr-note{margin-inline-start:auto;font-size:12.5px;color:var(--muted)}
 @media print{.yr-bar{display:none}}
 
+/* ===== staged import + result ===== */
+.imp-go:disabled{opacity:.45;cursor:not-allowed}
+.imp-stage{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 12px;background:#fff;border:1px solid #C7D7F5;border-radius:10px;font-size:13px}
+.imp-stage .is-m{color:#047857;font-weight:600}
+.imp-stage .spin{width:16px;height:16px;border:2.5px solid #DBEAFE;border-top-color:#1D5BFF;border-radius:50%;animation:aifSpin .8s linear infinite}
+.imp-res{margin-top:8px;padding:12px 14px;border-radius:12px;font-size:13.5px}
+.imp-res.ok{background:#ECFDF5;border:1px solid #A7F3D0}.imp-res.bad{background:#FEF2F2;border:1px solid #FECACA}
+.ir-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.ir-h b{font-size:14.5px}.ir-h>span:last-child{color:var(--muted)}
+.ir-ic{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px}
+.imp-res.ok .ir-ic{background:#059669}.imp-res.bad .ir-ic{background:#DC2626}
+.ir-tools{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px}.ir-tools>span{font-weight:600;margin-inline-end:4px}
+.ir-t{display:inline-flex;gap:6px;align-items:center;background:#fff;border:1px solid #6EE7B7;color:#065F46;border-radius:999px;padding:4px 12px;text-decoration:none;font-size:12.5px;font-weight:600}
+.ir-t:hover{background:#059669;color:#fff;border-color:#059669}.ir-t i{font-style:normal}
+.ir-act{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px}
+.ir-why{margin:8px 0 4px;color:#7F1D1D;line-height:1.6}
+
 </style>
 </head><body>
 <div id="app" dir="ltr"></div>
@@ -5142,9 +5158,9 @@ const FH={
 'nt-l':['حد الاعتماد المالي.','Approval limit.','','','',''],'nt-b':['النطاق تحت الحد للفحص.','Band below the limit to check.','يكشف التجزئة للهروب من الاعتماد.','Catches splitting to dodge approval.','',''],
 'ot-r':['نسبة أكبر مبلغ إلى ثاني أكبر للتنبيه.','Largest ÷ second-largest ratio that triggers an alert.','','','',''],'ot-z':['حد الانحراف المعياري للقيم الشاذة.','Z-score limit for outliers.','','','3 هو المعتاد.','3 is standard.'],
 'sp-m':['طريقة اختيار العينة.','Sampling method.','','','',''],'sp-c':['مستوى الثقة.','Confidence level.','','','95%.','95%.'],'sp-tm':['الخطأ المقبول.','Tolerable misstatement.','أصغر = عينة أكبر.','Smaller = bigger sample.','',''],'sp-em':['الخطأ المتوقع.','Expected misstatement.','','','',''],'sp-s':['رقم ثابت لإعادة نفس العينة.','A fixed number to repeat the sample.','','','',''],
-'w-score':['قيّم من 0 (لا يوجد) إلى 5 (كبير جداً).','Rate from 0 (none) to 5 (severe).','','','0–1 في كل البنود.','0–1 on every item.'],
-'s-score':['قيّم من 0 إلى 5.','Rate from 0 to 5.','','','4 أو أكثر.','4 or more.'],
-'h-score':['قيّم من 1 (سيئ) إلى 5 (ممتاز).','Rate from 1 (poor) to 5 (great).','','','4 أو أكثر.','4 or more.']
+'w-score':['قيّم من {min} (لا يوجد) إلى {max} (كبير جداً).','Rate from {min} (none) to {max} (severe).','','','0–1 في كل البنود.','0–1 on every item.'],
+'s-score':['قيّم من {min} إلى {max}.','Rate from {min} to {max}.','','','4 أو أكثر.','4 or more.'],
+'h-score':['قيّم من {min} (سيئ) إلى {max} (ممتاز).','Rate from {min} (poor) to {max} (great).','','','4 أو أكثر.','4 or more.']
 };
 const FH_SKIP=/^(model-name|fs-rep|rep|sp-csv|template|out-sel|scen|lo|hi|fit-name|fit-text|stTitle)$/;
 function fhKey(e){ let k=e.id||e.dataset.k||(e.dataset.w?'xr-'+e.dataset.w:''); if(!k) return ''; if(/^f[se]op-/.test(k)) return 'op-'+k.slice(5);
@@ -5159,7 +5175,7 @@ function fieldHelp(){ const m=$('#main'); if(!m) return;
   const k=fhKey(e); if(!k||FH_SKIP.test(k)) return;
   if(/^fs-[a-zA-Z]+$/.test(k)&&e.closest('td')){ if(e.dataset.y!=='0') return; const h=FH[k]; const td=e.closest('tr')&&e.closest('tr').querySelector('td.lbl'); if(h&&td&&!td.querySelector('.fh')) td.insertAdjacentHTML('beforeend',fhHtml(h,'fh-row')); return; }
   if(/^f[sx]-[ncpqra]-/.test(e.id)){ const tb=e.closest('table'); const key=e.id[1]==='s'?'fe-sales-tbl':'fe-exp-tbl'; const w=tb&&(tb.closest('.tbl-wrap')||tb); if(w&&!(w.previousElementSibling&&w.previousElementSibling.classList.contains('fh'))) w.insertAdjacentHTML('beforebegin',fhHtml(FH[key],'fh-tbl')); return; }
-  const h=FH[k]||CEO_FH[k]; if(!h) return; const host=e.closest('.pf,label,.xr-sl')||e; const after=e.closest('.inwrap')||e;
+  let h=FH[k]||CEO_FH[k]; if(!h) return; if(e.type==='range') h=h.map(x=>String(x).replace('{min}',e.min).replace('{max}',e.max)); const host=e.closest('.pf,label,.xr-sl')||e; const after=e.closest('.inwrap')||e;
   if(host.querySelector(':scope > .fh')) return;
   if(host===e) e.insertAdjacentHTML('afterend',fhHtml(h)); else if(after.parentElement===host) after.insertAdjacentHTML('afterend',fhHtml(h)); else host.insertAdjacentHTML('beforeend',fhHtml(h)); }); }
 
@@ -5379,7 +5395,7 @@ function repInject(){ const m=$('#main'); if(!m) return; const id=curPage().id; 
  h.appendChild(d);
  d.onclick=e=>{ const b=e.target.closest('[data-rep]'); if(!b) return; const k=b.dataset.rep;
   if(k==='prt') return repPrint(); if(k==='pdf') return repPdf(b); if(k==='xls') return repXls(b); if(k==='imp') $('.rep-file',d).click(); };
- $('.rep-file',d).onchange=e=>{ const f=e.target.files[0]; e.target.value=''; if(f) repImport(f,$('[data-rep="imp"]',d)); }; }
+ $('.rep-file',d).onchange=e=>{ const f=e.target.files[0]; e.target.value=''; if(!f) return; const bar=$('#main .imp-inline'); if(bar){ bar.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'}); impStage(bar,f,null); } else repImport(f,$('[data-rep="imp"]',d)); }; }
 const repName=ext=>`figurdiscover-${curPage().id}-${new Date().toISOString().slice(0,10)}.${ext}`;
 const busy=(b,on)=>{ if(b){ b.classList.toggle('busy',on); b.disabled=on; } };
 
@@ -5476,13 +5492,13 @@ function impApply(rows,target,kind){ const id=curPage().id;
   else if(mode==='nv'&&c.length){ const tj=textCol(rows); const ps=rows.filter(r=>isNumCell(r[c[0].j])&&(tj<0||r[tj])).map((r,i)=>`${tj<0?'#'+(i+1):String(r[tj]).replace(/[\t,]/g,' ')}\t${cnum(r[c[0].j])}`); text=ps.join('\n'); n=ps.length; }
   else if(mode==='full'){ const w=Math.max(...rows.map(r=>r.length)); const ps=rows.filter(r=>r.some(x=>String(x).trim()!=='')).map(r=>Array.from({length:w},(_,j)=>String(r[j]??'').replace(/[\t\n]/g,' ').trim()).join('\t')); text=ps.join('\n'); n=Math.max(0,ps.length-1); }
   else if(mode==='pipe'){ const ps=rows.slice(1).filter(r=>r.some(x=>String(x).trim())).map(r=>r.map(x=>String(x).trim()).join(' | ')); text=ps.join('\n'); n=ps.length; }
-  else if(mode==='table'){ const ps=rows.filter(r=>r.some(isNumCell)).map(r=>r.map(x=>String(x).replace(/\t/g,' ')).join(ta.id==='ls-fmea'?', ':'\t')); text=ps.join('\n'); n=ps.length; }
+  else if(mode==='table'){ const ps=rows.filter((r,i)=>r.some(isNumCell)||(i===0&&ta.id==='tx-text')).map(r=>r.map(x=>String(x).replace(/\t/g,' ')).join(ta.id==='ls-fmea'?', ':'\t')); text=ps.join('\n'); n=ps.length; }
   if(n){ setTA(ta,text); return n; } }
  /* key-value: row label → field label */
- const fields=$$('.pf',m).filter(vis).map(l=>({l,i:$('input:not([readonly]):not([type=file]):not([type=checkbox]),select',l),t:normL(($(':scope > span',l)||l).textContent.replace(/محسوب تلقائياً|auto/,''))})).filter(x=>x.i&&x.t.length>=3);
+ const stripN=x=>x.replace(/\s*\d+(\.\d+)?\s*$/,'').trim(); const fields=$$('.pf,.xr-sl',m).filter(l=>(vis(l)||l.closest('details:not([open])'))&&!l.closest('.imp-inline')).map(l=>({l,i:$('input:not([readonly]):not([type=file]):not([type=checkbox]),select,textarea:not([readonly])',l),t:stripN(normL(($(':scope > span',l)||l).textContent.replace(/محسوب تلقائياً|auto/,'')))})).filter(x=>x.i&&x.t.length>=3);
  let n=0; const used=new Set();
- rows.forEach(r=>{ const lab=r.find(c=>c&&!isNumCell(c)), nums=r.filter(isNumCell), val=nums.length>1?nums.map(cnum).join(' '):nums[0]; if(!lab||val==null) return; const L=normL(lab); if(L.length<3) return;
-  const f=fields.find(x=>!used.has(x)&&(x.t===L||x.t.includes(L)||L.includes(x.t))); if(!f||f.i.tagName==='SELECT') return;
+ rows.forEach(r=>{ const li=r.findIndex(c=>c&&!isNumCell(c)), lab=li>=0?r[li]:null, nums=r.filter(isNumCell), txt=li>=0?r.slice(li+1).find(c=>String(c).trim()&&!isNumCell(c)):null; let val=nums.length>1?nums.map(cnum).join(' '):nums[0]; if(!lab) return; const L=stripN(normL(lab)); if(val==null&&txt==null) return; if(/^(field|value|الحقل|القيمه|البند|item)$/.test(L)) return; if(L.length<3) return;
+  const f=fields.find(x=>!used.has(x)&&(x.t===L||x.t.includes(L)||L.includes(x.t))); if(!f||f.i.tagName==='SELECT') return; const isNumF=f.i.dataset.fe==='n'||f.i.getAttribute('inputmode')==='decimal'||f.i.type==='range'; if(val==null&&isNumF) return; if(val==null||(!isNumF&&txt!=null&&nums.length===0)){ used.add(f); f.i.value=String(txt); ['input','change'].forEach(ev=>f.i.dispatchEvent(new Event(ev,{bubbles:true}))); n++; return; }
   used.add(f); f.i.value=nums.length>1?val:String(cnum(val)); ['input','change'].forEach(ev=>f.i.dispatchEvent(new Event(ev,{bubbles:true}))); n++; });
  return n; }
 const FS_SYN={revenue:['sales','net sales','total revenue','turnover','المبيعات','صافي المبيعات','الايرادات'],cogs:['cost of sales','cost of revenue','تكلفه البضاعه المباعه','تكلفه الايرادات'],sga:['operating expenses','selling general','مصاريف عموميه واداريه','المصاريف التشغيليه'],dep:['depreciation','amortization','الاستهلاك','الاهلاك'],interest:['finance cost','interest expense','تكاليف التمويل','مصروف الفوائد'],tax:['income tax','zakat','ضريبه الدخل','الزكاه'],net:['net income','net profit','profit for the year','صافي الربح','صافي الدخل','ربح السنه'],cash:['cash and cash equivalents','النقد وما في حكمه','النقديه'],rec:['receivables','trade receivables','accounts receivable','الذمم المدينه','المدينون'],inv:['inventory','inventories','المخزون'],ppe:['property plant','fixed assets','الممتلكات والمعدات','الاصول الثابته'],payables:['trade payables','accounts payable','الذمم الدائنه','الدائنون'],stDebt:['short term loans','current portion','قروض قصيره الاجل'],ltDebt:['long term loans','borrowings','قروض طويله الاجل'],equity:['total equity','shareholders equity','حقوق الملكيه','حقوق المساهمين'],retained:['retained earnings','الارباح المبقاه','الارباح المحتجزه'],cfo:['cash from operating','operating activities','التدفقات النقديه من الانشطه التشغيليه'],capex:['capital expenditure','purchase of property','الانفاق الراسمالي'],dividends:['dividends paid','توزيعات الارباح']};
@@ -5518,6 +5534,45 @@ function impStatements(rows){ let hdr=-1, yc=[];
  fs.years=order.map(o=>o.y); Object.keys(fs.data).forEach(k=>{ fs.data[k]=data[k]||fs.years.map(()=>''); }); items.forEach(it=>{ if(!fs.data[it.k]) fs.data[it.k]=data[it.k]||fs.years.map(()=>''); });
  fs.sample=false; fsSave(); renderPage(); return n; }
 
+/* ---------- staged import: attach → preview → Start analysis → result (tools that ran, or the reason it did not) ---------- */
+function impTools(kind){ const id=curPage().id, S=k=>{ const it=(subItems('statements')||[]).find(x=>x[0]===k); return it?T(it[1],it[2]):k; };
+ if(kind!=='kv'&&(kind==='fs'||id==='statements'||id==='xray')) return [['#statements/ratios',S('ratios')],['#statements/trends',S('trends')],['#statements/dupont',S('dupont')],['#statements/scores',T('التعثر والتلاعب','Distress & manipulation')],['#statements/ceo',S('ceo')],['#xray',T('الأشعة المالية','Financial X-Ray')],['#statements/report',S('report')]];
+ if(kind==='viz'||id==='viz') return [['#viz/data',T('ملف تعريف البيانات','Data profile')],['#viz/bar',T('الرسوم البيانية','Charts')],['#viz/pivot',T('الجدول المحوري','Pivot table')],['#viz/dashboard',T('لوحة المعلومات','Dashboard')],['#viz/story',T('القصة','Story')]];
+ if(kind==='riskfit') return [['#risk/fit',T('ملاءمة التوزيع (محاكاة المخاطر)','Distribution fit (risk simulation)')]];
+ const p=curPage(), sub=curSub(), si=(subItems(p.id)||[]).find(x=>x[0]===sub); return [[location.hash||'#'+p.id,T(p.ar,p.en)+(si?' · '+T(si[1],si[2]):'')]]; }
+function impDiagnose(rows,kind,target){ const id=curPage().id, nc=numCols(rows).filter(c=>c.n>0), m=$('#main');
+ if(!rows.length) return T('الملف فارغ أو لا يحتوي جدول بيانات.','The file is empty or has no data table.');
+ if(kind!=='kv'&&(kind==='fs'||id==='statements'||id==='xray')){ if(!nc.length) return T('لم أجد أعمدة أرقام للسنوات. ضع السنوات في الصف الأول وأرقام كل سنة تحتها.','No numeric year columns were found. Put the years in the first row and each year’s figures below them.');
+  return T('لم أتعرف على أسماء البنود في العمود الأول. استخدم أسماء مثل: المبيعات، تكلفة المبيعات، المصاريف الإدارية، النقد، الذمم المدينة، المخزون، الذمم الدائنة، القروض، صافي النقد من الأنشطة التشغيلية.','The line names in the first column were not recognised. Use names such as: Revenue, Cost of sales, Administrative expenses, Cash, Receivables, Inventory, Payables, Loans, Net cash from operating activities.'); }
+ if(kind==='viz') return T('يحتاج الجدول صف عناوين في الأعلى وصفاً واحداً على الأقل من البيانات تحته.','The table needs a header row and at least one data row below it.');
+ if(kind==='riskfit'||kind==='one') return nc.length?T('الأرقام قليلة جداً للتحليل.','Too few numbers to analyse.'):T('لم أجد أي عمود أرقام في الملف. ضع القيم في عمود واحد، رقم في كل خلية، بدون رموز عملة.','No numeric column was found. Put the values in one column, one number per cell, without currency symbols.');
+ if(kind==='two'||kind==='pair') return T(`هذه الأداة تحتاج عمودين من الأرقام، ووجدت ${nc.length} فقط.`,`This tool needs two numeric columns; only ${nc.length} found.`);
+ if(kind==='nv') return T('هذه الأداة تحتاج عمودين: الاسم ثم القيمة الرقمية.','This tool needs two columns: the name, then a numeric value.');
+ if(kind==='table') return T('لم أجد صفوفاً تحتوي أرقاماً بالترتيب المطلوب. راجع ترتيب الأعمدة في المواصفات أعلاه.','No rows with numbers in the required order were found. Check the column order in the spec above.');
+ if(kind==='pipe'||kind==='multi') return T('يجب أن يكون الصف الأول عناوين الأعمدة، وتحته صف بيانات واحد على الأقل.','The first row must be column headers, with at least one data row below.');
+ if(kind==='full') return T('يحتاج الجدول صف عناوين وصف بيانات واحداً على الأقل.','The table needs a header row and at least one data row.');
+ const names=$$('.pf',m).filter(vis).map(l=>($(':scope > span',l)||l).textContent.replace(/محسوب تلقائياً|auto/g,'').replace(/\s+/g,' ').trim()).filter(Boolean).slice(0,10);
+ return T(`لم تتطابق أسماء الصفوف في الملف مع أسماء الحقول. اكتب في العمود الأول اسم الحقل كما يظهر في الشاشة، مثل: ${names.join('، ')}.`,`Row names in the file did not match the field names. In the first column write the field name as shown on screen, e.g.: ${names.join(', ')}.`); }
+function impResult(d,f,rows,n,kind,target){ const box=$('.imp-res',d); box.hidden=false;
+ if(n>0){ const tools=impTools(kind); box.className='imp-res ok';
+  box.innerHTML=`<div class="ir-h"><span class="ir-ic">✓</span><b>${T('تم التحليل بنجاح','Analysis complete')}</b><span>${T(`قُرئت ${n} قيمة من «${esc(f.name)}»`,`${n} value(s) read from “${esc(f.name)}”`)}</span></div>
+  <div class="ir-tools"><span>${T('الأدوات التي حللت بياناتك:','Tools that analysed your data:')}</span>${tools.map(([h,l])=>`<a class="ir-t" href="${h}">${esc(l)} <i>${lang==='ar'?'←':'→'}</i></a>`).join('')}</div>
+  <div class="ir-act"><button type="button" class="btn small primary ir-show">${T('اعرض النتيجة','Show the result')}</button><span class="note">${T('راجع الأرقام المستوردة قبل الاعتماد على النتائج.','Check the imported figures before relying on the results.')}</span></div>`;
+  $('.ir-show',box).onclick=()=>{ const m=$('#main'); const o=GO_OUTS.map(s=>$(s,m)).find(x=>x&&vis(x))||$$('.kpis,.calc-out,table',m).find(x=>vis(x)&&!x.closest('.imp-inline'));
+   if(curPage().id==='statements'&&fsSub==='input'){ location.hash='#statements/ratios'; return; } if(o){ window.scrollTo({top:o.getBoundingClientRect().top+scrollY-120,behavior:RM?'auto':'smooth'}); o.classList.remove('go-flash'); void o.offsetWidth; o.classList.add('go-flash'); } }; }
+ else { box.className='imp-res bad'; d.classList.remove('imp-closed');
+  box.innerHTML=`<div class="ir-h"><span class="ir-ic">!</span><b>${T('لم يتم التحليل','Analysis not done')}</b><span>«${esc(f.name)}»</span></div><p class="ir-why"><b>${T('السبب:','Reason:')}</b> ${impDiagnose(rows,kind,target)}</p><p class="note">${T('عدّل الملف حسب «مواصفات الملف المطلوب» بالأعلى ثم أعد المحاولة، أو أدخل البيانات يدوياً في الخانات.','Adjust the file to match the spec above and try again, or type the data into the fields.')}</p>`; } }
+async function impStage(d,f,target){ const st=$('.imp-stage',d), go=$('.imp-go',d), res=$('.imp-res',d); res.hidden=true; d._file=null; d._rows=null;
+ st.hidden=false; st.innerHTML=`<span class="spin"></span>${T('جارٍ قراءة الملف…','Reading the file…')}`; go.disabled=true;
+ try{ const rows=(await readRows(f)).filter(r=>r.some(c=>String(c).trim())); if(!rows.length) throw new Error('empty'); d._file=f; d._rows=rows; const w=Math.max(...rows.map(r=>r.length));
+  st.innerHTML=`<span class="is-f">📄 <b>${esc(f.name)}</b></span><span class="is-m">${T(`${rows.length} صفاً · ${w} أعمدة · جاهز للتحليل`,`${rows.length} rows · ${w} columns · ready to analyse`)}</span>`; go.disabled=false; go.focus(); }
+ catch(e){ st.innerHTML=`<span class="is-f">📄 <b>${esc(f.name)}</b></span>`; res.hidden=false; res.className='imp-res bad'; d.classList.remove('imp-closed');
+  const why=e.message==='lib'?T('تعذّر تحميل قارئ الملفات. تحقق من الاتصال بالإنترنت.','The file reader could not load. Check your internet connection.'):e.message==='empty'?T('الملف فارغ.','The file is empty.'):/\.pdf$/i.test(f.name)?T('ملف PDF ممسوح ضوئياً (صورة) أو بدون نص قابل للقراءة.','The PDF is scanned (an image) or has no readable text.'):/\.xls$/i.test(f.name)?T('صيغة Excel القديمة (.xls) لم تُقرأ. احفظ الملف بصيغة .xlsx أو CSV.','The old Excel format (.xls) could not be read. Save it as .xlsx or CSV.'):T('الملف تالف أو محمي بكلمة مرور أو بصيغة غير مدعومة.','The file is damaged, password-protected or in an unsupported format.');
+  res.innerHTML=`<div class="ir-h"><span class="ir-ic">!</span><b>${T('تعذّرت قراءة الملف','The file could not be read')}</b></div><p class="ir-why"><b>${T('السبب:','Reason:')}</b> ${why}</p>`; } }
+function impStart(d,target){ if(!d._rows){ toast(T('أرفق ملفاً أولاً.','Attach a file first.')); return; } const kind=d.dataset.kind, f=d._file, rows=d._rows; let n=0; try{ n=impApply(rows,target,kind); }catch(e){ n=0; }
+ const show=()=>{ let nd=d.isConnected&&vis(d)?d:[...$$('#main .imp-inline')].find(x=>vis(x)&&x.dataset.kind===kind)||[...$$('#main .imp-inline')].find(vis); if(!nd) return; nd._rows=rows; nd._file=f; const g=$('.imp-go',nd); if(g) g.disabled=false; const st=$('.imp-stage',nd); st.hidden=false; st.innerHTML=`<span class="is-f">📄 <b>${esc(f.name)}</b></span>`; impResult(nd,f,rows,n,kind,target); };
+ setTimeout(show,kind==='riskfit'?900:300); }
+
 /* ---------- inline import buttons + file specification under each ---------- */
 const IMP_SPLIT=/\t|\s*\|\s*|\s*[,،;]\s*/;
 const impLabel=ta=>{ const pf=ta&&ta.closest('.pf,label'); const s=pf&&($(':scope > span',pf)||pf); return s?s.textContent.replace(/\s+/g,' ').trim():''; };
@@ -5543,13 +5598,13 @@ function impSpec(kind,target){ let pts=[], head=null, ex=[];
   head=[T('الحقل','Field'),T('القيمة','Value')]; ex=F.map(x=>[($(':scope > span',x.l)||x.l).textContent.replace(/محسوب تلقائياً|auto|\s+/g,' ').trim(),x.i.value]).filter(r=>r[0]); }
  return `<div class="imp-spec"><b>${T('مواصفات الملف المطلوب','What the file should contain')}</b><ul>${pts.map(x=>`<li>${x}</li>`).join('')}<li class="imp-fmt">${FMT}</li></ul>${ex.length?`<span class="imp-ex-l">${T('مثال:','Example:')}</span>`+impTbl(head,ex):''}</div>`; }
 function impBar(kind,target){ const d=document.createElement('div'); d.className='imp-inline'; d.dataset.kind=kind; d.setAttribute('data-html2canvas-ignore','true');
- d.innerHTML=`<div class="imp-row"><button type="button" class="btn small imp-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${REP_IC.imp}</svg>${T('إرفاق ملف بياناتك (Excel / CSV / PDF)','Attach your data file (Excel / CSV / PDF)')}</button><button type="button" class="btn small ai-file-btn" title="${T('يقرأ الملف ويكتب لك تحليلاً وتوصيات','Reads the file and writes you an analysis with recommendations')}">✨ ${T('حلّل ملفاً بالذكاء الاصطناعي','Analyse a file with AI')}</button><button type="button" class="imp-tg" aria-expanded="true">${T('إخفاء المواصفات','Hide spec')}</button></div>${impSpec(kind,target)}<input type="file" class="imp-file" accept=".xlsx,.xls,.csv,.txt,.pdf" hidden><input type="file" class="ai-file" accept=".xlsx,.xls,.csv,.txt,.pdf" hidden><div class="ai-file-out" hidden></div>`;
+ d.innerHTML=`<div class="imp-row"><button type="button" class="btn small imp-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${REP_IC.imp}</svg>${T('إرفاق ملف بياناتك (Excel / CSV / PDF)','Attach your data file (Excel / CSV / PDF)')}</button><button type="button" class="btn small primary imp-go" disabled>▶ ${T('ابدأ التحليل','Start analysis')}</button><button type="button" class="btn small ai-file-btn" title="${T('يقرأ الملف ويكتب لك تحليلاً وتوصيات','Reads the file and writes you an analysis with recommendations')}">✨ ${T('حلّل ملفاً بالذكاء الاصطناعي','Analyse a file with AI')}</button><button type="button" class="imp-tg" aria-expanded="true">${T('إخفاء المواصفات','Hide spec')}</button></div>${impSpec(kind,target)}<input type="file" class="imp-file" accept=".xlsx,.xls,.csv,.txt,.pdf" hidden><input type="file" class="ai-file" accept=".xlsx,.xls,.csv,.txt,.pdf" hidden><div class="imp-stage" hidden></div><div class="imp-res" hidden></div><div class="ai-file-out" hidden></div>`;
  const ab=$('.ai-file-btn',d), af=$('.ai-file',d); ab.onclick=()=>af.click(); af.onchange=e=>{ const f=e.target.files[0]; e.target.value=''; if(f) aiAnalyzeFile(f,$('.ai-file-out',d),ab); };
- const b=$('.imp-btn',d), fi=$('.imp-file',d), tg=$('.imp-tg',d); b.onclick=()=>fi.click(); fi.onchange=e=>{ const f=e.target.files[0]; e.target.value=''; if(f) repImport(f,b,target); };
+ const b=$('.imp-btn',d), fi=$('.imp-file',d), tg=$('.imp-tg',d); b.onclick=()=>fi.click(); fi.onchange=e=>{ const f=e.target.files[0]; e.target.value=''; if(f) impStage(d,f,target); }; $('.imp-go',d).onclick=()=>impStart(d,target); const row=$('.imp-row',d); row.after($('.imp-res',d)); row.after($('.imp-stage',d));
  tg.onclick=()=>{ const o=d.classList.toggle('imp-closed'); tg.setAttribute('aria-expanded',String(!o)); tg.textContent=o?T('عرض المواصفات','Show spec'):T('إخفاء المواصفات','Hide spec'); }; return d; }
 function impTop(m,bar){ const anchor=$('#fs-panel',m)||$('#dv-panel',m); if(anchor){ anchor.before(bar); return; } const h=$('.page-head',m); let a=h; while(a&&a.nextElementSibling&&a.nextElementSibling.classList.contains('ins-box')) a=a.nextElementSibling; if(a) a.after(bar); else m.prepend(bar); }
 function impInline(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(REP_NOIMP.includes(id)) return; const has=()=>!!m.querySelector('.imp-inline');
- $$('textarea',m).forEach(ta=>{ const k=IMP_MODE[ta.id]; if(!k||ta.readOnly||!vis(ta)||ta.previousElementSibling?.classList.contains('imp-inline')) return; ta.before(impBar(k,ta)); });
+ $$('textarea',m).forEach(ta=>{ const k=IMP_MODE[ta.id]; if(!k||ta.readOnly) return; const host=ta.closest('details')||ta; if(!vis(host)||host.previousElementSibling?.classList.contains('imp-inline')) return; host.before(impBar(k,ta)); });
  if(id==='statements'&&fsSub==='input'){ const t=$('.tbl-wrap',m); if(t&&!t.previousElementSibling?.classList.contains('imp-inline')) t.before(impBar('fs',null)); return; }
  if(has()) return;
  if(id==='statements'&&fsSub!=='ceo'||id==='xray'){ impTop(m,impBar('fs',null)); return; }
@@ -5557,8 +5612,8 @@ function impInline(){ const m=$('#main'); if(!m) return; const id=curPage().id; 
  if(id==='risk'){ impTop(m,impBar('riskfit',null)); return; }
  const free=$$('textarea',m).filter(t=>vis(t)&&!t.readOnly&&!IMP_MODE[t.id]&&!/^(tax-q|of-|fs-rep|rep)/.test(t.id));
  if(free.length>=2){ let host=free[0].closest('.pf,label')||free[0]; const c=host.parentElement; if(c&&c!==m&&!c.classList.contains('panel')&&free.every(t=>c.contains(t))) host=c; host.before(impBar('multi',null)); return; }
- const inp=$$('input:not([type=file]):not([type=checkbox]):not([type=radio]):not([readonly]),textarea:not([readonly])',m).filter(e=>vis(e)&&!e.closest('.rp-hdr,.fab,.rep-tools,.imp-inline,.ins-box')&&!/^(tax-q|tw-q)$/.test(e.id));
- if(!inp.length) return; const g=$$('.form-grid',m).find(vis); const host=g||(inp[0].closest('.pf,label')||inp[0]); host.before(impBar('kv',null)); }
+ const inp=$$('input:not([type=file]):not([type=checkbox]):not([type=radio]):not([readonly]),textarea:not([readonly])',m).filter(e=>(vis(e)||e.closest('details'))&&!e.closest('.rp-hdr,.fab,.rep-tools,.imp-inline,.ins-box')&&!/^(tax-q|tw-q)$/.test(e.id));
+ if(!inp.length) return; const g=$$('.form-grid',m).find(x=>vis(x)||x.closest('details')); let host=g||(inp[0].closest('.pf,label')||inp[0]); host=host.closest('details')||host; host.before(impBar('kv',null)); }
 
 
 /* ================= Floating contact button: AI assistant, WhatsApp, email ================= */
@@ -6062,6 +6117,7 @@ function homeRender(root){ setTimeout(()=>{ const hm=$('#home-map'); if(hm) mapM
 }
 renderShell();
 authInit();
+try{ Object.defineProperty(window,'__fd',{value:{fs:()=>fs,dv:()=>dv,items:FS_ITEMS}}); }catch(e){}
 
 })();
 </script>
