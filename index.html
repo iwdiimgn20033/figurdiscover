@@ -1707,6 +1707,24 @@ body.flow-on .pf:focus-within .fh .fh-m,body.flow-on .pf:focus-within .fh .fh-b,
 @media (max-width:760px){.tm-pick{grid-template-columns:1fr}.tm-head{flex-direction:column;align-items:flex-start}}
 @media print{.tm-pick,#tm-clr,#tm-print{display:none!important}.tm-doc input{display:inline-block!important}}
 
+/* one calculator per page + same-file tool buttons */
+.calc-grid.one{grid-template-columns:minmax(0,1fr)}
+.tool-switch{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
+.sf-box{flex:1 0 100%;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px;padding-top:8px;border-top:1px dashed #C7D7FE}
+.sf-h{flex:1 0 100%;font-size:12.8px;font-weight:600;color:#1E3A8A}
+.sf-b{font:inherit;font-size:12.5px;padding:5px 11px;border-radius:999px;border:1px solid #BFD3FF;background:#fff;color:#1D4ED8;cursor:pointer}
+.sf-b:hover{background:#1D5BFF;color:#fff;border-color:#1D5BFF}.sf-b i{font-style:normal}
+.sf-box .note{flex:1 0 100%;margin:2px 0 0}
+.imp-inline.imp-closed .sf-box{display:flex}
+
+/* cash conversion cycle */
+.cc-in td{padding:3px 4px}.cc-in input{width:100%;min-width:110px;text-align:end}
+.cc-svg{width:100%;height:auto;max-height:180px}.cc-tl{font-size:12px;fill:#fff;font-weight:600}.cc-tl.dark{fill:#334155;font-weight:500}
+.cc-inv{fill:#D97706}.cc-ar{fill:#1D5BFF}.cc-ap{fill:#059669}.cc-gap{fill:#DC2626}.cc-axis{stroke:#94A3B8;stroke-dasharray:3 3}
+.cc-tests{list-style:none;margin:0;padding:0;display:grid;gap:6px}.cc-tests li{padding:8px 12px;border-radius:10px;font-size:13.5px;border:1px solid var(--line)}
+.cc-tests li b{display:inline-block;width:18px}.cc-tests .good{background:#ECFDF5;border-color:#A7F3D0}.cc-tests .warn{background:#FFFBEB;border-color:#FDE68A}.cc-tests .bad{background:#FEF2F2;border-color:#FECACA}
+.chk{display:inline-flex;gap:6px;align-items:center;font-size:13px}
+
 </style>
 </head><body>
 <div id="app" dir="ltr"></div>
@@ -3467,14 +3485,16 @@ const CALCS=[
    return {out:[[T('القيمة المستقبلية','Future value'),fmt(fv)],[T('إجمالي ما دفعته','Total contributed'),fmt(paid)],[T('الأرباح','Growth earned'),fmt(fv-paid)]],
     chart:comboSvg({labels:yr.map((_,i)=>String(i+1)),bars:[{vals:yr,cls:'f3'}],H:220,aria:T('نمو المدخرات','Savings growth')})}; }}
 ];
-function calcRender(root){
- root.innerHTML=pageHead('الحاسبات المالية','Financial Calculators','حاسبات سريعة للقرارات اليومية: القروض والعائد الإيجاري ونقطة التعادل والنمو والادخار. النتائج تتحدث مع كل رقم تكتبه.','Quick calculators for everyday decisions: loans, rental yield, break-even, growth and savings. Results update as you type.')+`
-  <div class="calc-grid">${CALCS.map(c=>`<section class="panel" data-calc="${c.id}"><div><h3>${T(c.ar,c.en)}</h3><p class="note">${T(c.dar,c.den)}</p></div>
+let caSub='';
+function calcRender(root){ { const sb=curSub(); if(CALCS.some(c=>c.id===sb)) caSub=sb; else { const m=String(sb).match(/data-calc%3D%22(\w+)|data-calc="?(\w+)/); if(m) caSub=m[1]||m[2]; } if(!CALCS.some(c=>c.id===caSub)) caSub=CALCS[0].id; } const CUR=CALCS.filter(c=>c.id===caSub);
+ root.innerHTML=pageHead(CUR[0].ar,CUR[0].en,CUR[0].dar,CUR[0].den)+`
+  <nav class="tool-switch" aria-label="${T('الحاسبات','Calculators')}">${CALCS.map(c=>`<a href="#calc/${c.id}" class="tm-chip${c.id===caSub?' on':''}">${T(c.ar,c.en)}</a>`).join('')}</nav>
+  <div class="calc-grid one">${CUR.map(c=>`<section class="panel" data-calc="${c.id}"><div><h3>${T(c.ar,c.en)}</h3><p class="note">${T(c.dar,c.den)}</p></div>
    <div class="form-grid">${c.f.map(([k,ar,en])=>`<label class="pf"><span>${T(ar,en)}</span><input id="ca-${k}" data-k="${k}" value="${esc(ca[k])}" dir="ltr" inputmode="decimal"></label>`).join('')}</div>
    <div class="calc-out" id="out-${c.id}"></div><div id="ch-${c.id}"></div></section>`).join('')}</div>`;
  const draw=c=>{ const r=c.run(), o=$(`#out-${c.id}`), ch=$(`#ch-${c.id}`); if(!r){ o.innerHTML=`<p class="note">${T('أدخل قيماً صحيحة','Enter valid values')}</p>`; ch.innerHTML=''; return; }
   o.innerHTML=r.out.map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join(''); ch.innerHTML=r.chart?`${r.legend?`<div class="legend" style="margin-bottom:6px">${r.legend}</div>`:''}<div class="chart-wrap">${r.chart}</div>`:''; };
- CALCS.forEach(draw);
+ CUR.forEach(draw);
  $('.calc-grid',root).addEventListener('input',e=>{ const k=e.target.dataset.k; if(!k) return; ca[k]=e.target.value; caSave(); draw(CALCS.find(c=>c.id===e.target.closest('[data-calc]').dataset.calc)); });
 }
 
@@ -5554,7 +5574,7 @@ function insGeneric(id){ const m=$('#main'); const ks=$$('.kpi',m).filter(k=>!k.
 
 let insT=null;
 function insSchedule(){ clearTimeout(insT); insT=setTimeout(insRender,120); }
-function insRender(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(['home','how','why','faq','guide','privacy','calendar','about','markets','xray'].includes(id)){ $$('.ins-box',m).forEach(b=>b.remove()); return; }
+function insRender(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(['calc','home','how','why','faq','guide','privacy','calendar','about','markets','xray'].includes(id)){ $$('.ins-box',m).forEach(b=>b.remove()); return; }
  let r=null; try{ r=INS[id]?INS[id]():null; if(!r) r=insGeneric(id); }catch(e){ r=null; }
  const head=$('.page-head',m); let top=$('#ins-top',m), bot=$('#ins-bot',m);
  if(!r||!head){ if(top) top.remove(); if(bot) bot.remove(); return; }
@@ -5830,7 +5850,7 @@ function fsImportBind(P){ $$('[data-fsmap]',P).forEach(s=>s.onchange=()=>{ const
 
 /* ---------- staged import: attach → preview → Start analysis → result (tools that ran, or the reason it did not) ---------- */
 function impTools(kind){ const id=curPage().id, S=k=>{ const it=(subItems('statements')||[]).find(x=>x[0]===k); return it?T(it[1],it[2]):k; };
- if(kind!=='kv'&&(kind==='fs'||id==='statements'||id==='xray')) return [['#statements/ratios',S('ratios')],['#statements/trends',S('trends')],['#statements/dupont',S('dupont')],['#statements/scores',T('التعثر والتلاعب','Distress & manipulation')],['#statements/ceo',S('ceo')],['#xray',T('الأشعة المالية','Financial X-Ray')],['#statements/report',S('report')]];
+ if(kind!=='kv'&&(kind==='fs'||id==='statements'||id==='xray'||id==='ccc')) return [['#statements/ratios',S('ratios')],['#statements/trends',S('trends')],['#statements/dupont',S('dupont')],['#statements/scores',T('التعثر والتلاعب','Distress & manipulation')],['#statements/ceo',S('ceo')],['#xray',T('الأشعة المالية','Financial X-Ray')],['#ccc',T('دورة التحويل النقدي','Cash conversion cycle')],['#statements/report',S('report')]];
  if(kind==='viz'||id==='viz') return [['#viz/data',T('ملف تعريف البيانات','Data profile')],['#viz/bar',T('الرسوم البيانية','Charts')],['#viz/pivot',T('الجدول المحوري','Pivot table')],['#viz/dashboard',T('لوحة المعلومات','Dashboard')],['#viz/story',T('القصة','Story')]];
  if(kind==='riskfit') return [['#risk/fit',T('ملاءمة التوزيع (محاكاة المخاطر)','Distribution fit (risk simulation)')]];
  const p=curPage(), sub=curSub(), si=(subItems(p.id)||[]).find(x=>x[0]===sub); return [[location.hash||'#'+p.id,T(p.ar,p.en)+(si?' · '+T(si[1],si[2]):'')]]; }
@@ -5858,7 +5878,7 @@ function impResult(d,f,rows,n,kind,target){ const box=$('.imp-res',d); box.hidde
   box.innerHTML=`<div class="ir-h"><span class="ir-ic">!</span><b>${T('لم يتم التحليل','Analysis not done')}</b><span>«${esc(f.name)}»</span></div><p class="ir-why"><b>${T('السبب:','Reason:')}</b> ${impDiagnose(rows,kind,target)}</p><p class="note">${T('عدّل الملف حسب «مواصفات الملف المطلوب» بالأعلى ثم أعد المحاولة، أو أدخل البيانات يدوياً في الخانات.','Adjust the file to match the spec above and try again, or type the data into the fields.')}</p>`; } }
 async function impStage(d,f,target){ const st=$('.imp-stage',d), go=$('.imp-go',d), res=$('.imp-res',d); res.hidden=true; d._file=null; d._rows=null;
  st.hidden=false; st.innerHTML=`<span class="spin"></span>${T('جارٍ قراءة الملف…','Reading the file…')}`; go.disabled=true;
- try{ const rows=(r0=>{ const x=r0.filter(r=>r.some(c=>String(c).trim())); x._sheets=r0._sheets; return x; })(await readRows(f)); if(!rows.length) throw new Error('empty'); d._file=f; d._rows=rows; const w=Math.max(...rows.map(r=>r.length));
+ try{ const rows=(r0=>{ const x=r0.filter(r=>r.some(c=>String(c).trim())); x._sheets=r0._sheets; return x; })(await readRows(f)); if(!rows.length) throw new Error('empty'); d._file=f; d._rows=rows; IMP_LAST={rows,f}; const w=Math.max(...rows.map(r=>r.length));
   st.innerHTML=`<span class="is-f">📄 <b>${esc(f.name)}</b></span><span class="is-m">${T(`${rows.length} صفاً · ${w} أعمدة · جاهز للتحليل`,`${rows.length} rows · ${w} columns · ready to analyse`)}</span>`; go.disabled=false; go.focus(); }
  catch(e){ st.innerHTML=`<span class="is-f">📄 <b>${esc(f.name)}</b></span>`; res.hidden=false; res.className='imp-res bad'; d.classList.remove('imp-closed');
   const why=e.message==='lib'?T('تعذّر تحميل قارئ الملفات. تحقق من الاتصال بالإنترنت.','The file reader could not load. Check your internet connection.'):e.message==='empty'?T('الملف فارغ.','The file is empty.'):/\.pdf$/i.test(f.name)?T('ملف PDF ممسوح ضوئياً (صورة) أو بدون نص قابل للقراءة.','The PDF is scanned (an image) or has no readable text.'):/\.xls$/i.test(f.name)?T('صيغة Excel القديمة (.xls) لم تُقرأ. احفظ الملف بصيغة .xlsx أو CSV.','The old Excel format (.xls) could not be read. Save it as .xlsx or CSV.'):T('الملف تالف أو محمي بكلمة مرور أو بصيغة غير مدعومة.','The file is damaged, password-protected or in an unsupported format.');
@@ -5901,7 +5921,7 @@ function impInline(){ const m=$('#main'); if(!m) return; const id=curPage().id; 
  $$('textarea',m).forEach(ta=>{ const k=IMP_MODE[ta.id]; if(!k||ta.readOnly) return; const host=ta.closest('details')||ta; if(!vis(host)||host.previousElementSibling?.classList.contains('imp-inline')) return; host.before(impBar(k,ta)); });
  if(id==='statements'&&fsSub==='input'){ const t=[...$$('.tbl-wrap',m)].find(x=>!x.closest('.fs-imp')); if(t&&!t.previousElementSibling?.classList.contains('imp-inline')) t.before(impBar('fs',null)); return; }
  if(has()) return;
- if(id==='statements'&&fsSub!=='ceo'||id==='xray'){ impTop(m,impBar('fs',null)); return; }
+ if(id==='statements'&&fsSub!=='ceo'||id==='xray'||id==='ccc'){ impTop(m,impBar('fs',null)); return; }
  if(id==='viz'){ impTop(m,impBar('viz',null)); return; }
  if(id==='risk'){ impTop(m,impBar('riskfit',null)); return; }
  const free=$$('textarea',m).filter(t=>vis(t)&&!t.readOnly&&!IMP_MODE[t.id]&&!/^(tax-q|of-|fs-rep|rep)/.test(t.id));
@@ -5909,6 +5929,43 @@ function impInline(){ const m=$('#main'); if(!m) return; const id=curPage().id; 
  const inp=$$('input:not([type=file]):not([type=checkbox]):not([type=radio]):not([readonly]),textarea:not([readonly])',m).filter(e=>(vis(e)||e.closest('details'))&&!e.closest('.rp-hdr,.fab,.rep-tools,.imp-inline,.ins-box')&&!/^(tax-q|tw-q)$/.test(e.id));
  if(!inp.length) return; const g=$$('.form-grid',m).find(x=>vis(x)||x.closest('details')); let host=g||(inp[0].closest('.pf,label')||inp[0]); host=host.closest('details')||host; host.before(impBar('kv',null)); }
 
+
+/* ================= Same file, other tools: buttons to every tool that can analyse the attached file; one click opens it and analyses the same file there ================= */
+let IMP_LAST=null, IMP_PENDING=null;
+const SF_SETS={
+ fs:['statements/ratios','statements/trends','statements/dupont','statements/scores','statements/report','xray','ccc'],
+ one:['stats/desc','stats/trend','lss/cap','lss/spc','risk/fit','benford','agile/cycle'],
+ pair:['stats/reg','stats/ttest'],
+ nv:['pareto'],
+ ledger:['duplicates','numtests','outliers','sequence','sampling','benford','pareto'],
+ viz:['viz/data','viz/bar','viz/pivot','viz/dashboard']};
+/* the data kind each tool reads, used before a file is attached */
+const SF_KIND={fs:'fs',one:'one',riskfit:'one',pair:'pair',two:'pair',nv:'nv',viz:'viz',full:'viz'};
+function sfLabel(h){ const [id,sub]=h.split('/'), p=PAGES.find(x=>x.id===id); if(!p) return h; const it=sub?(subItems(id)||[]).find(x=>String(x[0])===sub):null; return T(p.ar,p.en)+(it?' · '+T(it[1],it[2]):''); }
+function sfShape(rows){ if(rows&&rows._sfShape) return rows._sfShape; const out=sfShape0(rows); if(rows) try{ Object.defineProperty(rows,'_sfShape',{value:out,enumerable:false}); }catch(e){} return out; }
+function sfShape0(rows){ const out=new Set(); if(!rows||!rows.length) return out;
+ /* financial statements: several rows named like statement lines */
+ const keys=[...FS_ITEMS.flatMap(it=>[it.ar,it.en,...(FS_SYN[it.k]||[])]),...Object.values(FS_TOT).flat()].map(normL).filter(Boolean);
+ const sheets=rows._sheets&&rows._sheets.length?rows._sheets.map(s=>s.rows):[rows]; let hits=0;
+ sheets.forEach(sh=>sh.forEach(r=>{ const l=r.find(c=>c&&!isNumCell(c)); if(!l) return; const L=normL(l); if(L.length>2&&keys.some(k=>impScore(L,k)>=3)) hits++; }));
+ if(hits>=4){ out.add('fs'); out.add('viz'); return out; }
+ const nc=numCols(rows).filter(c=>c.n>=3), tj=textCol(rows), w=Math.max(...rows.map(r=>r.length));
+ if(nc.length) out.add('one'); if(nc.length>=2) out.add('pair'); const txtN=tj>=0?rows.filter(r=>r[tj]&&!isNumCell(r[tj])).length:0; if(nc.length&&txtN>=Math.max(3,rows.length*0.5)) out.add('nv');
+ if(w>=3&&nc.length&&txtN>=Math.max(3,rows.length*0.5)&&rows.length>=6) out.add('ledger'); if(rows.length>=3&&w>=2) out.add('viz'); return out; }
+function sfRoutes(shape){ const cur=(location.hash||'').slice(1), curId=cur.split('/')[0], seen=new Set(), out=[];
+ ['fs','ledger','one','pair','nv','viz'].forEach(k=>{ if(!shape.has(k)) return; SF_SETS[k].forEach(h=>{ if(seen.has(h)||h===cur||(h===curId&&!cur.includes('/'))) return; if(!PAGES.some(p=>p.id===h.split('/')[0])) return; seen.add(h); out.push(h); }); });
+ return out; }
+function sfBar(bar){ if(!bar||bar.closest('.fs-imp')) return; let box=$('.sf-box',bar); const rows=bar._rows||(IMP_LAST&&IMP_LAST.rows), f=bar._file||(IMP_LAST&&IMP_LAST.f);
+ let routes, head;
+ if(rows){ routes=sfRoutes(sfShape(rows)); head=T(`حلّل نفس الملف «${esc(f.name)}» في أدوات أخرى:`,`Analyse the same file “${esc(f.name)}” in other tools:`); }
+ else { const k=bar.dataset.kind==='table'&&curPage().g==='audit'?'ledger':SF_KIND[bar.dataset.kind]; routes=k?sfRoutes(new Set([k])):[]; head=T('أدوات أخرى تقبل نفس نوع الملف:','Other tools that accept the same kind of file:'); }
+ if(!routes.length){ if(box) box.remove(); return; }
+ const html=`<span class="sf-h">${head}</span>${routes.slice(0,12).map(h=>`<button type="button" class="sf-b" data-h="${h}">${esc(sfLabel(h))} <i>${lang==='ar'?'←':'→'}</i></button>`).join('')}${rows?`<small class="note">${T('بضغطة واحدة تنتقل للأداة ويُحلَّل الملف فيها تلقائياً.','One click opens the tool and analyses the file there automatically.')}</small>`:''}`;
+ if(!box){ box=document.createElement('div'); box.className='sf-box'; const ref=$('.imp-res',bar)||$('.imp-stage',bar); (ref||bar.lastElementChild).after(box); }
+ if(box.dataset.h!==html){ box.dataset.h=html; box.innerHTML=html; $$('.sf-b',box).forEach(b=>b.onclick=()=>{ if(rows){ IMP_PENDING={rows,f}; } location.hash='#'+b.dataset.h; }); } }
+function sfTick(){ const m=$('#main'); if(!m) return; const bars=$$('.imp-inline',m).filter(b=>b.getClientRects().length&&!b.closest('.fs-imp'));
+ if(IMP_PENDING&&bars.length){ const P=IMP_PENDING; IMP_PENDING=null; const bar=bars[0]; bar._rows=P.rows; bar._file=P.f; const st=$('.imp-stage',bar); if(st){ st.hidden=false; st.innerHTML=`<span class="is-f">📄 <b>${esc(P.f.name)}</b></span>`; } const g=$('.imp-go',bar); if(g) g.disabled=false; setTimeout(()=>{ try{ if(g) g.click(); else impStart(bar,null); }catch(e){} },60); }
+ bars.forEach(sfBar); }
 
 /* ================= Floating contact button: AI assistant, WhatsApp, email ================= */
 const CONTACT={wa:'97450445575',waShow:'+974 5044 5575',email:'ceo@mohdhkhamaiseh.site'};
@@ -6000,7 +6057,7 @@ function exClick(b){ const id=curPage().id, ex=EX[id]; if(!ex) return;
  if(!exCleared.has(id)&&!b.dataset.c){ b.dataset.c='1'; b.classList.add('ex-confirm'); b.textContent=T('اضغط مرة أخرى: ستُستبدل بياناتك بالمثال','Click again: your data will be replaced'); setTimeout(()=>{ if(b.isConnected){ delete b.dataset.c; b.classList.remove('ex-confirm'); b.dataset.s=''; exInject(); } },3500); return; }
  ex.restore(); exCleared.delete(id); toast(T('عادت بيانات المثال','Example data restored')); renderPage(); }
 let exObs=null;
-function exWatch(){ const m=$('#main'); if(!m) return; if(exObs) exObs.disconnect(); let q=false; exObs=new MutationObserver(()=>{ if(q) return; q=true; queueMicrotask(()=>{ q=false; exInject(); formEnhance(); repInject(); impInline(); insSchedule(); try{ flowInject(); }catch(e){} }); }); exObs.observe(m,{childList:true,subtree:true}); }
+function exWatch(){ const m=$('#main'); if(!m) return; if(exObs) exObs.disconnect(); let q=false; exObs=new MutationObserver(()=>{ if(q) return; q=true; queueMicrotask(()=>{ q=false; exInject(); formEnhance(); repInject(); impInline(); try{ sfTick(); }catch(e){} insSchedule(); try{ flowInject(); }catch(e){} }); }); exObs.observe(m,{childList:true,subtree:true}); }
 ['input','change'].forEach(ev=>document.addEventListener(ev,e=>{ if(!e.target.closest||!e.target.closest('#main')) return; exCleared.delete(curPage().id); setTimeout(exInject,0); }));
 document.addEventListener('click',e=>{ if(e.target.closest&&e.target.closest('#main button:not(.ex-btn)')) setTimeout(exInject,50); });
 
@@ -6266,6 +6323,84 @@ const KB={
 'calendar':['أجندة الأحداث الاقتصادية القادمة.','The upcoming economic calendar.','مرتبة حسب الوقت والأهمية.','Sorted by time and impact.','لا يحتاج إدخالاً.','No input needed.','الأحداث عالية الأثر قد تحرك الأسواق.','High-impact events can move markets.']
 };
 
+/* ================= Cash conversion cycle test (DSO + DIO − DPO) ================= */
+/* standard definitions (CFA Institute): DSO = receivables ÷ (revenue ÷ days); DIO = inventory ÷ (COGS ÷ days); DPO = payables ÷ (purchases ÷ days); purchases = COGS + closing inventory − opening inventory */
+const cc=Object.assign({days:'365',avg:true,purch:true,custT:'60',supT:'60',tDSO:'',tDIO:'',tDPO:'',peer:''},store.get('fd.ccc',{}));
+const ccSave=()=>store.set('fd.ccc',cc);
+const CC_LINES=[['revenue','الإيرادات (المبيعات)','Revenue (sales)'],['cogs','تكلفة المبيعات','Cost of goods sold'],['rec','الذمم المدينة (العملاء)','Trade receivables'],['inv','المخزون','Inventory'],['payables','الذمم الدائنة (الموردين)','Trade payables']];
+function ccYears(){ /* all years in time order, so the opening balance is always the previous year even if it is not selected */
+ const all=fs.years.map((y,i)=>i); if(all.every(i=>Number.isFinite(fsYNum(fs.years[i])))) all.sort((a,b)=>fsYNum(fs.years[a])-fsYNum(fs.years[b]));
+ const sel=new Set(fsIdx()); return all.map((i,k)=>({i,y:fs.years[i],d:fsYear(i),p:k?fsYear(all[k-1]):null,sel:sel.has(i)})); }
+function ccCalc(o){ const D=num(cc.days)||365, d=o.d, p=o.p, use=p&&cc.avg, av=k=>use?(d[k]+p[k])/2:d[k];
+ const purch=cc.purch&&p?d.cogs+d.inv-p.inv:d.cogs;
+ const dso=d.revenue>0?av('rec')/d.revenue*D:NaN, dio=d.cogs>0?av('inv')/d.cogs*D:NaN, dpo=purch>0?av('payables')/purch*D:NaN;
+ return {y:o.y,dso,dio,dpo,ccc:dso+dio-dpo,rev:d.revenue,cogs:d.cogs,purch,nwc:d.rec+d.inv-d.payables,avg:!!use,D}; }
+function ccTimeline(r){ const t=[r.dio,r.dso,r.dpo]; if(!t.every(Number.isFinite)) return ''; const W=720,H=150,L=40,R=20, max=Math.max(r.dio+r.dso,r.dpo,1), rtl=lang==='ar', X=v=>rtl?W-L-(W-L-R)*v/max:L+(W-L-R)*v/max;
+ const bar=(x0,x1,y,cls,lab)=>`<rect x="${Math.min(X(x0),X(x1))}" y="${y}" width="${Math.max(2,Math.abs(X(x1)-X(x0)))}" height="24" rx="5" class="${cls}"/><text x="${(X(x0)+X(x1))/2}" y="${y+16}" text-anchor="middle" class="cc-tl">${lab}</text>`;
+ return `<svg viewBox="0 0 ${W} ${H}" class="cc-svg" role="img" aria-label="${T('مخطط دورة التحويل النقدي','Cash conversion cycle diagram')}">
+  ${bar(0,r.dio,14,'cc-inv',`${T('المخزون','Inventory')} ${fmt(r.dio,0)}`)}${bar(r.dio,r.dio+r.dso,14,'cc-ar',`${T('التحصيل','Collection')} ${fmt(r.dso,0)}`)}
+  ${bar(0,r.dpo,52,'cc-ap',`${T('السداد للموردين','Paying suppliers')} ${fmt(r.dpo,0)}`)}
+  ${r.ccc>0?bar(r.dpo,r.dio+r.dso,90,'cc-gap',`${T('دورة التحويل النقدي','Cash conversion cycle')} ${fmt(r.ccc,0)} ${T('يوم','days')}`):`<text x="${X(r.dio+r.dso)}" y="108" class="cc-tl dark" text-anchor="${rtl?'start':'end'}">${T('الدورة سالبة: الموردون يموّلونك','Negative cycle: suppliers fund you')} ${fmt(r.ccc,0)}</text>`}
+  <line x1="${X(0)}" x2="${X(0)}" y1="6" y2="${H-14}" class="cc-axis"/><text x="${X(0)}" y="${H-2}" class="cc-tl dark" text-anchor="${rtl?'end':'start'}">${T('شراء البضاعة','Goods bought')}</text></svg>`; }
+function ccTests(rows){ const r=rows[rows.length-1], p=rows.length>1?rows[rows.length-2]:null, out=[], ct=num(cc.custT), st=num(cc.supT), peer=num(cc.peer);
+ const add=(tone,ar,en)=>out.push({tone,t:T(ar,en)});
+ if(!Number.isFinite(r.ccc)){ add('bad','لا يمكن حساب الدورة: تحتاج الإيرادات وتكلفة المبيعات وأرصدة الذمم والمخزون والموردين.','The cycle cannot be computed: revenue, cost of sales, receivables, inventory and payables are needed.'); return out; }
+ if(Number.isFinite(ct)&&ct>0){ const x=r.dso/ct; if(x<=1.1) add('good',`فترة التحصيل ${fmt(r.dso,0)} يوماً ضمن شروط الائتمان (${fmt(ct,0)} يوماً).`,`Collection period ${fmt(r.dso,0)} days is within your credit terms (${fmt(ct,0)} days).`); else if(x<=1.5) add('warn',`العملاء يدفعون بعد ${fmt(r.dso,0)} يوماً مقابل شروط ${fmt(ct,0)}: تأخر ${fmt(r.dso-ct,0)} يوماً. راجع أعمار الذمم.`,`Customers pay after ${fmt(r.dso,0)} days vs ${fmt(ct,0)}-day terms: ${fmt(r.dso-ct,0)} days late. Review the receivables ageing.`); else add('bad',`التحصيل متأخر كثيراً: ${fmt(r.dso,0)} يوماً مقابل شروط ${fmt(ct,0)}. خطر ديون معدومة وضغط سيولة.`,`Collection is far behind: ${fmt(r.dso,0)} days vs ${fmt(ct,0)}-day terms. Bad-debt and liquidity risk.`); }
+ if(Number.isFinite(st)&&st>0){ const x=r.dpo/st; if(x<0.8) add('warn',`تدفع للموردين بعد ${fmt(r.dpo,0)} يوماً بينما تسمح الشروط بـ ${fmt(st,0)}: تدفع مبكراً وتخسر سيولة.`,`You pay suppliers after ${fmt(r.dpo,0)} days while terms allow ${fmt(st,0)}: paying early costs you cash.`); else if(x<=1.3) add('good',`السداد للموردين (${fmt(r.dpo,0)} يوماً) متوافق مع الشروط (${fmt(st,0)} يوماً).`,`Supplier payments (${fmt(r.dpo,0)} days) match the terms (${fmt(st,0)} days).`); else add('warn',`تتأخر على الموردين: ${fmt(r.dpo,0)} يوماً مقابل ${fmt(st,0)}. قد يدل على ضغط سيولة ويضر بالعلاقة والأسعار.`,`You pay suppliers late: ${fmt(r.dpo,0)} days vs ${fmt(st,0)}. This can signal cash stress and hurt terms and prices.`); }
+ if(p&&Number.isFinite(p.ccc)){ const ch=r.ccc-p.ccc; if(ch>5) add('warn',`الدورة طالت ${fmt(ch,0)} يوماً عن ${p.y}: سيولة أكثر محبوسة في التشغيل.`,`The cycle lengthened by ${fmt(ch,0)} days vs ${p.y}: more cash tied up in operations.`); else if(ch<-5) add('good',`الدورة قصرت ${fmt(-ch,0)} يوماً عن ${p.y}.`,`The cycle shortened by ${fmt(-ch,0)} days vs ${p.y}.`); else add('good',`الدورة مستقرة مقارنة بـ ${p.y}.`,`The cycle is stable vs ${p.y}.`);
+  if(Number.isFinite(p.dio)&&p.dio>0&&r.dio/p.dio>1.1) add('warn',`أيام المخزون ارتفعت من ${fmt(p.dio,0)} إلى ${fmt(r.dio,0)}: راجع البطيء والراكد.`,`Inventory days rose from ${fmt(p.dio,0)} to ${fmt(r.dio,0)}: review slow-moving stock.`);
+  if(Number.isFinite(p.dso)&&p.dso>0&&r.dso/p.dso>1.1) add('warn',`أيام التحصيل ارتفعت من ${fmt(p.dso,0)} إلى ${fmt(r.dso,0)}.`,`Collection days rose from ${fmt(p.dso,0)} to ${fmt(r.dso,0)}.`); }
+ if(r.ccc<0) add('good','الدورة سالبة: تبيع وتحصّل قبل أن تدفع للموردين، فالموردون يموّلون عملياتك.','Negative cycle: you sell and collect before paying suppliers, so suppliers fund your operations.');
+ if(Number.isFinite(peer)) add(r.ccc<=peer?'good':'warn',`مقارنة بمتوسط المنافسين (${fmt(peer,0)} يوماً): ${r.ccc<=peer?'أفضل':'أسوأ'} بـ ${fmt(Math.abs(r.ccc-peer),0)} يوماً.`,`Versus the peer average (${fmt(peer,0)} days): ${r.ccc<=peer?'better':'worse'} by ${fmt(Math.abs(r.ccc-peer),0)} days.`);
+ return out; }
+function ccRelease(r){ const D=r.D, t=k=>num(cc[k]); const parts=[]; let tot=0;
+ if(Number.isFinite(t('tDSO'))&&Number.isFinite(r.dso)){ const v=(r.dso-t('tDSO'))*r.rev/D; tot+=v; parts.push([T('خفض أيام التحصيل','Lower collection days'),v]); }
+ if(Number.isFinite(t('tDIO'))&&Number.isFinite(r.dio)){ const v=(r.dio-t('tDIO'))*r.cogs/D; tot+=v; parts.push([T('خفض أيام المخزون','Lower inventory days'),v]); }
+ if(Number.isFinite(t('tDPO'))&&Number.isFinite(r.dpo)){ const v=(t('tDPO')-r.dpo)*r.purch/D; tot+=v; parts.push([T('إطالة أيام السداد','Longer payment days'),v]); }
+ return {parts,tot}; }
+function cccRender(root){ setTimeout(()=>{ const s=$('.cc-src',root); if(s&&fs.years.length>1&&!root.querySelector('.yr-bar')) s.after(fsYearBar(()=>cccRender(root))); },0);
+ const Y=ccYears(), rows=Y.filter(o=>o.sel).map(ccCalc), r=rows[rows.length-1], cls=v=>v>0?'':'';
+ const tests=r?ccTests(rows):[], rel=r?ccRelease(r):{parts:[],tot:0};
+ root.innerHTML=pageHead('اختبار دورة التحويل النقدي','Cash conversion cycle test','كم يوماً تبقى أموالك محبوسة بين الدفع للموردين وتحصيلها من العملاء: أيام المخزون + أيام التحصيل − أيام السداد، مع اختبارها مقابل شروط الائتمان والسنوات السابقة، وحساب السيولة التي تتحرر عند تحسينها.','How many days your cash is locked between paying suppliers and collecting from customers: inventory days + collection days − payment days, tested against credit terms and prior years, with the cash released by improving it.')+`
+ <p class="note cc-src">${T('الأرقام مشتركة مع «تحليل القوائم المالية»: أي تعديل هنا يظهر هناك والعكس.','Figures are shared with “Financial statements”: changes here show there and vice versa.')}</p>
+ <section class="panel"><h3 style="margin:0 0 8px">${T('أرصدة نهاية كل سنة','Year-end figures')}</h3><div class="tbl-wrap"><table class="cc-in"><thead><tr><th>${T('البند','Line')}</th>${Y.map(o=>`<th class="n">${esc(String(o.y))}</th>`).join('')}</tr></thead><tbody>
+  ${CC_LINES.map(([k,ar,en])=>`<tr><td class="lbl">${T(ar,en)}</td>${Y.map(o=>`<td><input data-k="${k}" data-i="${o.i}" inputmode="decimal" dir="ltr" value="${esc(fs.data[k]?.[o.i]??'')}"></td>`).join('')}</tr>`).join('')}</tbody></table></div>
+  <p class="note">${T('السنة الأقدم تُستخدم رصيداً افتتاحياً لحساب المتوسط. أضف السنوات أو احذفها من «تحليل القوائم المالية».','The earliest year serves as the opening balance for averages. Add or remove years in “Financial statements”.')}</p>
+  <div class="form-grid">
+   <label class="pf"><span>${T('أيام السنة','Days in the year')}</span><select data-p="days"><option value="365"${cc.days==='365'?' selected':''}>365</option><option value="360"${cc.days==='360'?' selected':''}>360</option></select></label>
+   <label class="pf"><span>${T('شروط الائتمان للعملاء (يوم)','Customer credit terms (days)')}</span><input data-p="custT" inputmode="decimal" dir="ltr" value="${esc(cc.custT)}"></label>
+   <label class="pf"><span>${T('شروط الدفع للموردين (يوم)','Supplier payment terms (days)')}</span><input data-p="supT" inputmode="decimal" dir="ltr" value="${esc(cc.supT)}"></label>
+   <label class="pf"><span>${T('متوسط دورة المنافسين (يوم، اختياري)','Peer average cycle (days, optional)')}</span><input data-p="peer" inputmode="decimal" dir="ltr" value="${esc(cc.peer)}"></label>
+   <label class="pf"><span>${T('هدف أيام التحصيل','Target collection days')}</span><input data-p="tDSO" inputmode="decimal" dir="ltr" value="${esc(cc.tDSO)}" placeholder="45"></label>
+   <label class="pf"><span>${T('هدف أيام المخزون','Target inventory days')}</span><input data-p="tDIO" inputmode="decimal" dir="ltr" value="${esc(cc.tDIO)}" placeholder="60"></label>
+   <label class="pf"><span>${T('هدف أيام السداد','Target payment days')}</span><input data-p="tDPO" inputmode="decimal" dir="ltr" value="${esc(cc.tDPO)}" placeholder="60"></label></div>
+  <div class="row" style="gap:16px;margin-top:6px"><label class="chk"><input type="checkbox" data-c="avg"${cc.avg?' checked':''}> ${T('استخدم متوسط الرصيد (أول + آخر المدة ÷ 2)','Use average balances (opening + closing ÷ 2)')}</label><label class="chk"><input type="checkbox" data-c="purch"${cc.purch?' checked':''}> ${T('احسب أيام السداد على المشتريات (تكلفة المبيعات + التغير في المخزون)','Base payment days on purchases (COGS + change in inventory)')}</label></div></section>
+ ${!r?`<section class="panel"><p>${T('أدخل الأرقام في الجدول أو أرفق ملف القوائم المالية.','Enter the figures in the table or attach your financial statements file.')}</p></section>`:`
+ <section class="panel"><div class="kpis">
+  <div class="kpi ${r.ccc>90?'bad':r.ccc>45?'warn':'good'}"><span class="k"><span>${T('دورة التحويل النقدي','Cash conversion cycle')} · ${esc(String(r.y))}</span></span><span class="v">${fmt(r.ccc,0)} ${T('يوم','days')}</span><span class="s">${T('المخزون + التحصيل − السداد','Inventory + collection − payment')}</span></div>
+  <div class="kpi"><span class="k"><span>${T('أيام المخزون DIO','Inventory days (DIO)')}</span></span><span class="v">${fmt(r.dio,0)}</span></div>
+  <div class="kpi"><span class="k"><span>${T('أيام التحصيل DSO','Collection days (DSO)')}</span></span><span class="v">${fmt(r.dso,0)}</span></div>
+  <div class="kpi"><span class="k"><span>${T('أيام السداد DPO','Payment days (DPO)')}</span></span><span class="v">${fmt(r.dpo,0)}</span></div>
+  <div class="kpi"><span class="k"><span>${T('رأس المال العامل التشغيلي','Operating working capital')}</span></span><span class="v">${fmt(r.nwc)}</span><span class="s">${T('الذمم + المخزون − الموردون','Receivables + inventory − payables')}</span></div>
+  <div class="kpi"><span class="k"><span>${T('تكلفة يوم واحد من الدورة','Cash per day of cycle')}</span></span><span class="v">${fmt(r.cogs/r.D)}</span><span class="s">${T('تكلفة المبيعات ÷ أيام السنة','COGS ÷ days')}</span></div></div>
+  <div class="chart-wrap" style="margin-top:12px">${ccTimeline(r)}</div>
+  <div class="tbl-wrap"><table><thead><tr><th>${T('السنة','Year')}</th><th class="n">DIO</th><th class="n">DSO</th><th class="n">DPO</th><th class="n">${T('الدورة','Cycle')}</th><th class="n">${T('التغير','Change')}</th></tr></thead><tbody>
+   ${rows.map((x,k)=>`<tr><td>${esc(String(x.y))}${x.avg?'':' <small class="note">'+T('(رصيد آخر المدة)','(year-end balance)')+'</small>'}</td><td class="n">${fmt(x.dio,0)}</td><td class="n">${fmt(x.dso,0)}</td><td class="n">${fmt(x.dpo,0)}</td><td class="n"><b>${fmt(x.ccc,0)}</b></td><td class="n">${k&&Number.isFinite(rows[k-1].ccc)?((x.ccc-rows[k-1].ccc>0?'+':'')+fmt(x.ccc-rows[k-1].ccc,0)):'—'}</td></tr>`).join('')}</tbody></table></div></section>
+ <section class="panel"><h3 style="margin:0 0 8px">${T('نتيجة الاختبار','Test results')}</h3><ul class="cc-tests">${tests.map(o=>`<li class="${o.tone}"><b>${o.tone==='good'?'✓':o.tone==='bad'?'✗':'!'}</b> ${o.t}</li>`).join('')}</ul>
+  ${rel.parts.length?`<h4 style="margin:12px 0 6px">${T('السيولة التي تتحرر عند الوصول للأهداف','Cash released by reaching the targets')}</h4><div class="kpis">${rel.parts.map(([l,v])=>`<div class="kpi ${v>=0?'good':'bad'}"><span class="k"><span>${l}</span></span><span class="v">${fmt(v)}</span></div>`).join('')}<div class="kpi ${rel.tot>=0?'good':'bad'}"><span class="k"><span>${T('الإجمالي','Total')}</span></span><span class="v">${fmt(rel.tot)}</span></div></div>`:`<p class="note">${T('أدخل أهداف الأيام لترى كم سيولة تتحرر.','Enter target days to see how much cash would be released.')}</p>`}
+  <p class="note">${T('المعادلات وفق منهج CFA: أيام التحصيل = الذمم ÷ (الإيرادات ÷ أيام السنة)، أيام المخزون = المخزون ÷ (تكلفة المبيعات ÷ أيام السنة)، أيام السداد = الموردون ÷ (المشتريات ÷ أيام السنة).','Formulas per the CFA curriculum: DSO = receivables ÷ (revenue ÷ days), DIO = inventory ÷ (COGS ÷ days), DPO = payables ÷ (purchases ÷ days).')}</p></section>`}`;
+ $$('.cc-in input',root).forEach(i=>i.onchange=()=>{ const k=i.dataset.k, ix=+i.dataset.i; if(!fs.data[k]) fs.data[k]=fs.years.map(()=>''); fs.data[k][ix]=i.value.replace(/,/g,''); fs.sample=false; fsSave(); cccRender(root); });
+ $$('[data-p]',root).forEach(i=>i.onchange=()=>{ cc[i.dataset.p]=i.value.replace(/,/g,''); ccSave(); cccRender(root); });
+ $$('[data-c]',root).forEach(i=>i.onchange=()=>{ cc[i.dataset.c]=i.checked; ccSave(); cccRender(root); }); }
+INS.ccc=function(){ const Y=ccYears(), rows=Y.filter(o=>o.sel).map(ccCalc), r=rows[rows.length-1]; if(!r||!Number.isFinite(r.ccc)) return null; const t=ccTests(rows), nb=t.filter(x=>x.tone==='bad').length, nw=t.filter(x=>x.tone==='warn').length;
+ return {tone:nb?'bad':nw?'warn':'good',headline:T(`دورة التحويل النقدي ${fmt(r.ccc,0)} يوماً في ${r.y}.`,`Cash conversion cycle: ${fmt(r.ccc,0)} days in ${r.y}.`),
+  simple:T(`ببساطة: تنتظر شركتك ${fmt(Math.max(0,r.ccc),0)} يوماً بين دفع ثمن البضاعة وتحصيل ثمنها، وكل يوم تخفضه يحرر نحو ${fmt(r.cogs/r.D)} من السيولة.`,`In short: your company waits ${fmt(Math.max(0,r.ccc),0)} days between paying for goods and collecting for them; each day cut frees about ${fmt(r.cogs/r.D)} of cash.`),
+  sum:`DIO ${fmt(r.dio,0)} · DSO ${fmt(r.dso,0)} · DPO ${fmt(r.dpo,0)}`,tips:t.filter(x=>x.tone!=='good').map(x=>x.t).concat([T('حصّل أسرع: فواتير فورية، خصم سداد مبكر، ومتابعة أسبوعية لأعمار الذمم.','Collect faster: instant invoicing, early-payment discounts and weekly ageing reviews.'),T('قلّل المخزون الراكد واطلب حسب الطلب الفعلي.','Cut slow-moving stock and order to actual demand.'),T('تفاوض على شروط سداد أطول دون التأخر عن المستحق.','Negotiate longer supplier terms without paying late.')])}; };
+KB.ccc=['اختبار يقيس كم يوماً تبقى السيولة محبوسة في التشغيل: أيام المخزون + أيام التحصيل − أيام السداد للموردين.','A test of how many days cash stays locked in operations: inventory days + collection days − supplier payment days.',
+ 'أدخل أو استورد الإيرادات وتكلفة المبيعات وأرصدة الذمم والمخزون والموردين لكل سنة، ثم شروط الائتمان للعملاء والموردين والأهداف.','Enter or import revenue, cost of sales and receivables, inventory and payables balances for each year, then customer and supplier terms and targets.',
+ 'الإيرادات، تكلفة المبيعات، الذمم المدينة، المخزون، الذمم الدائنة لسنتين على الأقل (لحساب المتوسط)، وشروط الائتمان.','Revenue, cost of sales, receivables, inventory and payables for at least two years (for averages), plus credit terms.',
+ 'كلما قصرت الدورة كان أفضل؛ السالبة تعني أن الموردين يموّلونك. الاختبار يقارن التحصيل بشروط العملاء، والسداد بشروط الموردين، والتغير عن السنة السابقة، ويحسب السيولة المتحررة عند الوصول للأهداف.','Shorter is better; negative means suppliers fund you. The test compares collection with customer terms, payment with supplier terms and the change on last year, and computes cash released at your targets.'];
+
 /* ================= Audit: transaction document maps (documents to attach + approval & signature sequence) ================= */
 /* step: [role ar, role en, action ar, action en, docs [[ar,en]...], signs [[ar,en]...], control ar, control en] */
 const TXR={ req:['الإدارة الطالبة','Requesting department'], buy:['المشتريات','Procurement'], wh:['المستودع / المستلم','Warehouse / receiver'], ap:['الحسابات الدائنة','Accounts payable'], fm:['المدير المالي','Finance manager'], tr:['الخزينة','Treasury'], bank:['البنك','Bank'], sales:['المبيعات','Sales'], cr:['الائتمان والتحصيل','Credit & collection'], ar:['الحسابات المدينة','Accounts receivable'], store:['المخزن / الشحن','Store / dispatch'], hr:['الموارد البشرية','Human resources'], pay:['الرواتب','Payroll'], emp:['الموظف','Employee'], fa:['محاسب الأصول','Fixed-asset accountant'], gl:['المحاسب العام','General ledger accountant'], ceo:['الرئيس التنفيذي / المفوض','CEO / authorised officer'], cust:['الحسابات / التسوية','Accounts / reconciliation'], cash:['أمين العهدة','Custodian'], legal:['الشؤون القانونية','Legal'], board:['مجلس الإدارة','Board'] };
@@ -6456,7 +6591,7 @@ KB.txmap=['خريطة لكل معاملة محاسبية أو بنكية (مشت
 
 /* ================= "?" help next to each tool title + Tools index page ================= */
 function kbCur(){ const id=curPage().id; let sub=({statements:()=>fsSub,feasibility:()=>feSub,tax:()=>taxSub,stats:()=>stS.sub,risk:()=>mcTab,viz:()=>dv.sub,agile:()=>ag.sub,lss:()=>ls.sub}[id]||(()=>curSub()))();
- if(id==='calc'){ const m=String(sub||'').match(/data-calc="?(\w+)/); sub=m?m[1]:''; }
+ if(id==='calc'){ const m=String(sub||'').match(/data-calc="?(\w+)/); sub=m?m[1]:(CALCS.some(c=>c.id===sub)?sub:(typeof caSub!=='undefined'?caSub:'')); }
  return sub&&KB[id+'/'+sub]?id+'/'+sub:id; }
 function kbName(key){ const [id,sub]=key.split('/'), p=PAGES.find(x=>x.id===id); if(!p) return key; let s=''; if(sub){ const it=(subItems(id)||[]).find(x=>x[0]===sub||String(x[0]).includes(`"${sub}"`)); if(it) s=T(it[1],it[2]); else if(id==='xray'){ const a=$(`.rp-menu a[href="#xray/${sub}"]`); s=a?a.textContent.trim():sub; } }
  return s?`${T(p.ar,p.en)} · ${s}`:T(p.ar,p.en); }
@@ -6511,7 +6646,7 @@ function flowHow(m,id){ const head=$('.page-head',m); if(!head) return; const ke
  if(box.dataset.k!==lang+key){ box.dataset.k=lang+key; box.innerHTML=h; } }
 /* calculators: each card is its own small tool */
 function flowCalc(m){ $$('.calc-grid [data-calc]',m).forEach(card=>{ const id=card.dataset.calc, v=kbVals('calc/'+id), hd=card.firstElementChild;
-  if(v&&hd&&!$('.fc-how',card)) hd.insertAdjacentHTML('beforeend',`<p class="fc-how"><em>${T('طريقة الاستخدام','How to use')}</em>${esc(v.h)}</p>`);
+  if(hd&&$$('[data-calc]',m).filter(x=>x.tagName==='SECTION').length===1) hd.hidden=true; if(v&&hd&&!hd.hidden&&!$('.fc-how',card)) hd.insertAdjacentHTML('beforeend',`<p class="fc-how"><em>${T('طريقة الاستخدام','How to use')}</em>${esc(v.h)}</p>`);
   const g=$('.form-grid',card), o=$('.calc-out',card); let ga=g; while(ga&&ga.previousElementSibling&&ga.previousElementSibling.classList.contains('imp-inline')) ga=ga.previousElementSibling; if(ga!==g){ const pv=g.previousElementSibling; if(pv&&pv.classList.contains('flow-step')) pv.remove(); } flowPut(ga,2,true); flowPut(o,3,true);
   if(o){ let s=$('.fc-sum',card); if(!s){ s=document.createElement('div'); s.className='fc-sum'; const ch=o.nextElementSibling; (ch&&ch.id&&ch.id.startsWith('ch-')?ch:o).after(s); }
    const pairs=$$(':scope > div',o).map(d=>[($('span',d)||{}).textContent,($('b',d)||{}).textContent]).filter(x=>x[0]&&x[1]);
@@ -6648,12 +6783,13 @@ const IC={
  kb:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/>',
  map:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="3"/><circle cx="15.5" cy="13.5" r="2.5"/><circle cx="11" cy="16.5" r="1.5"/>',
  agile:'<path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/><path d="M9 12l2 2 4-4"/>',
- sampling:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',txmap:'<rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4a2 2 0 0 0 2 2H14"/><path d="M15 5h6M15 9h4"/>'};
+ sampling:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',ccc:'<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/><path d="M12 7v5l3 2"/>',txmap:'<rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4a2 2 0 0 0 2 2H14"/><path d="M15 5h6M15 9h4"/>'};
 const icon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
 const PAGES=[
  {id:'home',g:null,ar:'الرئيسية',en:'Home',render:homeRender},
  {id:'statements',g:'fin',ar:'تحليل القوائم المالية',en:'Financial statements',render:finRender,dar:'النسب المالية، التحليل الأفقي والرأسي، ديبونت، ألتمان، بيوتروسكي، بينيش.',den:'Ratios, horizontal and vertical analysis, DuPont, Altman, Piotroski, Beneish.',tags:['ROE','Z-Score','M-Score']},
  {id:'xray',g:'fin',isNew:true,ar:'الأشعة المالية',en:'Financial X-Ray',render:xrayRender,dar:'درجة صحة من 100، رادار القوة والضعف، أين يذهب كل 100 من المبيعات، جسر الأرباح، ومحاكي «ماذا لو».',den:'A 0–100 health score, strength radar, where every 100 of sales goes, profit bridge and a what-if simulator.',tags:['Score','Radar','What-if']},
+ {id:'ccc',g:'fin',isNew:true,ar:'اختبار دورة التحويل النقدي',en:'Cash conversion cycle test',render:cccRender,dar:'أيام المخزون + التحصيل − السداد، مقارنة بشروط الائتمان والسنوات السابقة، والسيولة المتحررة.',den:'Inventory + collection − payment days, tested against credit terms and prior years, with cash released.',tags:['CCC','DSO','DIO','DPO']},
  {id:'feasibility',g:'fin',ar:'دراسة الجدوى',en:'Feasibility study',render:feRender,dar:'صافي القيمة الحالية، العائد الداخلي، الاسترداد، التعادل، الحساسية، التمويل.',den:'NPV, IRR, payback, break-even, sensitivity, financing.',tags:['NPV','IRR','DSCR']},
  {id:'calc',g:'fin',ar:'الحاسبات المالية',en:'Calculators',render:calcRender,dar:'القروض، العائد الإيجاري، نقطة التعادل، النمو المركب، الادخار.',den:'Loans, rental yield, break-even, CAGR, savings.',tags:['Loan','Cap rate','CAGR']},
  {id:'tax',g:'tax',ar:'المستشار الضريبي الذكي',en:'AI tax advisor',render:taxRender,dar:'تخطيط ضريبي قانوني، فوترة إلكترونية، سيولة ضريبية، ومستجدات التشريعات ل120 دولة بالذكاء الاصطناعي.',den:'Lawful tax planning, e-invoicing, tax cash flow and legislative updates for 120 countries, powered by AI.',tags:['AI','VAT','CIT','Pillar Two']},
@@ -6688,7 +6824,7 @@ const SUBS={
  statements:{t:'tab',set:k=>{ fsSub=k; },items:[['input','إدخال البيانات','Data entry'],['ratios','النسب المالية','Ratios'],['trends','التحليل الأفقي والرأسي','Horizontal & vertical'],['dupont','تحليل ديبونت','DuPont'],['scores','التعثر والتلاعب (ألتمان، بيوتروسكي، بينيش)','Distress & manipulation (Altman, Piotroski, Beneish)'],['ceo','مؤشرات CEO الـ18','18 CEO metrics'],['report','التقرير','Report']]},
  xray:{t:'sec',items:[['xr-gauge','درجة الصحة المالية','Health score'],['xr-radar','رادار القوة والضعف','Strength radar'],['xr-story','قصة أرقامك','Your numbers’ story'],['xr-money','أين يذهب كل 100','Where every 100 goes'],['xr-bridge','جسر الأرباح','Profit bridge'],['xr-out','محاكي ماذا لو','What-if simulator']]},
  feasibility:{t:'tab',set:k=>{ feSub=k; },items:[['detail','المبيعات والمصروفات','Sales & expenses'],['summary','التدفقات النقدية','Cash flows'],['table','القوائم التقديرية','Projections'],['finance','التمويل','Financing'],['sens','الحساسية والسيناريوهات','Sensitivity & scenarios'],['ceo','مؤشرات CEO الـ18','18 CEO metrics'],['report','التقرير','Report']]},
- calc:{t:'sec',items:()=>CALCS.map(c=>[`[data-calc="${c.id}"]`,c.ar,c.en])},
+ calc:{t:'tab',set:k=>{ caSub=k; },items:()=>CALCS.map(c=>[c.id,c.ar,c.en])},
  tax:{t:'tab',set:k=>{ taxSub=k; },items:[['ai','المستشار الذكي','AI advisor'],['cash','التوقعات والسيولة','Forecast & cash'],['einv','جاهزية الفوترة الإلكترونية','E-invoicing readiness'],['plan','فحص التخطيط الضريبي','Planning check'],['law','التشريعات والنسب العالمية','Legislation & world rates']]},
  stats:{t:'tab',set:k=>{ stS.sub=k; },items:[['desc','الإحصاء الوصفي','Descriptive'],['reg','الارتباط والانحدار','Correlation & regression'],['trend','الاتجاه والتنبؤ','Trend & forecast'],['ttest','مقارنة مجموعتين','Compare two groups']]},
  risk:{t:'tab',set:k=>{ mcTab=k; },items:[['dist','التوزيع','Distribution'],['cdf','المنحنى التراكمي','Cumulative'],['tornado','الحساسية (Tornado)','Tornado'],['spider','العنكبوتي','Spider'],['scen','السيناريوهات','Scenarios'],['fit','ملاءمة البيانات','Fit data'],['report','التقرير','Report']]},
