@@ -1725,6 +1725,19 @@ body.flow-on .pf:focus-within .fh .fh-m,body.flow-on .pf:focus-within .fh .fh-b,
 .cc-tests li b{display:inline-block;width:18px}.cc-tests .good{background:#ECFDF5;border-color:#A7F3D0}.cc-tests .warn{background:#FFFBEB;border-color:#FDE68A}.cc-tests .bad{background:#FEF2F2;border-color:#FECACA}
 .chk{display:inline-flex;gap:6px;align-items:center;font-size:13px}
 
+/* ishikawa */
+.ik-cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ik-cat{border:1px solid var(--line);border-radius:12px;padding:8px;background:#FAFBFF}
+.ik-ch{display:flex;gap:6px;align-items:center;margin-bottom:6px}.ik-cn{flex:1;font-weight:700;border:0;border-bottom:1px dashed #C7D2FE;background:transparent;padding:4px 2px;font:inherit;font-weight:700;color:#0B2E9E}
+.ik-del{border:0;background:none;color:#94A3B8;cursor:pointer;font-size:13px}.ik-del:hover{color:#DC2626}
+.ik-cat textarea{width:100%;font-size:13px}
+.ik-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:10px}.ik-svg{display:block;width:100%;height:auto}
+.ik-tbl select{min-width:56px}.ik-tbl tr.hot td{background:#FEF2F2}
+.ik-bars{display:grid;gap:6px}.ik-bars div{display:grid;grid-template-columns:minmax(120px,200px) 1fr 32px;gap:8px;align-items:center;font-size:13px}
+.ik-bars i{height:10px;border-radius:6px;background:linear-gradient(90deg,#1D5BFF var(--w),#E5E7EB var(--w))}
+[dir="rtl"] .ik-bars i{background:linear-gradient(270deg,#1D5BFF var(--w),#E5E7EB var(--w))}
+@media (max-width:900px){.ik-cats{grid-template-columns:1fr 1fr}}@media (max-width:560px){.ik-cats{grid-template-columns:1fr}}
+
 </style>
 </head><body>
 <div id="app" dir="ltr"></div>
@@ -3450,7 +3463,7 @@ const CEO_FH={
 
 /* ================= Financial calculators ================= */
 const CA_KEY='raseen.calc.v1';
-const CA_DEF={loanP:1000000,loanR:6.5,loanY:20,loanPerYear:12,
+const CA_DEF={loanP:1250000,loanDP:20,loanDPA:'',loanR:6.5,loanY:20,loanPerYear:12,
  yPrice:1200000,yRent:7000,yOcc:92,yExp:12000,yFees:2,
  bF:420000,bP:25,bV:9.5,bT:150000,
  cS:42000,cE:51000,cY:2,
@@ -3459,11 +3472,13 @@ let ca=Object.assign({},CA_DEF,store.get(CA_KEY,{}));
 const caSave=()=>store.set(CA_KEY,ca);
 const CALCS=[
  {id:'loan',ar:'حاسبة القرض والتمويل العقاري',en:'Loan & mortgage calculator',dar:'القسط الدوري وإجمالي الفوائد وجدول السداد.',den:'Periodic payment, total interest and amortization.',
-  f:[['loanP','مبلغ القرض','Loan amount'],['loanR','الفائدة السنوية %','Annual interest %'],['loanY','المدة (سنوات)','Term (years)'],['loanPerYear','دفعات في السنة','Payments per year']],
-  run(){ const P=num(ca.loanP), r=num(ca.loanR)/100, y=num(ca.loanY), k=Math.round(num(ca.loanPerYear)); if(!(P>0&&r>=0&&y>0&&k>0)) return null; const n=Math.round(y*k), i=r/k, p=pmt(i,n,P);
+  f:[['loanP','قيمة العقار (سعر الشراء)','Property value (purchase price)'],['loanDP','الدفعة الأولى %','Down payment %'],['loanDPA','أو الدفعة الأولى مبلغاً (اختياري)','Or down payment as an amount (optional)'],['loanR','الفائدة السنوية %','Annual interest %'],['loanY','المدة (سنوات)','Term (years)'],['loanPerYear','دفعات في السنة','Payments per year']],
+  run(){ const V=num(ca.loanP), dpa=num(ca.loanDPA), dpp=num(ca.loanDP), D=dpa>0?dpa:(Number.isFinite(dpp)&&dpp>0?V*dpp/100:0), P=V-D, r=num(ca.loanR)/100, y=num(ca.loanY), k=Math.round(num(ca.loanPerYear)); if(!(V>0&&D>=0&&r>=0&&y>0&&k>0)) return null;
+   if(!(P>0)) return {out:[[T('الدفعة الأولى','Down payment'),fmt(D)],[T('مبلغ التمويل','Amount financed'),D>=V?T('لا يوجد: الدفعة تغطي كامل القيمة','None: the down payment covers the full value'):'—']]};
+   const n=Math.round(y*k), i=r/k, p=pmt(i,n,P);
    let bal=P; const yrs=[]; for(let t=1;t<=n;t++){ const int=bal*i; bal-=p-int; if(t%k===0||t===n) yrs.push({y:Math.ceil(t/k),bal:Math.max(0,bal)}); }
    let intY=[]; bal=P; for(let yy=1;yy<=Math.ceil(n/k);yy++){ let si=0,sp=0; for(let j=0;j<k&&(yy-1)*k+j<n;j++){ const int=bal*i; si+=int; sp+=p-int; bal-=p-int; } intY.push({si,sp}); }
-   return {out:[[T('القسط','Payment'),fmt(p,2)],[T('إجمالي المدفوع','Total paid'),fmt(p*n)],[T('إجمالي الفوائد','Total interest'),fmt(p*n-P)],[T('الفوائد من المبلغ','Interest / principal'),pct((p*n-P)/P)]],
+   return {out:[[T('الدفعة الأولى','Down payment'),`${fmt(D)} (${pct(D/V)})`],[T('مبلغ التمويل','Amount financed'),`${fmt(P)} (${pct(P/V)})`],[T('القسط','Payment'),fmt(p,2)],[T('إجمالي المدفوع للبنك','Total paid to the lender'),fmt(p*n)],[T('إجمالي الفوائد','Total interest'),fmt(p*n-P)],[T('الفوائد من مبلغ التمويل','Interest / amount financed'),pct((p*n-P)/P)],[T('التكلفة الكلية للعقار','Total cost of the property'),fmt(D+p*n)]],
     chart:comboSvg({labels:intY.map((_,j)=>String(j+1)),bars:[{vals:intY.map(x=>x.sp),cls:'f1'},{vals:intY.map(x=>x.si),cls:'f2'}],H:240,aria:T('أصل وفوائد','Principal and interest')}),
     legend:`<span><i style="background:var(--c1)"></i>${T('سداد أصل الدين سنوياً','Principal paid per year')}</span><span><i style="background:var(--c2)"></i>${T('الفوائد سنوياً','Interest per year')}</span>`}; }},
  {id:'yield',ar:'العائد الإيجاري العقاري',en:'Rental yield',dar:'العائد الإجمالي والصافي ومعدل الرسملة وسنوات الاسترداد لعقار مؤجر.',den:'Gross and net yield, cap rate and payback for a rental property.',
@@ -3966,7 +3981,7 @@ const T_5S={form:()=>`<h3>${T('تدقيق 5S: قيّم كل بند من 1 إلى
 const LS_TOOLS=[
  {k:'charter',ph:'define',ar:'ميثاق المشروع',en:'Project charter',t:T_CHARTER},{k:'sipoc',ph:'define',ar:'خريطة SIPOC',en:'SIPOC map',t:T_SIPOC},{k:'ctq',ph:'define',ar:'شجرة CTQ',en:'CTQ tree',t:T_CTQ},{k:'copq',ph:'define',ar:'تكلفة الجودة الرديئة',en:'Cost of poor quality',t:T_COPQ},
  {k:'sigma',ph:'measure',ar:'مستوى سيجما وDPMO',en:'Sigma level & DPMO'},{k:'cap',ph:'measure',ar:'قدرة العملية Cp/Cpk',en:'Capability Cp/Cpk'},{k:'gage',ph:'measure',ar:'نظام القياس Gage R&R',en:'Gage R&R',t:T_GAGE},{k:'sample',ph:'measure',ar:'حجم العينة',en:'Sample size',t:T_SS},
- {k:'fish',ph:'analyze',ar:'عظم السمكة',en:'Fishbone diagram',t:T_FISH},{k:'whys',ph:'analyze',ar:'5 لماذا',en:'5 Whys',t:T_WHY},{k:'pareto',ph:'analyze',ar:'باريتو للعيوب',en:'Defect Pareto',link:'#pareto'},{k:'reg',ph:'analyze',ar:'الارتباط والانحدار',en:'Correlation & regression',link:'#stats/reg'},{k:'ttest',ph:'analyze',ar:'اختبار الفروق t',en:'Hypothesis t-test',link:'#stats/ttest'},
+ {k:'fish',ph:'analyze',ar:'مخطط إيشيكاوا (عظم السمكة)',en:'Ishikawa (fishbone) diagram',t:T_FISH,link:'#ishikawa'},{k:'whys',ph:'analyze',ar:'5 لماذا',en:'5 Whys',t:T_WHY},{k:'pareto',ph:'analyze',ar:'باريتو للعيوب',en:'Defect Pareto',link:'#pareto'},{k:'reg',ph:'analyze',ar:'الارتباط والانحدار',en:'Correlation & regression',link:'#stats/reg'},{k:'ttest',ph:'analyze',ar:'اختبار الفروق t',en:'Hypothesis t-test',link:'#stats/ttest'},
  {k:'fmea',ph:'improve',ar:'تحليل FMEA',en:'FMEA'},{k:'matrix',ph:'improve',ar:'مصفوفة الأثر والجهد',en:'Impact / effort matrix',t:T_MX},{k:'roi',ph:'improve',ar:'عائد مشروع التحسين',en:'Improvement ROI',t:T_ROI},{k:'mc',ph:'improve',ar:'محاكاة السيناريوهات',en:'Scenario simulation',link:'#risk'},
  {k:'spc',ph:'control',ar:'خريطة I-MR',en:'I-MR control chart'},{k:'pchart',ph:'control',ar:'خريطة p / c للصفات',en:'p / c attribute chart',t:T_PC},{k:'cplan',ph:'control',ar:'خطة التحكم',en:'Control plan',t:T_CP},
  {k:'lean',ph:'lean',ar:'Takt وOEE وPCE',en:'Takt, OEE & PCE'},{k:'vsm',ph:'lean',ar:'خريطة تدفق القيمة',en:'Value stream map',t:T_VSM},{k:'linebal',ph:'lean',ar:'موازنة الخط',en:'Line balancing',t:T_LB},{k:'kanban',ph:'lean',ar:'حساب كانبان',en:'Kanban sizing',t:T_KB},{k:'waste',ph:'lean',ar:'الهدر الثماني',en:'8 wastes',t:T_W8},{k:'5s',ph:'lean',ar:'تدقيق 5S',en:'5S audit',t:T_5S}];
@@ -5243,7 +5258,7 @@ const FH={
 'fe-sales-tbl':['منتج في كل صف: السعر، الكمية، الفترة، وتكلفة الوحدة.','One product per row: price, quantity, period and unit cost.','تبني إيرادات السنة الأولى وتكاليفها المتغيرة.','Builds year-1 revenue and variable costs.','هامش كل منتج (السعر − التكلفة) ÷ السعر فوق 40%.','Each product’s margin (price − cost) ÷ price above 40%.'],
 'fe-exp-tbl':['مصروف ثابت في كل صف: إيجار، رواتب، كهرباء...','One fixed cost per row: rent, salaries, utilities…','مجموعها يحدد نقطة التعادل.','Their total sets break-even.','الإيجار أقل من 10–15% من المبيعات.','Rent below 10–15% of revenue.'],
 /* ---- calculators ---- */
-'ca-loanP':['مبلغ القرض أو التمويل.','Loan or finance amount.','أساس حساب القسط.','Base for the instalment.','',''],
+'ca-loanP':['قيمة العقار أو سعر شرائه.','The property value or purchase price.','الدفعة الأولى تُطرح منها ليبقى مبلغ التمويل.','The down payment is deducted from it to give the amount financed.','',''],'ca-loanDP':['نسبة الدفعة الأولى من قيمة العقار.','Down payment as a % of the property value.','كلما زادت قلّ التمويل والقسط والفوائد.','Higher = smaller loan, payment and interest.','20% أو أكثر حسب شروط البنك.','20% or more, per your bank’s rules.'],'ca-loanDPA':['اكتب الدفعة الأولى مبلغاً إذا كانت معروفة.','Type the down payment as an amount if you know it.','إذا عبّأته يُستخدم بدل النسبة.','If filled, it is used instead of the %.','',''],
 'ca-loanR':['نسبة الفائدة السنوية.','Annual interest rate.','ترفع القسط وإجمالي الفوائد.','Raises the instalment and total interest.','الأقل دائماً أفضل.','Lower is always better.'],
 'ca-loanY':['مدة السداد بالسنوات.','Repayment term in years.','مدة أطول = قسط أقل وفوائد أكثر.','Longer = smaller payment, more interest.','القسط أقل من 35% من الدخل.','Instalment below 35% of income.'],
 'ca-loanPerYear':['عدد الدفعات في السنة (12 = شهري).','Payments per year (12 = monthly).','','','',''],
@@ -5472,7 +5487,7 @@ const INS={
    sum:T(`صافي القيمة الحالية ${fmt(c.npv)}، ومعدل العائد الداخلي ${pc(c.irr)} مقابل تكلفة رأس مال ${pc(c.r)}، ومؤشر الربحية ${fmt(c.pi,2)}، ونقطة التعادل ${fmt(c.be)} سنوياً بهامش أمان ${pc(c.mos)}.`,`NPV ${fmt(c.npv)}, IRR ${pc(c.irr)} vs a ${pc(c.r)} cost of capital, profitability index ${fmt(c.pi,2)}, break-even ${fmt(c.be)} a year with a ${pc(c.mos)} margin of safety.`),tips}; },
 
  calc(){ const n=k=>num(ca[k]); const tips=[], parts=[];
-  const P=n('loanP'), r=n('loanR')/100, y=n('loanY'), k=n('loanPerYear');
+  const V0=n('loanP'), D0=n('loanDPA')>0?n('loanDPA'):(n('loanDP')>0?V0*n('loanDP')/100:0), P=V0-D0, r=n('loanR')/100, y=n('loanY'), k=n('loanPerYear');
   if(P>0&&r>=0&&y>0&&k>0){ const m=pmt(r/k,Math.round(y*k),P), ti=m*Math.round(y*k)-P; parts.push(T(`قسط القرض ${fmt(m)} وإجمالي الفوائد ${fmt(ti)} (${pc(ti/P)} من المبلغ)`,`loan payment ${fmt(m)} with ${fmt(ti)} total interest (${pc(ti/P)} of the principal)`)); if(ti/P>0.5) tips.push(T('الفوائد تتجاوز نصف مبلغ القرض: مدة أقصر أو دفعة مقدمة أكبر توفر كثيراً.','Interest exceeds half the loan: a shorter term or a bigger down payment saves a lot.')); }
   const pr=n('yPrice'), rent=n('yRent')*12, oc=n('yOcc')/100, ex=n('yExp'), fee=n('yFees')/100;
   if(pr>0&&rent>=0){ const noi=rent*oc-ex, ny=noi/(pr*(1+fee)); parts.push(T(`صافي العائد الإيجاري ${pc(ny,2)}`,`net rental yield ${pc(ny,2)}`)); if(ny<0.05) tips.push(T('العائد الإيجاري الصافي أقل من 5%: فاوض على السعر، أو ارفع الإيجار، أو خفّض المصاريف والشواغر.','Net rental yield is under 5%: negotiate the price, raise rent, or cut costs and vacancy.')); }
@@ -5710,6 +5725,7 @@ async function repImport(f,b,target){ busy(b,true);
 function setTA(ta,text){ ta.value=text; ['input','change'].forEach(ev=>ta.dispatchEvent(new Event(ev,{bubbles:true})));
  const scope=ta.closest('.panel')||$('#main'); const go=$$('button.btn.primary',scope).find(x=>vis(x)&&!x.closest('.rep-tools'))||$$('#main button.btn.primary').find(vis); if(go) go.click(); }
 function impApply(rows,target,kind){ const id=curPage().id;
+ if(kind==='ish'||id==='ishikawa') return ishImport(rows);
  if(kind==='fs'||(id==='statements'&&kind!=='kv')||(id==='xray'&&!kind)) return impStatements(rows);
  if(kind==='viz'||(id==='viz'&&!kind)){ const w=Math.max(...rows.map(r=>r.length)); const ps=rows.filter(r=>r.some(x=>String(x).trim()!=='')).map(r=>Array.from({length:w},(_,j)=>String(r[j]??'').replace(/[\t\n]/g,' ').trim()).join('\t')); if(ps.length<2) return 0; dv.data=ps.join('\n'); dvSave(); renderPage(); return ps.length-1; }
  if(kind==='riskfit'){ const c=numCols(rows); if(!c.length) return 0; const v=colVals(rows,c[0].j); location.hash='#risk/fit'; setTimeout(()=>{ const ta=$('#fit-text'); if(ta) setTA(ta,v.join(' ')); },500); return v.length; }
@@ -5855,6 +5871,7 @@ function impTools(kind){ const id=curPage().id, S=k=>{ const it=(subItems('state
  if(kind==='riskfit') return [['#risk/fit',T('ملاءمة التوزيع (محاكاة المخاطر)','Distribution fit (risk simulation)')]];
  const p=curPage(), sub=curSub(), si=(subItems(p.id)||[]).find(x=>x[0]===sub); return [[location.hash||'#'+p.id,T(p.ar,p.en)+(si?' · '+T(si[1],si[2]):'')]]; }
 function impDiagnose(rows,kind,target){ const id=curPage().id, nc=numCols(rows).filter(c=>c.n>0), m=$('#main');
+ if(kind==='ish') return T('لم أجد أسباباً. ضع عمودين على الأقل بعنوان «الفئة» و«السبب»، أو عموداً لكل فئة واسمها في الصف الأول.','No causes found. Use at least two columns headed “Category” and “Cause”, or one column per category with its name in the first row.');
  if(!rows.length) return T('الملف فارغ أو لا يحتوي جدول بيانات.','The file is empty or has no data table.');
  if(kind!=='kv'&&(kind==='fs'||id==='statements'||id==='xray')){ if(!nc.length) return T('لم أجد أعمدة أرقام للسنوات. ضع السنوات في الصف الأول وأرقام كل سنة تحتها.','No numeric year columns were found. Put the years in the first row and each year’s figures below them.');
   return T('لم أتعرف على أسماء البنود في العمود الأول. استخدم أسماء مثل: المبيعات، تكلفة المبيعات، المصاريف الإدارية، النقد، الذمم المدينة، المخزون، الذمم الدائنة، القروض، صافي النقد من الأنشطة التشغيلية.','The line names in the first column were not recognised. Use names such as: Revenue, Cost of sales, Administrative expenses, Cash, Receivables, Inventory, Payables, Loans, Net cash from operating activities.'); }
@@ -5895,7 +5912,8 @@ const impTbl=(head,rows)=>rows.length?`<div class="imp-ex"><table>${head&&head.l
 const impLines=ta=>String(ta&&ta.value||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
 function impSpec(kind,target){ let pts=[], head=null, ex=[];
  const FMT=T('الصيغ المقبولة: Excel ‏(.xlsx / .xls)، ‏CSV، أو PDF نصي (غير ممسوح ضوئياً).','Accepted: Excel (.xlsx / .xls), CSV, or a text PDF (not a scanned image).');
- if(kind==='fs'){ pts=[T('العمود الأول: اسم البند (المبيعات، تكلفة المبيعات، النقد، الذمم المدينة...).','First column: line item (Revenue, Cost of sales, Cash, Receivables…).'),T('الصف الأول: السنوات (2023، 2024، 2025) فوق أعمدة الأرقام.','First row: the years (2023, 2024, 2025) above the number columns.'),T('يمكن رفع قائمة الدخل والميزانية والتدفقات في ملف واحد أو ورقة واحدة.','Income statement, balance sheet and cash flow can be in one file or sheet.')];
+ if(kind==='ish'){ pts=[T('صف لكل سبب بأعمدة: الفئة، السبب، السبب الفرعي (اختياري)، الأثر 1–5، التكرار 1–5.','One row per cause with columns: category, cause, sub-cause (optional), impact 1–5, frequency 1–5.'),T('أو: عمود لكل فئة، اسمها في الصف الأول، والأسباب تحته.','Or: one column per category, its name in the first row and the causes below.')]; head=[T('الفئة','Category'),T('السبب','Cause'),T('السبب الفرعي','Sub-cause'),T('الأثر','Impact'),T('التكرار','Frequency')]; ex=[[T('الأفراد','People'),T('نقص التدريب','Lack of training'),'',4,3],[T('الطريقة','Method'),T('لا توجد إجراءات مكتوبة','No written procedure'),T('كل موظف يعمل بطريقته','Each person works differently'),5,4]]; }
+ else if(kind==='fs'){ pts=[T('العمود الأول: اسم البند (المبيعات، تكلفة المبيعات، النقد، الذمم المدينة...).','First column: line item (Revenue, Cost of sales, Cash, Receivables…).'),T('الصف الأول: السنوات (2023، 2024، 2025) فوق أعمدة الأرقام.','First row: the years (2023, 2024, 2025) above the number columns.'),T('يمكن رفع قائمة الدخل والميزانية والتدفقات في ملف واحد أو ورقة واحدة.','Income statement, balance sheet and cash flow can be in one file or sheet.')];
   head=[T('البند','Line item'),'2024','2025']; ex=[[T('المبيعات','Revenue'),'47,500','51,000'],[T('تكلفة المبيعات','Cost of sales'),'31,100','34,200'],[T('النقد','Cash'),'2,900','2,100']]; }
  else if(kind==='viz'||kind==='full'){ const L=String(typeof dv!=='undefined'?dv.data:'').split(/\r?\n/).filter(Boolean); pts=[T('جدول بيانات عادي: الصف الأول أسماء الأعمدة، وكل صف بعده سجل واحد.','A plain data table: first row = column names, one record per row after it.'),T('الأعمدة النصية (منطقة، منتج) تصبح أبعاداً، والرقمية (مبيعات، ربح) مقاييس، والتواريخ بصيغة 2025-01.','Text columns (region, product) become dimensions, numeric ones (sales, profit) measures; dates as 2025-01.'),T('بدون خلايا مدمجة أو صفوف إجماليات أو عناوين فوق الجدول.','No merged cells, total rows or titles above the table.')];
   if(L.length>1){ head=L[0].split('\t').slice(0,6); ex=L.slice(1,3).map(l=>l.split('\t').slice(0,6)); } }
@@ -5921,6 +5939,7 @@ function impInline(){ const m=$('#main'); if(!m) return; const id=curPage().id; 
  $$('textarea',m).forEach(ta=>{ const k=IMP_MODE[ta.id]; if(!k||ta.readOnly) return; const host=ta.closest('details')||ta; if(!vis(host)||host.previousElementSibling?.classList.contains('imp-inline')) return; host.before(impBar(k,ta)); });
  if(id==='statements'&&fsSub==='input'){ const t=[...$$('.tbl-wrap',m)].find(x=>!x.closest('.fs-imp')); if(t&&!t.previousElementSibling?.classList.contains('imp-inline')) t.before(impBar('fs',null)); return; }
  if(has()) return;
+ if(id==='ishikawa'){ const g=$('.form-grid',m); if(g&&!g.closest('.panel').previousElementSibling?.classList.contains('imp-inline')) g.closest('.panel').before(impBar('ish',null)); return; }
  if(id==='statements'&&fsSub!=='ceo'||id==='xray'||id==='ccc'){ impTop(m,impBar('fs',null)); return; }
  if(id==='viz'){ impTop(m,impBar('viz',null)); return; }
  if(id==='risk'){ impTop(m,impBar('riskfit',null)); return; }
@@ -6210,7 +6229,7 @@ const KB={
 'feasibility/report':['تقرير دراسة الجدوى النصي.','The written feasibility report.','يُكتب تلقائياً من النتائج.','Written automatically from the results.','افتراضات المشروع.','Project assumptions.','ملخص جاهز للمستثمر مع الحكم والمخاطر.','An investor-ready summary with the verdict and risks.'],
 /* ---- calculators ---- */
 'calc':['حاسبات مالية سريعة للقرارات اليومية.','Quick financial calculators for everyday decisions.','أدخل الأرقام فتظهر النتيجة فوراً.','Enter the numbers and the result appears instantly.','حسب كل حاسبة.','Depends on the calculator.','نتائج فورية مع جداول ورسوم.','Instant results with tables and charts.'],
-'calc/loan':['حساب قسط القرض أو التمويل العقاري وإجمالي الفوائد.','Calculates a loan or mortgage instalment and total interest.','معادلة القسط الثابت (PMT).','The fixed-payment (PMT) formula.','مبلغ القرض، الفائدة السنوية، المدة، عدد الدفعات في السنة.','Loan amount, annual rate, term, payments per year.','القسط الدوري وإجمالي الفوائد وجدول السداد. القسط المريح أقل من 35% من الدخل.','The instalment, total interest and the schedule. A comfortable instalment is below 35% of income.'],
+'calc/loan':['حساب الدفعة الأولى ومبلغ التمويل وقسط القرض العقاري وإجمالي الفوائد.','Calculates the down payment, amount financed, mortgage instalment and total interest.','مبلغ التمويل = قيمة العقار − الدفعة الأولى، ثم معادلة القسط الثابت (PMT).','Amount financed = property value − down payment, then the fixed-payment (PMT) formula.','قيمة العقار، الدفعة الأولى (نسبة أو مبلغ)، الفائدة السنوية، المدة، عدد الدفعات في السنة.','Property value, down payment (% or amount), annual rate, term, payments per year.','القسط الدوري وإجمالي الفوائد وجدول السداد. القسط المريح أقل من 35% من الدخل.','The instalment, total interest and the schedule. A comfortable instalment is below 35% of income.'],
 'calc/yield':['العائد الإيجاري لعقار.','A property’s rental yield.','الإيجار السنوي بعد الإشغال والمصاريف ÷ تكلفة الشراء.','Annual rent after occupancy and costs ÷ purchase cost.','سعر العقار، الإيجار الشهري، الإشغال، المصاريف، رسوم الشراء.','Price, monthly rent, occupancy, costs, purchase fees.','العائد الإجمالي والصافي وسنوات الاسترداد. صافي فوق 6% جيد.','Gross and net yield and payback years. Net above 6% is good.'],
 'calc/be':['نقطة التعادل: الكمية التي تغطي كل التكاليف.','Break-even: the volume that covers all costs.','التكاليف الثابتة ÷ (السعر − التكلفة المتغيرة).','Fixed costs ÷ (price − variable cost).','التكاليف الثابتة، سعر الوحدة، التكلفة المتغيرة، الربح المستهدف.','Fixed costs, unit price, variable cost, target profit.','عدد الوحدات والمبيعات اللازمة للتعادل ولتحقيق الربح المستهدف.','Units and sales needed to break even and to reach the target profit.'],
 'calc/cagr':['معدل النمو السنوي المركب بين قيمتين.','The compound annual growth rate between two values.','(النهاية ÷ البداية)^(1 ÷ السنوات) − 1.','(end ÷ start)^(1 ÷ years) − 1.','القيمة في البداية والنهاية وعدد السنوات.','Start value, end value, years.','نسبة نمو سنوية واحدة تختصر الفترة كلها.','One yearly growth rate that summarises the whole period.'],
@@ -6400,6 +6419,95 @@ KB.ccc=['اختبار يقيس كم يوماً تبقى السيولة محبو�
  'أدخل أو استورد الإيرادات وتكلفة المبيعات وأرصدة الذمم والمخزون والموردين لكل سنة، ثم شروط الائتمان للعملاء والموردين والأهداف.','Enter or import revenue, cost of sales and receivables, inventory and payables balances for each year, then customer and supplier terms and targets.',
  'الإيرادات، تكلفة المبيعات، الذمم المدينة، المخزون، الذمم الدائنة لسنتين على الأقل (لحساب المتوسط)، وشروط الائتمان.','Revenue, cost of sales, receivables, inventory and payables for at least two years (for averages), plus credit terms.',
  'كلما قصرت الدورة كان أفضل؛ السالبة تعني أن الموردين يموّلونك. الاختبار يقارن التحصيل بشروط العملاء، والسداد بشروط الموردين، والتغير عن السنة السابقة، ويحسب السيولة المتحررة عند الوصول للأهداف.','Shorter is better; negative means suppliers fund you. The test compares collection with customer terms, payment with supplier terms and the change on last year, and computes cash released at your targets.'];
+
+/* ================= Ishikawa (fishbone / cause-and-effect) diagram ================= */
+const IK_FW={
+ '6m':{ar:'6M للتصنيع والعمليات',en:'6M (manufacturing & operations)',c:[['الأفراد','Man / People'],['الآلات والمعدات','Machine'],['الطريقة','Method'],['المواد','Material'],['القياس','Measurement'],['البيئة','Environment']]},
+ '8p':{ar:'8P للخدمات والتسويق',en:'8P (services & marketing)',c:[['المنتج / الخدمة','Product / service'],['السعر','Price'],['المكان والقنوات','Place'],['الترويج','Promotion'],['الأفراد','People'],['العمليات','Process'],['الدليل المادي','Physical evidence'],['الإنتاجية والجودة','Productivity & quality']]},
+ '4s':{ar:'4S للخدمات',en:'4S (services)',c:[['المحيط','Surroundings'],['الموردون','Suppliers'],['الأنظمة','Systems'],['المهارات','Skills']]},
+ 'fin':{ar:'المالية والتدقيق',en:'Finance & audit',c:[['الأفراد','People'],['الإجراءات والرقابة','Processes & controls'],['الأنظمة والبيانات','Systems & data'],['السياسات والصلاحيات','Policies & authority'],['العملاء والموردون','Customers & suppliers'],['عوامل خارجية','External factors']]}};
+const IK_SAMPLE=()=>({prob:T('تأخر تحصيل مستحقات العملاء (أيام التحصيل ارتفعت من 45 إلى 71 يوماً)','Late customer collections (DSO rose from 45 to 71 days)'),fw:'fin',
+ cats:IK_FW.fin.c.map(([a,e])=>T(a,e)),
+ causes:[T('لا يوجد موظف تحصيل متفرغ\n- المحاسب يجمع التحصيل مع مهام أخرى\nضعف متابعة المندوبين للعملاء','No dedicated collector\n- Accountant combines collection with other work\nSales reps do not follow up'),
+  T('الفواتير تُرسل متأخرة بعد التسليم\n- انتظار توقيع إذن التسليم\nلا يوجد تقرير أعمار ذمم أسبوعي','Invoices sent late after delivery\n- Waiting for signed delivery notes\nNo weekly receivables ageing report'),
+  T('النظام لا يرسل تذكيرات تلقائية\nبيانات تواصل العملاء غير محدثة','System sends no automatic reminders\nCustomer contact data outdated'),
+  T('حدود ائتمان عالية دون دراسة\n- اعتماد الحد من المبيعات فقط\nلا توجد غرامة على التأخير','High credit limits without analysis\n- Limits approved by sales only\nNo late-payment penalty'),
+  T('عملاء كبار يفرضون مدد أطول\nنزاعات على جودة البضاعة تؤخر الدفع','Large customers impose longer terms\nQuality disputes delay payment'),
+  T('تباطؤ السوق ونقص السيولة لدى العملاء','Market slowdown and customer cash shortages')],sc:{}});
+let ik=Object.assign(IK_SAMPLE(),store.get('fd.ik',{}));
+const ikSave=()=>store.set('fd.ik',ik);
+function ikParse(){ return ik.cats.map((n,ci)=>{ const out=[]; String(ik.causes[ci]||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean).forEach(s=>{ if(/^[-–—•·]/.test(s)&&out.length) out[out.length-1].sub.push(s.replace(/^[-–—•·]\s*/,'')); else out.push({t:s.replace(/^[-–—•·]\s*/,''),sub:[]}); }); return {n,ci,causes:out}; }); }
+const ikKey=(ci,t)=>ci+'|'+t;
+function ikScored(P){ const all=[]; P.forEach(c=>c.causes.forEach(x=>{ const s=ik.sc[ikKey(c.ci,x.t)]||{}; const i=+s.i||0, l=+s.l||0; all.push({cat:c.n,ci:c.ci,t:x.t,i,l,v:!!s.v,score:i*l}); })); return all; }
+function ikSvg(P,top){ const rtl=lang==='ar', n=P.length, up=Math.ceil(n/2), gap=24, slots=c=>c.causes.reduce((a,x)=>a+1+x.sub.length,0), CW=6.4;
+ const lenOf=c=>Math.max(110,...c.causes.flatMap(x=>[Math.min(34,String(x.t).length)*CW+16,...x.sub.map(s=>Math.min(30,String(s).length)*CW*0.92+16)]));
+ const ext=Math.max(150,...P.map(c=>slots(c)*gap+60)), lean=ext*0.5, cols=Math.max(up,n-up), colLen=[...Array(cols)].map((_,k)=>Math.max(lenOf(P[k]||{causes:[]}),P[up+k]?lenOf(P[up+k]):0));
+ /* lay out from the head backwards: each column needs room for its bone lean plus its longest cause text */
+ const HEAD=230; let d=40; const sxD=colLen.map(L=>{ const v=d; d+=lean+L+34; return v; }); const W=Math.ceil(d+HEAD+20), H=ext*2+40, cy=ext+20, hx=W-HEAD;
+ const X=x=>rtl?W-x:x, A=a=>a;
+ const isTop=t=>top.some(o=>o.t===t), isV=(ci,t)=>(ik.sc[ikKey(ci,t)]||{}).v; const wrap=(s,m)=>{ const w=String(s).split(' '), L=[]; let cur=''; w.forEach(x=>{ if((cur+' '+x).trim().length>m&&cur){ L.push(cur); cur=x; } else cur=(cur+' '+x).trim(); }); if(cur) L.push(cur); return L.slice(0,5); };
+ let g=`<line x1="${X(20)}" y1="${cy}" x2="${X(hx)}" y2="${cy}" stroke="#0B2E9E" stroke-width="5" stroke-linecap="round"/><path d="M${X(hx)} ${cy-70} L${X(W-10)} ${cy} L${X(hx)} ${cy+70}Z" fill="#1D5BFF"/>`;
+ const pl=wrap(ik.prob||T('المشكلة','Problem'),22); pl.forEach((l,i)=>{ g+=`<text x="${X(hx+(W-10-hx)*0.4)}" y="${cy+(i-(pl.length-1)/2)*15+4}" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">${esc(l)}</text>`; });
+ P.forEach((c,i)=>{ const t=i<up, col=t?i:i-up, sx=hx-sxD[col], bx=sx-lean, ey=t?cy-ext+10:cy+ext-10, len=colLen[col];
+  g+=`<line x1="${X(bx)}" y1="${ey}" x2="${X(sx)}" y2="${cy}" stroke="#5B8CFF" stroke-width="3"/><rect x="${X(bx)-80}" y="${t?ey-32:ey+4}" width="160" height="28" rx="14" fill="#0B2E9E"/><text x="${X(bx)}" y="${t?ey-13:ey+23}" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">${esc(String(c.n).slice(0,24))}</text>`;
+  let k=0; const tot=slots(c)+1; c.causes.forEach(x=>{ [x.t,...x.sub].forEach((s,j)=>{ k++; const f=k/tot, x0=bx+(sx-bx)*f, y0=ey+(cy-ey)*f, main=j===0, L=main?len:len*0.85, hot=main&&isTop(x.t), ver=main&&isV(c.ci,x.t), mx=main?34:30;
+    g+=`<line x1="${X(x0-L)}" y1="${y0}" x2="${X(x0)}" y2="${y0}" stroke="${hot?'#DC2626':main?'#94A3B8':'#CBD5E1'}" stroke-width="${main?1.6:1}" ${main?'':'stroke-dasharray="3 2"'}/>`+
+     `<text x="${X(x0-8)}" y="${y0-4}" text-anchor="${A('end')}" font-size="${main?11.5:10.5}" fill="${hot?'#B91C1C':main?'#0B1324':'#475569'}" font-weight="${hot?700:main?500:400}">${ver?'★ ':''}${esc(String(s).slice(0,mx))}${String(s).length>mx?'…':''}</text>`; }); }); });
+ return {svg:`<svg viewBox="0 0 ${W} ${H}" class="ik-svg" style="direction:${rtl?'rtl':'ltr'};min-width:${W>1400?Math.round(W*0.75):0}px" role="img" aria-label="${T('مخطط إيشيكاوا','Ishikawa diagram')}" xmlns="http://www.w3.org/2000/svg" direction="${rtl?'rtl':'ltr'}" font-family="IBM Plex Sans Arabic, Inter, Arial, sans-serif">${g}</svg>`,W,H}; }
+function ishikawaRender(root){ const P=ikParse(), all=ikScored(P), scored=all.filter(x=>x.score>0).sort((a,b)=>b.score-a.score), top=scored.slice(0,3), nC=all.length, nS=P.reduce((a,c)=>a+c.causes.reduce((b,x)=>b+x.sub.length,0),0), ver=all.filter(x=>x.v);
+ const S=ikSvg(P,top), maxN=Math.max(1,...P.map(c=>c.causes.length));
+ root.innerHTML=pageHead('مخطط إيشيكاوا (عظم السمكة)','Ishikawa (fishbone) diagram','حدد المشكلة في رأس السمكة، ووزّع أسبابها المحتملة على فئات، ثم قيّم كل سبب حسب الأثر والتكرار لتصل إلى الأسباب الجذرية الأهم وتتحقق منها.','Put the problem at the fish head, sort its possible causes into categories, then rate each cause by impact and frequency to find and verify the most important root causes.')+`
+ <section class="panel"><div class="form-grid">
+  <label class="pf" style="grid-column:1/-1"><span>${T('المشكلة (رأس السمكة)','Problem (fish head)')}</span><input data-ik="prob" value="${esc(ik.prob)}"></label>
+  <label class="pf"><span>${T('إطار الفئات','Category framework')}</span><select data-ik="fw">${Object.entries(IK_FW).map(([k,f])=>`<option value="${k}"${ik.fw===k?' selected':''}>${T(f.ar,f.en)}</option>`).join('')}<option value="custom"${ik.fw==='custom'?' selected':''}>${T('فئات مخصصة','Custom categories')}</option></select></label></div>
+  <p class="note">${T('اكتب كل سبب في سطر. للسبب الفرعي ابدأ السطر بشرطة «-». يمكنك تعديل اسم الفئة نفسها.','One cause per line. Start a line with “-” for a sub-cause. You can rename any category.')}</p>
+  <div class="ik-cats">${P.map((c,ci)=>`<div class="ik-cat"><div class="ik-ch"><input class="ik-cn" data-cn="${ci}" value="${esc(c.n)}" aria-label="${T('اسم الفئة','Category name')}"><button type="button" class="ik-del" data-del="${ci}" title="${T('حذف الفئة','Remove category')}" aria-label="${T('حذف الفئة','Remove category')}">✕</button></div><textarea data-cc="${ci}" rows="5" spellcheck="false">${esc(ik.causes[ci]||'')}</textarea></div>`).join('')}</div>
+  <div class="row" style="margin-top:8px;gap:8px"><button type="button" class="btn small" id="ik-add"${ik.cats.length>=8?' disabled':''}>+ ${T('إضافة فئة','Add category')}</button><button type="button" class="btn small" id="ik-ex">${T('مثال جاهز','Load example')}</button><button type="button" class="btn small" id="ik-clr">${T('صفحة فارغة','Blank page')}</button></div></section>
+ <section class="panel"><div class="row" style="justify-content:space-between;align-items:center"><h3 style="margin:0">${T('المخطط','Diagram')}</h3><div class="row" style="gap:6px"><button type="button" class="btn small" id="ik-svgdl">${T('تنزيل SVG','Download SVG')}</button><button type="button" class="btn small" id="ik-copy">${T('نسخ كقائمة','Copy as list')}</button></div></div>
+  <div class="ik-wrap">${S.svg}</div><p class="note">${T('الأسباب باللون الأحمر هي الأعلى تقييماً، و★ سبب جذري تم التحقق منه بالبيانات.','Causes in red are the highest rated; ★ marks a root cause verified with data.')}</p></section>
+ <section class="panel"><h3 style="margin:0 0 6px">${T('تقييم الأسباب','Rate the causes')}</h3><p class="note" style="margin:0 0 8px">${T('الأثر: كم يؤثر السبب على المشكلة (1 ضعيف – 5 كبير). التكرار: كم يحدث (1 نادر – 5 دائم). الأولوية = الأثر × التكرار. علّم «تم التحقق» بعد إثبات السبب بالبيانات.','Impact: how much the cause drives the problem (1 low – 5 high). Frequency: how often it happens (1 rare – 5 always). Priority = impact × frequency. Tick “verified” once data proves the cause.')}</p>
+  ${nC?`<div class="tbl-wrap"><table class="ik-tbl"><thead><tr><th>${T('الفئة','Category')}</th><th>${T('السبب','Cause')}</th><th>${T('الأثر','Impact')}</th><th>${T('التكرار','Frequency')}</th><th class="n">${T('الأولوية','Priority')}</th><th>${T('تم التحقق','Verified')}</th></tr></thead><tbody>
+   ${all.map(x=>{ const k=ikKey(x.ci,x.t), sel=(f,v)=>`<select data-sk="${esc(k)}" data-f="${f}"><option value="">—</option>${[1,2,3,4,5].map(n=>`<option${v===n?' selected':''}>${n}</option>`).join('')}</select>`; return `<tr class="${top.some(o=>o.t===x.t&&o.ci===x.ci)?'hot':''}"><td>${esc(x.cat)}</td><td>${esc(x.t)}</td><td>${sel('i',x.i)}</td><td>${sel('l',x.l)}</td><td class="n"><b>${x.score||'—'}</b></td><td><input type="checkbox" data-sk="${esc(k)}" data-f="v"${x.v?' checked':''}></td></tr>`; }).join('')}</tbody></table></div>`:`<p class="note">${T('أضف أسباباً في الفئات أعلاه.','Add causes in the categories above.')}</p>`}</section>
+ <section class="panel"><h3 style="margin:0 0 8px">${T('النتائج','Results')}</h3><div class="kpis">
+  <div class="kpi"><span class="k"><span>${T('الأسباب الرئيسية','Main causes')}</span></span><span class="v">${nC}</span><span class="s">${T(`+ ${nS} سبب فرعي`,`+ ${nS} sub-causes`)}</span></div>
+  <div class="kpi"><span class="k"><span>${T('فئات مستخدمة','Categories used')}</span></span><span class="v">${P.filter(c=>c.causes.length).length} / ${P.length}</span></div>
+  <div class="kpi"><span class="k"><span>${T('أسباب مُقيّمة','Causes rated')}</span></span><span class="v">${nC?Math.round(scored.length/nC*100):0}%</span></div>
+  <div class="kpi ${ver.length?'good':'warn'}"><span class="k"><span>${T('أسباب جذرية متحقق منها','Verified root causes')}</span></span><span class="v">${ver.length}</span></div></div>
+  <h4 style="margin:14px 0 6px">${T('توزيع الأسباب على الفئات','Causes per category')}</h4><div class="ik-bars">${P.map(c=>`<div><span>${esc(c.n)}</span><i style="--w:${c.causes.length/maxN*100}%"></i><b>${c.causes.length}</b></div>`).join('')}</div>
+  ${top.length?`<h4 style="margin:14px 0 6px">${T('أعلى الأسباب أولوية','Top-priority causes')}</h4><ol class="tm-ul">${top.map(x=>`<li><b>${esc(x.t)}</b> <span class="note">(${esc(x.cat)} · ${T('الأولوية','priority')} ${x.score} / 25)</span></li>`).join('')}</ol>
+   <div class="row" style="margin-top:8px"><a class="btn small primary" id="ik-why" href="#lss/whys">${T('حلّل السبب الأول بأداة «5 لماذا»','Drill into the top cause with “5 Whys”')} ${lang==='ar'?'←':'→'}</a><a class="btn small" href="#pareto">${T('رتّب الأسباب بالبيانات في «باريتو»','Rank causes with data in “Pareto”')}</a></div>`:''}</section>`;
+ const re=()=>{ ikSave(); ishikawaRender(root); };
+ $$('[data-ik]',root).forEach(i=>i.onchange=()=>{ const k=i.dataset.ik; if(k==='fw'){ ik.fw=i.value; if(IK_FW[i.value]){ const old=ik.causes; ik.cats=IK_FW[i.value].c.map(([a,e])=>T(a,e)); ik.causes=ik.cats.map((_,j)=>old[j]||''); } } else ik[k]=i.value; re(); });
+ $$('[data-cn]',root).forEach(i=>i.onchange=()=>{ ik.cats[+i.dataset.cn]=i.value.trim()||ik.cats[+i.dataset.cn]; ik.fw='custom'; re(); });
+ $$('[data-cc]',root).forEach(t=>t.onchange=()=>{ ik.causes[+t.dataset.cc]=t.value; re(); });
+ $$('[data-del]',root).forEach(b=>b.onclick=()=>{ if(ik.cats.length<=2){ toast(T('يلزم فئتان على الأقل.','At least two categories are needed.')); return; } const j=+b.dataset.del; ik.cats.splice(j,1); ik.causes.splice(j,1); ik.sc={}; ik.fw='custom'; re(); });
+ $('#ik-add',root).onclick=()=>{ ik.cats.push(T('فئة جديدة','New category')); ik.causes.push(''); ik.fw='custom'; re(); };
+ $('#ik-ex',root).onclick=()=>{ ik=IK_SAMPLE(); re(); };
+ $('#ik-clr',root).onclick=()=>{ ik={prob:'',fw:'6m',cats:IK_FW['6m'].c.map(([a,e])=>T(a,e)),causes:IK_FW['6m'].c.map(()=>''),sc:{}}; re(); };
+ $$('[data-sk]',root).forEach(e=>e.onchange=()=>{ const k=e.dataset.sk, f=e.dataset.f; ik.sc[k]=ik.sc[k]||{}; ik.sc[k][f]=f==='v'?e.checked:+e.value||0; re(); });
+ $('#ik-svgdl',root).onclick=()=>{ try{ const b=new Blob([S.svg],{type:'image/svg+xml'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='ishikawa.svg'; document.body.appendChild(a); a.click(); a.remove(); }catch(e){ toast(T('تعذّر التنزيل هنا؛ استخدم زر الطباعة أو PDF.','Download is blocked here; use print or PDF.')); } };
+ $('#ik-copy',root).onclick=()=>copyText(`${ik.prob}\n\n`+P.map(c=>`${c.n}:\n`+c.causes.map(x=>`  • ${x.t}`+x.sub.map(s=>`\n      - ${s}`).join('')).join('\n')).join('\n\n'));
+ const w=$('#ik-why',root); if(w&&top[0]) w.onclick=()=>{ try{ ls.wyProb=top[0].t; lsSave(); }catch(e){} }; }
+function ishImport(rows){ /* long format: category | cause | sub-cause | impact | frequency — or wide: one column per category */
+ const R=rows.filter(r=>r.some(c=>String(c).trim())); if(!R.length) return 0; const h=R[0].map(c=>normL(c)), long=h.some(x=>/(^| )(cause|السبب|سبب)( |$)/.test(x))&&h.some(x=>/(category|الفئه|فئه|bone)/.test(x));
+ const cats=[], causes=[], sc={}; let n=0; const ci=name=>{ let i=cats.indexOf(name); if(i<0){ cats.push(name); causes.push(''); i=cats.length-1; } return i; };
+ if(long){ const col=re=>h.findIndex(x=>re.test(x)); const cC=col(/category|فئه|bone/), cR=col(/(^| )(cause|السبب|سبب)( |$)/), cS=col(/sub|فرعي/), cI=col(/impact|اثر|الاثر/), cL=col(/freq|likel|تكرار|احتمال/);
+  R.slice(1).forEach(r=>{ const c=String(r[cC]||'').trim(), t=String(r[cR]||'').trim(); if(!c||!t) return; const i=ci(c); const lines=causes[i].split('\n').filter(Boolean); if(!lines.includes(t)) lines.push(t); const sub=cS>=0?String(r[cS]||'').trim():''; if(sub) lines.splice(lines.indexOf(t)+1,0,'- '+sub); causes[i]=lines.join('\n'); n++;
+   const I=cI>=0?Math.round(cnum(r[cI])):NaN, L=cL>=0?Math.round(cnum(r[cL])):NaN; if(I>=1||L>=1) sc[ikKey(i,t)]={i:I>=1&&I<=5?I:0,l:L>=1&&L<=5?L:0,v:false}; }); }
+ else { const w=Math.max(...R.map(r=>r.length)); for(let j=0;j<w&&cats.length<8;j++){ const name=String(R[0][j]||'').trim(); const vals=R.slice(1).map(r=>String(r[j]||'').trim()).filter(Boolean); if(!name||!vals.length) continue; ci(name); causes[cats.length-1]=vals.join('\n'); n+=vals.length; } }
+ if(!n||cats.length<1) return 0; ik.cats=cats.slice(0,8); ik.causes=causes.slice(0,8); ik.sc=sc; ik.fw='custom'; ikSave(); renderPage(); return n; }
+INS.ishikawa=function(){ const P=ikParse(), all=ikScored(P); if(!all.length) return null; const sc=all.filter(x=>x.score>0).sort((a,b)=>b.score-a.score), ver=all.filter(x=>x.v), big=[...P].sort((a,b)=>b.causes.length-a.causes.length)[0], tips=[];
+ if(sc.length<all.length) tips.push(T(`قيّم كل الأسباب (${all.length-sc.length} غير مقيّمة) لترتيب الأولويات بدقة.`,`Rate all causes (${all.length-sc.length} unrated) to rank priorities properly.`));
+ if(!ver.length) tips.push(T('المخطط يجمع أسباباً محتملة فقط: اجمع بيانات (ورقة تحقق، باريتو) لإثبات السبب قبل الحل.','The diagram lists possible causes only: collect data (check sheet, Pareto) to prove a cause before fixing it.'));
+ if(sc[0]) tips.push(T(`طبّق «5 لماذا» على «${sc[0].t}» للوصول لجذره.`,`Apply “5 Whys” to “${sc[0].t}” to reach its root.`));
+ tips.push(T('ضع لكل سبب جذري إجراءً ومسؤولاً وتاريخاً، ثم راقب المؤشر بعد التنفيذ.','Give each root cause an action, an owner and a date, then track the metric after.'));
+ return {tone:ver.length?'good':sc.length?'warn':'info',headline:T(`${all.length} سبباً في ${P.filter(c=>c.causes.length).length} فئات للمشكلة: «${ik.prob}».`,`${all.length} causes in ${P.filter(c=>c.causes.length).length} categories for: “${ik.prob}”.`),
+  simple:T(`ببساطة: أكثر الأسباب في فئة «${big.n}»${sc[0]?`، وأعلاها أولوية «${sc[0].t}» (${sc[0].score}/25)`:''}${ver.length?`، وتم التحقق من ${ver.length} سبب جذري.`:'، ولم يُتحقق من أي سبب بعد.'}`,`In short: most causes sit in “${big.n}”${sc[0]?`, the top priority is “${sc[0].t}” (${sc[0].score}/25)`:''}${ver.length?`, and ${ver.length} root cause(s) are verified.`:', and no cause is verified yet.'}`),
+  sum:sc.slice(0,5).map(x=>`${x.t} (${x.score})`).join(' · '),tips}; };
+KB.ishikawa=['مخطط السبب والنتيجة (عظم السمكة) لـ كاورو إيشيكاوا: يرتب الأسباب المحتملة لمشكلة في فئات حتى لا يُنسى سبب، ثم يرتبها حسب الأولوية.','Kaoru Ishikawa’s cause-and-effect (fishbone) diagram: sorts the possible causes of a problem into categories so none is missed, then ranks them by priority.',
+ 'اكتب المشكلة، اختر إطار الفئات (6M، 8P، 4S، المالية والتدقيق، أو مخصص)، اكتب الأسباب في كل فئة، ثم قيّم كل سبب بالأثر والتكرار، وعلّم ما تم التحقق منه.','Write the problem, choose a category framework (6M, 8P, 4S, finance & audit, or custom), list causes per category, then rate each by impact and frequency and mark what is verified.',
+ 'المشكلة، والأسباب المحتملة من جلسة عصف ذهني مع الفريق. يمكن إرفاق ملف بأعمدة: الفئة، السبب، السبب الفرعي، الأثر، التكرار، أو عمود لكل فئة.','The problem and the possible causes from a team brainstorm. You can attach a file with columns: category, cause, sub-cause, impact, frequency — or one column per category.',
+ 'مخطط عظم السمكة، وأعلى الأسباب أولوية (الأثر × التكرار من 25)، وتوزيع الأسباب على الفئات، وعدد الأسباب المتحقق منها. الأسباب في المخطط فرضيات حتى تُثبت بالبيانات.','The fishbone diagram, the top-priority causes (impact × frequency out of 25), causes per category and how many are verified. Causes stay hypotheses until data proves them.'];
 
 /* ================= Audit: transaction document maps (documents to attach + approval & signature sequence) ================= */
 /* step: [role ar, role en, action ar, action en, docs [[ar,en]...], signs [[ar,en]...], control ar, control en] */
@@ -6655,7 +6763,7 @@ function flowCalc(m){ $$('.calc-grid [data-calc]',m).forEach(card=>{ const id=ca
 function flowCalcSum(id,P){ const v=i=>P[i]?P[i][1]:'', n=i=>cnum(String(v(i)).replace('%','')), base=P.map(([k,x])=>`${k} ${x}`).join('، ');
  if(id==='yield'){ const g=n(0), net=n(1); return T(`العائد الإجمالي ${v(0)} والصافي ${v(1)}. ${net>=6?'عائد صافٍ جيد للسوق العقاري.':net>=4?'عائد مقبول؛ قارنه بفائدة التمويل.':'عائد منخفض؛ راجع السعر أو الإيجار أو المصاريف.'} التفاصيل: ${base}.`,`Gross yield ${v(0)} and net ${v(1)}. ${net>=6?'A good net yield for real estate.':net>=4?'An acceptable yield; compare it with your financing rate.':'A low yield; review the price, rent or expenses.'} Details: ${base}.`); }
  if(id==='be') return T(`تحتاج بيع ${v(0)} لتغطية التكاليف. ${base}. كلما ارتفع هامش المساهمة انخفضت نقطة التعادل.`,`You need to sell ${v(0)} to cover costs. ${base}. A higher contribution margin lowers the break-even point.`);
- if(id==='loan') return T(`القسط الشهري ${v(0)}. ${base}. قارن إجمالي الفوائد بقيمة القرض قبل التوقيع.`,`The monthly payment is ${v(0)}. ${base}. Compare total interest with the loan amount before signing.`);
+ if(id==='loan') return P.length<3?T(`الدفعة الأولى ${v(0)} تغطي قيمة العقار، فلا حاجة لتمويل.`,`The down payment ${v(0)} covers the property value, so no financing is needed.`):T(`تدفع ${v(0)} دفعةً أولى، وتموّل ${v(1)}، بقسط ${v(2)} لكل دفعة. إجمالي الفوائد ${v(4)}، والتكلفة الكلية للعقار ${v(6)}. زيادة الدفعة الأولى تقلل القسط والفوائد معاً.`,`You pay ${v(0)} up front and finance ${v(1)}, with a payment of ${v(2)}. Total interest is ${v(4)} and the property’s total cost is ${v(6)}. A bigger down payment lowers both the payment and the interest.`);
  if(id==='cagr') return T(`معدل النمو السنوي المركب ${v(0)}. ${base}.`,`Compound annual growth is ${v(0)}. ${base}.`);
  if(id==='tvm') return T(`ستصل مدخراتك إلى ${v(0)}، منها ${v(2)} أرباح. ${base}.`,`Your savings reach ${v(0)}, of which ${v(2)} is growth. ${base}.`);
  return T(`بناءً على بياناتك: ${base}.`,`Based on your data: ${base}.`); }
@@ -6783,7 +6891,7 @@ const IC={
  kb:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/>',
  map:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="3"/><circle cx="15.5" cy="13.5" r="2.5"/><circle cx="11" cy="16.5" r="1.5"/>',
  agile:'<path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/><path d="M9 12l2 2 4-4"/>',
- sampling:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',ccc:'<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/><path d="M12 7v5l3 2"/>',txmap:'<rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4a2 2 0 0 0 2 2H14"/><path d="M15 5h6M15 9h4"/>'};
+ sampling:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',ishikawa:'<path d="M3 12h14"/><path d="M17 8l4 4-4 4z"/><path d="M6 6l3 6M11 6l3 6M6 18l3-6M11 18l3-6"/>',ccc:'<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/><path d="M12 7v5l3 2"/>',txmap:'<rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4a2 2 0 0 0 2 2H14"/><path d="M15 5h6M15 9h4"/>'};
 const icon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
 const PAGES=[
  {id:'home',g:null,ar:'الرئيسية',en:'Home',render:homeRender},
@@ -6796,6 +6904,7 @@ const PAGES=[
  {id:'stats',g:'stat',ar:'التحليل الإحصائي',en:'Statistics',render:statsRender,dar:'الإحصاء الوصفي، الانحدار، التنبؤ بالاتجاه، اختبار الفروق.',den:'Descriptive stats, regression, trend forecasting, t-tests.',tags:['Regression','Forecast','t-test']},
  {id:'risk',g:'stat',ar:'محاكاة المخاطر',en:'Risk simulation',render:mcRender,dar:'محاكاة مونت كارلو مع التوزيعات والارتباطات والحساسية والسيناريوهات.',den:'Monte Carlo with distributions, correlations, sensitivity and scenarios.',tags:['Monte Carlo','Tornado','P90']},
  {id:'lss',g:'lss',ar:'لين ستة سيجما',en:'Lean Six Sigma',render:lssRender,dar:'مستوى سيجما وDPMO، قدرة العملية Cp/Cpk، خرائط التحكم، Takt وOEE، وتحليل FMEA.',den:'Sigma level and DPMO, Cp/Cpk capability, control charts, takt and OEE, and FMEA.',tags:['DPMO','Cpk','OEE','FMEA']},
+ {id:'ishikawa',g:'lss',isNew:true,ar:'مخطط إيشيكاوا (عظم السمكة)',en:'Ishikawa (fishbone) diagram',render:ishikawaRender,dar:'أسباب المشكلة مرتبة في فئات (6M، 8P، 4S، المالية) مع تقييم الأولوية والتحقق.',den:'A problem’s causes sorted into categories (6M, 8P, 4S, finance) with priority rating and verification.',tags:['Fishbone','6M','Root cause']},
  {id:'agile',g:'agile',isNew:true,ar:'أدوات أجايل',en:'Agile toolkit',render:agileRender,dar:'تخطيط المنتج، السبرنتات، التدفق وكانبان، صحة الفريق، والقيمة: 20 أداة لفرق سكرم وكانبان.',den:'Product planning, sprints, flow & Kanban, team health and value: 20 tools for Scrum and Kanban teams.',tags:['Scrum','Kanban','WSJF','OKR']},
  {id:'viz',g:'viz',isNew:true,ar:'استوديو البيانات',en:'Data Studio',render:vizRender,dar:'تحليلات مرئية بأسلوب Tableau: اتصال بالبيانات، 17 نوع رسم، تحليلات متقدمة، ولوحات معلومات تفاعلية.',den:'Tableau-style visual analytics: data prep, 17 chart types, advanced analytics and interactive dashboards.',tags:['Tableau','Dashboard','Pivot','Forecast']},
  {id:'benford',g:'audit',ar:'نموذج بنفورد',en:'Benford Model',render:benfordRender,dar:'كشف الأرقام المختلقة في الفواتير والقيود باختبارات الأرقام.',den:'Spot invented numbers in invoices and entries with digit tests.',tags:['MAD','Z-stat','χ²']},
