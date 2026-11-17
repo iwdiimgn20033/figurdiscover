@@ -1,13 +1,10 @@
 {
   "name": "figurdiscover",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "figurdiscover - financial & statistical analysis site",
   "scripts": {
-    "start": "serve -s . -l tcp://0.0.0.0:${PORT:-3000} --no-clipboard"
-  },
-  "dependencies": {
-    "serve": "^14.2.4"
+    "start": "node server.js"
   },
   "engines": {
     "node": ">=18"

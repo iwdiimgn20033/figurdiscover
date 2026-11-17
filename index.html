@@ -2237,6 +2237,25 @@ tbody tr:hover td{background:rgba(47,107,255,.04)}
 .ni-hsel select{height:34px;width:220px;max-width:none;font-family:var(--f-body)!important;border-radius:9px;border:1px solid var(--glass-brd);font:inherit;font-size:12.5px;font-weight:700;padding:0 6px;cursor:pointer;background:var(--surface);color:var(--fg)}
 .ni-hsel select.up{border-color:#10B981;background:rgba(16,185,129,.08);color:#047857}
 .ni-hsel select.dn{border-color:#F43F5E;background:rgba(244,63,94,.07);color:#BE123C}
+.ni-lv{display:flex;align-items:center;gap:5px;margin-top:4px;font-size:11px;color:var(--good);white-space:nowrap}
+.ni-lv i{width:6px;height:6px;border-radius:50%;background:#10B981;box-shadow:0 0 0 0 rgba(16,185,129,.6);animation:niPulse 1.8s infinite}
+.ni-lv.off{color:var(--muted)}.ni-lv.man{color:var(--warn)}.ni-lv a{color:var(--accent)}
+.ni-lv .up{color:var(--good)}.ni-lv .dn{color:var(--bad)}
+@keyframes niPulse{70%{box-shadow:0 0 0 6px rgba(16,185,129,0)}100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
+.ticker .tk-rel{gap:10px}
+.ticker .tk-fx{display:inline-flex;gap:5px;align-items:center}
+.ticker .tk-fx i{font-style:normal;font-size:11.5px;font-weight:700;border-radius:7px;padding:2px 7px;white-space:nowrap;background:rgba(255,255,255,.06);color:#B9C6E6}
+.ticker .tk-fx i.up{background:rgba(52,211,153,.14);color:#6EE7B7}
+.ticker .tk-fx i.dn{background:rgba(251,113,133,.15);color:#FDA4AF}
+.ticker .tk-fx i.na{color:#8EA0C8;font-weight:500}
+.tk-imp-t td,.tk-imp-t th{font-size:12.5px;padding:6px 8px}.tk-imp-t td:nth-child(2){min-width:230px}
+.tk-imp-t .up{color:var(--good);font-weight:700}.tk-imp-t .dn{color:var(--bad);font-weight:700}
+.ticker .tk-fx em{font-style:normal;font-size:11.5px;color:#FCD34D;font-weight:600;margin-inline-end:2px}
+.tk-upfx{padding:0 0 8px;border-bottom:1px solid var(--glass-brd)}
+.tk-upfx .tk-fx{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.tk-upfx .tk-fx em{font-style:normal;font-size:12px;color:var(--muted)}
+.tk-upfx .tk-fx i{font-style:normal;font-size:12px;font-weight:700;border-radius:7px;padding:2px 7px;background:var(--sunk);color:var(--muted)}
+.tk-upfx .tk-fx i.up{background:var(--good-soft);color:var(--good)}.tk-upfx .tk-fx i.dn{background:var(--bad-soft);color:var(--bad)}
 </style>
 </head><body>
 <div id="app" dir="ltr"></div>
@@ -5557,24 +5576,49 @@ function ago(d){ const m=Math.max(0,Math.round((Date.now()-d)/6e4)); if(m<1) ret
 function inT(d){ const m=Math.round((d-Date.now())/6e4); if(m<=0) return T('الآن','now'); if(m<60) return T(`بعد ${m} د`,`in ${m}m`); const h=Math.floor(m/60); return T(`بعد ${h} س${m%60?` ${m%60} د`:''}`,`in ${h}h${m%60?` ${m%60}m`:''}`); }
 const H_PAST=24, H_NEXT=24;
 function calWin(){ if(!LIVE.cal) return {past:[],next:[]}; const n=Date.now(); return {past:LIVE.cal.filter(e=>e.t<=n&&n-e.t<=H_PAST*36e5).sort((a,b)=>b.t-a.t),next:LIVE.cal.filter(e=>e.t>n&&e.t-n<=H_NEXT*36e5).sort((a,b)=>a.t-b.t)}; }
-const isLive=()=>!!(LIVE.gold||LIVE.cal||LIVE.heads);
+const isLive=()=>!!(LIVE.gold||LIVE.cal||LIVE.heads||LIVE.series);
 const ext=(u,txt)=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${txt}</a>`;
 const fmtUsd=v=>'$'+v.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2});
 function metalChip(k,ar,en){ const m=LIVE[k]; if(!m) return ''; const arr=m.dir>0?'<i class="tk-up">▲</i>':m.dir<0?'<i class="tk-dn">▼</i>':''; return `<span class="tk-item tk-px"><b>${T(ar,en)}</b><bdi dir="ltr">${fmtUsd(m.p)}</bdi>${arr}<small>${hm(m.at)}</small></span>`; }
 const impTag=e=>`<b class="tk-imp ${e.imp==='High'?'hi':''}" title="${e.imp==='High'?T('تأثير مرتفع','High impact'):T('تأثير متوسط','Medium impact')}">${esc(e.c)}</b>`;
 const calTxt=e=>`${esc(e.title)}${e.f?` <small>${T('المتوقع','fcst')}: <bdi dir="ltr">${esc(e.f)}</bdi></small>`:''}${e.pr?` <small>${T('السابق','prev')}: <bdi dir="ltr">${esc(e.pr)}</bdi></small>`:''}`;
-function tickSeq(){ const w=calWin(), parts=[];
-
- const heads=LIVE.heads&&LIVE.headsLang===lang?LIVE.heads:null;
- const past=(heads||[]).map(h=>`<span class="tk-item"><b class="tk-when">${ago(h.t)}</b>${ext(h.url,esc(h.title))}<small>${esc(h.src||'')}</small></span>`).join('')
-  +w.past.map(e=>`<span class="tk-item"><b class="tk-when">${T('صدر','out')} ${hm(e.t)}</b>${impTag(e)}${calTxt(e)}</span>`).join('');
- if(past) parts.push(`<span class="tk-lab live">${T('خلال الساعات الماضية','Last few hours')}</span>${past}`);
- else parts.push(`<span class="tk-lab live">${T('آخر 24 ساعة','Last 24 hours')}</span><span class="tk-item"><i class="tk-dot"></i>${LIVE.cal?T('لا توجد أخبار اقتصادية مؤثرة خلال آخر 24 ساعة','No market-moving economic news in the last 24 hours'):T('جارٍ جلب أخبار آخر 24 ساعة…','Fetching news from the last 24 hours…')}</span>`);
- if(w.next.length) parts.push(`<span class="tk-lab next">${T('خلال الساعات القادمة','Next few hours')}</span>`+w.next.map(e=>{ const soon=e.t-Date.now()<=3*36e5; return `<span class="tk-item"><b class="tk-when ${soon?'soon':''}">${inT(e.t)} · ${hm(e.t)}</b>${impTag(e)}${calTxt(e)}</span>`; }).join(''));
- parts.push(`<a class="tk-item tk-scn" href="#newsimpact"><i class="tk-dot"></i><b>${T('حلّل أثر هذه الأخبار على الذهب والنفط وناسداك وبيتكوين','Analyse how this news moves gold, oil, Nasdaq and bitcoin')} ${lang==='ar'?'←':'→'}</b></a>`); if(newsUpcoming().length) parts.push(`<span class="tk-lab next">${T('أحداث خلال ±24 ساعة','Events within ±24 hours')}</span>`+newsUpcoming().map(([a,b,ar,en])=>{ const w2=newsWhen(a,b); return `<span class="tk-item"><b class="tk-when ${w2.cls}">${w2.txt}</b>${esc(T(ar,en))} <small>${newsDate(a)}</small></span>`; }).join(''));
+/* ---------- released news and how prices reacted (gold, silver, oil, bitcoin, Dow, dollar) ---------- */
+const IMP_A=[['gold','الذهب','Gold'],['silver','الفضة','Silver'],['oil','النفط','Oil'],['btc','بيتكوين','Bitcoin'],['dow','داو جونز','Dow Jones'],['spx','S&P 500','S&P 500'],['usd','الدولار','Dollar']];
+const IMP_NI={gold:0,silver:1,oil:2,spx:4,dow:6,usd:7,btc:8};
+/* which scenario an upcoming release belongs to, and the sign if it comes in ABOVE forecast */
+const CAL_MAP=[[/CPI|PPI|PCE|Inflation/i,'cpi',1,1],[/Federal Funds|FOMC|Fed Chair|Powell/i,'fed',1,1],[/Non-Farm|Employment Change|ADP/i,'nfp',1,1],[/Unemployment Claims|Unemployment Rate|Jobless/i,'nfp',-1,1],[/GDP|PMI|Retail Sales|ISM|Industrial Production|Durable Goods|Consumer Confidence|Sentiment/i,'growth',-1,1],[/Crude Oil Inventories|Crude Inventories/i,'opec',-1,0],[/Natural Gas Storage/i,'gas',-1,0],[/Treasury|Bond Auction/i,'yields',1,1]];
+const CAL_FX=[[/Main Refinancing|Deposit Facility|Monetary Policy|Policy Rate|Bank Rate|Cash Rate|Overnight Rate|Interest Rate|CPI|Inflation/i,'ecb',1]];
+function calScn(e){ try{ const f=k=>NI_S.find(x=>x.k===k);
+  if(e.c==='USD'){ for(const [re,k,sg] of CAL_MAP) if(re.test(e.title)) return {s:f(k),sg,z:1}; return null; }
+  if(e.c==='CNY'&&/GDP|PMI|Industrial|Retail|Trade Balance|Loan/i.test(e.title)) return {s:f('china'),sg:1,z:0.6};
+  if(['EUR','JPY','GBP'].includes(e.c)) for(const [re,k,sg] of CAL_FX) if(re.test(e.title)) return {s:f(k),sg,z:e.imp==='High'?1:0.5};
+ }catch(_){} return null; }
+function upFx(e){ const m=calScn(e); if(!m||!m.s) return ''; return `<span class="tk-fx"><em>${T('إن جاء أعلى من المتوقع','If above forecast')}:</em>${IMP_A.map(([k,ar,en])=>{ const isE=m.s.k==='opec'||m.s.k==='gas', v=(isE&&k!=='oil'?0:m.s.m[IMP_NI[k]])*m.sg*m.z, th=0.15*NI_A[IMP_NI[k]][4]; return `<i class="${v>th?'up':v<-th?'dn':'eq'}">${T(ar,en)} ${v>th?'▲':v<-th?'▼':'■'}</i>`; }).join('')}</span>`; }
+function nextEvents(){ return calWin().next.filter(e=>e.imp==='High'||calScn(e)); }
+LIVE.series=null;
+async function loadSeries(){ try{ const j=await getJSON('/api/series',15000); if(j&&j.series&&Object.keys(j.series).length) LIVE.series=j.series; }catch(e){} }
+const IMP_H=60;
+function evImpact(e){ const S=LIVE.series; if(!S) return null; const t0=+e.t, now=Date.now(), B=15*6e4; if(now-t0<B) return {pending:true};
+ const out={}; IMP_A.forEach(([k])=>{ const a=S[k]; if(!a||!a.length) return; let b=null, af=null;
+  for(const [ts,c] of a){ if(ts<=t0-B) b=[ts,c]; if(ts>=t0-B&&ts<=t0+(IMP_H*6e4)-B) af=[ts,c]; }
+  if(b&&af&&t0-b[0]<=3*36e5&&af[0]>=t0-B&&b[1]>0) out[k]=(af[1]/b[1]-1)*100; });
+ return out; }
+function relEvents(){ if(!LIVE.cal) return []; const n=Date.now(); const done=LIVE.cal.filter(e=>e.t<=n).sort((a,b)=>b.t-a.t); const r=done.filter(e=>n-e.t<=48*36e5); return (r.length?r:done.slice(0,6)).slice(0,12); }
+function dayLbl(d){ const a=new Date(d); a.setHours(0,0,0,0); const b=new Date(); b.setHours(0,0,0,0); const k=Math.round((b-a)/864e5); return k===0?T('اليوم','Today'):k===1?T('أمس','Yesterday'):d.toLocaleDateString(lang==='ar'?'ar':'en',{weekday:'short',day:'numeric'}); }
+function fxChips(e){ const im=evImpact(e); if(!im) return `<span class="tk-fx"><i class="na">${LIVE.series===null?T('جارٍ قياس الأثر…','Measuring impact…'):T('الأثر غير متاح','Impact unavailable')}</i></span>`;
+ if(im.pending) return `<span class="tk-fx"><i class="na">${T('صدر للتو، يُقاس الأثر بعد 15 دقيقة','Just out, impact measured after 15 min')}</i></span>`;
+ return `<span class="tk-fx">${IMP_A.map(([k,ar,en])=>{ const v=im[k]; return Number.isFinite(v)?`<i class="${v>0.02?'up':v<-0.02?'dn':'eq'}">${T(ar,en)} <bdi dir="ltr">${v>0.02?'▲':v<-0.02?'▼':'■'}${Math.abs(v).toFixed(2)}%</bdi></i>`:`<i class="na">${T(ar,en)} —</i>`; }).join('')}</span>`; }
+function tickSeq(){ const w=calWin(), parts=[], rel=relEvents();
+ parts.push(`<span class="tk-lab live">${T('أخبار صدرت وأثرها على الأسعار خلال ساعة','Released news & price impact within 1 hour')}</span>`);
+ if(rel.length) parts.push(rel.map(e=>`<span class="tk-item tk-rel"><b class="tk-when">${T('صدر','Out')} ${dayLbl(e.t)} ${hm(e.t)}</b>${impTag(e)}<span class="tk-ttl">${calTxt(e)}</span>${fxChips(e)}</span>`).join(''));
+ else parts.push(`<span class="tk-item"><i class="tk-dot"></i>${LIVE.cal?T('لم تصدر بيانات اقتصادية مهمة مؤخراً','No major economic data released recently'):T('جارٍ جلب الأخبار الصادرة…','Fetching released news…')}</span>`);
+ const nx=nextEvents(); parts.push(`<span class="tk-lab next">${T('أخبار قادمة خلال 24 ساعة تؤثر على السلع والأسهم','Next 24h: news that moves commodities & stocks')}</span>`+(nx.length?nx.map(e=>{ const soon=e.t-Date.now()<=3*36e5; return `<span class="tk-item tk-rel"><b class="tk-when ${soon?'soon':''}">${inT(e.t)} · ${dayLbl(e.t)} ${hm(e.t)}</b>${impTag(e)}<span class="tk-ttl">${calTxt(e)}</span>${upFx(e)}</span>`; }).join(''):`<span class="tk-item"><i class="tk-dot"></i>${LIVE.cal?T('لا توجد أخبار مؤثرة مجدولة خلال 24 ساعة','No market-moving news scheduled in the next 24 hours'):T('جارٍ جلب الأجندة…','Fetching the calendar…')}</span>`));
+ parts.push(`<a class="tk-item tk-scn" href="#newsimpact"><i class="tk-dot"></i><b>${T('حلّل سيناريو أي خبر على أهم 10 أصول','Analyse any news scenario on the top 10 assets')} ${lang==='ar'?'←':'→'}</b></a>`);
+ if(newsUpcoming().length) parts.push(`<span class="tk-lab next">${T('أحداث خلال ±24 ساعة','Events within ±24 hours')}</span>`+newsUpcoming().map(([a,b,ar,en])=>{ const w2=newsWhen(a,b); return `<span class="tk-item"><b class="tk-when ${w2.cls}">${w2.txt}</b>${esc(T(ar,en))} <small>${newsDate(a)}</small></span>`; }).join(''));
  return parts.join(''); }
-function tickCount(){ const w=calWin(); return (LIVE.heads?LIVE.heads.length:1)+w.past.length+w.next.length+newsUpcoming().length+3; }
-function badgeHtml(){ return isLive()?`<i class="tk-pulse"></i>${T('مباشر · 24 ساعة','Live · 24h')}`:T('آخر 24 ساعة','Last 24 hours'); }
+function tickCount(){ return Math.max(1,relEvents().length)*2.4+Math.max(1,nextEvents().length)*2.2+newsUpcoming().length+3; }
+
+function badgeHtml(){ return isLive()?`<i class="tk-pulse"></i>${T('مباشر','Live')}`:T('الأخبار وأثرها','News & impact'); }
 function tickerHtml(){ const seq=tickSeq();
  return `<div class="ticker" role="region" aria-label="${T('شريط الأخبار الاقتصادية','Economic news ticker')}">
   <span class="tk-badge${isLive()?'':' off'}" id="tk-badge">${badgeHtml()}</span>
@@ -5585,20 +5629,20 @@ function tickerHtml(){ const seq=tickSeq();
 function tickerPanel(){ const up=newsUpcoming(), w=calWin(), heads=LIVE.heads&&LIVE.headsLang===lang?LIVE.heads:null;
  const evRow=(e,lab,cls)=>`<div class="tk-ev"><span class="tk-date tm"><b>${hm(e.t)}</b><small>${e.t.toLocaleDateString(lang==='ar'?'ar':'en',{day:'numeric',month:'short'})}</small></span>${impTag(e)}<span style="flex:1;min-width:0">${calTxt(e)}</span><span class="tk-when ${cls}">${lab}</span></div>`;
  const px=(LIVE.gold||LIVE.silver)?`<div class="tk-pxrow">${['gold','silver'].filter(k=>LIVE[k]).map(k=>`<div class="tk-pxcard"><small>${k==='gold'?T('الذهب (أونصة)','Gold (oz)'):T('الفضة (أونصة)','Silver (oz)')}</small><b dir="ltr">${fmtUsd(LIVE[k].p)}</b><small>${T('آخر تحديث','Updated')} ${hm(LIVE[k].at)}</small></div>`).join('')}</div>`:'';
- const left=heads?`<h3>${T('أخبار اقتصادية صدرت خلال الساعات الماضية','Economic news from the last few hours')}</h3><ul class="tk-list">${heads.map(h=>`<li>${ext(h.url,esc(h.title))} <small class="note">${esc(h.src||'')} · ${ago(h.t)}</small></li>`).join('')}</ul>`
-  :`<h3>${T('أخبار آخر 24 ساعة','News from the last 24 hours')}</h3><p class="note">${T('تظهر هنا العناوين الاقتصادية الصادرة خلال آخر 24 ساعة فقط عند الاتصال بالمصادر المباشرة.','Only economic headlines from the last 24 hours appear here once live sources connect.')}</p><a class="btn" href="#newsimpact">${T('محلل سيناريو الأخبار','News scenario analyzer')}</a>`;
- const pastCal=w.past.length?`<h3>${T(`بيانات صدرت خلال آخر ${H_PAST} ساعة`,`Data released in the last ${H_PAST} hours`)}</h3><div class="tk-events">${w.past.map(e=>evRow(e,ago(e.t),'')).join('')}</div>`:'';
- const nextCal=LIVE.cal?`<h3>${T(`خلال الـ ${H_NEXT} ساعة القادمة`,`Next ${H_NEXT} hours`)}</h3><div class="tk-events">${w.next.map(e=>evRow(e,inT(e.t),e.t-Date.now()<=3*36e5?'soon':'')).join('')||`<p class="note">${T('لا توجد بيانات مهمة مجدولة خلال هذه الفترة.','No major data scheduled in this window.')}</p>`}</div>`:'';
+ const rel=relEvents(), fmtC=v=>Number.isFinite(v)?`<span class="${v>0.02?'up':v<-0.02?'dn':''}"><bdi dir="ltr">${v>0?'+':''}${v.toFixed(2)}%</bdi></span>`:'—';
+ const left=`<h3>${T('أخبار صدرت وأثرها على الأسعار (خلال ساعة من صدورها)','Released news & price impact (within 1 hour)')}</h3>`+(rel.length?`<div class="tbl-wrap"><table class="tk-imp-t"><thead><tr><th>${T('الوقت','Time')}</th><th>${T('الخبر','News')}</th>${IMP_A.map(a=>`<th>${T(a[1],a[2])}</th>`).join('')}</tr></thead><tbody>${rel.map(e=>{ const im=evImpact(e)||{}; return `<tr><td style="white-space:nowrap">${dayLbl(e.t)}<br><b>${hm(e.t)}</b></td><td>${impTag(e)} ${calTxt(e)}</td>${IMP_A.map(([k])=>`<td class="n">${im.pending?'…':fmtC(im[k])}</td>`).join('')}</tr>`; }).join('')}</tbody></table></div><p class="note">${T('الأثر = تغيّر السعر من آخر سعر قبل الخبر إلى السعر بعد ساعة من صدوره (أو حتى الآن إن لم تمر ساعة). الأسعار من عقود الذهب والفضة وبرنت وداو جونز ومؤشر الدولار وبيتكوين على Yahoo Finance. «—» تعني أن السوق كان مغلقاً وقت الخبر.','Impact = price change from the last price before the release to the price one hour after (or until now if an hour has not passed). Prices: gold, silver, Brent and Dow futures, the dollar index and bitcoin from Yahoo Finance. “—” means the market was closed at the time.')}</p>`:`<p class="note">${LIVE.cal?T('لم تصدر بيانات اقتصادية مهمة مؤخراً.','No major economic data released recently.'):T('تظهر هنا الأخبار الصادرة وأثرها على الأسعار عند الاتصال بالمصادر المباشرة على موقعك المستضاف.','Released news and their price impact appear here once live sources connect on your hosted site.')}</p>`);
+ const pastCal='';
+ const nextCal=LIVE.cal?`<h3>${T('أخبار قادمة خلال 24 ساعة تؤثر على السلع والأسهم','Next 24 hours: news that moves commodities & stocks')}</h3><div class="tk-events">${nextEvents().map(e=>evRow(e,inT(e.t),e.t-Date.now()<=3*36e5?'soon':'')+(upFx(e)?`<div class="tk-upfx">${upFx(e)}</div>`:'')).join('')||`<p class="note">${T('لا توجد بيانات مهمة مجدولة خلال هذه الفترة.','No major data scheduled in this window.')}</p>`}</div>`:'';
  return `${px}<div class="two"><div class="stack" style="gap:8px">${left}${pastCal}</div>
-  <div class="stack" style="gap:8px">${nextCal}<h3>${T('أحداث خلال ±24 ساعة','Events within ±24 hours')}</h3><div class="tk-events">${up.map(([a,b,ar,en])=>{ const w2=newsWhen(a,b); return `<div class="tk-ev"><span class="tk-date"><b>${new Date(a+'T00:00:00').getDate()}</b><small>${new Date(a+'T00:00:00').toLocaleDateString(lang==='ar'?'ar':'en',{month:'short'})}</small></span><span style="flex:1;min-width:0">${esc(T(ar,en))}${b?` <small class="note">(${newsDate(a)} – ${newsDate(b)})</small>`:''}</span><span class="tk-when ${w2.cls}">${w2.txt}</span></div>`; }).join('')||`<p class="note">${T('لا توجد أحداث خلال ±24 ساعة. الأجندة الكاملة في صفحة «الأجندة الاقتصادية».','No events within ±24 hours. The full agenda is on the “Economic calendar” page.')}</p>`}</div></div></div>
-  <p class="note">${isLive()?T('بيانات مباشرة: سعر الذهب والفضة من gold-api.com (يتحدث كل دقيقة)، والأجندة الاقتصادية من ForexFactory، والعناوين من GDELT (تتحدث كل 10 دقائق). الأوقات بتوقيت جهازك.','Live data: gold and silver from gold-api.com (refreshed every minute), economic calendar from ForexFactory, headlines from GDELT (refreshed every 10 minutes). Times are in your local time zone.')
-   :T('يعرض الشريط أخبار آخر 24 ساعة والأحداث خلال الـ 24 ساعة القادمة فقط، ولا تُعرض أي أخبار أقدم. على موقعك المستضاف تُجلب الأسعار والأخبار مباشرة.','The bar shows only news from the last 24 hours and events in the next 24 hours; nothing older is shown. On your hosted site, prices and news load live.')}</p>`; }
+  <div class="stack" style="gap:8px">${nextCal}${up.length?`<h3>${T('أحداث خلال ±24 ساعة','Events within ±24 hours')}</h3>`:''}<div class="tk-events">${up.map(([a,b,ar,en])=>{ const w2=newsWhen(a,b); return `<div class="tk-ev"><span class="tk-date"><b>${new Date(a+'T00:00:00').getDate()}</b><small>${new Date(a+'T00:00:00').toLocaleDateString(lang==='ar'?'ar':'en',{month:'short'})}</small></span><span style="flex:1;min-width:0">${esc(T(ar,en))}${b?` <small class="note">(${newsDate(a)} – ${newsDate(b)})</small>`:''}</span><span class="tk-when ${w2.cls}">${w2.txt}</span></div>`; }).join('')}</div></div></div>
+  <p class="note">${isLive()?T('بيانات مباشرة: الأجندة الاقتصادية من ForexFactory، وحركة الأسعار من Yahoo Finance (تتحدث كل 5 دقائق)، وسعر الذهب والفضة من gold-api.com. الأوقات بتوقيت جهازك.','Live data: economic calendar from ForexFactory, price moves from Yahoo Finance (refreshed every 5 minutes), gold and silver from gold-api.com. Times are in your local time zone.')
+   :T('يعرض الشريط الأخبار الاقتصادية التي صدرت ووقتها وأثرها على الذهب والفضة والنفط وبيتكوين وداو جونز والدولار، والأحداث القادمة خلال 24 ساعة. على موقعك المستضاف تُجلب الأخبار والأسعار مباشرة.','The bar shows released economic news with its time and its impact on gold, silver, oil, bitcoin, the Dow and the dollar, plus events due in the next 24 hours. On your hosted site, news and prices load live.')}</p>`; }
 function refreshTicker(){ if(typeof mktRefresh==='function') mktRefresh(); if(typeof calDraw==='function'&&curPage().id==='calendar') calDraw(); const tr=$('.tk-track'), b=$('#tk-badge'); if(!tr) return; tr.innerHTML=`${tickSeq()}<span aria-hidden="true" style="display:contents">${tickSeq()}</span>`; tr.style.setProperty('--dur',Math.max(60,tickCount()*7)+'s');
  if(b){ b.innerHTML=badgeHtml(); b.classList.toggle('off',!isLive()); } const panel=$('#tk-panel'); if(panel&&!panel.hidden) panel.innerHTML=tickerPanel(); }
 let newsTimers=null;
 function startLive(){ if(newsTimers||typeof fetch!=='function') return; newsTimers=1;
  const run=async f=>{ await f(); refreshTicker(); };
- Promise.allSettled([loadMetals(),loadCal(),loadHeads(),loadFx()]).then(refreshTicker); setInterval(()=>run(loadFx),60*60e3);
+ Promise.allSettled([loadMetals(),loadCal(),loadHeads(),loadFx(),loadSeries()]).then(refreshTicker); setInterval(()=>run(loadSeries),5*60e3); setInterval(()=>run(loadFx),60*60e3);
  setInterval(()=>run(loadMetals),60e3); setInterval(()=>run(loadCal),30*60e3); setInterval(()=>run(loadHeads),10*60e3); setInterval(refreshTicker,60e3); }
 function bindTicker(){ const p=$('#tk-pause'), a=$('#tk-all'), panel=$('#tk-panel'); if(!p) return;
  if(LIVE.headsLang&&LIVE.headsLang!==lang) loadHeads().then(refreshTicker);
@@ -7029,7 +7073,17 @@ const NI_S=[
 const NI_SZ=[[0.5,'مفاجأة صغيرة','Small surprise'],[1,'مفاجأة معتادة','Typical surprise'],[2,'مفاجأة كبيرة','Big surprise'],[3,'صدمة','Shock']];
 const NI_RG=[[0.75,'سوق هادئ','Calm market'],[1,'سوق عادي','Normal market'],[1.5,'سوق متوتر','Stressed market']];
 const NI={sel:[{k:'cpi',d:1,z:1}],rg:1,px:{},hd:{}};
-try{ const p=JSON.parse(localStorage.getItem('fd.ni.px')||'{}'); if(p&&typeof p==='object') NI.px=p; }catch(e){}
+NI.live={}; NI.man={};
+function niP(k){ if(NI.man[k]>0) return NI.man[k]; const q=NI.live[k]; if(q&&q.p>0) return q.p; if(k==='gold'&&LIVE.gold) return LIVE.gold.p; if(k==='silver'&&LIVE.silver) return LIVE.silver.p; return 0; }
+async function niFetch(){ const L={};
+ try{ const j=await getJSON('/api/quotes',9000); Object.entries((j&&j.quotes)||{}).forEach(([k,q])=>{ if(q&&q.p>0) L[k]={p:+q.p,chg:Number.isFinite(q.chg)?q.chg:null,t:q.t||Date.now(),src:q.src||''}; }); }catch(e){}
+ if(!L.btc||!L.eth){ try{ const j=await getJSON('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true',8000);
+  [['btc','bitcoin'],['eth','ethereum']].forEach(([k,id])=>{ const q=j&&j[id]; if(!L[k]&&q&&q.usd>0) L[k]={p:q.usd,chg:Number.isFinite(q.usd_24h_change)?q.usd_24h_change:null,t:q.last_updated_at?q.last_updated_at*1000:Date.now(),src:'CoinGecko'}; }); }catch(e){} }
+ if(!L.gold||!L.silver){ for(const [k,sy] of [['gold','XAU'],['silver','XAG']]){ if(L[k]) continue; try{ const j=await getJSON(`https://api.gold-api.com/price/${sy}`,8000); if(j&&j.price>0) L[k]={p:+j.price,chg:null,t:j.updatedAt?Date.parse(j.updatedAt):Date.now(),src:'gold-api.com'}; }catch(e){} } }
+ Object.assign(NI.live,L); NI.at=Date.now(); return Object.keys(L).length; }
+function niLv(k){ if(NI.man[k]>0) return `<small class="ni-lv man">${T('سعر يدوي','Manual price')} · <a href="#" data-ni="live:${k}">${T('رجوع للمباشر','Back to live')}</a></small>`; const q=NI.live[k];
+ if(q) return `<small class="ni-lv"><i></i>${T('مباشر','Live')} ${hm(new Date(q.t))}${Number.isFinite(q.chg)?` · <bdi dir="ltr" class="${q.chg>=0?'up':'dn'}">${q.chg>=0?'+':''}${q.chg.toFixed(2)}%</bdi>`:''}</small>`;
+ if((k==='gold'&&LIVE.gold)||(k==='silver'&&LIVE.silver)) return `<small class="ni-lv"><i></i>${T('مباشر','Live')}</small>`; return `<small class="ni-lv off">${NI.at?T('غير متاح الآن، أدخله يدوياً','Unavailable now, enter it manually'):T('جارٍ جلب السعر…','Fetching price…')}</small>`; }
 function niPool(){ const n=Date.now(), D=24*36e5, out=[];
  const heads=LIVE.heads||[]; heads.forEach(h=>{ if(h.t&&Math.abs(n-h.t)<=D) out.push({t:h.t,title:h.title,url:h.url,src:h.src,kind:'news'}); });
  (LIVE.cal||[]).forEach(e=>{ if(Math.abs(e.t-n)<=D) out.push({t:e.t,title:e.title+(e.c?` (${e.c})`:''),kind:e.t>n?'next':'out'}); });
@@ -7051,6 +7105,7 @@ function newsimpactRender(root){
   else if(act==='dir'){ NI.sel[+arg].d=+arg2; }
   else if(act==='only'){ NI.sel=[{k:arg,d:+(arg2||1),z:1}]; }
   else if(act==='clear'){ NI.sel=[]; }
+  else if(act==='live'){ e.preventDefault(); delete NI.man[arg]; }
   else return;
   niDraw(box); });
  box.addEventListener('change',e=>{ const t=e.target;
@@ -7058,11 +7113,12 @@ function newsimpactRender(root){
   else if(t.matches('[data-niz]')){ NI.sel[+t.dataset.niz].z=+t.value; niDraw(box); }
   else if(t.matches('#ni-rg')){ NI.rg=+t.value; niDraw(box); }
   else if(t.matches('[data-nih]')){ NI.hd[t.dataset.nih]=+t.value; niDraw(box); } });
- box.addEventListener('input',e=>{ const t=e.target; if(!t.matches('[data-nipx]')) return; const v=parseFloat(String(t.value).replace(/,/g,'')); if(v>0) NI.px[t.dataset.nipx]=v; else delete NI.px[t.dataset.nipx];
-  try{ localStorage.setItem('fd.ni.px',JSON.stringify(NI.px)); }catch(_){} const r=niCalc().find(r=>r.a[0]===t.dataset.nipx), c=t.closest('tr')?.querySelector('.ni-tp'); if(c&&r) c.innerHTML=niTarget(r); });
- if(!NI._cg){ NI._cg=1; getJSON('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd',8000).then(j=>{ if(j&&j.bitcoin&&!NI.px.btc) NI.px.btc=j.bitcoin.usd; if(j&&j.ethereum&&!NI.px.eth) NI.px.eth=j.ethereum.usd; if(box.isConnected) niDraw(box); }).catch(()=>{}); }
+ box.addEventListener('input',e=>{ const t=e.target; if(!t.matches('[data-nipx]')) return; const k=t.dataset.nipx, v=parseFloat(String(t.value).replace(/,/g,'')); if(v>0) NI.man[k]=v; else delete NI.man[k];
+  const r=niCalc().find(r=>r.a[0]===k), tr=t.closest('tr'), c=tr?.querySelector('.ni-tp'), lv=tr?.querySelector('.ni-lv'); if(c&&r) c.innerHTML=niTarget(r); if(lv) lv.outerHTML=niLv(k); });
+ const tick=()=>niFetch().then(()=>{ if(!box.isConnected){ clearInterval(NI.tm); NI.tm=0; return; } if(box.contains(document.activeElement)&&document.activeElement.matches('input,select')) return; niDraw(box); });
+ clearInterval(NI.tm); tick(); NI.tm=setInterval(tick,60000);
  setTimeout(()=>{ const q=$('#ni-tv',root); if(q) tvMount(q,'market-quotes',{width:'100%',height:520,symbolsGroups:[{name:T('أهم 10 أصول','Top 10 assets'),symbols:NI_A.map(a=>({name:a[5],displayName:T(a[1],a[2])}))}],showSymbolLogo:true,isTransparent:false}); },0); }
-function niTarget(r){ const p=NI.px[r.a[0]]||(r.a[0]==='gold'&&LIVE.gold?LIVE.gold.p:r.a[0]==='silver'&&LIVE.silver?LIVE.silver.p:0); if(!p) return '<span class="note">—</span>';
+function niTarget(r){ const p=niP(r.a[0]); if(!p) return '<span class="note">—</span>';
  const f=v=>(p*(1+v/100)).toLocaleString('en',{maximumFractionDigits:p<10?3:2}); return `<bdi dir="ltr"><b>${f(r.m)}</b><small> (${f(r.lo)} – ${f(r.hi)})</small></bdi>`; }
 function niDraw(box){ const pool=niPool(), det=niDetect(pool), rs=niCalc(), mx=Math.max(1,...rs.map(r=>Math.max(Math.abs(r.lo),Math.abs(r.hi))));
  const eq=(rs[4].m+rs[5].m+rs[6].m)/3, mood=NI.sel.length?(eq>0.15?['good',T('شهية للمخاطرة','Risk-on')]:eq<-0.15?['bad',T('هروب من المخاطرة','Risk-off')]:['warn',T('مزاج مختلط','Mixed mood')]):['',T('لا يوجد سيناريو','No scenario')];
@@ -7091,8 +7147,8 @@ function niDraw(box){ const pool=niPool(), det=niDetect(pool), rs=niCalc(), mx=M
   <h3 style="margin:18px 0 10px">${T('الحركة المتوقعة في اليوم الأول','Expected day-one move')}</h3>
   <div class="ni-bars">${rs.map(r=>{ const L=v=>50+v/mx*50; return `<div class="ni-bar"><span class="ni-n">${T(r.a[1],r.a[2])}</span><span class="ni-tr"><i class="ni-rng" style="inset-inline-start:${Math.min(L(r.lo),L(r.hi))}%;width:${Math.abs(L(r.hi)-L(r.lo))}%"></i><i class="ni-v ${r.m>=0?'up':'dn'}" style="inset-inline-start:${Math.min(50,L(r.m))}%;width:${Math.abs(L(r.m)-50)}%"></i><i class="ni-0"></i></span><b class="ni-val ${r.dir>0?'up':r.dir<0?'dn':''}">${niPct(r.m)}</b></div>`; }).join('')}</div>
   <p class="note" style="margin:8px 0 0">${T('العمود الملوّن هو الحركة المتوقعة، والظل حوله هو النطاق المرجّح بسبب التقلب اليومي المعتاد لكل أصل.','The coloured bar is the expected move; the shaded band is the likely range given each asset’s usual daily volatility.')}</p>
-  <div class="tbl-wrap" style="margin-top:16px"><table class="tbl ni-tbl"><thead><tr><th>${T('الأصل','Asset')}</th><th>${T('الاتجاه','Direction')}</th><th>${T('الحركة المتوقعة','Expected move')}</th><th>${T('النطاق المرجّح','Likely range')}</th><th>${T('قوة الإشارة','Signal strength')}</th><th>${T('السعر الحالي','Current price')}</th><th>${T('السعر المتوقع','Expected price')}</th><th>${T('لماذا يتأثر','Why it reacts')}</th></tr></thead><tbody>
-  ${rs.map(r=>{ const st=niStrength(r), p=NI.px[r.a[0]]||(r.a[0]==='gold'&&LIVE.gold?LIVE.gold.p:r.a[0]==='silver'&&LIVE.silver?LIVE.silver.p:''); return `<tr><td><b>${T(r.a[1],r.a[2])}</b><br><small class="note" dir="ltr">${r.a[3]}</small></td><td class="ni-arw ${r.dir>0?'up':r.dir<0?'dn':''}">${r.dir>0?'▲ '+T('صعود','Up'):r.dir<0?'▼ '+T('هبوط','Down'):'■ '+T('ثابت','Flat')}</td><td>${niPct(r.m)}</td><td><small>${niPct(r.lo)} … ${niPct(r.hi)}</small></td><td><span class="ni-st ${st[0]}">${st[1]}</span></td><td><input class="ni-px" type="text" inputmode="decimal" dir="ltr" data-nipx="${r.a[0]}" value="${p?String(+(+p).toFixed(4)):''}" placeholder="${T('أدخل السعر','Enter price')}"></td><td class="ni-tp">${niTarget(r)}</td><td><small>${T(r.a[6],r.a[7])}</small></td></tr>`; }).join('')}
+  <div class="tbl-wrap" style="margin-top:16px"><table class="tbl ni-tbl"><thead><tr><th>${T('الأصل','Asset')}</th><th>${T('الاتجاه','Direction')}</th><th>${T('الحركة المتوقعة','Expected move')}</th><th>${T('النطاق المرجّح','Likely range')}</th><th>${T('قوة الإشارة','Signal strength')}</th><th>${T('السعر الحالي (مباشر)','Current price (live)')}</th><th>${T('السعر المتوقع','Expected price')}</th><th>${T('لماذا يتأثر','Why it reacts')}</th></tr></thead><tbody>
+  ${rs.map(r=>{ const st=niStrength(r), p=niP(r.a[0]); return `<tr><td><b>${T(r.a[1],r.a[2])}</b><br><small class="note" dir="ltr">${r.a[3]}</small></td><td class="ni-arw ${r.dir>0?'up':r.dir<0?'dn':''}">${r.dir>0?'▲ '+T('صعود','Up'):r.dir<0?'▼ '+T('هبوط','Down'):'■ '+T('ثابت','Flat')}</td><td>${niPct(r.m)}</td><td><small>${niPct(r.lo)} … ${niPct(r.hi)}</small></td><td><span class="ni-st ${st[0]}">${st[1]}</span></td><td><input class="ni-px" type="text" inputmode="decimal" dir="ltr" data-nipx="${r.a[0]}" value="${p?String(+(+p).toFixed(p<10?4:2)):''}" placeholder="${T('أدخل السعر','Enter price')}">${niLv(r.a[0])}</td><td class="ni-tp">${niTarget(r)}</td><td><small>${T(r.a[6],r.a[7])}</small></td></tr>`; }).join('')}
   </tbody></table></div></section>`:''}
  <section class="panel"><h3 style="margin:0 0 6px">${T('خريطة الأثر لكل الأخبار','Impact map for every news type')}</h3><p class="note" style="margin:0 0 10px">${T('الحركة المعتادة في اليوم الأول لمفاجأة بحجم معتاد. غيّر «التوقع» في كل صف (أعلى أو أقل من المتوقع) فتتغير الأرقام. الأخضر صعود والأحمر هبوط. اضغط اسم الخبر لتحليله بالتفصيل.','Typical day-one move for a typical-size surprise. Change the “Expectation” in each row (above or below forecast) and the figures update. Green is up, red is down. Tap a news name to analyse it in detail.')}</p>
   <div class="tbl-wrap"><table class="tbl ni-heat"><thead><tr><th>${T('التوقع','Expectation')}</th><th>${T('الخبر','News')}</th>${NI_A.map(a=>`<th>${T(a[1],a[2])}</th>`).join('')}</tr></thead><tbody>${NI_S.map(s=>{ const d=NI.hd[s.k]||1; return `<tr data-ni="only:${s.k}:${d}" tabindex="0"><td class="ni-hsel"><select data-nih="${s.k}" aria-label="${T('التوقع','Expectation')}: ${T(s.ar,s.en)}" class="${d>0?'up':'dn'}"><option value="1"${d>0?' selected':''}>${T(s.u[0],s.u[1])}</option><option value="-1"${d<0?' selected':''}>${T(s.d[0],s.d[1])}</option></select></td><th>${T(s.ar,s.en)}</th>${s.m.map((v0,i)=>{ const v=v0*d, z=Math.max(-1,Math.min(1,v/NI_A[i][4]/1.6)); return `<td style="--h:${z>=0?150:0};--a:${Math.abs(z).toFixed(2)}"><bdi dir="ltr">${v===0?'0':(v>0?'+':'')+v.toFixed(1)}</bdi></td>`; }).join('')}</tr>`; }).join('')}</tbody></table></div>
