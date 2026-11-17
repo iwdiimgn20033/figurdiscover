@@ -2256,6 +2256,88 @@ tbody tr:hover td{background:rgba(47,107,255,.04)}
 .tk-upfx .tk-fx em{font-style:normal;font-size:12px;color:var(--muted)}
 .tk-upfx .tk-fx i{font-style:normal;font-size:12px;font-weight:700;border-radius:7px;padding:2px 7px;background:var(--sunk);color:var(--muted)}
 .tk-upfx .tk-fx i.up{background:var(--good-soft);color:var(--good)}.tk-upfx .tk-fx i.dn{background:var(--bad-soft);color:var(--bad)}
+/* ===== PRO market analysis ===== */
+.mp-badge{display:inline-flex;align-items:center;font-size:11px;font-weight:800;letter-spacing:.08em;color:#1A1200;background:linear-gradient(120deg,#FDE68A,#F59E0B);border-radius:7px;padding:3px 8px;box-shadow:0 0 0 1px rgba(245,158,11,.5),0 6px 16px -6px rgba(245,158,11,.8)}
+.mp{display:flex;flex-direction:column;gap:16px}
+.mp-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:18px 20px;border-radius:18px;color:#F1F5FF;background:radial-gradient(500px 120px at 10% 0%,rgba(245,158,11,.25),transparent 70%),linear-gradient(135deg,#0B1233,#1B1050);border:1px solid rgba(245,158,11,.45)}
+.mp-cta p{margin:4px 0 0;color:#C7D2FE;font-size:13.5px;max-width:720px}
+.mp-sub{background:linear-gradient(120deg,#FDE68A,#F59E0B)!important;color:#1A1200!important;border:0!important;font-weight:800!important}
+.mp-pro-on{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:var(--good-soft);color:var(--good);font-weight:600;font-size:13.5px}
+.mp-load{display:flex;gap:14px;align-items:center}.mp-load p{margin:4px 0 0}
+.mp-load .spin{width:28px;height:28px;border-radius:50%;border:3px solid var(--glass-brd);border-top-color:var(--accent);animation:mpSpin 1s linear infinite;flex:none}
+@keyframes mpSpin{to{transform:rotate(360deg)}}
+.mp-up{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.mp-upc{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:14px;border:1px solid var(--glass-brd);background:var(--sunk);font-size:13.5px}
+.mp-cd{align-self:flex-start;font-size:11.5px;font-weight:700;color:var(--warn);background:var(--warn-soft);border-radius:6px;padding:2px 8px}
+.mp-upc small{color:var(--muted)}
+.mp-sens{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}.mp-sens em{font-style:normal;font-size:11.5px;color:var(--muted);width:100%}
+.mp-sens i{font-style:normal;font-size:11.5px;font-weight:600;background:var(--surface);border:1px solid var(--glass-brd);border-radius:6px;padding:1px 6px}
+.mp-sens.blur i{filter:blur(3px);color:var(--muted)}
+.mp-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.mp-tabs button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--glass-brd);background:var(--surface);color:var(--fg);border-radius:12px;padding:8px 12px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.mp-tabs button small{font-size:11px;color:var(--muted);background:var(--sunk);border-radius:999px;padding:0 6px}
+.mp-tabs button.on{background:linear-gradient(120deg,var(--accent),#22D3EE);color:#fff;border-color:transparent}.mp-tabs button.on small{background:rgba(255,255,255,.25);color:#fff}
+.mp-grid{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:16px;align-items:start}
+.mp-list h3{margin:0 0 8px}
+.mp-evs{display:flex;flex-direction:column;gap:6px;max-height:900px;overflow:auto;padding-inline-end:4px}
+.mp-ev{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:start;border:1px solid var(--glass-brd);background:var(--surface);color:var(--fg);border-radius:12px;padding:9px 11px;font:inherit;cursor:pointer}
+.mp-ev b{font-size:13.5px}.mp-ev small{font-size:11.5px;color:var(--muted)}
+.mp-ev.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.mp-lk{position:absolute;top:10px;inset-inline-end:10px;width:14px;height:14px;color:var(--muted)}
+.mp-live{font-style:normal;color:var(--good);font-weight:700}
+.mp-tt{font-size:10.5px;font-weight:800;border-radius:6px;padding:1px 7px;background:var(--sunk);color:var(--muted)}
+.mp-tt.fed{background:#DBEAFE;color:#1D4ED8}.mp-tt.ecb{background:#E0E7FF;color:#4338CA}.mp-tt.boj{background:#FCE7F3;color:#BE185D}.mp-tt.cpi{background:#FEF3C7;color:#B45309}.mp-tt.nfp{background:#DCFCE7;color:#047857}.mp-tt.shock{background:#FEE2E2;color:#B91C1C}.mp-tt.week{background:#CFFAFE;color:#0E7490}
+.mp-eh h3{margin:6px 0 4px}.mp-eh p{margin:0 0 12px}
+.mp-detail h4{margin:18px 0 10px}
+.mp-k{margin-top:4px}
+.mp-gb{display:grid;gap:7px}
+.mp-gbr{display:grid;grid-template-columns:140px 1fr 70px;gap:10px;align-items:center;font-size:13px}
+.mp-gbr b{font-family:var(--f-mono);font-size:12.5px;text-align:end}
+.mp-bar{position:relative;display:block;height:14px;border-radius:5px;background:var(--sunk);direction:ltr}
+.mp-bar::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--fg);opacity:.3}
+.mp-bar i{position:absolute;top:2px;bottom:2px;border-radius:3px}
+.mp-bar i.up{background:linear-gradient(90deg,#10B981,#34D399)}.mp-bar i.dn{background:linear-gradient(90deg,#FB7185,#F43F5E)}
+.up{color:var(--good)}.dn{color:var(--bad)}
+.mp-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.mp-card{display:flex;flex-direction:column;gap:3px;padding:12px;border-radius:14px;border:1px solid var(--glass-brd);background:var(--surface)}
+.mp-card.up{box-shadow:inset 0 -3px 0 #10B981}.mp-card.dn{box-shadow:inset 0 -3px 0 #F43F5E}
+.mp-card small{font-size:11px;color:var(--muted)}.mp-card b{font-size:14px}
+.mp-cv{font-family:var(--f-mono);font-weight:800;font-size:18px}.mp-card.up .mp-cv{color:var(--good)}.mp-card.dn .mp-cv{color:var(--bad)}
+.mp-tools{display:flex;flex-direction:column;gap:8px;margin:18px 0 10px}
+.mp-tools input{height:40px;border-radius:10px;border:1px solid var(--glass-brd);background:var(--surface);color:var(--fg);font:inherit;padding:0 12px;max-width:360px}
+.mp-chips{display:flex;flex-wrap:wrap;gap:6px}
+.mp-chips button{border:1px solid var(--glass-brd);background:var(--surface);color:var(--fg);border-radius:999px;padding:5px 11px;font:inherit;font-size:12.5px;cursor:pointer}
+.mp-chips button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mp-t td small{display:block;font-size:11px;color:var(--muted)}
+.mp-t td.n{font-family:var(--f-mono);white-space:nowrap}
+.mp-barc{min-width:140px}
+.mp-g{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.mp-z{font-weight:700;font-size:12px;border-radius:6px;padding:1px 6px;background:var(--sunk);color:var(--muted)}
+.mp-z.m{background:var(--accent-soft);color:var(--accent)}.mp-z.h{background:var(--warn-soft);color:var(--warn)}.mp-z.x{background:var(--bad-soft);color:var(--bad)}
+.mp-latest{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.mp-lt{display:flex;flex-direction:column;align-items:stretch;gap:5px;text-align:start;border:1px solid var(--glass-brd);background:var(--surface);color:var(--fg);border-radius:14px;padding:12px;font:inherit;cursor:pointer}
+.mp-lt:hover{border-color:var(--accent)}.mp-lt .mp-tt{align-self:flex-start}.mp-lt>b{font-size:13.5px}.mp-lt>small{color:var(--muted);font-size:11.5px}
+.mp-lr{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;font-size:12.5px;padding:4px 0;border-top:1px dashed var(--glass-brd)}
+.mp-lr b{font-family:var(--f-mono)}.mp-lr.up b{color:var(--good)}.mp-lr.dn b{color:var(--bad)}.mp-lr i{font-style:normal;font-size:11px;color:var(--muted);font-family:var(--f-mono)}
+.mp-link{border:0;background:none;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;padding:0;text-align:start}
+.mp-lock{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:22px 14px;border-radius:14px;border:1px dashed rgba(245,158,11,.6);background:linear-gradient(180deg,rgba(245,158,11,.08),transparent)}
+.mp-lock svg{width:28px;height:28px;color:#F59E0B}
+.mp-fakes{display:grid;gap:8px;margin-top:10px;filter:blur(2px);opacity:.6;pointer-events:none}
+.mp-fake{display:flex;gap:10px;align-items:center}.mp-fake span{width:120px;height:12px;border-radius:6px;background:var(--sunk)}.mp-fake i{height:12px;border-radius:6px;background:linear-gradient(90deg,#34D399,#FB7185)}
+.mp-disc{font-size:12.5px;line-height:1.7}
+.mp-modal{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:16px}
+.mp-mback{position:absolute;inset:0;background:rgba(5,10,28,.6);backdrop-filter:blur(4px)}
+.mp-mbox{position:relative;max-width:460px;width:100%;background:var(--surface);color:var(--fg);border-radius:20px;padding:22px;box-shadow:0 30px 80px -20px rgba(0,0,0,.6);border:1px solid rgba(245,158,11,.45)}
+.mp-mbox h3{margin:10px 0 4px}.mp-price{margin:0 0 10px;font-size:14px}.mp-price b{font-size:30px;font-family:var(--f-display)}
+.mp-mbox ul{margin:0 0 12px;padding-inline-start:18px;display:grid;gap:5px;font-size:13.5px}
+/* header PRO button */
+.rp-pro{display:none;align-items:center;gap:7px;height:42px;padding:0 14px;border-radius:14px;text-decoration:none;font-weight:800;font-size:13.5px;color:#1A1200;background:linear-gradient(120deg,#FDE68A,#F59E0B);box-shadow:0 0 0 1px rgba(245,158,11,.5),0 8px 22px -8px rgba(245,158,11,.9);flex:none;white-space:nowrap}
+.rp-pro svg{width:17px;height:17px}
+.rp-pro:hover{filter:brightness(1.06)}
+@media (min-width:1181px){.rp-header .rp-pro{display:inline-flex}}
+.rp-pro-m{display:inline-grid;place-items:center;height:36px;padding:0 10px;border-radius:999px;font-size:11.5px;font-weight:800;text-decoration:none;color:#1A1200;background:linear-gradient(120deg,#FDE68A,#F59E0B)}
+@media (max-width:980px){.mp-grid{grid-template-columns:1fr}.mp-evs{max-height:340px}.mp-gbr{grid-template-columns:100px 1fr 62px}}
+@media (min-width:1181px) and (max-width:1400px){.rp-header .rp-nav .pal-btn{width:clamp(170px,20vw,320px)}.rp-header .rp-nav .pal-btn::before{display:none}.rp-acct .rp-ulink,.rp-acct #auth-slot .tool-btn{padding:0 10px!important}.rp-header .rp-cta{padding:0 14px!important}.rp-pro{padding:0 11px}}
 </style>
 </head><body>
 <div id="app" dir="ltr"></div>
@@ -6133,7 +6215,7 @@ function insGeneric(id){ const m=$('#main'); const ks=$$('.kpi',m).filter(k=>!k.
 
 let insT=null;
 function insSchedule(){ clearTimeout(insT); insT=setTimeout(insRender,120); }
-function insRender(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(['calc','home','how','why','faq','guide','privacy','calendar','about','markets','xray','newsimpact'].includes(id)){ $$('.ins-box',m).forEach(b=>b.remove()); return; }
+function insRender(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(['calc','home','how','why','faq','guide','privacy','calendar','about','markets','xray','newsimpact','mktpro'].includes(id)){ $$('.ins-box',m).forEach(b=>b.remove()); return; }
  let r=null; try{ r=INS[id]?INS[id]():null; if(!r) r=insGeneric(id); }catch(e){ r=null; }
  const head=$('.page-head',m); let top=$('#ins-top',m), bot=$('#ins-bot',m);
  if(!r||!head){ if(top) top.remove(); if(bot) bot.remove(); return; }
@@ -6177,7 +6259,7 @@ const REP_IC={
  pdf:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 17v-4h1.5a1.25 1.25 0 0 1 0 2.5H8M13 17v-4h1a2 2 0 0 1 0 4zM18 13h-1.5v4M16.5 15H18" stroke-width="1.3"/>',
  prt:'<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/>'};
 const repBtn=(k,label,cls='')=>`<button type="button" class="rep-b ${cls}" data-rep="${k}" title="${label}" aria-label="${label}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${REP_IC[k]}</svg></button>`;
-const REP_NOIMP=['txmap','how','why','faq','home','guide','privacy','about','markets','calendar','newsimpact'];
+const REP_NOIMP=['txmap','how','why','faq','home','guide','privacy','about','markets','calendar','newsimpact','mktpro'];
 function repInject(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(id==='home') return; const h=$('.page-head',m); if(h&&!h.dataset.eyebrow){ const pg=curPage(); h.dataset.eyebrow=pg.g?(pg.g==='help'?T('الموارد','Resources'):T(...GROUPS[pg.g])):''; } if(!h||$('.rep-tools',h)) return;
  const d=document.createElement('div'); d.className='rep-tools'; d.setAttribute('data-html2canvas-ignore','true'); d.setAttribute('role','toolbar'); d.setAttribute('aria-label',T('أدوات التقرير','Report tools'));
  const info=['guide','privacy','about'].includes(id);
@@ -6635,7 +6717,7 @@ async function authInit(){ renderAuthChip(); if(!authOn) return;
   const {data}=await sb.auth.getSession(); await setUser(data.session?.user||null);
   sb.auth.onAuthStateChange((ev,session)=>{ if(ev==='PASSWORD_RECOVERY'){ openAuth('reset'); return; } const u=session?.user||null; if((u&&u.id)!==(authUser&&authUser.id)) setUser(u); });
  }catch(e){ syncState='offline'; renderAuthChip(); } }
-async function setUser(u){ authUser=u; renderAuthChip(); if(u) await pullCloud(); }
+async function setUser(u){ authUser=u; renderAuthChip(); try{ if(typeof MP!=='undefined'){ MP.data=null; if(curPage().id==='mktpro') renderPage(); } }catch(e){} if(u) await pullCloud(); }
 const localSnapshot=()=>{ const d={}; try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(SYNC_RE.test(k)&&!SYNC_SKIP.has(k)) d[k]=localStorage.getItem(k); } }catch(e){} return d; };
 async function pullCloud(){ if(!sb||!authUser) return; syncState='sync'; renderAuthChip();
  const {data,error}=await sb.from('user_data').select('data,updated_at').eq('user_id',authUser.id).maybeSingle();
@@ -7160,6 +7242,94 @@ KB.newsimpact=['يقدّر كيف تتحرك أهم 10 أصول عالمية ف�
  'اختر الخبر واتجاهه (أعلى أو أقل من المتوقع) وحجم المفاجأة، ويمكنك إدخال السعر الحالي لكل أصل لحساب السعر المتوقع.','Pick the news item, its direction (above or below expectations) and surprise size; optionally enter each asset’s current price to get the expected price.',
  'الأخضر صعود والأحمر هبوط. قوة الإشارة «قوي» تعني أن الحركة المتوقعة أكبر من التقلب اليومي المعتاد للأصل، و«ضعيف» تعني أنها قد تضيع وسط الضجيج.','Green is up, red is down. “Strong” means the expected move exceeds the asset’s usual daily swing; “Weak” means it may be lost in the noise.'];
 
+/* ================= PRO: Market analysis — how every world market and major stock reacted to each decision / news ================= */
+const PRO_CFG={price:15,checkout:''}; /* paste the Lemon Squeezy / Stripe / PayPal checkout link in checkout:'' when the payment account is ready */
+const MP={data:null,loading:false,err:false,type:'all',sel:null,grp:'all',q:'',sort:'z'};
+const MP_T={all:['كل الأحداث','All events'],fed:['الفيدرالي الأمريكي','Federal Reserve'],ecb:['المركزي الأوروبي','ECB'],boj:['بنك اليابان','Bank of Japan'],cpi:['التضخم الأمريكي','US inflation'],nfp:['الوظائف الأمريكية','US jobs'],shock:['صدمات وأحداث كبرى','Major shocks'],week:['بيانات هذا الأسبوع','This week’s data']};
+const MP_G={all:['كل الأسواق','All markets'],idx:['مؤشرات عالمية','World indices'],gulf:['الخليج','Gulf'],sec:['قطاعات أمريكية','US sectors'],us:['أسهم أمريكية','US stocks'],eu:['أسهم أوروبية','European stocks'],asia:['أسهم آسيوية','Asian stocks'],cmd:['السلع','Commodities'],fx:['العملات والسندات','FX & bonds'],crypto:['العملات المشفرة','Crypto']};
+async function mpLoad(force){ if(MP.loading||(MP.data&&!force)) return; MP.loading=true; MP.err=false;
+ try{ const h={}; try{ if(sb){ const {data}=await sb.auth.getSession(); if(data&&data.session) h.Authorization='Bearer '+data.session.access_token; } }catch(_){}
+  const c=new AbortController(), tm=setTimeout(()=>c.abort(),90000); const r=await fetch('/api/reactions',{headers:h,cache:'no-store',signal:c.signal}); clearTimeout(tm); if(!r.ok) throw new Error(r.status); const j=await r.json(); if(!j||!Array.isArray(j.events)) throw new Error('bad');
+  MP.data=j; MP.A=Object.fromEntries((j.assets||[]).map(a=>[a[0],a])); if(!MP.sel||!j.events.some(e=>e.id===MP.sel)) MP.sel=j.events[0]&&j.events[0].id; }
+ catch(e){ MP.err=true; } finally{ MP.loading=false; } }
+const mpName=s=>{ const a=MP.A&&MP.A[s]; return a?T(a[2],a[3]):s; };
+const mpPct=v=>`<bdi dir="ltr">${v>0?'+':''}${(+v).toFixed(2)}%</bdi>`;
+const mpWhen=t=>{ const d=new Date(t); return `${d.toLocaleDateString(lang==='ar'?'ar':'en',{day:'numeric',month:'short',year:'numeric'})} · ${hm(d)}`; };
+function mpTypeSens(type){ const ev=(MP.data?.events||[]).filter(e=>e.type===type&&!e.locked); const acc={}; ev.forEach(e=>Object.entries(e.rows).forEach(([s,[v,z]])=>{ (acc[s]=acc[s]||[]).push(Math.abs(z)); }));
+ return Object.entries(acc).filter(([,a])=>a.length>=2).map(([s,a])=>[s,a.reduce((x,y)=>x+y,0)/a.length]).sort((a,b)=>b[1]-a[1]).slice(0,5); }
+function mpLock(msg){ return `<div class="mp-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><b>${msg||T('هذا القسم للمشتركين','This section is for subscribers')}</b><button type="button" class="btn mp-sub" data-mp="sub">${T(`اشترك بـ ${PRO_CFG.price}$ شهرياً`,`Subscribe for $${PRO_CFG.price}/month`)}</button></div>`; }
+function mpFake(n){ return Array.from({length:n},(_,i)=>`<div class="mp-fake"><span></span><i style="width:${30+((i*37)%55)}%"></i></div>`).join(''); }
+function mktproRender(root){
+ root.innerHTML=pageHead('تحليل الأسواق','Market analysis','أثر القرارات والأخبار الاقتصادية وتوقيتها على أسواق العالم: المؤشرات العالمية والخليجية والقطاعات وأكبر الأسهم والسلع والعملات، مع أقوى ردات الفعل على كل قرار أو خبر مهم.','How economic decisions and news, and their timing, moved the world’s markets: global and Gulf indices, sectors, the largest stocks, commodities and currencies, with the strongest reactions to every key decision or release.',`<span class="mp-badge">PRO</span>`)+`<div class="mp" id="mp"></div>`;
+ const box=$('#mp',root);
+ const draw=()=>{ if(box.isConnected) mpDraw(box); };
+ box.addEventListener('click',e=>{ const b=e.target.closest('[data-mp]'); if(!b) return; const [a,v]=b.dataset.mp.split('|');
+  if(a==='sub'){ mpSubscribe(); return; } if(a==='retry'){ mpLoad(true).then(draw); draw(); return; }
+  if(a==='type'){ MP.type=v; const f=mpEvents()[0]; if(f) MP.sel=f.id; } else if(a==='ev'){ MP.sel=v; setTimeout(()=>{ const d=$('#mp-detail'); if(d&&innerWidth<980) d.scrollIntoView({behavior:'smooth',block:'start'}); },30); } else if(a==='grp'){ MP.grp=v; } else if(a==='sort'){ MP.sort=v; } else return; draw(); });
+ box.addEventListener('input',e=>{ if(e.target.matches('#mp-q')){ MP.q=e.target.value; const t=$('#mp-tbl'); if(t) t.innerHTML=mpTable(mpCur()); } });
+ draw(); if(!MP.data) mpLoad().then(draw); }
+function mpEvents(){ const ev=MP.data?MP.data.events:[]; return MP.type==='all'?ev:ev.filter(e=>e.type===MP.type); }
+function mpCur(){ const ev=MP.data?MP.data.events:[]; return ev.find(e=>e.id===MP.sel)||ev[0]; }
+function mpTable(e){ if(!e) return ''; const pro=MP.data.pro; let rows=Object.entries(e.rows).map(([s,[v,z,d]])=>({s,v,z,d,g:MP.A[s]?MP.A[s][1]:''}));
+ if(MP.grp!=='all') rows=rows.filter(r=>r.g===MP.grp); const q=MP.q.trim().toLowerCase(); if(q) rows=rows.filter(r=>(mpName(r.s)+' '+r.s).toLowerCase().includes(q));
+ rows.sort(MP.sort==='up'?(a,b)=>b.v-a.v:MP.sort==='dn'?(a,b)=>a.v-b.v:(a,b)=>Math.abs(b.z)-Math.abs(a.z));
+ const mx=Math.max(1,...rows.map(r=>Math.abs(r.v)));
+ return rows.map(r=>`<tr><td><b>${esc(mpName(r.s))}</b><small dir="ltr">${esc(r.s)}</small></td><td><span class="mp-g">${T(...MP_G[r.g]||['',''])}</span></td><td class="n ${r.v>0?'up':r.v<0?'dn':''}">${mpPct(r.v)}</td><td class="mp-barc"><span class="mp-bar"><i class="${r.v>=0?'up':'dn'}" style="width:${Math.abs(r.v)/mx*50}%;${r.v>=0?'left:50%':'right:50%'}"></i></span></td><td class="n"><span class="mp-z ${Math.abs(r.z)>=3?'x':Math.abs(r.z)>=2?'h':Math.abs(r.z)>=1?'m':''}">${(+r.z).toFixed(1)}σ</span></td><td class="n"><small>${esc(r.d)}</small></td></tr>`).join('')
+  +(!pro&&e.locked?`<tr><td colspan="6">${mpLock(T(`${(e.n||0)-Object.keys(e.rows).length} سوقاً وسهماً إضافياً لهذا الحدث للمشتركين`,`${(e.n||0)-Object.keys(e.rows).length} more markets and stocks for this event for subscribers`))}</td></tr>`:'')
+  ||`<tr><td colspan="6" class="note">${T('لا توجد نتائج.','No results.')}</td></tr>`; }
+function mpDraw(box){
+ if(!MP.data){ box.innerHTML=MP.err?`<section class="panel"><p>${T('تعذّر تحميل بيانات الأسواق. هذه الأداة تعمل على موقعك المستضاف figurdiscover.com لأنها تحتاج خادم الموقع.','Could not load market data. This tool runs on your hosted site figurdiscover.com because it needs the site’s server.')}</p><button class="btn" data-mp="retry">${T('إعادة المحاولة','Retry')}</button></section>`
+  :`<section class="panel mp-load"><span class="spin"></span><div><b>${T('جارٍ تحليل ردات فعل أسواق العالم…','Analysing world market reactions…')}</b><p class="note">${T('نحسب أثر أكثر من 100 قرار وخبر على 85 سوقاً وسهماً. أول تحميل قد يستغرق دقيقة.','Measuring 100+ decisions and releases across 85 markets and stocks. The first load can take a minute.')}</p></div></section>`; return; }
+ const D=MP.data, pro=D.pro, ev=mpEvents(), e=mpCur();
+ const rowsE=e?Object.entries(e.rows):[], up=rowsE.filter(([,r])=>r[0]>0).length, dn=rowsE.filter(([,r])=>r[0]<0).length;
+ const byG={}; rowsE.forEach(([s,[v]])=>{ const g=MP.A[s]?MP.A[s][1]:'x'; (byG[g]=byG[g]||[]).push(v); });
+ const strongest=[...rowsE].sort((a,b)=>Math.abs(b[1][1])-Math.abs(a[1][1])).slice(0,8);
+ /* upcoming decisions: live calendar this week + scheduled central-bank meetings */
+ const now=Date.now(), up7=[]; (LIVE.cal||[]).filter(x=>x.imp==='High'&&x.t>now&&x.t-now<7*864e5).forEach(x=>{ const ty=/CPI|PCE|PPI/i.test(x.title)&&x.c==='USD'?'cpi':/Federal Funds|FOMC/i.test(x.title)?'fed':/Non-Farm|Employment Change/i.test(x.title)&&x.c==='USD'?'nfp':x.c==='EUR'&&/Refinancing|Deposit|Monetary/i.test(x.title)?'ecb':x.c==='JPY'&&/Policy Rate|BOJ/i.test(x.title)?'boj':'week'; up7.push({t:+x.t,title:`${x.title} (${x.c})`,ty}); });
+ NEWS.events.forEach(([a,,ar,en])=>{ const t=Date.parse(a+'T12:00:00Z'); const ty=/احتياطي الفيدرالي/.test(ar)?'fed':/المركزي الأوروبي/.test(ar)?'ecb':''; if(ty&&t>now&&t-now<45*864e5&&!up7.some(u=>u.ty===ty&&Math.abs(u.t-t)<2*864e5)) up7.push({t,title:T(ar,en),ty,day:true}); });
+ up7.sort((a,b)=>a.t-b.t);
+ box.innerHTML=`
+ ${pro?`<div class="mp-pro-on"><span class="mp-badge">PRO</span>${T('اشتراكك فعّال، كل البيانات مفتوحة.','Your subscription is active; all data is unlocked.')}</div>`:`<div class="mp-cta"><div><b>${T('أنت تشاهد نسخة مجانية محدودة','You are viewing a limited free preview')}</b><p>${T(`افتح ردات فعل ${D.assets.length} سوقاً وسهماً على كل قرار وخبر منذ 2024، وأقوى ردات الفعل لكل نوع خبر، وتوقيت القرارات القادمة والأسواق الأكثر حساسية لها.`,`Unlock how ${D.assets.length} markets and stocks reacted to every decision and release since 2024, the strongest reactions per news type, and upcoming decisions with the most sensitive markets.`)}</p></div><button type="button" class="btn mp-sub" data-mp="sub">${T(`اشترك بـ ${PRO_CFG.price}$ شهرياً`,`Subscribe · $${PRO_CFG.price}/month`)}</button></div>`}
+ <section class="panel"><h3 style="margin:0 0 10px">${T('توقيت القرارات والأخبار القادمة','Timing of upcoming decisions and releases')}</h3>
+  ${up7.length?`<div class="mp-up">${up7.slice(0,8).map(u=>{ const sens=pro&&u.ty!=='week'?mpTypeSens(u.ty):[]; return `<div class="mp-upc"><span class="mp-cd">${u.day?newsWhen(new Date(u.t).toISOString().slice(0,10)).txt:inT(new Date(u.t))}</span><b>${esc(u.title)}</b><small>${u.day?new Date(u.t).toLocaleDateString(lang==='ar'?'ar':'en',{weekday:'long',day:'numeric',month:'short'}):mpWhen(u.t)}</small>
+   ${u.ty==='week'?'':pro?(sens.length?`<div class="mp-sens"><em>${T('الأكثر تأثراً تاريخياً','Historically most sensitive')}:</em>${sens.map(([s,z])=>`<i>${esc(mpName(s))} <bdi dir="ltr">${z.toFixed(1)}σ</bdi></i>`).join('')}</div>`:''):`<div class="mp-sens blur"><em>${T('الأكثر تأثراً تاريخياً','Historically most sensitive')}:</em><i>●●●●●</i><i>●●●●</i><i>●●●●●●</i></div>`}</div>`; }).join('')}</div>`:`<p class="note">${T('لا توجد قرارات أو بيانات عالية الأثر مجدولة خلال الأيام القادمة.','No high-impact decisions or releases scheduled in the coming days.')}</p>`}
+ </section>
+ <div class="mp-tabs" role="tablist">${Object.keys(MP_T).filter(k=>k==='all'||D.events.some(x=>x.type===k)).map(k=>`<button type="button" role="tab" aria-selected="${MP.type===k}" class="${MP.type===k?'on':''}" data-mp="type|${k}">${T(...MP_T[k])}<small>${k==='all'?D.events.length:D.events.filter(x=>x.type===k).length}</small></button>`).join('')}</div>
+ <div class="mp-grid">
+  <aside class="panel mp-list"><h3>${T('الأحداث','Events')}</h3><div class="mp-evs">${ev.map((x,i)=>`<button type="button" class="mp-ev ${x.id===MP.sel?'on':''}" data-mp="ev|${x.id}"><span class="mp-tt ${x.type}">${T(...MP_T[x.type])}</span><b>${esc(T(x.ar,x.en))}</b><small>${mpWhen(x.t)}${x.live?` · <i class="mp-live">${T('هذا الأسبوع','this week')}</i>`:''}</small>${!pro&&x.locked&&!Object.keys(x.rows).length?'<svg class="mp-lk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>':''}</button>`).join('')||`<p class="note">${T('لا توجد أحداث.','No events.')}</p>`}</div></aside>
+  <section class="panel mp-detail" id="mp-detail">${!e?'':`
+   <div class="mp-eh"><span class="mp-tt ${e.type}">${T(...MP_T[e.type])}</span><h3>${esc(T(e.ar,e.en))}</h3><p class="note">${T('وقت الحدث بتوقيتك','Event time (your time)')}: <b>${mpWhen(e.t)}</b>${e.f?` · ${T('المتوقع','Forecast')}: <bdi dir="ltr">${esc(e.f)}</bdi>`:''}${e.pr?` · ${T('السابق','Previous')}: <bdi dir="ltr">${esc(e.pr)}</bdi>`:''}</p></div>
+   ${!rowsE.length?mpLock(T('ردات فعل هذا الحدث متاحة للمشتركين','Reactions to this event are for subscribers'))+`<div class="mp-fakes">${mpFake(6)}</div>`:`
+   ${pro?`<div class="kpis mp-k"><div class="kpi good"><span class="k"><span>${T('أسواق صعدت','Markets up')}</span></span><span class="v">${up}</span><span class="s">${T('من','of')} ${rowsE.length}</span></div><div class="kpi bad"><span class="k"><span>${T('أسواق هبطت','Markets down')}</span></span><span class="v">${dn}</span><span class="s">${T('من','of')} ${rowsE.length}</span></div><div class="kpi ${up>=dn?'good':'bad'}"><span class="k"><span>${T('مزاج السوق','Market mood')}</span></span><span class="v" style="font-size:20px">${up>dn*1.5?T('صعود واسع','Broad rally'):dn>up*1.5?T('هبوط واسع','Broad sell-off'):T('مختلط','Mixed')}</span><span class="s">${T('في أول جلسة بعد الحدث','First session after the event')}</span></div></div>
+   <h4>${T('متوسط الحركة حسب المنطقة والفئة','Average move by region and class')}</h4><div class="mp-gb">${Object.entries(byG).map(([g,a])=>{ const m=a.reduce((x,y)=>x+y,0)/a.length; return `<div class="mp-gbr"><span>${T(...MP_G[g]||['',''])}</span><span class="mp-bar"><i class="${m>=0?'up':'dn'}" style="width:${Math.min(50,Math.abs(m)/2*50)}%;${m>=0?'left:50%':'right:50%'}"></i></span><b class="${m>=0?'up':'dn'}">${mpPct(m)}</b></div>`; }).join('')}</div>`:''}
+   <h4>${T('أقوى ردات الفعل على هذا الحدث','Strongest reactions to this event')}</h4>
+   <div class="mp-cards">${strongest.map(([s,[v,z,d]])=>`<div class="mp-card ${v>=0?'up':'dn'}"><small>${T(...MP_G[MP.A[s]?.[1]]||['',''])}</small><b>${esc(mpName(s))}</b><span class="mp-cv">${v>=0?'▲':'▼'} ${mpPct(v)}</span><small><bdi dir="ltr">${(+z).toFixed(1)}σ</bdi> · ${T('أقوى من المعتاد بـ','vs normal ×')}${Math.abs(z).toFixed(1)}${T(' مرة','')}</small></div>`).join('')}</div>
+   ${pro?`<div class="mp-tools"><input id="mp-q" type="search" placeholder="${T('ابحث عن سهم أو سوق…','Search a stock or market…')}" value="${esc(MP.q)}"><div class="mp-chips">${Object.keys(MP_G).map(g=>`<button type="button" class="${MP.grp===g?'on':''}" data-mp="grp|${g}">${T(...MP_G[g])}</button>`).join('')}</div>
+    <div class="mp-chips">${[['z',T('الأقوى','Strongest')],['up',T('الأكثر صعوداً','Top gainers')],['dn',T('الأكثر هبوطاً','Top losers')]].map(([k,l])=>`<button type="button" class="${MP.sort===k?'on':''}" data-mp="sort|${k}">${l}</button>`).join('')}</div></div>`:''}
+   <div class="tbl-wrap"><table class="mp-t"><thead><tr><th>${T('السوق / السهم','Market / stock')}</th><th>${T('الفئة','Class')}</th><th>${T('الحركة','Move')}</th><th></th><th>${T('القوة','Strength')}</th><th>${T('يوم التداول','Session')}</th></tr></thead><tbody id="mp-tbl">${mpTable(e)}</tbody></table></div>`}`}
+  </section>
+ </div>
+ <section class="panel"><h3 style="margin:0 0 4px">${T('آخر أقوى ردات الفعل لكل نوع قرار أو خبر','Latest strongest reactions by decision / news type')}</h3><p class="note" style="margin:0 0 12px">${T('لكل نوع: آخر حدث، والأسواق الثلاثة الأقوى تفاعلاً معه.','For each type: the latest event and the three markets that reacted most.')}</p>
+  ${pro?`<div class="mp-latest">${Object.keys(MP_T).filter(k=>k!=='all').map(k=>{ const x=D.events.find(q=>q.type===k); if(!x) return ''; const top=Object.entries(x.rows).sort((a,b)=>Math.abs(b[1][1])-Math.abs(a[1][1])).slice(0,3); return `<button type="button" class="mp-lt" data-mp="ev|${x.id}"><span class="mp-tt ${k}">${T(...MP_T[k])}</span><b>${esc(T(x.ar,x.en))}</b><small>${mpWhen(x.t)}</small>${top.map(([s,[v,z]])=>`<span class="mp-lr ${v>=0?'up':'dn'}"><span>${esc(mpName(s))}</span><b>${mpPct(v)}</b><i dir="ltr">${(+z).toFixed(1)}σ</i></span>`).join('')}</button>`; }).join('')}</div>`:mpLock()+`<div class="mp-fakes">${mpFake(4)}</div>`}
+ </section>
+ <section class="panel"><h3 style="margin:0 0 4px">${T('أقوى ردات الفعل على الإطلاق','Strongest reactions on record')} · ${T(...MP_T[MP.type])}</h3><p class="note" style="margin:0 0 12px">${T('أكبر الحركات مقارنةً بالتقلب المعتاد لكل سوق، منذ 2024.','The biggest moves relative to each market’s normal volatility, since 2024.')}</p>
+  ${pro?`<div class="tbl-wrap"><table class="mp-t"><thead><tr><th>${T('السوق / السهم','Market / stock')}</th><th>${T('الحدث','Event')}</th><th>${T('الحركة','Move')}</th><th>${T('القوة','Strength')}</th></tr></thead><tbody>${ev.flatMap(x=>Object.entries(x.rows).map(([s,[v,z]])=>({s,v,z,x}))).sort((a,b)=>Math.abs(b.z)-Math.abs(a.z)).slice(0,15).map(r=>`<tr><td><b>${esc(mpName(r.s))}</b></td><td><button type="button" class="mp-link" data-mp="ev|${r.x.id}">${esc(T(r.x.ar,r.x.en))}</button><small>${mpWhen(r.x.t)}</small></td><td class="n ${r.v>0?'up':'dn'}">${mpPct(r.v)}</td><td class="n"><span class="mp-z ${Math.abs(r.z)>=3?'x':'h'}">${(+r.z).toFixed(1)}σ</span></td></tr>`).join('')}</tbody></table></div>`:mpLock()+`<div class="mp-fakes">${mpFake(5)}</div>`}
+ </section>
+ <p class="note mp-disc">${T('طريقة الحساب: ردة الفعل = تغيّر سعر الإغلاق في أول جلسة تداول أُغلقت بعد وقت الحدث مقارنةً بالإغلاق السابق، فالأسواق الآسيوية والخليجية تُقاس غالباً في اليوم التالي لقرارات أمريكا. القوة (σ) = الحركة مقسومة على التقلب اليومي المعتاد للسوق؛ 2σ فأكثر حركة غير عادية. قد تتأثر الحركة بأخبار أخرى في نفس اليوم. الأسعار من Yahoo Finance والأجندة من ForexFactory. ليست توصية استثمارية.','Method: reaction = the close of the first trading session that closed after the event versus the previous close, so Asian and Gulf markets are usually measured the day after US decisions. Strength (σ) = the move divided by the market’s normal daily volatility; 2σ or more is unusual. Other news on the same day can also drive the move. Prices from Yahoo Finance, calendar from ForexFactory. Not investment advice.')}</p>`; }
+function mpSubscribe(){ if(!authUser){ toast(T('سجّل الدخول أو أنشئ حساباً أولاً ثم اشترك.','Sign in or create an account first, then subscribe.')); try{ openAuth('signup'); }catch(e){} return; }
+ if(PRO_CFG.checkout){ const u=new URL(PRO_CFG.checkout); try{ u.searchParams.set('checkout[email]',authUser.email||''); u.searchParams.set('checkout[custom][user_id]',authUser.id); }catch(e){} window.open(u.toString(),'_blank','noopener'); return; }
+ let m=$('#mp-modal'); if(m) m.remove(); m=document.createElement('div'); m.id='mp-modal'; m.className='mp-modal'; m.setAttribute('role','dialog'); m.setAttribute('aria-modal','true');
+ const txt=encodeURIComponent(T(`مرحباً، أريد الاشتراك في «تحليل الأسواق» (${PRO_CFG.price}$ شهرياً). بريدي في الموقع: ${authUser.email||''}`,`Hi, I'd like to subscribe to Market analysis ($${PRO_CFG.price}/month). My site email: ${authUser.email||''}`));
+ m.innerHTML=`<div class="mp-mback" data-x></div><div class="mp-mbox"><span class="mp-badge">PRO</span><h3>${T('اشتراك تحليل الأسواق','Market analysis subscription')}</h3><p class="mp-price"><b>${PRO_CFG.price}$</b> / ${T('شهرياً','month')}</p>
+  <ul><li>${T('ردات فعل 85 سوقاً وسهماً حول العالم على كل قرار وخبر','Reactions of 85 world markets and stocks to every decision and release')}</li><li>${T('أقوى ردات الفعل لكل نوع خبر، وعلى الإطلاق','Strongest reactions per news type and on record')}</li><li>${T('توقيت القرارات القادمة والأسواق الأكثر حساسية لها','Upcoming decisions and the most sensitive markets')}</li></ul>
+  <p class="note">${T('الدفع الإلكتروني قيد التفعيل. للاشتراك الآن راسلنا وسنفعّل حسابك مباشرة.','Online payment is being activated. To subscribe now, message us and we will activate your account right away.')}</p>
+  <div class="row" style="gap:8px;flex-wrap:wrap"><a class="btn mp-sub" target="_blank" rel="noopener noreferrer" href="https://wa.me/${CONTACT.wa}?text=${txt}">${T('اشترك عبر واتساب','Subscribe via WhatsApp')}</a><a class="btn ghost" href="mailto:${CONTACT.email}?subject=${encodeURIComponent('figurdiscover PRO')}&body=${txt}">${T('عبر البريد','By email')}</a><button type="button" class="btn ghost" data-x>${T('إغلاق','Close')}</button></div></div>`;
+ document.body.appendChild(m); m.addEventListener('click',e=>{ if(e.target.closest('[data-x]')) m.remove(); }); }
+KB.mktpro=['يبيّن كيف تفاعلت أسواق العالم وأكبر الأسهم والسلع والعملات مع كل قرار فائدة وبيانات اقتصادية وصدمة كبرى منذ 2024.','Shows how world markets, the largest stocks, commodities and currencies reacted to every rate decision, data release and major shock since 2024.',
+ 'لكل حدث يأخذ أول جلسة تداول أُغلقت بعد وقته، ويقارن إغلاقها بالإغلاق السابق، ثم يقسم الحركة على التقلب اليومي المعتاد لمعرفة قوتها.','For each event it takes the first trading session that closed after it, compares that close with the previous close, then divides by the normal daily volatility to gauge strength.',
+ 'لا يحتاج إدخالاً: اختر نوع الحدث ثم الحدث، وفلتر حسب المنطقة أو ابحث عن سهم.','No input needed: pick an event type and an event, then filter by region or search a stock.',
+ 'σ هي القوة: 1σ حركة عادية، 2σ غير عادية، 3σ فأكثر صدمة. الأخضر صعود والأحمر هبوط.','σ is strength: 1σ normal, 2σ unusual, 3σ or more a shock. Green is up, red is down.'];
+
 /* ================= Ishikawa (fishbone / cause-and-effect) diagram ================= */
 const IK_FW={
  '6m':{ar:'6M للتصنيع والعمليات',en:'6M (manufacturing & operations)',c:[['الأفراد','Man / People'],['الآلات والمعدات','Machine'],['الطريقة','Method'],['المواد','Material'],['القياس','Measurement'],['البيئة','Environment']]},
@@ -7477,7 +7647,7 @@ function topBtn(){ const ex=$('#totop'); if(ex){ ex.dir=lang==='ar'?'rtl':'ltr';
  b.onclick=()=>window.scrollTo({top:0,behavior:RM?'auto':'smooth'}); const upd=()=>b.classList.toggle('on',scrollY>500); window.addEventListener('scroll',upd,{passive:true}); upd(); }
 
 /* ================= One layout for every tool: ① header + how to use → ② data (enter or attach) → ③ results → ④ written summary ================= */
-const FLOW_SKIP=['home','how','why','faq','kb','guide','privacy','about','map','markets','calendar','newsimpact'];
+const FLOW_SKIP=['home','how','why','faq','kb','guide','privacy','about','map','markets','calendar','newsimpact','mktpro'];
 const FLOW_T={2:['البيانات المطلوبة','Data needed','أدخل القيم في الخانات أو أرفق ملفاً','Type the values or attach a file'],3:['النتائج بالأرقام والنسب','Results in numbers and percentages','تتحدّث تلقائياً مع كل تغيير','Update automatically as you change data'],4:['الملخص المكتوب','Written summary','قراءة النتائج ونصائح التحسين','What the results mean and how to improve']};
 const flowNum=n=>lang==='ar'?'٠١٢٣٤٥'[n]:String(n);
 function flowLabel(n,mini){ const d=document.createElement('div'); d.className='flow-step'+(mini?' mini':''); d.dataset.step=n; d.setAttribute('data-html2canvas-ignore','true'); const t=FLOW_T[n];
@@ -7633,7 +7803,7 @@ const IC={
  kb:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/>',
  map:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="3"/><circle cx="15.5" cy="13.5" r="2.5"/><circle cx="11" cy="16.5" r="1.5"/>',
  agile:'<path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/><path d="M9 12l2 2 4-4"/>',
- sampling:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',ishikawa:'<path d="M3 12h14"/><path d="M17 8l4 4-4 4z"/><path d="M6 6l3 6M11 6l3 6M6 18l3-6M11 18l3-6"/>',newsimpact:'<path d="M4 5h12v14H6a2 2 0 0 1-2-2z"/><path d="M16 9h4v8a2 2 0 0 1-4 0"/><path d="M7 13l2.5-2.5 2 2L14 10"/>',liquidity:'<path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',ccc:'<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/><path d="M12 7v5l3 2"/>',txmap:'<rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4a2 2 0 0 0 2 2H14"/><path d="M15 5h6M15 9h4"/>'};
+ sampling:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',ishikawa:'<path d="M3 12h14"/><path d="M17 8l4 4-4 4z"/><path d="M6 6l3 6M11 6l3 6M6 18l3-6M11 18l3-6"/>',mktpro:'<path d="M3 20h18"/><path d="M6 16l4-5 3 3 5-7"/><path d="M15 7h3v3"/><circle cx="6" cy="16" r="1.2"/>',newsimpact:'<path d="M4 5h12v14H6a2 2 0 0 1-2-2z"/><path d="M16 9h4v8a2 2 0 0 1-4 0"/><path d="M7 13l2.5-2.5 2 2L14 10"/>',liquidity:'<path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',ccc:'<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/><path d="M12 7v5l3 2"/>',txmap:'<rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4a2 2 0 0 0 2 2H14"/><path d="M15 5h6M15 9h4"/>'};
 const icon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
 const PAGES=[
  {id:'home',g:null,ar:'الرئيسية',en:'Home',render:homeRender},
@@ -7657,6 +7827,7 @@ const PAGES=[
  {id:'outliers',g:'audit',ar:'القيم الشاذة والتوقيت',en:'Outliers & timing',render:outRender,dar:'الفاتورة الاستثنائية لكل مورد، والمبالغ الشاذة، ومعاملات أيام العطل.',den:'Exceptional invoice per vendor, outlier amounts, weekend entries.',tags:['RSF','Z-score','Weekend']},
  {id:'sequence',g:'audit',ar:'فحص تسلسل المستندات',en:'Sequence check',render:seqRender,dar:'الأرقام المفقودة والمكررة في الفواتير والشيكات والسندات.',den:'Missing and duplicated invoice, cheque and voucher numbers.',tags:['Gaps','Backdating']},
  {id:'markets',g:'mkt',ar:'أسواق اليوم',en:'Markets today',render:marketsRender,dar:'الذهب والفضة والعملات وناسداك وأكبر الشركات الخليجية.',den:'Gold, silver, FX, Nasdaq and top Gulf companies.',tags:['Gold','EUR/USD','Nasdaq']},
+ {id:'mktpro',g:'mkt',isNew:true,ar:'تحليل الأسواق PRO',en:'Market analysis PRO',render:mktproRender,dar:'أثر القرارات والأخبار الاقتصادية وتوقيتها على أسواق العالم وأكبر الأسهم، وأقوى ردات الفعل على كل قرار. اشتراك 15$ شهرياً.',den:'How economic decisions and news, and their timing, moved world markets and top stocks, with the strongest reactions. $15/month.',tags:['PRO','Fed','CPI','Stocks']},
  {id:'newsimpact',g:'mkt',isNew:true,ar:'محلل سيناريو الأخبار',en:'News scenario analyzer',render:newsimpactRender,dar:'كيف تتحرك أهم 10 أصول عالمية بعد خبر مفاجئ: الذهب والنفط والفضة وناسداك وبيتكوين وإيثريوم وغيرها.',den:'How the top 10 global assets react to a news surprise: gold, oil, silver, Nasdaq, bitcoin, ethereum and more.',tags:['Gold','Oil','Nasdaq','BTC']},
  {id:'calendar',g:'mkt',ar:'الأجندة الاقتصادية',en:'Economic calendar',render:calendarRender,dar:'البيانات الاقتصادية وقرارات البنوك المركزية والأحداث العالمية القادمة.',den:'Economic releases, central-bank decisions and upcoming global events.',tags:['CPI','Fed','ECB']},
  {id:'about',g:'help',ar:'عن المؤسس',en:'About the founder',render:aboutRender,dar:'محمد خمايسة، خبير التحليل المالي والاقتصادي والمستشار الضريبي.',den:'Mohammad Khamaiseh, financial & economic analysis expert and tax adviser.',tags:['Founder']},
@@ -7714,8 +7885,8 @@ function renderShell(){
     <a class="rp-brand" href="#home" aria-label="figurdiscover">${logo()}<span><b dir="ltr">figur<i>discover</i></b><small>${T('منصة الذكاء المالي','Financial intelligence')}</small></span></a>
     <nav class="rp-menu" aria-label="${T('الأدوات','Tools')}">${menu}<a class="rp-top rp-founder" href="#about"${cp.id==='about'?' aria-current="page"':''}><span class="mini-av" dir="ltr">MK</span>${T('المؤسس','Founder')}</a></nav>
     <button type="button" class="rp-icon pal-btn" aria-label="${T('ابحث عن أداة','Find a tool')}" title="Ctrl K">${IC_S}</button>
-    <span class="rp-acct"><button type="button" class="rp-ulink" id="lang-btn">${LI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>')}${lang==='ar'?'English':'العربية'}</button><span id="auth-slot"></span></span><a class="btn rp-cta" href="#statements">${T('ابدأ التحليل','Start analysing')}</a>
-    <span class="rp-mob"><span id="auth-slot2"></span><a class="rp-icon rp-mapbtn" href="#map" aria-label="${T('خريطة الأدوات','Tools map')}" title="${T('خريطة الأدوات','Tools map')}">${LI(IC.map)}</a><button class="rp-icon" id="lang-btn2">${lang==='ar'?'EN':'ع'}</button><button class="rp-icon menu-btn" id="menu-btn" aria-expanded="false" aria-controls="m-drawer" aria-label="${T('القائمة','Menu')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span>
+    <span class="rp-acct"><button type="button" class="rp-ulink" id="lang-btn">${LI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>')}${lang==='ar'?'English':'العربية'}</button><span id="auth-slot"></span></span><a class="rp-pro" href="#mktpro"${cp.id==='mktpro'?' aria-current="page"':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M6 16l4-5 3 3 5-7"/><path d="M15 7h3v3"/></svg>${T('تحليل الأسواق','Market analysis')}<span class="mp-badge" style="padding:1px 5px;font-size:9.5px;box-shadow:none;background:#1A1200;color:#FDE68A">PRO</span></a><a class="btn rp-cta" href="#statements">${T('ابدأ التحليل','Start analysing')}</a>
+    <span class="rp-mob"><a class="rp-pro-m" href="#mktpro" aria-label="${T('تحليل الأسواق PRO','Market analysis PRO')}">PRO</a><span id="auth-slot2"></span><a class="rp-icon rp-mapbtn" href="#map" aria-label="${T('خريطة الأدوات','Tools map')}" title="${T('خريطة الأدوات','Tools map')}">${LI(IC.map)}</a><button class="rp-icon" id="lang-btn2">${lang==='ar'?'EN':'ع'}</button><button class="rp-icon menu-btn" id="menu-btn" aria-expanded="false" aria-controls="m-drawer" aria-label="${T('القائمة','Menu')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span>
    </div></div>
   </header>
   ${mktBarHtml()}
