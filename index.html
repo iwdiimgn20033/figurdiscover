@@ -2008,6 +2008,231 @@ tbody tr:hover td{background:rgba(47,107,255,.04)}
 .btn.primary,.go-btn,.rp-cta,#calcfab,#mapfab{transform:translate3d(var(--tx,0),var(--ty,0),0) perspective(500px) rotateX(var(--rx7,0)) rotateY(var(--ry7,0))}
 .btn.primary.b7,.go-btn.b7,.rp-cta.b7{box-shadow:0 0 0 1px rgba(34,211,238,.5),4px 4px 0 -1px rgba(47,107,255,.35),8px 8px 0 -2px rgba(47,107,255,.18),0 14px 30px -10px rgba(34,211,238,.8)!important}
 @media (prefers-reduced-motion:reduce){.rp-top:not(.rp-founder),.btn.primary,.go-btn,.rp-cta,#calcfab,#mapfab{transform:none!important}.rp-top::before,.rp-top .rp-lab{animation:none!important}.b7-spark,.b7-ring{display:none}}
+
+/* liquidity & cash */
+.lq-wf{display:grid;gap:8px}
+.lq-wf>div{display:grid;grid-template-columns:minmax(150px,220px) 1fr 130px;gap:10px;align-items:center;font-size:13.5px}
+.lq-wf>div.tot{font-weight:700;border-top:1px dashed #D6E2F7;padding-top:8px}
+.lq-wf i{height:14px;border-radius:7px;width:var(--w);min-width:2px;background:linear-gradient(90deg,#10B981,#22D3EE)}
+.lq-wf i.neg{background:linear-gradient(90deg,#F97316,#EF4444)}
+.lq-wf b{font-family:var(--f-mono);text-align:end}
+.lq-c{display:inline-block;min-width:64px;padding:2px 8px;border-radius:999px;font-family:var(--f-mono);font-size:12.5px}
+.lq-c.good{background:#ECFDF5;color:#047857}.lq-c.warn{background:#FFFBEB;color:#B45309}.lq-c.bad{background:#FEF2F2;color:#B91C1C}
+@media (max-width:600px){.lq-wf>div{grid-template-columns:1fr 90px}.lq-wf i{grid-column:1/-1;order:3}}
+
+/* ===================== HOME v3: command-center layout ===================== */
+@media screen{
+.h2-hero{padding:86px 24px 0!important;margin-inline:calc(50% - 50vw)!important;text-align:center;min-height:min(820px,calc(100vh - 120px));display:flex;flex-direction:column;justify-content:space-between}
+.h2-in{max-width:880px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:22px;position:relative;z-index:2}
+.h2-chip{display:inline-flex;align-items:center;gap:10px;padding:7px 16px;border-radius:999px;border:1px solid rgba(34,211,238,.4);background:rgba(10,20,51,.55);color:#A5F3FC;font-size:13px;font-weight:600;letter-spacing:.04em;backdrop-filter:blur(6px)}
+.h2-chip i{width:8px;height:8px;border-radius:50%;background:#22D3EE;box-shadow:0 0 0 4px rgba(34,211,238,.2),0 0 12px #22D3EE;animation:h2p 2s ease-in-out infinite}
+@keyframes h2p{50%{box-shadow:0 0 0 8px rgba(34,211,238,0),0 0 12px #22D3EE}}
+.rp-hero .h2-title{font-family:var(--f-display);font-weight:600!important;font-size:clamp(40px,6.4vw,84px)!important;line-height:1.02!important;letter-spacing:-.035em!important;margin:0!important;background:linear-gradient(180deg,#FFFFFF 30%,#9FB7E8)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important}
+[dir="rtl"] .rp-hero .h2-title{letter-spacing:0!important;line-height:1.25!important}
+.h2-title em{font-style:normal;background:linear-gradient(90deg,#22D3EE,#60A5FA 45%,#A78BFA);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.h2-lead{max-width:640px;margin:0;color:#B8C7E6;font-size:clamp(15px,1.5vw,18px);line-height:1.7}
+.h2-cmd{position:relative;width:min(640px,100%);display:flex;align-items:center;gap:10px;padding:6px 8px 6px 18px;border-radius:16px;background:rgba(255,255,255,.96);box-shadow:0 0 0 1px rgba(34,211,238,.5),0 0 0 6px rgba(34,211,238,.10),0 30px 60px -25px rgba(0,0,0,.6);text-align:start}
+[dir="rtl"] .h2-cmd{padding:6px 18px 6px 8px}
+.h2-cmd>svg{width:22px;height:22px;color:#2F6BFF;flex:none}
+.h2-cmd input{flex:1;border:0!important;outline:0!important;box-shadow:none!important;background:transparent!important;font:inherit;font-size:16px;padding:12px 0!important;color:#0B1324;min-width:0}
+.h2-cmd kbd{font-family:var(--f-mono);font-size:12px;border:1px solid #D3DDF0;border-radius:7px;padding:3px 8px;color:#64748B;background:#F5F8FF}
+.h2-res{position:absolute;top:calc(100% + 8px);inset-inline:0;background:#fff;border-radius:14px;box-shadow:0 30px 60px -20px rgba(5,10,28,.6),0 0 0 1px rgba(47,107,255,.2);padding:6px;z-index:20;max-height:380px;overflow:auto}
+.h2-res a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#0B1324}
+.h2-res a small{color:#64748B;font-size:12px;white-space:nowrap}
+.h2-res a.on,.h2-res a:hover{background:linear-gradient(90deg,rgba(47,107,255,.10),rgba(34,211,238,.08))}
+.h2-res p{margin:10px;color:#64748B;font-size:13.5px}
+.h2-sugg{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.h2-sugg button{font:inherit;font-size:13px;padding:7px 14px;border-radius:999px;cursor:pointer;color:#DCE7FF;background:rgba(255,255,255,.05);border:1px solid rgba(120,160,255,.3);transition:all .2s}
+.h2-sugg button:hover{border-color:#22D3EE;color:#fff;background:rgba(34,211,238,.12);box-shadow:0 0 16px -4px rgba(34,211,238,.7);transform:translateY(-2px)}
+.h2-cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.h2-stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(5,1fr);max-width:1000px;width:100%;margin:56px auto 0;border-top:1px solid rgba(120,160,255,.2)}
+.h2-stats div{padding:22px 10px 26px;display:flex;flex-direction:column;gap:4px;align-items:center;border-inline-start:1px solid rgba(120,160,255,.14)}
+.h2-stats div:first-child{border-inline-start:0}
+.h2-stats b{font-family:var(--f-mono);font-size:clamp(26px,3vw,38px);font-weight:600;background:linear-gradient(180deg,#fff,#67E8F9);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.h2-stats span{color:#8FA3CB;font-size:12.5px}
+/* home depth layers: calmer — a rising planet and the floor only */
+.fx-layer.home .fx-scan.sv,.fx-layer.home .fx-scan.sd,.fx-layer.home .fx-ring,.fx-layer.home .fx-orb.o3{display:none}
+.fx-layer.home .fx-floor{opacity:.3}
+/* sections below the hero */
+.h2-show,.h2-flow,.h2-why{max-width:1180px;margin:0 auto;padding:0 8px}
+.h2-k{display:inline-block;font-family:var(--f-mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:#2F6BFF;margin-bottom:10px}
+[dir="rtl"] .h2-k{font-family:var(--f-body);letter-spacing:0;font-size:14px}
+.h2-show{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px;align-items:center;padding-block:96px 40px}
+.h2-show h2,.h2-flow h2{font-family:var(--f-display);font-size:clamp(26px,3vw,40px);line-height:1.15;letter-spacing:-.02em;margin:0 0 18px;color:#0A1433}
+[dir="rtl"] .h2-show h2,[dir="rtl"] .h2-flow h2{letter-spacing:0;line-height:1.35}
+.h2-show ul{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:12px}
+.h2-show li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:#334155}
+.h2-show li::before{content:"";flex:none;width:22px;height:22px;margin-top:1px;border-radius:7px;background:linear-gradient(135deg,#2F6BFF,#22D3EE) center/12px no-repeat;box-shadow:0 0 12px -3px rgba(34,211,238,.8);-webkit-mask:none}
+.h2-link{font-weight:700;color:#1D4ED8;text-decoration:none;border-bottom:2px solid rgba(34,211,238,.6)}
+.h2-stage{position:relative;perspective:1400px;padding:30px}
+.h2-stage .rp-mock,.h2-stage .hero-mock{transform:rotateY(-12deg) rotateX(6deg);transform-style:preserve-3d;box-shadow:0 50px 90px -40px rgba(10,20,51,.55),0 0 0 1px rgba(47,107,255,.15);border-radius:16px;transition:transform .5s}
+[dir="rtl"] .h2-stage .rp-mock,[dir="rtl"] .h2-stage .hero-mock{transform:rotateY(12deg) rotateX(6deg)}
+.h2-stage:hover .rp-mock,.h2-stage:hover .hero-mock{transform:none}
+.h2-float{position:absolute;z-index:3;display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:12px;background:rgba(10,20,51,.92);color:#fff;box-shadow:0 18px 40px -16px rgba(5,10,28,.7),0 0 0 1px rgba(34,211,238,.35);animation:h2fl 6s ease-in-out infinite;backdrop-filter:blur(6px)}
+.h2-float small{font-size:11px;color:#9FB3D9}.h2-float b{font-family:var(--f-mono);font-size:17px}
+.h2-float.good b{color:#6EE7B7}.h2-float.warn b{color:#FCD34D}
+.h2-float.f0{top:0;inset-inline-start:-10px}.h2-float.f1{top:22%;inset-inline-end:-16px;animation-delay:-1.2s}.h2-float.f2{bottom:18%;inset-inline-start:-24px;animation-delay:-2.4s}.h2-float.f3{bottom:-6px;inset-inline-end:14%;animation-delay:-3.6s}.h2-float.f4{top:-14px;inset-inline-end:26%;animation-delay:-4.8s}
+@keyframes h2fl{50%{transform:translateY(-10px)}}
+.h2-flow{text-align:center;padding-block:70px 30px}
+.h2-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;position:relative}
+.h2-steps::before{content:"";position:absolute;top:44px;inset-inline:16%;height:2px;background:linear-gradient(90deg,#2F6BFF,#22D3EE,#8B5CF6);opacity:.5;background-size:200% 100%;animation:h2line 4s linear infinite}
+@keyframes h2line{to{background-position:200% 0}}
+.h2-step{position:relative;padding:22px 22px 26px;border-radius:18px;background:#fff;border:1px solid #DCE4F3;text-align:start;box-shadow:0 20px 40px -32px rgba(10,20,51,.5)}
+.h2-n{position:absolute;top:16px;inset-inline-end:18px;font-family:var(--f-mono);font-size:34px;font-weight:700;color:rgba(47,107,255,.12)}
+.h2-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#0A1433,#1B3A9E);color:#67E8F9;box-shadow:0 0 0 1px rgba(34,211,238,.35),0 10px 22px -10px rgba(34,211,238,.6);margin-bottom:14px;position:relative;z-index:1}
+.h2-ic svg{width:22px;height:22px}
+.h2-step h3{margin:0 0 6px;font-size:18px;color:#0A1433}.h2-step p{margin:0;color:#475569;font-size:14.5px;line-height:1.65}
+.h2-why{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-block:40px 70px}
+.h2-why>div{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;padding:16px;border-radius:16px;background:rgba(255,255,255,.7);border:1px solid #E2E8F3}
+.h2-why .h2-ic{grid-row:1/3;margin:0;width:40px;height:40px;border-radius:12px}.h2-why b{font-size:15px;color:#0A1433}.h2-why small{color:#64748B;font-size:12.8px}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}.rv.in{opacity:1;transform:none}
+@media (max-width:980px){.h2-show{grid-template-columns:1fr;gap:30px;padding-top:60px}.h2-steps{grid-template-columns:1fr}.h2-steps::before{display:none}.h2-why{grid-template-columns:1fr 1fr}.h2-stats{grid-template-columns:repeat(3,1fr)}.h2-stats div:nth-child(4){border-inline-start:0}}
+@media (max-width:560px){.h2-hero{padding-top:54px!important}.h2-why{grid-template-columns:1fr}.h2-stats{grid-template-columns:1fr 1fr}.h2-stats div{border-inline-start:0;border-top:1px solid rgba(120,160,255,.12)}.h2-float{display:none}.h2-cmd kbd{display:none}}
+}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.h2-float,.h2-chip i,.h2-steps::before{animation:none}}
+
+@media (max-width:980px){.h2-show>*{min-width:0}.h2-stage{padding:8px 0;perspective:none}.h2-stage .rp-mock,.h2-stage .hero-mock,[dir="rtl"] .h2-stage .rp-mock,[dir="rtl"] .h2-stage .hero-mock{transform:none!important;width:100%!important;max-width:100%!important;min-width:0!important}.h2-show h2{font-size:26px}}
+/* ================= v4 command deck: header, market strip, news strip, floating dock ================= */
+.rp-acct{display:none}
+@media (min-width:1181px){
+ .rp-header .rp-util{display:none!important}
+ .rp-header .rp-nav .rp-wrap{height:auto!important;flex-wrap:wrap;row-gap:0;gap:14px!important;padding-top:0!important}
+ .rp-header .rp-brand{height:64px}
+ .rp-header .rp-brand>span{display:block!important}
+ .rp-header .rp-brand small{display:block!important;font-size:10.5px;letter-spacing:.12em;opacity:.55;margin-top:4px}
+ .rp-header .rp-brand b{font-size:22px}
+ .rp-header .rp-brand svg{width:34px;height:34px}
+ .rp-header .rp-nav .pal-btn{display:inline-flex!important;align-items:center;gap:10px;margin-inline:auto;width:min(420px,34vw);height:42px;padding:0 14px;border-radius:14px;color:#A9BCE6;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid rgba(120,160,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);cursor:pointer;font:inherit;font-size:13.5px;transition:border-color .2s,box-shadow .2s}
+ .rp-header .rp-nav .pal-btn svg{width:18px;height:18px;flex:none;color:#67E8F9}
+ .rp-header .rp-nav .pal-btn::after{content:"Search 139 tools…";flex:1;text-align:start}
+ [dir=rtl] .rp-header .rp-nav .pal-btn::after{content:"ابحث في 139 أداة…"}
+ .rp-header .rp-nav .pal-btn::before{content:"Ctrl K";order:3;font-family:var(--f-mono);font-size:11px;color:#7F93C4;border:1px solid rgba(120,160,255,.25);border-radius:6px;padding:2px 6px}
+ .rp-header .rp-nav .pal-btn:hover{border-color:rgba(34,211,238,.6);box-shadow:0 0 0 3px rgba(34,211,238,.12),0 0 24px -8px rgba(34,211,238,.7)}
+ .rp-acct{display:flex;align-items:center;gap:6px;flex:none}
+ .rp-acct .rp-ulink{height:38px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);font-size:13px;opacity:1}
+ .rp-acct .rp-ulink:hover{text-decoration:none;background:rgba(255,255,255,.06);border-color:rgba(34,211,238,.45)}
+ .rp-acct #auth-slot .tool-btn{height:38px;width:auto!important;padding:0 14px!important;border-radius:12px!important;background:transparent!important;border:1px solid rgba(255,255,255,.12)!important;color:#fff!important;font-size:13px;box-shadow:none!important}
+ .rp-acct #auth-slot .tool-btn:hover{border-color:rgba(34,211,238,.45)!important;background:rgba(255,255,255,.06)!important}
+ .rp-acct .auth-chip{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);padding:4px 8px;color:#fff}
+ .rp-acct .auth-chip small{display:none}
+ .rp-acct .auth-chip .who b{color:#fff}
+ .rp-header .rp-menu{order:3;flex:1 1 100%!important;justify-content:center;flex-wrap:wrap;gap:6px!important;padding:9px 0 11px;margin:0;border-top:1px solid rgba(120,160,255,.13)}
+ .rp-header .rp-menu::after{display:none}
+ .rp-header .rp-top{padding:7px 11px!important;font-size:13.8px!important}
+}
+@media (min-width:1181px) and (max-width:1366px){ .rp-header .rp-menu{gap:4px!important} .rp-header .rp-top{padding:7px 7px!important;font-size:13px!important} .rp-header .rp-founder{font-size:0!important;padding:4px!important;gap:0!important} .rp-header .rp-founder .mini-av{width:30px;height:30px;font-size:11px}
+ .rp-header .rp-cta{height:42px;padding:0 20px!important;display:inline-flex;align-items:center;border-radius:14px!important}
+}
+.rp-header{background:radial-gradient(1200px 120px at 50% 0%,rgba(47,107,255,.16),transparent 70%),linear-gradient(180deg,rgba(6,11,30,.97),rgba(8,14,38,.96))!important;border-bottom:0!important;box-shadow:0 1px 0 rgba(120,160,255,.14),0 18px 40px -24px rgba(0,0,0,.7)}
+.rp-header::after{content:"";position:absolute;inset-inline:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,#22D3EE 25%,#8B5CF6 50%,#22D3EE 75%,transparent);background-size:200% 100%;animation:deckLine 8s linear infinite;opacity:.7;pointer-events:none}
+@keyframes deckLine{to{background-position:-200% 0}}
+
+/* market strip: dark glass */
+.mkt-bar{background:linear-gradient(90deg,#060C22,#0A1638 50%,#060C22)!important;border-bottom:1px solid rgba(120,160,255,.12)!important;color:#DCE6FF;height:44px}
+.mkt-bar .mkt-view{height:44px}
+.mkt-lab{background:linear-gradient(120deg,#2F6BFF,#22D3EE)!important;color:#03142E!important;box-shadow:0 0 0 1px rgba(34,211,238,.35),0 6px 18px -8px rgba(34,211,238,.8);border-radius:10px!important}
+.mk-chip{color:#DCE6FF;border-inline-end-color:rgba(120,160,255,.14)!important}
+.mkt-bar .mk-chip b{color:#F1F5FF}.mkt-bar .mk-chip bdi{color:#67E8F9}.mkt-bar .mk-chip small{color:#8EA0C8}
+.mk-chip i.up,.mkt-bar .mk-chg i.up{color:#34D399!important;background:rgba(52,211,153,.12)!important}
+.mk-chip i.dn,.mkt-bar .mk-chg i.dn{color:#FB7185!important;background:rgba(251,113,133,.12)!important}
+.mk-chip i.eq,.mkt-bar .mk-chg i.eq{color:#93A4CC!important;background:rgba(147,164,204,.12)!important}
+.mkt-bar .mkt-fb{-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+
+/* news strip: midnight with neon accents */
+.ticker{background:linear-gradient(90deg,#0B1233,#111B4A 50%,#0B1233)!important;color:#DCE6FF!important;border-bottom:0!important;padding-block:7px!important;padding-inline:max(16px,calc((100vw - var(--rp-max,1240px))/2 + 24px))!important;box-shadow:inset 0 -1px 0 rgba(120,160,255,.12)}
+.ticker .tk-item{color:#DCE6FF!important;border-inline-end-color:rgba(120,160,255,.16)!important;font-weight:500}
+.ticker .tk-dot{background:#22D3EE!important;box-shadow:0 0 8px #22D3EE}
+.ticker .tk-badge{background:rgba(34,211,238,.12)!important;color:#A5F3FC!important;border:1px solid rgba(34,211,238,.4)!important;border-radius:10px!important}
+.ticker .tk-badge.off{background:rgba(251,191,36,.1)!important;color:#FCD34D!important;border-color:rgba(251,191,36,.38)!important}
+.ticker .tk-lab{background:rgba(139,92,246,.18)!important;color:#C4B5FD!important;border-radius:8px}
+.ticker .tk-lab.live{background:rgba(251,113,133,.16)!important;color:#FDA4AF!important}
+.ticker .tk-lab.px{background:rgba(251,191,36,.14)!important;color:#FCD34D!important}
+.ticker .tk-when{background:rgba(34,211,238,.12)!important;color:#A5F3FC!important}
+.ticker .tk-btn{background:rgba(255,255,255,.05)!important;border:1px solid rgba(120,160,255,.28)!important;color:#DCE6FF!important;border-radius:10px!important}
+.ticker .tk-btn:hover{background:rgba(34,211,238,.12)!important;border-color:rgba(34,211,238,.6)!important}
+.ticker .tk-up{color:#34D399}.ticker .tk-dn{color:#FB7185}
+.ticker .tk-imp{background:rgba(251,191,36,.14);color:#FCD34D}
+.ticker .tk-imp.hi{background:rgba(251,113,133,.16);color:#FDA4AF}
+
+/* floating dock: three identical squircles in one column, labels slide out on hover */
+#calcfab,#mapfab,#fab .fab-btn{width:56px!important;height:56px!important;padding:0!important;gap:0!important;justify-content:center!important;border-radius:18px!important;animation:none!important}#fab .fab-btn{position:relative}
+#calcfab,#mapfab{right:22px!important;left:auto!important;background:linear-gradient(160deg,#0D1A45,#070E28)!important;color:#E6F6FF!important;box-shadow:0 12px 28px -12px rgba(0,0,0,.7),0 0 0 1px rgba(120,160,255,.28),inset 0 1px 0 rgba(255,255,255,.08)!important}
+#calcfab[dir=rtl],#mapfab[dir=rtl]{left:22px!important;right:auto!important}
+#fab{right:22px!important;bottom:22px!important;left:auto!important}
+#fab[dir=rtl]{left:22px!important;right:auto!important}
+#mapfab{bottom:90px!important}
+#calcfab{bottom:158px!important}
+#calcfab .cf-ic,#mapfab .mf-ic{width:38px!important;height:38px!important;border-radius:12px!important}
+#mapfab .mf-ic::after{display:none}
+#fab .fab-btn{box-shadow:0 14px 30px -12px rgba(47,107,255,.85),0 0 0 1px rgba(34,211,238,.45),inset 0 1px 0 rgba(255,255,255,.25)!important}
+#fab .fab-btn svg{width:24px;height:24px}
+#calcfab:hover,#mapfab:hover{box-shadow:0 16px 32px -12px rgba(0,0,0,.75),0 0 0 1.5px rgba(34,211,238,.75),0 0 22px -6px rgba(34,211,238,.8)!important}
+#calcfab .cf-lbl,#mapfab .mf-lbl,#fab .fab-lbl{display:block!important;position:absolute;top:50%;inset-inline-end:calc(100% + 12px);transform:translate(var(--lx,8px),-50%);opacity:0;pointer-events:none;white-space:nowrap;font-size:13px;font-weight:700;color:#fff;background:rgba(7,14,40,.94);border:1px solid rgba(120,160,255,.3);padding:7px 12px;border-radius:10px;box-shadow:0 10px 24px -10px rgba(0,0,0,.6);transition:opacity .18s,transform .18s}
+[dir=rtl]#calcfab .cf-lbl,[dir=rtl]#mapfab .mf-lbl,#fab[dir=rtl] .fab-lbl{--lx:-8px}
+#calcfab:hover .cf-lbl,#calcfab:focus-visible .cf-lbl,#mapfab:hover .mf-lbl,#mapfab:focus-visible .mf-lbl,#fab .fab-btn:hover .fab-lbl,#fab .fab-btn:focus-visible .fab-lbl{opacity:1;--lx:0px}
+#fab .fab-btn.on .fab-lbl{display:none!important}
+@media (max-width:700px){
+ #calcfab,#mapfab,#fab .fab-btn{width:50px!important;height:50px!important;border-radius:16px!important}
+ #calcfab,#mapfab,#fab{right:14px!important}
+ #calcfab[dir=rtl],#mapfab[dir=rtl],#fab[dir=rtl]{left:14px!important;right:auto!important}
+ #fab{bottom:14px!important}#mapfab{bottom:74px!important}#calcfab{bottom:134px!important}
+ #calcfab .cf-ic,#mapfab .mf-ic{width:34px!important;height:34px!important}
+ #calcfab .cf-lbl,#mapfab .mf-lbl,#fab .fab-lbl{display:none!important}
+}
+@media (prefers-reduced-motion:reduce){.rp-header::after{animation:none}}
+/* ===== news scenario analyzer ===== */
+.ni{display:flex;flex-direction:column;gap:16px;margin-bottom:16px}
+.ni-win{font-size:12px;font-weight:700;color:#0E7490;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.4);border-radius:999px;padding:3px 10px}
+.ni-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ni-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--glass-brd);background:var(--surface);color:var(--fg);border-radius:12px;padding:8px 12px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;transition:border-color .2s,transform .2s}
+.ni-chip:hover{border-color:var(--accent);transform:translateY(-1px)}
+.ni-chip b{font-family:var(--f-mono);font-size:11px;color:#fff;background:linear-gradient(120deg,var(--accent),#22D3EE);border-radius:999px;min-width:20px;padding:1px 6px;text-align:center}
+.ni-heads{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;font-size:13.5px}
+.ni-heads li{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--glass-brd)}
+.ni-tag{flex:none;font-size:11px;font-weight:700;border-radius:6px;padding:2px 7px;background:var(--accent-soft);color:var(--accent)}
+.ni-tag.next{background:var(--warn-soft);color:var(--warn)}
+.ni-tag.out{background:var(--good-soft);color:var(--good)}
+.ni-rg{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.ni-sel{display:grid;gap:10px}
+.ni-row{display:grid;grid-template-columns:minmax(180px,1.2fr) minmax(220px,1.6fr) minmax(130px,.8fr) 36px;gap:8px;align-items:center;padding:10px;border:1px solid var(--glass-brd);border-radius:14px;background:var(--sunk)}
+.ni-row select,.ni-rg select{height:38px;border-radius:10px;border:1px solid var(--glass-brd);background:var(--surface);color:var(--fg);font:inherit;font-size:13.5px;padding:0 8px;min-width:0}
+.ni-dir{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--glass-brd);border-radius:10px;overflow:hidden;min-width:0}
+.ni-dir button{border:0;background:var(--surface);color:var(--fg);font:inherit;font-size:12.5px;font-weight:600;padding:8px 6px;cursor:pointer;min-height:38px;line-height:1.25}
+.ni-dir button.on{background:linear-gradient(120deg,var(--accent),#22D3EE);color:#fff}
+.ni-x{width:36px;height:36px;border-radius:10px;border:1px solid var(--glass-brd);background:var(--surface);color:var(--muted);font-size:20px;cursor:pointer}
+.ni-x:hover{color:var(--bad);border-color:var(--bad)}
+.ni-why{grid-column:1/-1;margin:0;font-size:12.5px;color:var(--muted)}
+.ni-bars{display:grid;gap:8px}
+.ni-bar{display:grid;grid-template-columns:120px 1fr 74px;gap:10px;align-items:center;font-size:13.5px}
+.ni-n{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ni-tr{direction:ltr;position:relative;height:22px;border-radius:6px;background:var(--sunk)}
+.ni-tr i{position:absolute;top:0;bottom:0;display:block}
+.ni-rng{background:rgba(120,140,190,.18);border-radius:6px}
+.ni-v{top:4px!important;bottom:4px!important;border-radius:4px}
+.ni-v.up{background:linear-gradient(90deg,#10B981,#34D399)}
+.ni-v.dn{background:linear-gradient(90deg,#F43F5E,#FB7185)}
+.ni-0{inset-inline-start:50%;width:2px;margin-inline-start:-1px;background:var(--fg);opacity:.35}
+.ni-val{font-family:var(--f-mono);font-size:13px;text-align:end}
+.ni-val.up,.ni-arw.up{color:var(--good)}
+.ni-val.dn,.ni-arw.dn{color:var(--bad)}
+.ni-arw{font-weight:700;white-space:nowrap}
+.ni-tbl td,.ni-tbl th{vertical-align:middle}
+.ni-tbl td:last-child{min-width:220px}
+.ni-st{font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.ni-st.hi{background:var(--accent-soft);color:var(--accent)}
+.ni-st.md{background:var(--warn-soft);color:var(--warn)}
+.ni-st.lo,.ni-st.eq{background:var(--sunk);color:var(--muted)}
+.ni-px{width:110px;height:34px;border-radius:8px;border:1px solid var(--glass-brd);background:var(--surface);color:var(--fg);font:inherit;font-family:var(--f-mono);font-size:13px;padding:0 8px}
+.ni-tp{white-space:nowrap;font-family:var(--f-mono);font-size:13px}
+.ni-heat th small{display:block;font-weight:500;font-size:11px;color:var(--muted)}
+.ni-heat tbody th{text-align:start;white-space:normal;min-width:180px;color:var(--fg);background:var(--surface)}
+.ni-heat td{text-align:center;font-family:var(--f-mono);font-size:12.5px;font-weight:600;background:hsla(var(--h),70%,45%,calc(var(--a)*.55));color:var(--fg)}
+.ni-heat tbody tr{cursor:pointer}
+.ni-heat tbody tr:hover th,.ni-heat tbody tr:focus th{color:var(--accent)}
+.ni-heat tbody tr:hover td{outline:1px solid rgba(34,211,238,.35);outline-offset:-1px}
+.ni-disc{margin-top:16px;font-size:12.5px;line-height:1.7}
+@media (max-width:760px){.ni-row{grid-template-columns:1fr 36px}.ni-row .ni-dir,.ni-row select[data-niz]{grid-column:1/-1}.ni-row select[data-nik]{grid-column:1;grid-row:1}.ni-row .ni-x{grid-column:2;grid-row:1}.ni-bar{grid-template-columns:86px 1fr 64px;gap:6px;font-size:12.5px}}
+.tk-scn{text-decoration:none;white-space:nowrap}
 </style>
 </head><body>
 <div id="app" dir="ltr"></div>
@@ -4251,8 +4476,8 @@ const T_5S={form:()=>`<h3>${T('تدقيق 5S: قيّم كل بند من 1 إلى
 const LS_TOOLS=[
  {k:'charter',ph:'define',ar:'ميثاق المشروع',en:'Project charter',t:T_CHARTER},{k:'sipoc',ph:'define',ar:'خريطة SIPOC',en:'SIPOC map',t:T_SIPOC},{k:'ctq',ph:'define',ar:'شجرة CTQ',en:'CTQ tree',t:T_CTQ},{k:'copq',ph:'define',ar:'تكلفة الجودة الرديئة',en:'Cost of poor quality',t:T_COPQ},
  {k:'sigma',ph:'measure',ar:'مستوى سيجما وDPMO',en:'Sigma level & DPMO'},{k:'cap',ph:'measure',ar:'قدرة العملية Cp/Cpk',en:'Capability Cp/Cpk'},{k:'gage',ph:'measure',ar:'نظام القياس Gage R&R',en:'Gage R&R',t:T_GAGE},{k:'sample',ph:'measure',ar:'حجم العينة',en:'Sample size',t:T_SS},
- {k:'fish',ph:'analyze',ar:'مخطط إيشيكاوا (عظم السمكة)',en:'Ishikawa (fishbone) diagram',t:T_FISH,link:'#ishikawa'},{k:'whys',ph:'analyze',ar:'5 لماذا',en:'5 Whys',t:T_WHY},{k:'pareto',ph:'analyze',ar:'باريتو للعيوب',en:'Defect Pareto',link:'#pareto'},{k:'reg',ph:'analyze',ar:'الارتباط والانحدار',en:'Correlation & regression',link:'#stats/reg'},{k:'ttest',ph:'analyze',ar:'اختبار الفروق t',en:'Hypothesis t-test',link:'#stats/ttest'},
- {k:'fmea',ph:'improve',ar:'تحليل FMEA',en:'FMEA'},{k:'matrix',ph:'improve',ar:'مصفوفة الأثر والجهد',en:'Impact / effort matrix',t:T_MX},{k:'roi',ph:'improve',ar:'عائد مشروع التحسين',en:'Improvement ROI',t:T_ROI},{k:'mc',ph:'improve',ar:'محاكاة السيناريوهات',en:'Scenario simulation',link:'#risk'},
+ {k:'fish',ph:'analyze',ar:'مخطط إيشيكاوا (عظم السمكة)',en:'Ishikawa (fishbone) diagram',t:T_FISH,link:'#ishikawa'},{k:'whys',ph:'analyze',ar:'5 لماذا',en:'5 Whys',t:T_WHY},{k:'pareto',ph:'analyze',ar:'باريتو للعيوب',en:'Defect Pareto',link:'#pareto'},
+ {k:'fmea',ph:'improve',ar:'تحليل FMEA',en:'FMEA'},{k:'matrix',ph:'improve',ar:'مصفوفة الأثر والجهد',en:'Impact / effort matrix',t:T_MX},{k:'roi',ph:'improve',ar:'عائد مشروع التحسين',en:'Improvement ROI',t:T_ROI},
  {k:'spc',ph:'control',ar:'خريطة I-MR',en:'I-MR control chart'},{k:'pchart',ph:'control',ar:'خريطة p / c للصفات',en:'p / c attribute chart',t:T_PC},{k:'cplan',ph:'control',ar:'خطة التحكم',en:'Control plan',t:T_CP},
  {k:'lean',ph:'lean',ar:'Takt وOEE وPCE',en:'Takt, OEE & PCE'},{k:'vsm',ph:'lean',ar:'خريطة تدفق القيمة',en:'Value stream map',t:T_VSM},{k:'linebal',ph:'lean',ar:'موازنة الخط',en:'Line balancing',t:T_LB},{k:'kanban',ph:'lean',ar:'حساب كانبان',en:'Kanban sizing',t:T_KB},{k:'waste',ph:'lean',ar:'الهدر الثماني',en:'8 wastes',t:T_W8},{k:'5s',ph:'lean',ar:'تدقيق 5S',en:'5S audit',t:T_5S}];
 const LS_OLD={sigma:lsSigma,cap:lsCap,spc:lsSpc,lean:lsLean,fmea:lsFmea};
@@ -4446,7 +4671,7 @@ const AG_EVM={form:()=>`<h3>${T('القيمة المكتسبة في أجايل (
 const AG_TOOLS=[
  {k:'backlog',ph:'plan',ar:'ترتيب قائمة المنتج MoSCoW',en:'Backlog prioritisation (MoSCoW)',t:AG_BACKLOG},{k:'wsjf',ph:'plan',ar:'أولوية WSJF',en:'WSJF prioritisation',t:AG_WSJF},{k:'story',ph:'plan',ar:'قصة المستخدم وINVEST',en:'User story & INVEST',t:AG_STORY},{k:'poker',ph:'plan',ar:'بوكر التخطيط',en:'Planning poker',t:AG_POKER},{k:'release',ph:'plan',ar:'توقع موعد الإصدار',en:'Release forecast',t:AG_RELEASE},
  {k:'capacity',ph:'sprint',ar:'سعة السبرنت',en:'Sprint capacity',t:AG_CAP},{k:'burndown',ph:'sprint',ar:'مخطط Burndown',en:'Burndown chart',t:AG_BURN},{k:'velocity',ph:'sprint',ar:'مخطط السرعة',en:'Velocity chart',t:AG_VEL},{k:'dod',ph:'sprint',ar:'تعريف الإنجاز DoD',en:'Definition of Done',t:AG_DOD},
- {k:'cfd',ph:'flow',ar:'التدفق التراكمي CFD',en:'Cumulative flow',t:AG_CFD},{k:'cycle',ph:'flow',ar:'زمن الدورة وSLE',en:'Cycle time & SLE',t:AG_CYCLE},{k:'wip',ph:'flow',ar:'حد العمل الجاري WIP',en:'WIP limits',t:AG_WIP},{k:'mc',ph:'flow',ar:'متى ننتهي؟ مونت كارلو',en:'Monte Carlo “when”',t:AG_MC},{k:'kanban',ph:'flow',ar:'حساب كانبان',en:'Kanban sizing',link:'#lss/kanban'},
+ {k:'cfd',ph:'flow',ar:'التدفق التراكمي CFD',en:'Cumulative flow',t:AG_CFD},{k:'cycle',ph:'flow',ar:'زمن الدورة وSLE',en:'Cycle time & SLE',t:AG_CYCLE},{k:'wip',ph:'flow',ar:'حد العمل الجاري WIP',en:'WIP limits',t:AG_WIP},{k:'mc',ph:'flow',ar:'متى ننتهي؟ مونت كارلو',en:'Monte Carlo “when”',t:AG_MC},
  {k:'retro',ph:'team',ar:'لوحة الاسترجاع',en:'Retrospective',t:AG_RETRO},{k:'health',ph:'team',ar:'صحة الفريق',en:'Team health check',t:AG_HEALTH},{k:'roam',ph:'team',ar:'مخاطر ROAM',en:'ROAM risk board',t:AG_ROAM},
  {k:'okr',ph:'value',ar:'الأهداف OKR',en:'OKR tracker',t:AG_OKR},{k:'cod',ph:'value',ar:'تكلفة التأخير CD3',en:'Cost of delay (CD3)',t:AG_COD},{k:'burnup',ph:'value',ar:'مخطط Burnup',en:'Burnup chart',t:AG_BURNUP},{k:'evm',ph:'value',ar:'القيمة المكتسبة AgileEVM',en:'Agile EVM',t:AG_EVM}];
 
@@ -5308,24 +5533,25 @@ function newsWhen(a,b){ const d0=new Date(); d0.setHours(0,0,0,0); const s=new D
  if(days===1) return {txt:T('غداً','Tomorrow'),cls:'soon',days};
  return {txt:T(`بعد ${days} يوماً`,`in ${days} days`),cls:days<=7?'soon':'',days}; }
 const newsDate=d=>new Date(d+'T00:00:00').toLocaleDateString(lang==='ar'?'ar':'en',{day:'numeric',month:'short'});
-function newsUpcoming(){ const d0=new Date(); d0.setHours(0,0,0,0); return NEWS.events.filter(([a,b])=>new Date((b||a)+'T00:00:00')>=d0); }
+function newsAhead(){ const d0=new Date(); d0.setHours(0,0,0,0); return NEWS.events.filter(([a,b])=>new Date((b||a)+'T00:00:00')>=d0); }
+function newsUpcoming(){ const n=Date.now(), D=24*36e5; return NEWS.events.filter(([a,b])=>{ const s=new Date(a+'T00:00:00').getTime(), e=new Date((b||a)+'T23:59:59').getTime(); return n>=s-D&&n<=e+D; }); }
 let tickPaused=false;
 /* ---------- live feeds (work on the hosted site; fall back to the curated list when blocked) ---------- */
 const LIVE={gold:null,silver:null,cal:null,heads:null,headsLang:null};
 const NEWS_SRC={metal:s=>`https://api.gold-api.com/price/${s}`,cal:'https://nfs.faireconomy.media/ff_calendar_thisweek.json',
- gdelt:l=>'https://api.gdeltproject.org/api/v2/doc/doc?mode=artlist&format=json&maxrecords=25&timespan=8h&sort=datedesc&query='+encodeURIComponent(l==='ar'
+ gdelt:l=>'https://api.gdeltproject.org/api/v2/doc/doc?mode=artlist&format=json&maxrecords=40&timespan=24h&sort=datedesc&query='+encodeURIComponent(l==='ar'
   ?'(اقتصاد OR التضخم OR الفائدة OR النفط OR البورصة OR الذهب OR "البنك المركزي") sourcelang:arabic'
   :'(economy OR inflation OR "interest rates" OR "central bank" OR "oil prices" OR "stock market" OR gold OR GDP) sourcelang:english')};
 async function getJSON(u,ms=9000){ const c=new AbortController(), t=setTimeout(()=>c.abort(),ms); try{ const r=await fetch(u,{signal:c.signal,cache:'no-store'}); if(!r.ok) throw new Error(r.status); return await r.json(); } finally{ clearTimeout(t); } }
 async function loadMetals(){ for(const [k,s] of [['gold','XAU'],['silver','XAG']]){ try{ const j=await getJSON(NEWS_SRC.metal(s)); if(j&&isFinite(j.price)){ const prev=LIVE[k]; LIVE[k]={base:metalBase(k,+j.price),p:+j.price,at:j.updatedAt?new Date(j.updatedAt):new Date(),dir:prev?Math.sign(+j.price-prev.p)||prev.dir:0}; } }catch(e){} } }
 async function loadCal(){ try{ const j=await getJSON(NEWS_SRC.cal); if(Array.isArray(j)) LIVE.cal=j.filter(e=>e&&e.date&&(e.impact==='High'||e.impact==='Medium')).map(e=>({t:new Date(e.date),title:e.title,c:e.country,imp:e.impact,f:e.forecast,pr:e.previous})).filter(e=>!isNaN(e.t)); }catch(e){} }
 const gdTime=s=>{ const m=/^(\d{4})(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)Z$/.exec(s||''); return m?new Date(Date.UTC(+m[1],m[2]-1,+m[3],+m[4],+m[5],+m[6])):null; };
-async function loadHeads(){ const l=lang; try{ const j=await getJSON(NEWS_SRC.gdelt(l),12000); const seen=new Set(); const a=((j&&j.articles)||[]).map(x=>({title:(x.title||'').replace(/\s+/g,' ').trim(),url:x.url,src:x.domain,t:gdTime(x.seendate)})).filter(x=>{ const k=x.title.toLowerCase().slice(0,60); if(!x.title||x.title.length<25||!x.t||seen.has(k)) return false; seen.add(k); return /^https?:/.test(x.url||''); }).slice(0,14);
+async function loadHeads(){ const l=lang; try{ const j=await getJSON(NEWS_SRC.gdelt(l),12000); const seen=new Set(); const a=((j&&j.articles)||[]).map(x=>({title:(x.title||'').replace(/\s+/g,' ').trim(),url:x.url,src:x.domain,t:gdTime(x.seendate)})).filter(x=>{ const k=x.title.toLowerCase().slice(0,60); if(!x.title||x.title.length<25||!x.t||seen.has(k)) return false; seen.add(k); return /^https?:/.test(x.url||'')&&Date.now()-x.t<=24*36e5; }).slice(0,18);
  if(a.length){ LIVE.heads=a; LIVE.headsLang=l; } }catch(e){} }
 const hm=d=>d.toLocaleTimeString(lang==='ar'?'ar':'en',{hour:'2-digit',minute:'2-digit'});
 function ago(d){ const m=Math.max(0,Math.round((Date.now()-d)/6e4)); if(m<1) return T('الآن','just now'); if(m<60) return T(`قبل ${m} د`,`${m}m ago`); const h=Math.floor(m/60); return T(`قبل ${h} س${m%60?` ${m%60} د`:''}`,`${h}h${m%60?` ${m%60}m`:''} ago`); }
 function inT(d){ const m=Math.round((d-Date.now())/6e4); if(m<=0) return T('الآن','now'); if(m<60) return T(`بعد ${m} د`,`in ${m}m`); const h=Math.floor(m/60); return T(`بعد ${h} س${m%60?` ${m%60} د`:''}`,`in ${h}h${m%60?` ${m%60}m`:''}`); }
-const H_PAST=12, H_NEXT=24;
+const H_PAST=24, H_NEXT=24;
 function calWin(){ if(!LIVE.cal) return {past:[],next:[]}; const n=Date.now(); return {past:LIVE.cal.filter(e=>e.t<=n&&n-e.t<=H_PAST*36e5).sort((a,b)=>b.t-a.t),next:LIVE.cal.filter(e=>e.t>n&&e.t-n<=H_NEXT*36e5).sort((a,b)=>a.t-b.t)}; }
 const isLive=()=>!!(LIVE.gold||LIVE.cal||LIVE.heads);
 const ext=(u,txt)=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${txt}</a>`;
@@ -5339,12 +5565,12 @@ function tickSeq(){ const w=calWin(), parts=[];
  const past=(heads||[]).map(h=>`<span class="tk-item"><b class="tk-when">${ago(h.t)}</b>${ext(h.url,esc(h.title))}<small>${esc(h.src||'')}</small></span>`).join('')
   +w.past.map(e=>`<span class="tk-item"><b class="tk-when">${T('صدر','out')} ${hm(e.t)}</b>${impTag(e)}${calTxt(e)}</span>`).join('');
  if(past) parts.push(`<span class="tk-lab live">${T('خلال الساعات الماضية','Last few hours')}</span>${past}`);
- else parts.push(`<span class="tk-lab live">${T('أهم الأخبار الاقتصادية','Top economic news')}</span>`+NEWS.items.map(([ar,en])=>`<span class="tk-item"><i class="tk-dot"></i>${esc(T(ar,en))}</span>`).join(''));
+ else parts.push(`<span class="tk-lab live">${T('آخر 24 ساعة','Last 24 hours')}</span><span class="tk-item"><i class="tk-dot"></i>${LIVE.cal?T('لا توجد أخبار اقتصادية مؤثرة خلال آخر 24 ساعة','No market-moving economic news in the last 24 hours'):T('جارٍ جلب أخبار آخر 24 ساعة…','Fetching news from the last 24 hours…')}</span>`);
  if(w.next.length) parts.push(`<span class="tk-lab next">${T('خلال الساعات القادمة','Next few hours')}</span>`+w.next.map(e=>{ const soon=e.t-Date.now()<=3*36e5; return `<span class="tk-item"><b class="tk-when ${soon?'soon':''}">${inT(e.t)} · ${hm(e.t)}</b>${impTag(e)}${calTxt(e)}</span>`; }).join(''));
- parts.push(`<span class="tk-lab next">${T('أحداث اقتصادية منتظرة','Economic events ahead')}</span>`+newsUpcoming().map(([a,b,ar,en])=>{ const w2=newsWhen(a,b); return `<span class="tk-item"><b class="tk-when ${w2.cls}">${w2.txt}</b>${esc(T(ar,en))} <small>${newsDate(a)}</small></span>`; }).join(''));
+ parts.push(`<a class="tk-item tk-scn" href="#newsimpact"><i class="tk-dot"></i><b>${T('حلّل أثر هذه الأخبار على الذهب والنفط وناسداك وبيتكوين','Analyse how this news moves gold, oil, Nasdaq and bitcoin')} ${lang==='ar'?'←':'→'}</b></a>`); if(newsUpcoming().length) parts.push(`<span class="tk-lab next">${T('أحداث خلال ±24 ساعة','Events within ±24 hours')}</span>`+newsUpcoming().map(([a,b,ar,en])=>{ const w2=newsWhen(a,b); return `<span class="tk-item"><b class="tk-when ${w2.cls}">${w2.txt}</b>${esc(T(ar,en))} <small>${newsDate(a)}</small></span>`; }).join(''));
  return parts.join(''); }
-function tickCount(){ const w=calWin(); return (LIVE.heads?LIVE.heads.length:NEWS.items.length)+w.past.length+w.next.length+newsUpcoming().length+2; }
-function badgeHtml(){ return isLive()?`<i class="tk-pulse"></i>${T('مباشر','Live')}`:`${T('آخر تحديث','Updated')} ${newsDate(NEWS.updated)}`; }
+function tickCount(){ const w=calWin(); return (LIVE.heads?LIVE.heads.length:1)+w.past.length+w.next.length+newsUpcoming().length+3; }
+function badgeHtml(){ return isLive()?`<i class="tk-pulse"></i>${T('مباشر · 24 ساعة','Live · 24h')}`:T('آخر 24 ساعة','Last 24 hours'); }
 function tickerHtml(){ const seq=tickSeq();
  return `<div class="ticker" role="region" aria-label="${T('شريط الأخبار الاقتصادية','Economic news ticker')}">
   <span class="tk-badge${isLive()?'':' off'}" id="tk-badge">${badgeHtml()}</span>
@@ -5356,13 +5582,13 @@ function tickerPanel(){ const up=newsUpcoming(), w=calWin(), heads=LIVE.heads&&L
  const evRow=(e,lab,cls)=>`<div class="tk-ev"><span class="tk-date tm"><b>${hm(e.t)}</b><small>${e.t.toLocaleDateString(lang==='ar'?'ar':'en',{day:'numeric',month:'short'})}</small></span>${impTag(e)}<span style="flex:1;min-width:0">${calTxt(e)}</span><span class="tk-when ${cls}">${lab}</span></div>`;
  const px=(LIVE.gold||LIVE.silver)?`<div class="tk-pxrow">${['gold','silver'].filter(k=>LIVE[k]).map(k=>`<div class="tk-pxcard"><small>${k==='gold'?T('الذهب (أونصة)','Gold (oz)'):T('الفضة (أونصة)','Silver (oz)')}</small><b dir="ltr">${fmtUsd(LIVE[k].p)}</b><small>${T('آخر تحديث','Updated')} ${hm(LIVE[k].at)}</small></div>`).join('')}</div>`:'';
  const left=heads?`<h3>${T('أخبار اقتصادية صدرت خلال الساعات الماضية','Economic news from the last few hours')}</h3><ul class="tk-list">${heads.map(h=>`<li>${ext(h.url,esc(h.title))} <small class="note">${esc(h.src||'')} · ${ago(h.t)}</small></li>`).join('')}</ul>`
-  :`<h3>${T('أهم الأخبار الاقتصادية العالمية','Key world economic news')}</h3><ul class="tk-list">${NEWS.items.map(([ar,en])=>`<li>${esc(T(ar,en))}</li>`).join('')}</ul>`;
+  :`<h3>${T('أخبار آخر 24 ساعة','News from the last 24 hours')}</h3><p class="note">${T('تظهر هنا العناوين الاقتصادية الصادرة خلال آخر 24 ساعة فقط عند الاتصال بالمصادر المباشرة.','Only economic headlines from the last 24 hours appear here once live sources connect.')}</p><a class="btn" href="#newsimpact">${T('محلل سيناريو الأخبار','News scenario analyzer')}</a>`;
  const pastCal=w.past.length?`<h3>${T(`بيانات صدرت خلال آخر ${H_PAST} ساعة`,`Data released in the last ${H_PAST} hours`)}</h3><div class="tk-events">${w.past.map(e=>evRow(e,ago(e.t),'')).join('')}</div>`:'';
  const nextCal=LIVE.cal?`<h3>${T(`خلال الـ ${H_NEXT} ساعة القادمة`,`Next ${H_NEXT} hours`)}</h3><div class="tk-events">${w.next.map(e=>evRow(e,inT(e.t),e.t-Date.now()<=3*36e5?'soon':'')).join('')||`<p class="note">${T('لا توجد بيانات مهمة مجدولة خلال هذه الفترة.','No major data scheduled in this window.')}</p>`}</div>`:'';
  return `${px}<div class="two"><div class="stack" style="gap:8px">${left}${pastCal}</div>
-  <div class="stack" style="gap:8px">${nextCal}<h3>${T('الأحداث الاقتصادية المنتظرة','Upcoming economic events')}</h3><div class="tk-events">${up.map(([a,b,ar,en])=>{ const w2=newsWhen(a,b); return `<div class="tk-ev"><span class="tk-date"><b>${new Date(a+'T00:00:00').getDate()}</b><small>${new Date(a+'T00:00:00').toLocaleDateString(lang==='ar'?'ar':'en',{month:'short'})}</small></span><span style="flex:1;min-width:0">${esc(T(ar,en))}${b?` <small class="note">(${newsDate(a)} – ${newsDate(b)})</small>`:''}</span><span class="tk-when ${w2.cls}">${w2.txt}</span></div>`; }).join('')||`<p class="note">${T('لا توجد أحداث قادمة في القائمة.','No upcoming events listed.')}</p>`}</div></div></div>
+  <div class="stack" style="gap:8px">${nextCal}<h3>${T('أحداث خلال ±24 ساعة','Events within ±24 hours')}</h3><div class="tk-events">${up.map(([a,b,ar,en])=>{ const w2=newsWhen(a,b); return `<div class="tk-ev"><span class="tk-date"><b>${new Date(a+'T00:00:00').getDate()}</b><small>${new Date(a+'T00:00:00').toLocaleDateString(lang==='ar'?'ar':'en',{month:'short'})}</small></span><span style="flex:1;min-width:0">${esc(T(ar,en))}${b?` <small class="note">(${newsDate(a)} – ${newsDate(b)})</small>`:''}</span><span class="tk-when ${w2.cls}">${w2.txt}</span></div>`; }).join('')||`<p class="note">${T('لا توجد أحداث خلال ±24 ساعة. الأجندة الكاملة في صفحة «الأجندة الاقتصادية».','No events within ±24 hours. The full agenda is on the “Economic calendar” page.')}</p>`}</div></div></div>
   <p class="note">${isLive()?T('بيانات مباشرة: سعر الذهب والفضة من gold-api.com (يتحدث كل دقيقة)، والأجندة الاقتصادية من ForexFactory، والعناوين من GDELT (تتحدث كل 10 دقائق). الأوقات بتوقيت جهازك.','Live data: gold and silver from gold-api.com (refreshed every minute), economic calendar from ForexFactory, headlines from GDELT (refreshed every 10 minutes). Times are in your local time zone.')
-   :T(`تعذّر الاتصال بمصادر البيانات المباشرة هنا، فتظهر قائمة محفوظة بتاريخ ${newsDate(NEWS.updated)} 2026. على موقعك المستضاف تُجلب الأسعار والأخبار مباشرة.`,`Live sources could not be reached here, so a saved list from ${newsDate(NEWS.updated)} 2026 is shown. On your hosted site, prices and news load live.`)}</p>`; }
+   :T('يعرض الشريط أخبار آخر 24 ساعة والأحداث خلال الـ 24 ساعة القادمة فقط، ولا تُعرض أي أخبار أقدم. على موقعك المستضاف تُجلب الأسعار والأخبار مباشرة.','The bar shows only news from the last 24 hours and events in the next 24 hours; nothing older is shown. On your hosted site, prices and news load live.')}</p>`; }
 function refreshTicker(){ if(typeof mktRefresh==='function') mktRefresh(); if(typeof calDraw==='function'&&curPage().id==='calendar') calDraw(); const tr=$('.tk-track'), b=$('#tk-badge'); if(!tr) return; tr.innerHTML=`${tickSeq()}<span aria-hidden="true" style="display:contents">${tickSeq()}</span>`; tr.style.setProperty('--dur',Math.max(60,tickCount()*7)+'s');
  if(b){ b.innerHTML=badgeHtml(); b.classList.toggle('off',!isLive()); } const panel=$('#tk-panel'); if(panel&&!panel.hidden) panel.innerHTML=tickerPanel(); }
 let newsTimers=null;
@@ -5385,7 +5611,7 @@ function calendarRender(root){
   <div class="cal-filters" id="cal-f"></div><div class="tbl-wrap"><table id="cal-t"></table></div></section>
  <section class="panel" style="margin-top:16px"><h3 style="margin:0">${T('أحداث اقتصادية عالمية كبرى قادمة','Major upcoming global events')}</h3>
   <div class="tbl-wrap"><table><thead><tr><th>${T('التاريخ','Date')}</th><th>${T('الحدث','Event')}</th><th>${T('متى','When')}</th></tr></thead><tbody>
-  ${newsUpcoming().map(([a,b,ar,en])=>{ const w=newsWhen(a,b); return `<tr><td class="n" style="text-align:start;white-space:nowrap">${newsDate(a)}${b?` – ${newsDate(b)}`:''}</td><td>${esc(T(ar,en))}</td><td><span class="tk-when ${w.cls}">${w.txt}</span></td></tr>`; }).join('')}
+  ${newsAhead().map(([a,b,ar,en])=>{ const w=newsWhen(a,b); return `<tr><td class="n" style="text-align:start;white-space:nowrap">${newsDate(a)}${b?` – ${newsDate(b)}`:''}</td><td>${esc(T(ar,en))}</td><td><span class="tk-when ${w.cls}">${w.txt}</span></td></tr>`; }).join('')}
   </tbody></table></div><p class="note">${T('المصادر: تقويمات الاحتياطي الفيدرالي والبنك المركزي الأوروبي ومكتب إحصاءات العمل وصندوق النقد الدولي ومجموعة العشرين والجهات الضريبية الخليجية.','Sources: Fed, ECB, BLS, IMF and G20 calendars and GCC tax authorities.')}</p></section>`;
  calDraw(); if(typeof startLive==='function') startLive(); }
 function calDraw(){ const T1=$('#cal-t'), F=$('#cal-f'), S=$('#cal-src'); if(!T1) return;
@@ -5415,7 +5641,7 @@ const TV_GROUPS=()=>[
  {name:T('السلع','Commodities'),symbols:[['OANDA:XAUUSD',T('الذهب','Gold')],['OANDA:XAGUSD',T('الفضة','Silver')],['TVC:UKOIL',T('خام برنت','Brent crude')]]},
  {name:T('العملات','Currencies'),symbols:[['FX:EURUSD','EUR/USD'],['FX:GBPUSD','GBP/USD'],['FX:USDJPY','USD/JPY']]}];
 function tvMount(el,kind,cfg){ if(!el) return; el.innerHTML='<div class="tradingview-widget-container__widget"></div>'; el.className=(el.className.replace(/\btradingview-widget-container\b/,'')+' tradingview-widget-container').trim();
- const s=document.createElement('script'); s.src=`https://s3.tradingview.com/external-embedding/embed-widget-${kind}.js`; s.async=true; s.type='text/javascript'; s.textContent=JSON.stringify({...cfg,locale:lang==='ar'?'ar_AE':'en',colorTheme:'light'}); el.appendChild(s);
+ const s=document.createElement('script'); s.src=`https://s3.tradingview.com/external-embedding/embed-widget-${kind}.js`; s.async=true; s.type='text/javascript'; s.textContent=JSON.stringify({...cfg,locale:lang==='ar'?'ar_AE':'en',colorTheme:cfg.colorTheme||'light'}); el.appendChild(s);
  const ob=new MutationObserver(()=>{ if(el.querySelector('iframe')){ el.classList.add('tv-ok'); ob.disconnect(); } }); ob.observe(el,{childList:true,subtree:true}); }
 const chgHtml=c=>Number.isFinite(c)?`<i class="${c>0?'up':c<0?'dn':'eq'}">${c>0?'▲':c<0?'▼':'■'} ${c>0?'+':''}${(c*100).toFixed(2)}%</i>`:'';
 const pxChip=(lab,v,dp,sub,c)=>`<span class="mk-chip"><b>${lab}</b><bdi dir="ltr">${Number(v).toLocaleString('en',{minimumFractionDigits:dp,maximumFractionDigits:dp})}</bdi><bdi dir="ltr">${chgHtml(c)}</bdi>${sub?`<small>${sub}</small>`:''}</span>`;
@@ -5424,7 +5650,7 @@ function mktFallback(){ const a=[]; if(LIVE.gold) a.push(pxChip(T('الذهب','
  return a.length?a.join(''):`<span class="mk-chip"><b>${T('أسعار الأسواق','Market prices')}</b><small>${T('تظهر مباشرة على موقعك','load live on your site')}</small></span>`; }
 function mktBarHtml(){ return `<div class="mkt-bar" role="region" aria-label="${T('أسعار الأسواق','Market prices')}"><a class="mkt-lab" href="#markets">${LI('<path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/>')}${T('الأسواق','Markets')}</a><div class="mkt-view"><div class="mkt-fb"><div class="mkt-track">${mktFallback()}${mktFallback()}</div></div><div class="tv-tape" id="tv-tape"></div></div></div>`; }
 function mktBarMount(){ const el=$('#tv-tape'); if(!el) return; const syms=TV_GROUPS().flatMap(g=>g.symbols).map(([p,t])=>({proName:p,title:t}));
- tvMount(el,'ticker-tape',{symbols:syms,showSymbolLogo:true,isTransparent:true,displayMode:'compact'}); }
+ tvMount(el,'ticker-tape',{symbols:syms,showSymbolLogo:true,isTransparent:true,displayMode:'compact',colorTheme:'dark'}); }
 function mktRefresh(){ const fb=$('.mkt-fb .mkt-track'); if(fb){ const h=mktFallback(); fb.innerHTML=h+h; } if(curPage().id==='markets') mktCards(); }
 
 function marketsRender(root){
@@ -5859,7 +6085,7 @@ function insGeneric(id){ const m=$('#main'); const ks=$$('.kpi',m).filter(k=>!k.
 
 let insT=null;
 function insSchedule(){ clearTimeout(insT); insT=setTimeout(insRender,120); }
-function insRender(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(['calc','home','how','why','faq','guide','privacy','calendar','about','markets','xray'].includes(id)){ $$('.ins-box',m).forEach(b=>b.remove()); return; }
+function insRender(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(['calc','home','how','why','faq','guide','privacy','calendar','about','markets','xray','newsimpact'].includes(id)){ $$('.ins-box',m).forEach(b=>b.remove()); return; }
  let r=null; try{ r=INS[id]?INS[id]():null; if(!r) r=insGeneric(id); }catch(e){ r=null; }
  const head=$('.page-head',m); let top=$('#ins-top',m), bot=$('#ins-bot',m);
  if(!r||!head){ if(top) top.remove(); if(bot) bot.remove(); return; }
@@ -5903,7 +6129,7 @@ const REP_IC={
  pdf:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 17v-4h1.5a1.25 1.25 0 0 1 0 2.5H8M13 17v-4h1a2 2 0 0 1 0 4zM18 13h-1.5v4M16.5 15H18" stroke-width="1.3"/>',
  prt:'<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/>'};
 const repBtn=(k,label,cls='')=>`<button type="button" class="rep-b ${cls}" data-rep="${k}" title="${label}" aria-label="${label}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${REP_IC[k]}</svg></button>`;
-const REP_NOIMP=['txmap','how','why','faq','home','guide','privacy','about','markets','calendar'];
+const REP_NOIMP=['txmap','how','why','faq','home','guide','privacy','about','markets','calendar','newsimpact'];
 function repInject(){ const m=$('#main'); if(!m) return; const id=curPage().id; if(id==='home') return; const h=$('.page-head',m); if(h&&!h.dataset.eyebrow){ const pg=curPage(); h.dataset.eyebrow=pg.g?(pg.g==='help'?T('الموارد','Resources'):T(...GROUPS[pg.g])):''; } if(!h||$('.rep-tools',h)) return;
  const d=document.createElement('div'); d.className='rep-tools'; d.setAttribute('data-html2canvas-ignore','true'); d.setAttribute('role','toolbar'); d.setAttribute('aria-label',T('أدوات التقرير','Report tools'));
  const info=['guide','privacy','about'].includes(id);
@@ -6136,7 +6362,7 @@ function fsImportBind(P){ $$('[data-fsmap]',P).forEach(s=>s.onchange=()=>{ const
 
 /* ---------- staged import: attach → preview → Start analysis → result (tools that ran, or the reason it did not) ---------- */
 function impTools(kind){ const id=curPage().id, S=k=>{ const it=(subItems('statements')||[]).find(x=>x[0]===k); return it?T(it[1],it[2]):k; };
- if(kind!=='kv'&&(kind==='fs'||id==='statements'||id==='xray'||id==='ccc')) return [['#statements/ratios',S('ratios')],['#statements/trends',S('trends')],['#statements/dupont',S('dupont')],['#statements/scores',T('التعثر والتلاعب','Distress & manipulation')],['#statements/ceo',S('ceo')],['#xray',T('الأشعة المالية','Financial X-Ray')],['#ccc',T('دورة التحويل النقدي','Cash conversion cycle')],['#statements/report',S('report')]];
+ if(kind!=='kv'&&(kind==='fs'||id==='statements'||id==='xray'||id==='ccc'||id==='liquidity')) return [['#statements/ratios',S('ratios')],['#statements/trends',S('trends')],['#statements/dupont',S('dupont')],['#statements/scores',T('التعثر والتلاعب','Distress & manipulation')],['#statements/ceo',S('ceo')],['#xray',T('الأشعة المالية','Financial X-Ray')],['#ccc',T('دورة التحويل النقدي','Cash conversion cycle')],['#liquidity',T('اختبار السيولة والنقدية','Liquidity & cash test')],['#statements/report',S('report')]];
  if(kind==='viz'||id==='viz') return [['#viz/data',T('ملف تعريف البيانات','Data profile')],['#viz/bar',T('الرسوم البيانية','Charts')],['#viz/pivot',T('الجدول المحوري','Pivot table')],['#viz/dashboard',T('لوحة المعلومات','Dashboard')],['#viz/story',T('القصة','Story')]];
  if(kind==='riskfit') return [['#risk/fit',T('ملاءمة التوزيع (محاكاة المخاطر)','Distribution fit (risk simulation)')]];
  const p=curPage(), sub=curSub(), si=(subItems(p.id)||[]).find(x=>x[0]===sub); return [[location.hash||'#'+p.id,T(p.ar,p.en)+(si?' · '+T(si[1],si[2]):'')]]; }
@@ -6210,7 +6436,7 @@ function impInline(){ const m=$('#main'); if(!m) return; const id=curPage().id; 
  if(id==='statements'&&fsSub==='input'){ const t=[...$$('.tbl-wrap',m)].find(x=>!x.closest('.fs-imp')); if(t&&!t.previousElementSibling?.classList.contains('imp-inline')) t.before(impBar('fs',null)); return; }
  if(has()) return;
  if(id==='ishikawa'){ const g=$('.form-grid',m); if(g&&!g.closest('.panel').previousElementSibling?.classList.contains('imp-inline')) g.closest('.panel').before(impBar('ish',null)); return; }
- if(id==='statements'&&fsSub!=='ceo'||id==='xray'||id==='ccc'){ impTop(m,impBar('fs',null)); return; }
+ if(id==='statements'&&fsSub!=='ceo'||id==='xray'||id==='ccc'||id==='liquidity'){ impTop(m,impBar('fs',null)); return; }
  if(id==='viz'){ impTop(m,impBar('viz',null)); return; }
  if(id==='risk'){ impTop(m,impBar('riskfit',null)); return; }
  const free=$$('textarea',m).filter(t=>vis(t)&&!t.readOnly&&!IMP_MODE[t.id]&&!/^(tax-q|of-|fs-rep|rep)/.test(t.id));
@@ -6222,7 +6448,7 @@ function impInline(){ const m=$('#main'); if(!m) return; const id=curPage().id; 
 /* ================= Same file, other tools: buttons to every tool that can analyse the attached file; one click opens it and analyses the same file there ================= */
 let IMP_LAST=null, IMP_PENDING=null;
 const SF_SETS={
- fs:['statements/ratios','statements/trends','statements/dupont','statements/scores','statements/report','xray','ccc'],
+ fs:['statements/ratios','statements/trends','statements/dupont','statements/scores','statements/report','xray','ccc','liquidity'],
  one:['stats/desc','stats/trend','lss/cap','lss/spc','risk/fit','benford','agile/cycle'],
  pair:['stats/reg','stats/ttest'],
  nv:['pareto'],
@@ -6690,6 +6916,189 @@ KB.ccc=['اختبار يقيس كم يوماً تبقى السيولة محبو�
  'الإيرادات، تكلفة المبيعات، الذمم المدينة، المخزون، الذمم الدائنة لسنتين على الأقل (لحساب المتوسط)، وشروط الائتمان.','Revenue, cost of sales, receivables, inventory and payables for at least two years (for averages), plus credit terms.',
  'كلما قصرت الدورة كان أفضل؛ السالبة تعني أن الموردين يموّلونك. الاختبار يقارن التحصيل بشروط العملاء، والسداد بشروط الموردين، والتغير عن السنة السابقة، ويحسب السيولة المتحررة عند الوصول للأهداف.','Shorter is better; negative means suppliers fund you. The test compares collection with customer terms, payment with supplier terms and the change on last year, and computes cash released at your targets.'];
 
+/* ================= Liquidity & cash test ================= */
+/* CFA definitions: current = CA/CL; quick = (cash + receivables)/CL; cash = cash/CL; CFO ratio = CFO/CL; defensive interval = (cash + receivables) ÷ daily cash operating expenses; days cash on hand = cash ÷ daily cash operating expenses; FCF = CFO − capex */
+function lqRow(d,y){ const opex=(d.cogs+d.sga)/365, fcf=d.cfo-d.capex;
+ return {y,cur:div(d.ca,d.cl),quick:div(d.cash+d.rec,d.cl),cash:div(d.cash,d.cl),nwc:d.ca-d.cl,cfoR:div(d.cfo,d.cl),dint:opex>0?(d.cash+d.rec)/opex:NaN,doh:opex>0?d.cash/opex:NaN,fcf,fcfDiv:fcf-d.dividends,cfoDebt:d.totalDebt>0?d.cfo/d.totalDebt:NaN,runway:fcf<0&&d.cash>0?d.cash/(-fcf/12):NaN,d}; }
+const LQ_M=[['cur','نسبة التداول','Current ratio','x',1.5,1,'الأصول المتداولة ÷ الخصوم المتداولة. 1.5 فأكثر مريح.','Current assets ÷ current liabilities. 1.5+ is comfortable.'],
+ ['quick','النسبة السريعة','Quick ratio','x',1,0.7,'(النقد + الذمم) ÷ الخصوم المتداولة. 1 فأكثر جيد.','(Cash + receivables) ÷ current liabilities. 1+ is good.'],
+ ['cash','نسبة النقدية','Cash ratio','x',0.5,0.15,'النقد ÷ الخصوم المتداولة.','Cash ÷ current liabilities.'],
+ ['cfoR','نسبة التدفق التشغيلي','Operating cash flow ratio','x',1,0.4,'التدفق النقدي التشغيلي ÷ الخصوم المتداولة. 1 فأكثر يعني أن التشغيل يغطي الالتزامات القصيرة.','Operating cash flow ÷ current liabilities. 1+ means operations cover short-term obligations.'],
+ ['dint','فترة الدفاع (يوم)','Defensive interval (days)','d',90,30,'كم يوماً تغطي السيولة السريعة المصاريف النقدية دون أي إيراد جديد.','How many days quick assets cover cash expenses with no new revenue.'],
+ ['doh','أيام النقد المتاح','Days cash on hand','d',60,15,'كم يوماً يغطي النقد وحده المصاريف النقدية.','How many days cash alone covers cash expenses.'],
+ ['cfoDebt','التدفق التشغيلي إلى الدين','Cash flow to debt','x',0.3,0.15,'التدفق التشغيلي ÷ إجمالي الدين. أعلى = قدرة أكبر على السداد.','Operating cash flow ÷ total debt. Higher = more repayment capacity.']];
+const lqTone=(m,v)=>!Number.isFinite(v)?'':v>=m[4]?'good':v>=m[5]?'warn':'bad';
+const lqFmt=(m,v)=>!Number.isFinite(v)?'—':m[3]==='x'?fmt(v,2)+'×':fmt(v,0);
+function lqTests(rows){ const r=rows[rows.length-1], p=rows.length>1?rows[rows.length-2]:null, out=[], add=(t,a,e)=>out.push({tone:t,t:T(a,e)});
+ if(!(r.d.cl>0)){ add('bad','لا يمكن حساب السيولة: أدخل الخصوم المتداولة والأصول المتداولة.','Liquidity cannot be computed: enter current assets and current liabilities.'); return out; }
+ LQ_M.forEach(m=>{ const v=r[m[0]], tn=lqTone(m,v); if(!tn) return; if(tn!=='good') add(tn,`${m[1]}: ${lqFmt(m,v)} (المستوى المريح ${m[3]==='x'?m[4]+'×':m[4]+' يوماً'} فأكثر).`,`${m[2]}: ${lqFmt(m,v)} (comfortable level ${m[3]==='x'?m[4]+'×':m[4]+' days'}+).`); });
+ if(r.nwc<0) add('bad',`رأس المال العامل سالب (${fmt(r.nwc)}): الالتزامات القصيرة أكبر من الأصول المتداولة.`,`Working capital is negative (${fmt(r.nwc)}): short-term obligations exceed current assets.`);
+ if(r.fcf<0) add(Number.isFinite(r.runway)&&r.runway<6?'bad':'warn',`التدفق النقدي الحر سالب (${fmt(r.fcf)})${Number.isFinite(r.runway)?`؛ النقد الحالي يكفي نحو ${fmt(r.runway,1)} شهراً بهذا المعدل`:''}.`,`Free cash flow is negative (${fmt(r.fcf)})${Number.isFinite(r.runway)?`; current cash lasts about ${fmt(r.runway,1)} months at this rate`:''}.`);
+ else add('good',`التدفق النقدي الحر موجب (${fmt(r.fcf)}).`,`Free cash flow is positive (${fmt(r.fcf)}).`);
+ if(r.fcfDiv<0&&r.fcf>=0) add('warn','التوزيعات أكبر من التدفق النقدي الحر: تُموَّل من النقد أو الدين.','Dividends exceed free cash flow: they are funded from cash or debt.');
+ if(p&&Number.isFinite(p.cur)&&Number.isFinite(r.cur)&&r.cur<p.cur*0.85) add('warn',`نسبة التداول تراجعت من ${fmt(p.cur,2)}× إلى ${fmt(r.cur,2)}× عن ${p.y}.`,`The current ratio fell from ${fmt(p.cur,2)}× to ${fmt(r.cur,2)}× vs ${p.y}.`);
+ if(!out.some(o=>o.tone!=='good')) add('good','السيولة في وضع مريح في كل المؤشرات.','Liquidity is comfortable on every indicator.');
+ return out; }
+function liquidityRender(root){ setTimeout(()=>{ const s=$('.lq-src',root); if(s&&fs.years.length>1&&!root.querySelector('.yr-bar')) s.after(fsYearBar(()=>liquidityRender(root))); },0);
+ const ds=fsAll(), ys=fsY(), rows=ds.map((d,i)=>lqRow(d,ys[i])), r=rows[rows.length-1], tests=r?lqTests(rows):[];
+ root.innerHTML=pageHead('اختبار السيولة والنقدية','Liquidity & cash test','هل تستطيع شركتك سداد التزاماتها القصيرة؟ نسب السيولة، والتدفق النقدي التشغيلي والحر، وكم يوماً يكفي النقد، مع اختبار تلقائي لكل مؤشر.','Can your company meet its short-term obligations? Liquidity ratios, operating and free cash flow, and how many days cash lasts, with an automatic test for each indicator.')+`
+ <p class="note lq-src">${T('الأرقام مشتركة مع «تحليل القوائم المالية»: عدّلها هناك أو أرفق ملف القوائم هنا.','Figures are shared with “Financial statements”: edit them there or attach your statements file here.')} <a href="#statements/input">${T('إدخال البيانات','Data entry')} ${lang==='ar'?'←':'→'}</a></p>
+ ${!r||!(r.d.cl>0)?`<section class="panel"><p>${T('أدخل القوائم المالية أولاً (الأصول والخصوم المتداولة والتدفق النقدي).','Enter your financial statements first (current assets, current liabilities and cash flow).')}</p><a class="btn primary" href="#statements/input">${T('افتح إدخال البيانات','Open data entry')}</a></section>`:`
+ <section class="panel"><div class="kpis">${LQ_M.map(m=>`<div class="kpi ${lqTone(m,r[m[0]])}"><span class="k"><span>${T(m[1],m[2])} · ${esc(String(r.y))}</span></span><span class="v">${lqFmt(m,r[m[0]])}</span><span class="s">${T(m[6],m[7])}</span></div>`).join('')}
+  <div class="kpi ${r.nwc>=0?'good':'bad'}"><span class="k"><span>${T('رأس المال العامل','Working capital')}</span></span><span class="v">${fmt(r.nwc)}</span><span class="s">${T('الأصول المتداولة − الخصوم المتداولة','Current assets − current liabilities')}</span></div>
+  <div class="kpi ${r.fcf>=0?'good':'bad'}"><span class="k"><span>${T('التدفق النقدي الحر','Free cash flow')}</span></span><span class="v">${fmt(r.fcf)}</span><span class="s">${Number.isFinite(r.runway)?T(`النقد يكفي ${fmt(r.runway,1)} شهراً`,`Cash lasts ${fmt(r.runway,1)} months`):T('التدفق التشغيلي − الإنفاق الرأسمالي','Operating cash flow − capex')}</span></div></div></section>
+ <section class="panel"><h3 style="margin:0 0 8px">${T('من أين جاء النقد وأين ذهب','Where cash came from and went')} · ${esc(String(r.y))}</h3><div class="lq-wf">${[[T('التدفق التشغيلي','Operating cash flow'),r.d.cfo],[T('الإنفاق الرأسمالي','Capex'),-r.d.capex],[T('التدفق الحر','Free cash flow'),r.fcf,1],[T('التوزيعات','Dividends'),-r.d.dividends],[T('المتبقي بعد التوزيعات','Left after dividends'),r.fcfDiv,1]].map(([l,v,t])=>{ const mx=Math.max(1,Math.abs(r.d.cfo),Math.abs(r.d.capex),Math.abs(r.fcf),Math.abs(r.d.dividends)); return `<div class="${t?'tot':''}"><span>${l}</span><i style="--w:${Math.abs(v)/mx*100}%" class="${v<0?'neg':'pos'}"></i><b dir="ltr">${fmt(v)}</b></div>`; }).join('')}</div></section>
+ <section class="panel"><h3 style="margin:0 0 8px">${T('المؤشرات عبر السنوات','Indicators over the years')}</h3><div class="tbl-wrap"><table><thead><tr><th>${T('المؤشر','Indicator')}</th>${rows.map(x=>`<th class="n">${esc(String(x.y))}</th>`).join('')}</tr></thead><tbody>
+  ${LQ_M.map(m=>`<tr><td>${T(m[1],m[2])}</td>${rows.map(x=>`<td class="n"><span class="lq-c ${lqTone(m,x[m[0]])}">${lqFmt(m,x[m[0]])}</span></td>`).join('')}</tr>`).join('')}
+  <tr><td>${T('رأس المال العامل','Working capital')}</td>${rows.map(x=>`<td class="n">${fmt(x.nwc)}</td>`).join('')}</tr><tr><td>${T('التدفق النقدي الحر','Free cash flow')}</td>${rows.map(x=>`<td class="n">${fmt(x.fcf)}</td>`).join('')}</tr></tbody></table></div></section>
+ <section class="panel"><h3 style="margin:0 0 8px">${T('نتيجة الاختبار','Test results')}</h3><ul class="cc-tests">${tests.map(o=>`<li class="${o.tone}"><b>${o.tone==='good'?'✓':o.tone==='bad'?'✗':'!'}</b> ${o.t}</li>`).join('')}</ul>
+  <p class="note">${T('المعادلات وفق منهج CFA. المصاريف النقدية اليومية = (تكلفة المبيعات + المصاريف التشغيلية دون الإهلاك) ÷ 365.','Formulas per the CFA curriculum. Daily cash expenses = (cost of sales + operating expenses excluding depreciation) ÷ 365.')}</p></section>`}`; }
+INS.liquidity=function(){ const ds=fsAll(), ys=fsY(); if(!ds.length) return null; const rows=ds.map((d,i)=>lqRow(d,ys[i])), r=rows[rows.length-1]; if(!(r.d.cl>0)) return null; const t=lqTests(rows), nb=t.filter(x=>x.tone==='bad').length, nw=t.filter(x=>x.tone==='warn').length;
+ return {tone:nb?'bad':nw?'warn':'good',headline:T(`نسبة التداول ${fmt(r.cur,2)}× وفترة الدفاع ${fmt(r.dint,0)} يوماً في ${r.y}.`,`Current ratio ${fmt(r.cur,2)}× and a ${fmt(r.dint,0)}-day defensive interval in ${r.y}.`),
+  simple:T(`ببساطة: لكل 1 من الالتزامات القصيرة لديك ${fmt(r.cur,2)} من الأصول المتداولة، ويكفي النقد والذمم لتغطية المصاريف ${fmt(r.dint,0)} يوماً دون إيراد جديد.`,`In short: for every 1 of short-term obligations you hold ${fmt(r.cur,2)} of current assets, and cash plus receivables cover expenses for ${fmt(r.dint,0)} days with no new revenue.`),
+  sum:LQ_M.map(m=>`${T(m[1],m[2])} ${lqFmt(m,r[m[0]])}`).join(' · '),tips:t.filter(x=>x.tone!=='good').map(x=>x.t).concat([T('سرّع التحصيل وقلّل المخزون الراكد (راجع «اختبار دورة التحويل النقدي»).','Collect faster and cut slow stock (see the “Cash conversion cycle test”).'),T('أجّل الإنفاق الرأسمالي غير العاجل عند ضعف التدفق الحر.','Defer non-urgent capex when free cash flow is weak.'),T('رتّب تسهيلات بنكية احتياطية قبل الحاجة إليها.','Arrange standby bank facilities before you need them.')])}; };
+KB.liquidity=['اختبار قدرة الشركة على سداد التزاماتها القصيرة من أصولها ونقدها وتدفقاتها.','Tests whether the company can meet short-term obligations from its assets, cash and cash flows.',
+ 'يقرأ القوائم المالية ويحسب نسب السيولة والتدفق التشغيلي والحر وفترة الدفاع وأيام النقد، ثم يختبر كل مؤشر مقابل مستوى مريح.','Reads the financial statements, computes liquidity ratios, operating and free cash flow, the defensive interval and days of cash, then tests each against a comfortable level.',
+ 'النقد، الذمم المدينة، المخزون، الأصول والخصوم المتداولة، تكلفة المبيعات، المصاريف التشغيلية، التدفق التشغيلي، الإنفاق الرأسمالي، التوزيعات، والقروض.','Cash, receivables, inventory, current assets and liabilities, cost of sales, operating expenses, operating cash flow, capex, dividends and loans.',
+ 'كل مؤشر بلون: أخضر مريح، أصفر للمتابعة، أحمر خطر. نسبة التداول 1.5 فأكثر، والسريعة 1 فأكثر، وفترة الدفاع 90 يوماً فأكثر مستويات مريحة.','Each indicator is coloured: green comfortable, amber watch, red risk. Current ratio 1.5+, quick ratio 1+ and a 90-day defensive interval are comfortable levels.'];
+
+/* ================= News scenario analyzer: how a news surprise typically moves 10 global assets ================= */
+/* Day-1 moves (%) for a typical one-standard-deviation surprise in the "up" direction, approximated from published event-study evidence
+   (CPI, FOMC, payrolls, OPEC, geopolitical, tariff, banking-stress episodes). Educational estimates, not forecasts. */
+const NI_A=[
+ ['gold','الذهب','Gold','XAU/USD',1.0,'OANDA:XAUUSD','يتحرك عكس العائد الحقيقي والدولار، ويرتفع كملاذ آمن وقت الخوف.','Moves against real yields and the dollar; rises as a safe haven in fear.'],
+ ['silver','الفضة','Silver','XAG/USD',1.9,'OANDA:XAGUSD','نصفها معدن نفيس ونصفها صناعي، فتتأثر بالفائدة والنمو معاً وبتقلب أعلى من الذهب.','Half precious, half industrial: reacts to rates and growth, with more swing than gold.'],
+ ['brent','خام برنت','Brent crude','UKOIL',2.0,'TVC:UKOIL','العرض (أوبك+، الجغرافيا السياسية) والطلب (نمو الصين والعالم).','Supply (OPEC+, geopolitics) and demand (China and global growth).'],
+ ['ngas','الغاز الطبيعي','Natural gas','NATGAS',3.5,'CAPITALCOM:NATURALGAS','الطقس والإمدادات والمخزون، وتقلبه مرتفع جداً.','Weather, supply and storage; very volatile.'],
+ ['spx','S&P 500','S&P 500','SPX',1.0,'FOREXCOM:SPXUSD','أرباح الشركات مقابل الفائدة، ومزاج المخاطرة العام.','Corporate earnings versus interest rates, and overall risk appetite.'],
+ ['ndx','ناسداك 100','Nasdaq 100','NDX',1.3,'FOREXCOM:NSXUSD','شركات النمو والتكنولوجيا، الأكثر حساسية للفائدة.','Growth and tech companies, the most rate-sensitive.'],
+ ['dji','داو جونز','Dow Jones','DJI',0.9,'FOREXCOM:DJI','شركات صناعية وقيمة، أقل حساسية للفائدة من ناسداك.','Industrial and value companies, less rate-sensitive than Nasdaq.'],
+ ['dxy','مؤشر الدولار','US dollar index','DXY',0.45,'TVC:DXY','فرق الفائدة بين أمريكا والعالم، وطلب الملاذ الآمن.','The US-versus-world rate gap and safe-haven demand.'],
+ ['btc','بيتكوين','Bitcoin','BTC/USD',3.0,'BITSTAMP:BTCUSD','السيولة العالمية ومزاج المخاطرة، ويتحرك كأصل تقني عالي التقلب.','Global liquidity and risk appetite; trades like a high-volatility tech asset.'],
+ ['eth','إيثريوم','Ethereum','ETH/USD',3.8,'BITSTAMP:ETHUSD','مثل بيتكوين لكن بحساسية أعلى للمخاطرة.','Like bitcoin but with higher risk sensitivity.']];
+const NI_S=[
+ {k:'cpi',ar:'التضخم الأمريكي (CPI)',en:'US inflation (CPI)',u:['أعلى من المتوقع','Hotter than expected'],d:['أقل من المتوقع','Cooler than expected'],m:[-0.8,-1.4,-0.3,0,-0.9,-1.2,-0.7,0.45,-2.0,-2.6],
+  w:['تضخم أعلى يعني فائدة أعلى لفترة أطول، فيرتفع الدولار والعوائد وتتراجع الأصول الحساسة للفائدة.','Hotter inflation means higher rates for longer: the dollar and yields rise, rate-sensitive assets fall.'],
+  kw:/\bCPI\b|inflation|consumer price|\bPCE\b|التضخم|أسعار المستهلك/i},
+ {k:'fed',ar:'قرار الفيدرالي الأمريكي',en:'Federal Reserve decision',u:['متشدد (رفع أو تأجيل الخفض)','Hawkish (hike or delayed cuts)'],d:['متساهل (خفض أو تلميح بالخفض)','Dovish (cut or signals cuts)'],m:[-1.0,-1.6,-0.6,-0.3,-1.0,-1.4,-0.8,0.5,-2.5,-3.2],
+  w:['الفائدة الأمريكية هي «سعر المال» عالمياً؛ تشديدها يقوّي الدولار ويضغط على الذهب والأسهم والعملات المشفرة.','US rates are the world price of money; tightening lifts the dollar and weighs on gold, stocks and crypto.'],
+  kw:/\bFed\b|FOMC|Federal Reserve|Federal Funds|Powell|interest rate|الفيدرالي|الاحتياطي الفيدرالي|الفائدة/i},
+ {k:'nfp',ar:'الوظائف الأمريكية (NFP)',en:'US jobs report (NFP)',u:['أقوى من المتوقع','Stronger than expected'],d:['أضعف من المتوقع','Weaker than expected'],m:[-0.6,-1.0,0.3,0.1,-0.2,-0.4,0,0.4,-1.0,-1.3],
+  w:['سوق عمل قوي يقلل فرص خفض الفائدة؛ أثره على الأسهم مختلط لأنه يعني نمواً أقوى وفائدة أعلى معاً.','A strong labour market lowers the odds of rate cuts; the stock reaction is mixed because it means both stronger growth and higher rates.'],
+  kw:/payroll|non-?farm|jobs report|unemployment|jobless|الوظائف|البطالة/i},
+ {k:'yields',ar:'عوائد السندات الأمريكية',en:'US Treasury yields',u:['ارتفاع حاد','Sharp rise'],d:['انخفاض حاد','Sharp fall'],m:[-0.7,-1.0,-0.2,0,-1.0,-1.5,-0.7,0.3,-1.8,-2.3],
+  w:['ارتفاع العائد يرفع تكلفة الاحتفاظ بالذهب ويخفض القيمة الحالية لأرباح شركات النمو.','Higher yields raise the cost of holding gold and cut the present value of growth-company earnings.'],
+  kw:/yield|treasur|bond market|عائد السندات|سندات الخزانة|العوائد/i},
+ {k:'growth',ar:'النمو والركود (GDP، PMI)',en:'Growth & recession (GDP, PMI)',u:['ضعف أو إشارة ركود','Weak / recession signal'],d:['نمو أقوى من المتوقع','Stronger growth'],m:[0.8,-0.5,-2.0,-1.0,-1.0,-1.0,-1.0,-0.3,-1.5,-2.0],
+  w:['الركود يخفض الطلب على النفط والمعادن الصناعية وأرباح الشركات، ويدفع المستثمرين نحو الذهب.','Recession cuts demand for oil, industrial metals and company profits, and pushes investors toward gold.'],
+  kw:/\bGDP\b|recession|\bPMI\b|retail sales|slowdown|الناتج المحلي|ركود|مديري المشتريات|مبيعات التجزئة|تباطؤ/i},
+ {k:'opec',ar:'أوبك+ وإمدادات النفط',en:'OPEC+ and oil supply',u:['خفض الإنتاج أو انقطاع الإمدادات','Output cut / supply disruption'],d:['زيادة الإنتاج','Output increase'],m:[0.3,0.3,3.5,1.0,-0.3,-0.4,-0.1,0.1,-0.3,-0.4],
+  w:['نقص العرض يرفع النفط مباشرة، ويزيد توقعات التضخم فيضغط قليلاً على الأسهم.','Less supply lifts oil directly and raises inflation expectations, weighing slightly on stocks.'],
+  kw:/OPEC|oil output|crude (supply|output|production)|oil price|أوبك|إنتاج النفط|أسعار النفط|خام برنت/i},
+ {k:'gas',ar:'إمدادات الغاز والطقس',en:'Gas supply & weather',u:['انقطاع الإمدادات أو برد شديد','Supply outage / cold snap'],d:['وفرة في الإمدادات أو طقس معتدل','Ample supply / mild weather'],m:[0.2,0.1,0.8,6.0,-0.2,-0.2,-0.1,0.1,-0.2,-0.2],
+  w:['الغاز سوق محلي ضيق نسبياً، فأي انقطاع أو موجة برد تحركه بقوة بينما يبقى أثره على باقي الأصول محدوداً.','Gas is a relatively tight regional market, so outages or cold snaps move it hard while other assets barely react.'],
+  kw:/natural gas|\bLNG\b|gas price|الغاز الطبيعي|الغاز المسال|أسعار الغاز/i},
+ {k:'geo',ar:'التوترات الجيوسياسية والحروب',en:'Geopolitical tension & war',u:['تصعيد','Escalation'],d:['تهدئة أو اتفاق','De-escalation / deal'],m:[1.5,1.0,3.0,4.0,-1.2,-1.5,-1.0,0.3,-2.5,-3.0],
+  w:['الخوف يرفع الذهب والدولار كملاذات آمنة، ويرفع الطاقة إذا هُددت الإمدادات، ويضغط على الأصول الخطرة.','Fear lifts gold and the dollar as safe havens, lifts energy if supply is threatened, and hits risk assets.'],
+  kw:/\bwar\b|attack|missile|airstrike|conflict|tension|sanction|invasion|حرب|هجوم|صاروخ|غارة|توتر|عقوبات|نزاع|تصعيد/i},
+ {k:'tariff',ar:'الرسوم الجمركية والحرب التجارية',en:'Tariffs & trade war',u:['فرض أو تصعيد رسوم','New / higher tariffs'],d:['اتفاق تجاري أو إلغاء رسوم','Trade deal / tariffs removed'],m:[0.6,-0.3,-1.0,-0.2,-1.3,-1.6,-1.2,0.2,-2.0,-2.5],
+  w:['الرسوم تبطئ التجارة والنمو وترفع التكاليف، فتتراجع الأسهم والنفط ويستفيد الذهب.','Tariffs slow trade and growth and raise costs: stocks and oil fall, gold benefits.'],
+  kw:/tariff|trade war|trade deal|duties|import tax|رسوم جمركية|الرسوم الجمركية|حرب تجارية|اتفاق تجاري/i},
+ {k:'china',ar:'تحفيز الاقتصاد الصيني',en:'China stimulus',u:['تحفيز أقوى من المتوقع','Bigger than expected'],d:['تحفيز مخيّب','Disappointing'],m:[0.4,1.5,1.5,0.5,0.4,0.4,0.5,-0.3,1.0,1.3],
+  w:['الصين أكبر مستهلك للسلع؛ تحفيزها يرفع الطلب المتوقع على النفط والفضة والمعادن الصناعية.','China is the largest commodity buyer; its stimulus lifts expected demand for oil, silver and industrial metals.'],
+  kw:/China|Chinese|PBOC|Beijing|Shanghai|الصين|الصيني|بكين|شنغهاي/i},
+ {k:'ecb',ar:'البنوك المركزية الأخرى (الأوروبي، اليابان)',en:'Other central banks (ECB, BoJ)',u:['أكثر تشدداً (دولار أضعف)','More hawkish (weaker dollar)'],d:['أكثر تساهلاً (دولار أقوى)','More dovish (stronger dollar)'],m:[0.4,0.6,0.3,0,0.1,0.1,0.1,-0.5,0.6,0.7],
+  w:['تشدد البنوك الأخرى يرفع عملاتها مقابل الدولار، والدولار الأضعف يدعم الذهب والسلع المسعّرة به.','Hawkish foreign central banks lift their currencies against the dollar, and a weaker dollar supports gold and dollar-priced commodities.'],
+  kw:/\bECB\b|Lagarde|eurozone|\bBoJ\b|Bank of Japan|Bank of England|البنك المركزي الأوروبي|منطقة اليورو|بنك اليابان|بنك إنجلترا/i},
+ {k:'tech',ar:'أرباح شركات التكنولوجيا الكبرى',en:'Big Tech earnings',u:['أقوى من المتوقع','Beat expectations'],d:['مخيّبة','Miss expectations'],m:[0,0.2,0.1,0,0.8,1.5,0.3,0,1.0,1.2],
+  w:['شركات التكنولوجيا الكبرى ثقل كبير في ناسداك وS&P، ونتائجها تحرك مزاج المخاطرة كله.','Big Tech carries huge weight in the Nasdaq and S&P, and its results drive overall risk appetite.'],
+  kw:/earnings|Nvidia|Apple|Microsoft|Alphabet|Amazon|Meta|Tesla|AI chip|أرباح|إنفيديا|أبل|مايكروسوفت|الذكاء الاصطناعي|الرقائق/i},
+ {k:'crypto',ar:'تنظيم وتدفقات العملات المشفرة',en:'Crypto regulation & flows',u:['إيجابي (موافقة، تدفقات داخلة)','Positive (approval, inflows)'],d:['سلبي (حظر، اختراق، تدفقات خارجة)','Negative (ban, hack, outflows)'],m:[0,0,0,0,0.1,0.2,0,0,5.0,6.5],
+  w:['أخبار التنظيم وصناديق المؤشرات تحرك العملات المشفرة بقوة، بينما أثرها على الأسواق التقليدية صغير.','Regulation and ETF news move crypto hard, with little effect on traditional markets.'],
+  kw:/bitcoin|crypto|ethereum|stablecoin|\bETF\b|\bSEC\b|بيتكوين|إيثريوم|العملات المشفرة|الرقمية/i},
+ {k:'bank',ar:'أزمة بنوك أو ائتمان',en:'Banking or credit stress',u:['أزمة أو انهيار بنك','Crisis / bank failure'],d:['انحسار الأزمة أو إنقاذ','Crisis eases / rescue'],m:[1.5,0.5,-2.0,-0.5,-1.8,-1.5,-2.0,-0.3,1.0,0.5],
+  w:['أزمة البنوك ترفع توقعات خفض الفائدة وتزيد الطلب على الذهب، وقد يُنظر إلى بيتكوين كبديل عن النظام المصرفي.','Bank stress raises rate-cut expectations and gold demand; bitcoin is sometimes seen as an alternative to the banking system.'],
+  kw:/bank (failure|collapse|run)|credit (crunch|crisis)|default|insolven|bailout|انهيار بنك|إفلاس|أزمة ائتمان|تعثر|إنقاذ/i},
+ {k:'fiscal',ar:'الإغلاق الحكومي وسقف الدين الأمريكي',en:'US shutdown & debt ceiling',u:['إغلاق أو أزمة سقف الدين','Shutdown / debt-ceiling standoff'],d:['حل الأزمة','Resolved'],m:[0.8,0.6,-0.3,0,-0.5,-0.6,-0.5,-0.3,0.5,0.3],
+  w:['عدم اليقين المالي الأمريكي يضعف الثقة بالدولار ويدعم الذهب، بأثر محدود غالباً على الأسهم.','US fiscal uncertainty dents confidence in the dollar and supports gold, usually with limited stock impact.'],
+  kw:/shutdown|debt ceiling|deficit|downgrade|الإغلاق الحكومي|سقف الدين|العجز|خفض التصنيف/i}];
+const NI_SZ=[[0.5,'مفاجأة صغيرة','Small surprise'],[1,'مفاجأة معتادة','Typical surprise'],[2,'مفاجأة كبيرة','Big surprise'],[3,'صدمة','Shock']];
+const NI_RG=[[0.75,'سوق هادئ','Calm market'],[1,'سوق عادي','Normal market'],[1.5,'سوق متوتر','Stressed market']];
+const NI={sel:[{k:'cpi',d:1,z:1}],rg:1,px:{}};
+try{ const p=JSON.parse(localStorage.getItem('fd.ni.px')||'{}'); if(p&&typeof p==='object') NI.px=p; }catch(e){}
+function niPool(){ const n=Date.now(), D=24*36e5, out=[];
+ const heads=LIVE.heads||[]; heads.forEach(h=>{ if(h.t&&Math.abs(n-h.t)<=D) out.push({t:h.t,title:h.title,url:h.url,src:h.src,kind:'news'}); });
+ (LIVE.cal||[]).forEach(e=>{ if(Math.abs(e.t-n)<=D) out.push({t:e.t,title:e.title+(e.c?` (${e.c})`:''),kind:e.t>n?'next':'out'}); });
+ NEWS.events.forEach(([a,b,ar,en])=>{ const s=new Date(a+'T00:00:00').getTime(), e=new Date((b||a)+'T23:59:59').getTime(); if(n>=s-D&&n<=e+D) out.push({t:new Date(s),title:T(ar,en),kind:s>n?'next':'out'}); });
+ return out.sort((a,b)=>b.t-a.t); }
+function niDetect(pool){ return NI_S.map(s=>({s,hits:pool.filter(p=>s.kw.test(p.title))})).filter(x=>x.hits.length).sort((a,b)=>b.hits.length-a.hits.length); }
+function niCalc(){ const rg=NI.rg; return NI_A.map((a,i)=>{ let m=0; NI.sel.forEach(x=>{ const s=NI_S.find(q=>q.k===x.k); if(s) m+=s.m[i]*x.d*x.z; }); m*=rg; const v=a[4]*rg, z=Math.abs(m)/a[4];
+  return {a,i,m,lo:m-v*0.8,hi:m+v*0.8,z,dir:Math.abs(m)<0.15*a[4]?0:Math.sign(m)}; }); }
+const niPct=v=>`<bdi dir="ltr">${v>0?'+':''}${v.toFixed(Math.abs(v)<10?2:1)}%</bdi>`;
+function niStrength(r){ return r.dir===0?['eq',T('محايد','Neutral')]:r.z>=1?['hi',T('قوي','Strong')]:r.z>=0.4?['md',T('متوسط','Moderate')]:['lo',T('ضعيف','Weak')]; }
+function newsimpactRender(root){
+ root.innerHTML=pageHead('محلل سيناريو الأخبار على الأسواق','News scenario analyzer','اختر الخبر أو الحدث الاقتصادي واتجاه المفاجأة، فتعرف كيف تتحرك عادةً أهم 10 أصول عالمية: الذهب والفضة والنفط والغاز وS&P 500 وناسداك وداو جونز والدولار وبيتكوين وإيثريوم.','Pick a news event and the direction of the surprise to see how the 10 key global assets usually react: gold, silver, oil, gas, S&P 500, Nasdaq, Dow, the dollar, bitcoin and ethereum.')+`<div class="ni" id="ni"></div><section class="panel"><h3 style="margin:0 0 10px">${T('الأسعار المباشرة لأهم 10 أصول','Live prices of the top 10 assets')}</h3><div id="ni-tv" class="tv-box"><p class="note tv-wait">${T('جارٍ تحميل الأسعار من TradingView… تظهر على موقعك المستضاف figurdiscover.com.','Loading prices from TradingView… they appear on your hosted site figurdiscover.com.')}</p></div></section>
+ <p class="note ni-disc">${T('طريقة الحساب: كل رقم هو متوسط تقريبي لردة فعل الأصل في اليوم الأول بعد مفاجأة بحجم معتاد، مستخلص من دراسات أثر الأحداث (التضخم، قرارات الفيدرالي، الوظائف، أوبك، الأزمات الجيوسياسية والمصرفية والتجارية). يُضرب في اتجاه وحجم المفاجأة وحالة السوق، وتُجمع آثار الأخبار المتعددة. هذه تقديرات تعليمية وليست توصية استثمارية؛ ردة الفعل الفعلية تعتمد على ما سعّره السوق مسبقاً، وقد تنعكس في الأيام التالية.','How it is calculated: each figure is an approximate average day-one reaction to a typical-size surprise, drawn from event studies (inflation, Fed decisions, payrolls, OPEC, geopolitical, banking and trade shocks). It is multiplied by the surprise direction and size and the market state, and several news items are added together. These are educational estimates, not investment advice; the real reaction depends on what the market had already priced in and can reverse in the following days.')}</p>`;
+ const box=$('#ni',root); niDraw(box);
+ box.addEventListener('click',e=>{ const b=e.target.closest('[data-ni]'); if(!b) return; const [act,arg,arg2]=b.dataset.ni.split(':');
+  if(act==='add'){ if(!NI.sel.some(x=>x.k===arg)) NI.sel.push({k:arg,d:arg2?+arg2:1,z:1}); else NI.sel.find(x=>x.k===arg).d=arg2?+arg2:NI.sel.find(x=>x.k===arg).d; }
+  else if(act==='new'){ const f=NI_S.find(s=>!NI.sel.some(x=>x.k===s.k)); if(f) NI.sel.push({k:f.k,d:1,z:1}); }
+  else if(act==='rm'){ NI.sel.splice(+arg,1); }
+  else if(act==='dir'){ NI.sel[+arg].d=+arg2; }
+  else if(act==='only'){ NI.sel=[{k:arg,d:+(arg2||1),z:1}]; }
+  else if(act==='clear'){ NI.sel=[]; }
+  else return;
+  niDraw(box); });
+ box.addEventListener('change',e=>{ const t=e.target;
+  if(t.matches('[data-nik]')){ const i=+t.dataset.nik; if(!NI.sel.some((x,j)=>j!==i&&x.k===t.value)) NI.sel[i].k=t.value; niDraw(box); }
+  else if(t.matches('[data-niz]')){ NI.sel[+t.dataset.niz].z=+t.value; niDraw(box); }
+  else if(t.matches('#ni-rg')){ NI.rg=+t.value; niDraw(box); } });
+ box.addEventListener('input',e=>{ const t=e.target; if(!t.matches('[data-nipx]')) return; const v=parseFloat(String(t.value).replace(/,/g,'')); if(v>0) NI.px[t.dataset.nipx]=v; else delete NI.px[t.dataset.nipx];
+  try{ localStorage.setItem('fd.ni.px',JSON.stringify(NI.px)); }catch(_){} const r=niCalc().find(r=>r.a[0]===t.dataset.nipx), c=t.closest('tr')?.querySelector('.ni-tp'); if(c&&r) c.innerHTML=niTarget(r); });
+ if(!NI._cg){ NI._cg=1; getJSON('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd',8000).then(j=>{ if(j&&j.bitcoin&&!NI.px.btc) NI.px.btc=j.bitcoin.usd; if(j&&j.ethereum&&!NI.px.eth) NI.px.eth=j.ethereum.usd; if(box.isConnected) niDraw(box); }).catch(()=>{}); }
+ setTimeout(()=>{ const q=$('#ni-tv',root); if(q) tvMount(q,'market-quotes',{width:'100%',height:520,symbolsGroups:[{name:T('أهم 10 أصول','Top 10 assets'),symbols:NI_A.map(a=>({name:a[5],displayName:T(a[1],a[2])}))}],showSymbolLogo:true,isTransparent:false}); },0); }
+function niTarget(r){ const p=NI.px[r.a[0]]||(r.a[0]==='gold'&&LIVE.gold?LIVE.gold.p:r.a[0]==='silver'&&LIVE.silver?LIVE.silver.p:0); if(!p) return '<span class="note">—</span>';
+ const f=v=>(p*(1+v/100)).toLocaleString('en',{maximumFractionDigits:p<10?3:2}); return `<bdi dir="ltr"><b>${f(r.m)}</b><small> (${f(r.lo)} – ${f(r.hi)})</small></bdi>`; }
+function niDraw(box){ const pool=niPool(), det=niDetect(pool), rs=niCalc(), mx=Math.max(1,...rs.map(r=>Math.max(Math.abs(r.lo),Math.abs(r.hi))));
+ const eq=(rs[4].m+rs[5].m+rs[6].m)/3, mood=NI.sel.length?(eq>0.15?['good',T('شهية للمخاطرة','Risk-on')]:eq<-0.15?['bad',T('هروب من المخاطرة','Risk-off')]:['warn',T('مزاج مختلط','Mixed mood')]):['',T('لا يوجد سيناريو','No scenario')];
+ const srt=[...rs].sort((a,b)=>b.m-a.m), win=srt[0], lose=srt[srt.length-1];
+ const live=!!(LIVE.heads||LIVE.cal);
+ box.innerHTML=`
+ <section class="panel ni-det"><div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px"><h3 style="margin:0">${T('أخبار آخر 24 ساعة والـ 24 ساعة القادمة','News from the last 24 hours and the next 24 hours')}</h3><span class="ni-win">${T('نافذة ±24 ساعة','±24-hour window')}</span></div>
+  ${det.length?`<p class="note" style="margin:6px 0 10px">${T('اكتشفنا هذه المواضيع في الأخبار؛ اضغط أي موضوع لتحليله.','We found these topics in the news; tap one to analyse it.')}</p><div class="ni-chips">${det.map(x=>`<button type="button" class="ni-chip" data-ni="add:${x.s.k}">${T(x.s.ar,x.s.en)} <b>${x.hits.length}</b></button>`).join('')}</div>
+   <ul class="ni-heads">${pool.filter(p=>det.some(x=>x.s.kw.test(p.title))).slice(0,8).map(p=>`<li><span class="ni-tag ${p.kind}">${p.kind==='next'?inT(p.t):p.kind==='out'?T('صدر','Out'):ago(p.t)}</span>${p.url?ext(p.url,esc(p.title)):esc(p.title)}${p.src?` <small class="note">${esc(p.src)}</small>`:''}</li>`).join('')}</ul>`
+  :`<p class="note" style="margin:6px 0 0">${live?T('لا توجد أخبار أو بيانات اقتصادية مؤثرة خلال آخر 24 ساعة أو الـ 24 ساعة القادمة. يمكنك بناء سيناريو يدوياً بالأسفل.','No market-moving news or data in the last or next 24 hours. You can build a scenario manually below.'):T('جارٍ جلب أخبار آخر 24 ساعة… تظهر على موقعك المستضاف. يمكنك بناء سيناريو يدوياً بالأسفل.','Fetching news from the last 24 hours… it appears on your hosted site. You can build a scenario manually below.')}</p>`}
+ </section>
+ <section class="panel"><div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px"><h3 style="margin:0">${T('ابنِ السيناريو','Build the scenario')}</h3>
+  <label class="ni-rg">${T('حالة السوق','Market state')} <select id="ni-rg">${NI_RG.map(([v,ar,en])=>`<option value="${v}"${NI.rg===v?' selected':''}>${T(ar,en)}</option>`).join('')}</select></label></div>
+  <p class="note" style="margin:6px 0 12px">${T('أضف خبراً واحداً أو أكثر معاً، مثلاً «تضخم أعلى من المتوقع» مع «تصعيد جيوسياسي»، فتُجمع آثارها.','Add one or more news items together, e.g. “hotter CPI” plus “geopolitical escalation”, and their effects are combined.')}</p>
+  <div class="ni-sel">${NI.sel.map((x,i)=>{ const s=NI_S.find(q=>q.k===x.k); return `<div class="ni-row"><select data-nik="${i}" aria-label="${T('الخبر','News')}">${NI_S.map(q=>`<option value="${q.k}"${q.k===x.k?' selected':''}>${T(q.ar,q.en)}</option>`).join('')}</select>
+   <div class="ni-dir" role="group"><button type="button" class="${x.d>0?'on':''}" data-ni="dir:${i}:1">${T(s.u[0],s.u[1])}</button><button type="button" class="${x.d<0?'on':''}" data-ni="dir:${i}:-1">${T(s.d[0],s.d[1])}</button></div>
+   <select data-niz="${i}" aria-label="${T('حجم المفاجأة','Surprise size')}">${NI_SZ.map(([v,ar,en])=>`<option value="${v}"${x.z===v?' selected':''}>${T(ar,en)}</option>`).join('')}</select>
+   <button type="button" class="ni-x" data-ni="rm:${i}" aria-label="${T('حذف','Remove')}">×</button>
+   <p class="ni-why">${T(s.w[0],s.w[1])}</p></div>`; }).join('')||`<p class="note">${T('لم تختر أي خبر بعد.','No news selected yet.')}</p>`}</div>
+  <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap">${NI.sel.length<NI_S.length?`<button type="button" class="btn" data-ni="new">+ ${T('أضف خبراً آخر','Add another news item')}</button>`:''}${NI.sel.length?`<button type="button" class="btn ghost" data-ni="clear">${T('مسح الكل','Clear all')}</button>`:''}</div>
+ </section>
+ ${NI.sel.length?`<section class="panel"><div class="kpis">
+  <div class="kpi ${mood[0]}"><span class="k"><span>${T('مزاج السوق المتوقع','Expected market mood')}</span></span><span class="v" style="font-size:22px">${mood[1]}</span><span class="s">${T('متوسط حركة المؤشرات الأمريكية','Average move of US indices')} ${niPct(eq)}</span></div>
+  <div class="kpi good"><span class="k"><span>${T('الأكثر استفادة','Biggest winner')}</span></span><span class="v" style="font-size:22px">${T(win.a[1],win.a[2])}</span><span class="s">${niPct(win.m)}</span></div>
+  <div class="kpi bad"><span class="k"><span>${T('الأكثر تضرراً','Biggest loser')}</span></span><span class="v" style="font-size:22px">${T(lose.a[1],lose.a[2])}</span><span class="s">${niPct(lose.m)}</span></div></div>
+  <h3 style="margin:18px 0 10px">${T('الحركة المتوقعة في اليوم الأول','Expected day-one move')}</h3>
+  <div class="ni-bars">${rs.map(r=>{ const L=v=>50+v/mx*50; return `<div class="ni-bar"><span class="ni-n">${T(r.a[1],r.a[2])}</span><span class="ni-tr"><i class="ni-rng" style="inset-inline-start:${Math.min(L(r.lo),L(r.hi))}%;width:${Math.abs(L(r.hi)-L(r.lo))}%"></i><i class="ni-v ${r.m>=0?'up':'dn'}" style="inset-inline-start:${Math.min(50,L(r.m))}%;width:${Math.abs(L(r.m)-50)}%"></i><i class="ni-0"></i></span><b class="ni-val ${r.dir>0?'up':r.dir<0?'dn':''}">${niPct(r.m)}</b></div>`; }).join('')}</div>
+  <p class="note" style="margin:8px 0 0">${T('العمود الملوّن هو الحركة المتوقعة، والظل حوله هو النطاق المرجّح بسبب التقلب اليومي المعتاد لكل أصل.','The coloured bar is the expected move; the shaded band is the likely range given each asset’s usual daily volatility.')}</p>
+  <div class="tbl-wrap" style="margin-top:16px"><table class="tbl ni-tbl"><thead><tr><th>${T('الأصل','Asset')}</th><th>${T('الاتجاه','Direction')}</th><th>${T('الحركة المتوقعة','Expected move')}</th><th>${T('النطاق المرجّح','Likely range')}</th><th>${T('قوة الإشارة','Signal strength')}</th><th>${T('السعر الحالي','Current price')}</th><th>${T('السعر المتوقع','Expected price')}</th><th>${T('لماذا يتأثر','Why it reacts')}</th></tr></thead><tbody>
+  ${rs.map(r=>{ const st=niStrength(r), p=NI.px[r.a[0]]||(r.a[0]==='gold'&&LIVE.gold?LIVE.gold.p:r.a[0]==='silver'&&LIVE.silver?LIVE.silver.p:''); return `<tr><td><b>${T(r.a[1],r.a[2])}</b><br><small class="note" dir="ltr">${r.a[3]}</small></td><td class="ni-arw ${r.dir>0?'up':r.dir<0?'dn':''}">${r.dir>0?'▲ '+T('صعود','Up'):r.dir<0?'▼ '+T('هبوط','Down'):'■ '+T('ثابت','Flat')}</td><td>${niPct(r.m)}</td><td><small>${niPct(r.lo)} … ${niPct(r.hi)}</small></td><td><span class="ni-st ${st[0]}">${st[1]}</span></td><td><input class="ni-px" type="text" inputmode="decimal" dir="ltr" data-nipx="${r.a[0]}" value="${p?String(+(+p).toFixed(4)):''}" placeholder="${T('أدخل السعر','Enter price')}"></td><td class="ni-tp">${niTarget(r)}</td><td><small>${T(r.a[6],r.a[7])}</small></td></tr>`; }).join('')}
+  </tbody></table></div></section>`:''}
+ <section class="panel"><h3 style="margin:0 0 6px">${T('خريطة الأثر لكل الأخبار','Impact map for every news type')}</h3><p class="note" style="margin:0 0 10px">${T('الحركة المعتادة في اليوم الأول لمفاجأة بحجم معتاد. الأخضر صعود والأحمر هبوط. اضغط أي صف لتحليله وحده.','Typical day-one move for a typical-size surprise. Green is up, red is down. Tap a row to analyse it alone.')}</p>
+  <div class="tbl-wrap"><table class="tbl ni-heat"><thead><tr><th>${T('الخبر','News')}</th>${NI_A.map(a=>`<th>${T(a[1],a[2])}</th>`).join('')}</tr></thead><tbody>${NI_S.map(s=>`<tr data-ni="only:${s.k}:1" tabindex="0"><th>${T(s.ar,s.en)}<small>${T(s.u[0],s.u[1])}</small></th>${s.m.map((v,i)=>{ const z=Math.max(-1,Math.min(1,v/NI_A[i][4]/1.6)); return `<td style="--h:${z>=0?150:0};--a:${Math.abs(z).toFixed(2)}"><bdi dir="ltr">${v===0?'0':(v>0?'+':'')+v.toFixed(1)}</bdi></td>`; }).join('')}</tr>`).join('')}</tbody></table></div>
+ </section>
+`;
+ box.querySelectorAll('.ni-heat tr[data-ni]').forEach(tr=>tr.onkeydown=e=>{ if(e.key==='Enter'){ tr.click(); } }); }
+KB.newsimpact=['يقدّر كيف تتحرك أهم 10 أصول عالمية في اليوم الأول بعد خبر اقتصادي أو سياسي مفاجئ.','Estimates how the 10 key global assets move on day one after a surprising economic or political news item.',
+ 'يجمع أخبار آخر 24 ساعة والبيانات المنتظرة خلال 24 ساعة، ويكتشف مواضيعها، ثم يطبق ردود الفعل التاريخية المعتادة حسب اتجاه المفاجأة وحجمها وحالة السوق.','Collects the last 24 hours of news and data due in the next 24 hours, detects their topics, then applies typical historical reactions by surprise direction, size and market state.',
+ 'اختر الخبر واتجاهه (أعلى أو أقل من المتوقع) وحجم المفاجأة، ويمكنك إدخال السعر الحالي لكل أصل لحساب السعر المتوقع.','Pick the news item, its direction (above or below expectations) and surprise size; optionally enter each asset’s current price to get the expected price.',
+ 'الأخضر صعود والأحمر هبوط. قوة الإشارة «قوي» تعني أن الحركة المتوقعة أكبر من التقلب اليومي المعتاد للأصل، و«ضعيف» تعني أنها قد تضيع وسط الضجيج.','Green is up, red is down. “Strong” means the expected move exceeds the asset’s usual daily swing; “Weak” means it may be lost in the noise.'];
+
 /* ================= Ishikawa (fishbone / cause-and-effect) diagram ================= */
 const IK_FW={
  '6m':{ar:'6M للتصنيع والعمليات',en:'6M (manufacturing & operations)',c:[['الأفراد','Man / People'],['الآلات والمعدات','Machine'],['الطريقة','Method'],['المواد','Material'],['القياس','Measurement'],['البيئة','Environment']]},
@@ -7007,7 +7416,7 @@ function topBtn(){ const ex=$('#totop'); if(ex){ ex.dir=lang==='ar'?'rtl':'ltr';
  b.onclick=()=>window.scrollTo({top:0,behavior:RM?'auto':'smooth'}); const upd=()=>b.classList.toggle('on',scrollY>500); window.addEventListener('scroll',upd,{passive:true}); upd(); }
 
 /* ================= One layout for every tool: ① header + how to use → ② data (enter or attach) → ③ results → ④ written summary ================= */
-const FLOW_SKIP=['home','how','why','faq','kb','guide','privacy','about','map','markets','calendar'];
+const FLOW_SKIP=['home','how','why','faq','kb','guide','privacy','about','map','markets','calendar','newsimpact'];
 const FLOW_T={2:['البيانات المطلوبة','Data needed','أدخل القيم في الخانات أو أرفق ملفاً','Type the values or attach a file'],3:['النتائج بالأرقام والنسب','Results in numbers and percentages','تتحدّث تلقائياً مع كل تغيير','Update automatically as you change data'],4:['الملخص المكتوب','Written summary','قراءة النتائج ونصائح التحسين','What the results mean and how to improve']};
 const flowNum=n=>lang==='ar'?'٠١٢٣٤٥'[n]:String(n);
 function flowLabel(n,mini){ const d=document.createElement('div'); d.className='flow-step'+(mini?' mini':''); d.dataset.step=n; d.setAttribute('data-html2canvas-ignore','true'); const t=FLOW_T[n];
@@ -7056,6 +7465,7 @@ function flowInject(){ const m=$('#main'); if(!m||window.__noflow) return;  cons
 /* ================= Interactive tools map: zoomable nested circles ================= */
 const GINFO={fin:['حلّل شركتك','Analyse a company','افهم أرقام شركتك بالنسب والمؤشرات ونماذج التعثر.','Understand your company’s numbers with ratios, indicators and distress models.','#1D5BFF'],
  feas:['قيّم مشروعك','Test a project','قيّم أي مشروع قبل أن تستثمر فيه: التدفقات والعائد والتمويل.','Test any project before investing: cash flows, returns and financing.','#0EA5E9'],
+ liq:['أدر السيولة','Manage liquidity','تأكد أن شركتك تستطيع الدفع: نسب السيولة والتدفقات ودورة التحويل النقدي.','Make sure your company can pay: liquidity ratios, cash flows and the cash conversion cycle.','#14B8A6'],
  tax:['الضرائب','Tax','اعرف التزاماتك الضريبية ومواعيدها وخطط لتقليلها نظامياً.','Know your tax obligations and deadlines, and plan to reduce them legally.','#0891B2'],
  stat:['المخاطر والتوقع','Risk & forecasting','قِس عدم اليقين، وتوقّع القادم، واختبر الفرضيات بالأرقام.','Measure uncertainty, forecast ahead and test assumptions with numbers.','#7C3AED'],
  lss:['حسّن العمليات','Improve processes','قلّل العيوب والهدر والتكلفة خطوة بخطوة حسب DMAIC.','Cut defects, waste and cost step by step with DMAIC.','#D97706'],
@@ -7162,13 +7572,14 @@ const IC={
  kb:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/>',
  map:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="3"/><circle cx="15.5" cy="13.5" r="2.5"/><circle cx="11" cy="16.5" r="1.5"/>',
  agile:'<path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/><path d="M9 12l2 2 4-4"/>',
- sampling:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',ishikawa:'<path d="M3 12h14"/><path d="M17 8l4 4-4 4z"/><path d="M6 6l3 6M11 6l3 6M6 18l3-6M11 18l3-6"/>',ccc:'<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/><path d="M12 7v5l3 2"/>',txmap:'<rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4a2 2 0 0 0 2 2H14"/><path d="M15 5h6M15 9h4"/>'};
+ sampling:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5M11 8.5v5"/>',ishikawa:'<path d="M3 12h14"/><path d="M17 8l4 4-4 4z"/><path d="M6 6l3 6M11 6l3 6M6 18l3-6M11 18l3-6"/>',newsimpact:'<path d="M4 5h12v14H6a2 2 0 0 1-2-2z"/><path d="M16 9h4v8a2 2 0 0 1-4 0"/><path d="M7 13l2.5-2.5 2 2L14 10"/>',liquidity:'<path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',ccc:'<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/><path d="M12 7v5l3 2"/>',txmap:'<rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4a2 2 0 0 0 2 2H14"/><path d="M15 5h6M15 9h4"/>'};
 const icon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
 const PAGES=[
  {id:'home',g:null,ar:'الرئيسية',en:'Home',render:homeRender},
  {id:'statements',g:'fin',ar:'تحليل القوائم المالية',en:'Financial statements',render:finRender,dar:'النسب المالية، التحليل الأفقي والرأسي، ديبونت، ألتمان، بيوتروسكي، بينيش.',den:'Ratios, horizontal and vertical analysis, DuPont, Altman, Piotroski, Beneish.',tags:['ROE','Z-Score','M-Score']},
  {id:'xray',g:'fin',isNew:true,ar:'الأشعة المالية',en:'Financial X-Ray',render:xrayRender,dar:'درجة صحة من 100، رادار القوة والضعف، أين يذهب كل 100 من المبيعات، جسر الأرباح، ومحاكي «ماذا لو».',den:'A 0–100 health score, strength radar, where every 100 of sales goes, profit bridge and a what-if simulator.',tags:['Score','Radar','What-if']},
- {id:'ccc',g:'fin',isNew:true,ar:'اختبار دورة التحويل النقدي',en:'Cash conversion cycle test',render:cccRender,dar:'أيام المخزون + التحصيل − السداد، مقارنة بشروط الائتمان والسنوات السابقة، والسيولة المتحررة.',den:'Inventory + collection − payment days, tested against credit terms and prior years, with cash released.',tags:['CCC','DSO','DIO','DPO']},
+ {id:'ccc',g:'liq',isNew:true,ar:'اختبار دورة التحويل النقدي',en:'Cash conversion cycle test',render:cccRender,dar:'أيام المخزون + التحصيل − السداد، مقارنة بشروط الائتمان والسنوات السابقة، والسيولة المتحررة.',den:'Inventory + collection − payment days, tested against credit terms and prior years, with cash released.',tags:['CCC','DSO','DIO','DPO']},
+ {id:'liquidity',g:'liq',isNew:true,ar:'اختبار السيولة والنقدية',en:'Liquidity & cash test',render:liquidityRender,dar:'نسب السيولة، التدفق التشغيلي والحر، فترة الدفاع وأيام النقد مع اختبار تلقائي.',den:'Liquidity ratios, operating and free cash flow, defensive interval and days of cash, auto-tested.',tags:['Current','Quick','FCF']},
  {id:'feasibility',g:'feas',ar:'دراسة الجدوى',en:'Feasibility study',render:feRender,dar:'صافي القيمة الحالية، العائد الداخلي، الاسترداد، التعادل، الحساسية، التمويل.',den:'NPV, IRR, payback, break-even, sensitivity, financing.',tags:['NPV','IRR','DSCR']},
  {id:'calc',g:'fin',ar:'الحاسبات المالية',en:'Calculators',render:calcRender,dar:'القروض، العائد الإيجاري، نقطة التعادل، النمو المركب، الادخار.',den:'Loans, rental yield, break-even, CAGR, savings.',tags:['Loan','Cap rate','CAGR']},
  {id:'tax',g:'tax',ar:'المستشار الضريبي الذكي',en:'AI tax advisor',render:taxRender,dar:'تخطيط ضريبي قانوني، فوترة إلكترونية، سيولة ضريبية، ومستجدات التشريعات ل120 دولة بالذكاء الاصطناعي.',den:'Lawful tax planning, e-invoicing, tax cash flow and legislative updates for 120 countries, powered by AI.',tags:['AI','VAT','CIT','Pillar Two']},
@@ -7185,6 +7596,7 @@ const PAGES=[
  {id:'outliers',g:'audit',ar:'القيم الشاذة والتوقيت',en:'Outliers & timing',render:outRender,dar:'الفاتورة الاستثنائية لكل مورد، والمبالغ الشاذة، ومعاملات أيام العطل.',den:'Exceptional invoice per vendor, outlier amounts, weekend entries.',tags:['RSF','Z-score','Weekend']},
  {id:'sequence',g:'audit',ar:'فحص تسلسل المستندات',en:'Sequence check',render:seqRender,dar:'الأرقام المفقودة والمكررة في الفواتير والشيكات والسندات.',den:'Missing and duplicated invoice, cheque and voucher numbers.',tags:['Gaps','Backdating']},
  {id:'markets',g:'mkt',ar:'أسواق اليوم',en:'Markets today',render:marketsRender,dar:'الذهب والفضة والعملات وناسداك وأكبر الشركات الخليجية.',den:'Gold, silver, FX, Nasdaq and top Gulf companies.',tags:['Gold','EUR/USD','Nasdaq']},
+ {id:'newsimpact',g:'mkt',isNew:true,ar:'محلل سيناريو الأخبار',en:'News scenario analyzer',render:newsimpactRender,dar:'كيف تتحرك أهم 10 أصول عالمية بعد خبر مفاجئ: الذهب والنفط والفضة وناسداك وبيتكوين وإيثريوم وغيرها.',den:'How the top 10 global assets react to a news surprise: gold, oil, silver, Nasdaq, bitcoin, ethereum and more.',tags:['Gold','Oil','Nasdaq','BTC']},
  {id:'calendar',g:'mkt',ar:'الأجندة الاقتصادية',en:'Economic calendar',render:calendarRender,dar:'البيانات الاقتصادية وقرارات البنوك المركزية والأحداث العالمية القادمة.',den:'Economic releases, central-bank decisions and upcoming global events.',tags:['CPI','Fed','ECB']},
  {id:'about',g:'help',ar:'عن المؤسس',en:'About the founder',render:aboutRender,dar:'محمد خمايسة، خبير التحليل المالي والاقتصادي والمستشار الضريبي.',den:'Mohammad Khamaiseh, financial & economic analysis expert and tax adviser.',tags:['Founder']},
  {id:'kb',g:'help',isNew:true,ar:'فهرس الأدوات',en:'Tools index',render:kbRender,dar:'لكل أداة: معناها وطريقة عملها والبيانات المطلوبة وقراءة النتيجة.',den:'For every tool: meaning, method, data needed and how to read the result.',tags:['Index']},
@@ -7196,7 +7608,7 @@ const PAGES=[
  {id:'privacy',g:'help',ar:'سياسة الخصوصية',en:'Privacy policy',render:privacyRender,dar:'ما نجمعه من بيانات وكيف نستخدمها.',den:'What data we collect and how we use it.',tags:['Privacy']},
  {id:'sampling',g:'audit',ar:'عينات التدقيق',en:'Audit sampling',render:sampRender,dar:'حجم العينة واختيارها بطريقة وحدة النقد (MUS) أو العشوائية.',den:'Sample size and selection by monetary unit (MUS) or random.',tags:['MUS','Materiality']},
  {id:'txmap',g:'audit',isNew:true,ar:'خرائط المعاملات والمستندات',en:'Transaction document maps',render:txmapRender,dar:'المستندات المطلوبة وتسلسل الموافقات والتوقيعات لكل معاملة محاسبية وبنكية.',den:'Required documents and the approval and signature sequence for each accounting and banking transaction.',tags:['Documents','Approvals','LC']}];
-const GROUPS={fin:['التحليل المالي','Financial analysis'],feas:['دراسة الجدوى','Feasibility study'],tax:['الاستشارات الضريبية','Tax advisory'],stat:['الإحصاء والمخاطر','Statistics & risk'],lss:['لين ستة سيجما','Lean Six Sigma'],agile:['أجايل','Agile'],viz:['التحليلات المرئية','Visual analytics'],audit:['التدقيق وكشف الاحتيال','Audit & fraud detection'],mkt:['الأسواق','Markets'],help:['المساعدة','Help']};
+const GROUPS={fin:['التحليل المالي','Financial analysis'],feas:['دراسة الجدوى','Feasibility study'],liq:['السيولة والنقدية','Liquidity & cash'],tax:['الاستشارات الضريبية','Tax advisory'],stat:['الإحصاء والمخاطر','Statistics & risk'],lss:['لين ستة سيجما','Lean Six Sigma'],agile:['أجايل','Agile'],viz:['التحليلات المرئية','Visual analytics'],audit:['التدقيق وكشف الاحتيال','Audit & fraud detection'],mkt:['الأسواق','Markets'],help:['المساعدة','Help']};
 const curPage=()=>{ const h=(location.hash||'').replace('#','').split('/')[0]; return PAGES.find(p=>p.id===h)||PAGES[0]; };
 const curSub=()=>(location.hash||'').replace('#','').split('/')[1]||'';
 /* sub-sections shown as a flyout under each tool in the top menu; tab = switch tab, sec = scroll to section */
@@ -7227,21 +7639,21 @@ function renderShell(){
  const IC_S='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>';
  const CHEV='<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
  const EXT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
- const menu=Object.keys(GROUPS).map(g=>{ const ps=PAGES.filter(p=>p.g===g&&p.id!=='about'), NL=({fin:['حلّل شركتك','Analyse a company','قوائم · مؤشرات · أشعة','Statements · indicators · X-Ray','افهم أرقام شركتك بالنسب والمؤشرات ونماذج التعثر.','Understand your company’s numbers with ratios, indicators and distress models.'],feas:['قيّم مشروعك','Test a project','NPV · IRR · تمويل','NPV · IRR · financing','قيّم أي مشروع قبل أن تستثمر فيه: التدفقات والعائد والتمويل والحساسية.','Test any project before investing: cash flows, returns, financing and sensitivity.'],tax:['الضرائب','Tax','خليجي · فوترة إلكترونية','GCC · e-invoicing','اعرف التزاماتك الضريبية ومواعيدها وخطط لتقليلها نظامياً.','Know your tax obligations and deadlines, and plan to reduce them legally.'],stat:['المخاطر والتوقع','Risk & forecasting','إحصاء · مونت كارلو','Stats · Monte Carlo','قِس عدم اليقين، وتوقّع القادم، واختبر الفرضيات بالأرقام.','Measure uncertainty, forecast ahead and test assumptions with numbers.'],lss:['حسّن العمليات','Improve processes','تحسين العمليات · DMAIC','Process improvement · DMAIC','قلّل العيوب والهدر والتكلفة خطوة بخطوة حسب DMAIC.','Cut defects, waste and cost step by step with DMAIC.'],agile:['أدر الفرق','Run teams','سكرم · كانبان','Scrum · Kanban','خطط للعمل وتابع التسليم وحسّن أداء الفريق.','Plan work, track delivery and improve team performance.'],viz:['اعرض بياناتك','Visualise data','رسوم · لوحات معلومات','Charts · dashboards','حوّل أي جدول إلى رسوم ولوحات معلومات تفاعلية.','Turn any table into charts and interactive dashboards.'],audit:['اكشف الاحتيال','Detect fraud','تدقيق · بنفورد','Audit · Benford','افحص المعاملات بحثاً عن التكرار والأرقام المريبة وارسم العينات.','Scan transactions for duplicates and suspicious numbers, and draw samples.'],mkt:['الأسواق','Markets','أسعار · أحداث','Prices · events','أسعار مباشرة وأجندة الأحداث الاقتصادية القادمة.','Live prices and the upcoming economic calendar.'],help:['الموارد','Resources','دليل · مصطلحات','Guide · glossary','تعلّم استخدام الأدوات ومعنى كل مؤشر.','Learn the tools and what each indicator means.']})[g]||[...GROUPS[g],'','','',''], OL=({fin:['التحليل المالي','Financial analysis'],feas:['دراسة الجدوى','Feasibility'],tax:['الضرائب','Tax'],stat:['الإحصاء والمخاطر','Risk & stats'],lss:['لين ستة سيجما','Lean Six Sigma'],agile:['أجايل','Agile'],viz:['تابلو','Tableau'],audit:['التدقيق','Audit'],mkt:['الأسواق','Markets'],help:['الموارد','Resources']}[g]||GROUPS[g]), lab=`<span class="rp-lab" title="${esc(T(NL[4],NL[5]))}"><span>${T(...OL)}</span></span>`, ddHead=n=>`<div class="dd-head"><b>${T(...OL)}</b><small>${n} ${T(n>2?'أدوات':'أداة',n>1?'tools':'tool')} · ${T(NL[4],NL[5])}</small></div>`;
-  const FIN_PH=[['st','01','القوائم المالية والنسب','Statements & ratios'],['xr','02','الأشعة المالية','Financial X-Ray'],['ix','03','مؤشرات مستقلة وحاسبات','Stand-alone indicators & calculators']], FIN_TL=[...subItems('statements').map(([k,ar,en])=>({ph:'st',k,ar,en,link:subHref('statements',k)})),...subItems('xray').map(([k,ar,en])=>({ph:'xr',k,ar,en,link:subHref('xray',k)})),{ph:'ix',k:'ccc',ar:'اختبار دورة التحويل النقدي',en:'Cash conversion cycle test',link:'#ccc'},...subItems('calc').map(([k,ar,en])=>({ph:'ix',k,ar,en,link:subHref('calc',k)}))];
-  const FE_PH=[['in','01','المدخلات','Inputs'],['an','02','التحليل والتمويل','Analysis & financing'],['dc','03','القرار','Decision']], FE_MAP={detail:'in',summary:'an',table:'an',finance:'an',sens:'dc',ceo:'dc',report:'dc'}, FE_TL=[...subItems('feasibility').map(([k,ar,en])=>({ph:FE_MAP[k]||'an',k,ar,en,link:subHref('feasibility',k)})),{ph:'dc',k:'risk',ar:'محاكاة المخاطر (مونت كارلو)',en:'Risk simulation (Monte Carlo)',link:'#risk'},{ph:'in',k:'be',ar:'نقطة التعادل السريعة',en:'Quick break-even',link:'#calc/be'}];
+ const menu=Object.keys(GROUPS).map(g=>{ const ps=PAGES.filter(p=>p.g===g&&p.id!=='about'), NL=({fin:['حلّل شركتك','Analyse a company','قوائم · مؤشرات · أشعة','Statements · indicators · X-Ray','افهم أرقام شركتك بالنسب والمؤشرات ونماذج التعثر.','Understand your company’s numbers with ratios, indicators and distress models.'],liq:['أدر السيولة','Manage liquidity','سيولة · نقد · دورة','Liquidity · cash · cycle','تأكد أن شركتك تستطيع الدفع: نسب السيولة والتدفقات ودورة التحويل النقدي.','Make sure your company can pay: liquidity ratios, cash flows and the cash conversion cycle.'],feas:['قيّم مشروعك','Test a project','NPV · IRR · تمويل','NPV · IRR · financing','قيّم أي مشروع قبل أن تستثمر فيه: التدفقات والعائد والتمويل والحساسية.','Test any project before investing: cash flows, returns, financing and sensitivity.'],tax:['الضرائب','Tax','خليجي · فوترة إلكترونية','GCC · e-invoicing','اعرف التزاماتك الضريبية ومواعيدها وخطط لتقليلها نظامياً.','Know your tax obligations and deadlines, and plan to reduce them legally.'],stat:['المخاطر والتوقع','Risk & forecasting','إحصاء · مونت كارلو','Stats · Monte Carlo','قِس عدم اليقين، وتوقّع القادم، واختبر الفرضيات بالأرقام.','Measure uncertainty, forecast ahead and test assumptions with numbers.'],lss:['حسّن العمليات','Improve processes','تحسين العمليات · DMAIC','Process improvement · DMAIC','قلّل العيوب والهدر والتكلفة خطوة بخطوة حسب DMAIC.','Cut defects, waste and cost step by step with DMAIC.'],agile:['أدر الفرق','Run teams','سكرم · كانبان','Scrum · Kanban','خطط للعمل وتابع التسليم وحسّن أداء الفريق.','Plan work, track delivery and improve team performance.'],viz:['اعرض بياناتك','Visualise data','رسوم · لوحات معلومات','Charts · dashboards','حوّل أي جدول إلى رسوم ولوحات معلومات تفاعلية.','Turn any table into charts and interactive dashboards.'],audit:['اكشف الاحتيال','Detect fraud','تدقيق · بنفورد','Audit · Benford','افحص المعاملات بحثاً عن التكرار والأرقام المريبة وارسم العينات.','Scan transactions for duplicates and suspicious numbers, and draw samples.'],mkt:['الأسواق','Markets','أسعار · أحداث','Prices · events','أسعار مباشرة وأجندة الأحداث الاقتصادية القادمة.','Live prices and the upcoming economic calendar.'],help:['الموارد','Resources','دليل · مصطلحات','Guide · glossary','تعلّم استخدام الأدوات ومعنى كل مؤشر.','Learn the tools and what each indicator means.']})[g]||[...GROUPS[g],'','','',''], OL=({fin:['التحليل المالي','Financial analysis'],feas:['دراسة الجدوى','Feasibility'],liq:['السيولة والنقدية','Liquidity & cash'],tax:['الضرائب','Tax'],stat:['الإحصاء والمخاطر','Risk & stats'],lss:['لين ستة سيجما','Lean Six Sigma'],agile:['أجايل','Agile'],viz:['تابلو','Tableau'],audit:['التدقيق','Audit'],mkt:['الأسواق','Markets'],help:['الموارد','Resources']}[g]||GROUPS[g]), lab=`<span class="rp-lab" title="${esc(T(NL[4],NL[5]))}"><span>${T(...OL)}</span></span>`, ddHead=n=>`<div class="dd-head"><b>${T(...OL)}</b><small>${n} ${T(n>2?'أدوات':'أداة',n>1?'tools':'tool')} · ${T(NL[4],NL[5])}</small></div>`;
+  const FIN_PH=[['st','01','القوائم المالية والنسب','Statements & ratios'],['xr','02','الأشعة المالية','Financial X-Ray'],['ix','03','الحاسبات المالية','Financial calculators']], FIN_TL=[...subItems('statements').map(([k,ar,en])=>({ph:'st',k,ar,en,link:subHref('statements',k)})),...subItems('xray').map(([k,ar,en])=>({ph:'xr',k,ar,en,link:subHref('xray',k)})),...subItems('calc').map(([k,ar,en])=>({ph:'ix',k,ar,en,link:subHref('calc',k)}))];
+  const FE_PH=[['in','01','المدخلات','Inputs'],['an','02','التحليل والتمويل','Analysis & financing'],['dc','03','القرار','Decision']], FE_MAP={detail:'in',summary:'an',table:'an',finance:'an',sens:'dc',ceo:'dc',report:'dc'}, FE_TL=[...subItems('feasibility').map(([k,ar,en])=>({ph:FE_MAP[k]||'an',k,ar,en,link:subHref('feasibility',k)})),{ph:'dc',k:'risk',ar:'محاكاة المخاطر (مونت كارلو)',en:'Risk simulation (Monte Carlo)',link:'#risk'}];
   const MEGA={fin:['statements',FIN_PH,FIN_TL,['التحليل المالي','Financial analysis'],['مؤشراً وأداة لتحليل الشركة','indicators & tools to analyse a company']],feas:['feasibility',FE_PH,FE_TL,['دراسة الجدوى','Feasibility study'],['خطوة من المدخلات إلى القرار','steps from inputs to decision']],lss:['lss',LS_PH,LS_TOOLS,['لين ستة سيجما','Lean Six Sigma'],['أداة مرتبة حسب منهجية DMAIC','tools organised by DMAIC']],agile:['agile',AG_PH,AG_TOOLS,['أدوات أجايل','Agile toolkit'],['أداة لفرق سكرم وكانبان','tools for Scrum & Kanban teams']],viz:['viz',DV_PH,DV_TOOLS,['استوديو البيانات (بأسلوب Tableau)','Data Studio (Tableau-style)'],['أداة تحليل مرئي ولوحات معلومات','visual analytics & dashboard tools']]}[g];
-  if(MEGA){ const [pid,PH,TL,nm,ds]=MEGA; return `<div class="rp-dd rp-mega"><button type="button" class="rp-top" aria-haspopup="true">${lab}${CHEV}</button><div class="rp-panel"><div class="rp-panel-in mega-in"><div class="mega-head"><a href="#${pid}"><span class="rp-pi">${icon(pid)}</span><span><b>${T(...nm)}</b><small>${TL.filter(t=>!t.link).length||TL.length} ${T(...ds)}</small></span></a></div><div class="mega-cols${PH.length===5?' c5':''}${pid==='viz'?' cviz':''}${PH.length===3?' c3 m-'+pid:''}">${PH.map(([k,l,ar,en])=>`<div class="mega-col mc-${k}"><h5><b>${l}</b>${T(ar,en)}</h5>${TL.filter(t=>t.ph===k).map(t=>`<a href="${t.link||subHref(pid,t.k)}">${T(t.ar,t.en)}${t.link&&!/^(statements|feasibility)$/.test(pid)?' <small>↗</small>':''}</a>`).join('')}</div>`).join('')}</div></div></div></div>`; }
+  if(MEGA){ const [pid,PH,TL,nm,ds]=MEGA; return `<div class="rp-dd rp-mega"><button type="button" class="rp-top" aria-haspopup="true">${lab}${CHEV}</button><div class="rp-panel"><div class="rp-panel-in mega-in"><div class="mega-head"><a href="#${pid}"><span class="rp-pi">${icon(pid)}</span><span><b>${T(...nm)}</b><small>${TL.filter(t=>!t.link).length||TL.length} ${T(...ds)}</small></span></a></div><div class="mega-cols${PH.length===5?' c5':''}${pid==='viz'?' cviz':''}${PH.length===3?' c3 m-'+pid:''}">${PH.map(([k,l,ar,en])=>`<div class="mega-col mc-${k}"><h5><b>${l}</b>${T(ar,en)}</h5>${TL.filter(t=>t.ph===k).map(t=>`<a href="${t.link||subHref(pid,t.k)}">${T(t.ar,t.en)}${t.link&&(!/^(statements|feasibility)$/.test(pid)||!t.link.startsWith('#'+pid))&&!(pid==='statements'&&/^#(xray|calc)/.test(t.link))?' <small>↗</small>':''}</a>`).join('')}</div>`).join('')}</div></div></div></div>`; }
   if(ps.length===1) return `<a class="rp-top" href="#${ps[0].id}"${ps[0].id===cp.id?' aria-current="page"':''}>${lab}</a>`;
   return `<div class="rp-dd"><button type="button" class="rp-top" aria-haspopup="true">${lab}${CHEV}</button><div class="rp-panel"><div class="rp-panel-in">${ddHead(ps.length)}${ps.map(p=>{ const si=subItems(p.id); return `<div class="rp-item${si.length?' has-sub':''}"><a href="#${p.id}"${p.id===cp.id?' aria-current="page"':''}><span class="rp-pi">${icon(p.id)}</span><span><b>${T(p.ar,p.en)}${p.isNew?` <em class="new-b">${T('جديد','New')}</em>`:''}</b>${si.length?'':`<small>${T(p.dar,p.den)}</small>`}</span>${si.length?'<svg class="rp-more" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>':''}</a>${si.length?`<div class="rp-sub" role="menu"><div class="rp-sub-in"><span class="rp-sub-h">${T(p.ar,p.en)}</span>${si.map(([k,ar,en])=>`<a role="menuitem" href="${subHref(p.id,k)}">${T(ar,en)}</a>`).join('')}</div></div>`:''}</div>`; }).join('')}</div></div></div>`; }).join('');
  app.innerHTML=`<div class="shell rp">
   <header class="rp-header">
-   <div class="rp-util"><div class="rp-wrap"><button type="button" class="rp-ulink" id="lang-btn">${LI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>')}${lang==='ar'?'English':'العربية'}</button><span class="rp-sp"></span><span id="auth-slot"></span><a class="rp-ulink rp-maplink" href="#map">${LI(IC.map)}${T('خريطة الأدوات','Tools map')}</a><a class="rp-ulink" href="#guide">${T('مركز المساعدة','Help center')}${EXT}</a><a class="rp-ulink" href="#privacy">${T('الخصوصية','Privacy')}</a></div></div>
+   
    <div class="rp-nav"><div class="rp-wrap">
     <a class="rp-brand" href="#home" aria-label="figurdiscover">${logo()}<span><b dir="ltr">figur<i>discover</i></b><small>${T('منصة الذكاء المالي','Financial intelligence')}</small></span></a>
     <nav class="rp-menu" aria-label="${T('الأدوات','Tools')}">${menu}<a class="rp-top rp-founder" href="#about"${cp.id==='about'?' aria-current="page"':''}><span class="mini-av" dir="ltr">MK</span>${T('المؤسس','Founder')}</a></nav>
     <button type="button" class="rp-icon pal-btn" aria-label="${T('ابحث عن أداة','Find a tool')}" title="Ctrl K">${IC_S}</button>
-    <a class="btn rp-cta" href="#statements">${T('ابدأ التحليل','Start analysing')}</a>
+    <span class="rp-acct"><button type="button" class="rp-ulink" id="lang-btn">${LI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>')}${lang==='ar'?'English':'العربية'}</button><span id="auth-slot"></span></span><a class="btn rp-cta" href="#statements">${T('ابدأ التحليل','Start analysing')}</a>
     <span class="rp-mob"><span id="auth-slot2"></span><a class="rp-icon rp-mapbtn" href="#map" aria-label="${T('خريطة الأدوات','Tools map')}" title="${T('خريطة الأدوات','Tools map')}">${LI(IC.map)}</a><button class="rp-icon" id="lang-btn2">${lang==='ar'?'EN':'ع'}</button><button class="rp-icon menu-btn" id="menu-btn" aria-expanded="false" aria-controls="m-drawer" aria-label="${T('القائمة','Menu')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span>
    </div></div>
   </header>
@@ -7332,23 +7744,45 @@ function sitePage(id){ return root=>{ const P={how:['كيف يعمل الموق�
 function countryCount(){ try{ return Object.keys(GCC).length+Object.values(WORLD).filter(w=>['mena','eu','am','ap','af'].includes(w.reg)).length; }catch(e){ return 120; } }
 function ratioCount(){ const ks=new Set(RATIOS.map(r=>r.k)); CEO_M.forEach(m=>ks.add(m[2])); return ks.size+3; /* + Altman Z, Piotroski F, Beneish M */ }
 function toolCount(){ return PAGES.filter(p=>p.g&&!['help','mkt'].includes(p.g)).reduce((a,p)=>{ const n=(subItems(p.id)||[]).length; return a+(n||1); },0); }
-function homeRender(root){ const nT=toolCount(), nS=Object.keys(GROUPS).filter(g=>!['help','mkt'].includes(g)).length;
- root.innerHTML=`<section class="rp-hero"><div class="rp-hero-in"><div class="rp-hero-copy">
-   <span class="rp-eyebrow">${T('منصة الذكاء المالي','Financial intelligence platform')}</span>
-   <h1>${T('حلّل. تنبّأ.<br>انظر لما وراء الأرقام.','Analyze. Forecast.<br>See beyond the numbers.')}</h1>
-   <p class="hero-lead">${T('كل ما يحتاجه فريق المالية في مساحة عمل واحدة: تحليل القوائم المالية، ودراسات الجدوى، ومحاكاة المخاطر، وكشف الاحتيال، ولين ستة سيجما، ومستشار ضريبي ذكي. الصق أرقامك واحصل على إجابات واضحة خلال ثوانٍ.','Everything a finance team needs in one workspace: statement analysis, feasibility studies, risk simulation, fraud detection, Lean Six Sigma and an AI tax advisor. Paste your numbers and get clear answers in seconds.')}</p>
-   <div class="hero-cta"><a class="btn big rp-white" href="#statements">${T('ابدأ التحليل مجاناً','Start analysing free')}</a><a class="btn big rp-outline hero-map" href="#map">${LI(IC.map)}${T('خريطة الأدوات التفاعلية','Interactive tools map')}</a><a class="btn big rp-outline" href="#how">${T('كيف يعمل؟','How it works')}</a></div>
-   <ul class="hero-trust">${[['مجاني بالكامل','Completely free'],['بدون تثبيت','Nothing to install'],['عربي وإنجليزي','Arabic & English'],['بياناتك في متصفحك','Your data stays in your browser']].map(([a,e])=>`<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>${T(a,e)}</li>`).join('')}</ul>
-   </div>${heroMock()}</div></section>
-  <section class="rp-quick"><div class="hero-stats"><div><b>${nT}</b><span>${T('أداة تحليل','analysis tools')}</span></div><div><b>${nS}</b><span>${T('أقسام متخصصة','specialist sections')}</span></div><div><b>${ratioCount()}</b><span>${T('نسبة ومؤشر مالي','financial ratios and scores')}</span></div><div><b>${countryCount()}</b><span>${T('دولة في المستشار الضريبي','countries for tax')}</span></div><div><b>2</b><span>${T('لغتان: عربي وإنجليزي','languages')}</span></div></div></section>
-  <section class="land-sec home-explore"><div class="land-hd"><span class="land-eyebrow">${T('تعرّف على الموقع','Explore the site')}</span><h2>${T('ابدأ من هنا','Start here')}</h2><p>${T(`${nT} أداة في ${nS} أقسام. تجدها كلها في القائمة العلوية وفي خريطة الأدوات.`,`${nT} tools in ${nS} sections. Find them all in the top menu and on the tools map.`)}</p></div>
-   <div class="hx-grid">${[['map',IC.map,'خريطة الأدوات','Tools map','كل الأقسام والأدوات في خريطة تفاعلية واحدة.','Every section and tool on one interactive map.'],['how','<path d="M4 6h16M4 12h10M4 18h7"/>','كيف يعمل الموقع','How it works','ثلاث خطوات من الأرقام إلى القرار.','Three steps from numbers to a decision.'],['why','<path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/>','لمن الموقع ولماذا','Who it is for & why','لمن صُمّم، ولماذا هو دقيق وسهل وآمن.','Who it is built for, and why it is accurate, simple and safe.'],['faq','<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17h.01"/>','الأسئلة الشائعة','FAQ','المجانية، الخصوصية، ودقة النتائج.','Cost, privacy and accuracy.'],['kb','<path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z"/>','فهرس الأدوات','Tools index','معنى كل أداة وطريقة عملها والبيانات المطلوبة.','What each tool means, how it works and the data it needs.'],['about','<circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"/>','عن المؤسس','About the founder','محمد خمايسة، خبير التحليل المالي والضريبي.','Mohammad Khamaiseh, financial and tax expert.']].map(([id,ic,ar,en,dar,den])=>`<a class="hx-card" href="#${id}"><span class="lc-ic">${LI(ic)}</span><span><b>${T(ar,en)}</b><small>${T(dar,den)}</small></span></a>`).join('')}</div></section>
-  ${homeLanding()}`;
-  if('IntersectionObserver' in window){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{threshold:.12}); root.querySelectorAll('.land-sec,.rp-feature,.ab-teaser,.land-cta').forEach(x=>{ x.classList.add('rv'); io.observe(x); }); }
- root.querySelectorAll('[data-go]').forEach(x=>x.onclick=()=>{ const t=$(x.dataset.go); if(t) t.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); });
+function homeRender(root){ const nT=toolCount(), nS=Object.keys(GROUPS).filter(g=>!['help','mkt'].includes(g)).length, ar=lang==='ar', ARW=ar?'←':'→';
+ const IX=[]; PAGES.filter(p=>p.g&&p.id!=='home').forEach(p=>{ const gl=T(...(GROUPS[p.g]||['',''])); IX.push({h:'#'+p.id,t:T(p.ar,p.en),g:gl,s:normL([p.ar,p.en,p.dar,p.den,(p.tags||[]).join(' ')].join(' '))}); (subItems(p.id)||[]).forEach(([k,a,e])=>{ if(String(k).startsWith('#')||String(k).startsWith('[')) return; IX.push({h:subHref(p.id,k),t:T(p.ar,p.en)+' · '+T(a,e),g:gl,s:normL(a+' '+e+' '+p.ar+' '+p.en)}); }); });
+ const SUG=[['#statements/input','حلّل قوائمي المالية','Analyse my statements'],['#feasibility','قيّم جدوى مشروع','Test a project'],['#liquidity','افحص السيولة','Check liquidity'],['#benford','اكشف الأرقام المريبة','Spot suspicious numbers'],['fcalc','احسب قرضاً أو عائداً','Calculate a loan or return']];
+ const STEPS=[['01','أدخل أو أرفق','Enter or attach','اكتب أرقامك أو أرفق ملف Excel أو CSV أو PDF، والموقع يتعرف على البنود تلقائياً.','Type your figures or attach an Excel, CSV or PDF file; line items are recognised automatically.','<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>'],
+  ['02','حلّل فوراً','Analyse instantly','النسب والمؤشرات والنماذج تُحسب بمعادلات معتمدة، مع مطابقة الأرقام بمجاميع ملفك.','Ratios, indicators and models are computed with standard formulas and checked against your file’s totals.','<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>'],
+  ['03','قرّر بثقة','Decide with confidence','نتيجة بالأرقام والنسب، ثم ملخص مكتوب ونصائح عملية وتقرير جاهز للتحميل.','Results in numbers and percentages, then a written summary, practical tips and a ready report.','<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>']];
+ const WHY=[['خصوصية أولاً','Privacy first','أرقامك تبقى في متصفحك.','Your numbers stay in your browser.','<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>'],['معادلات معتمدة','Proven formulas','CFA، ألتمان، بيوتروسكي، بينيش، نيغريني.','CFA, Altman, Piotroski, Beneish, Nigrini.','<path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/>'],['عربي وإنجليزي','Arabic & English','كل أداة وكل تقرير باللغتين.','Every tool and report in both languages.','<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/>'],['مجاني بالكامل','Completely free','بدون تثبيت وبدون بطاقة.','Nothing to install, no card.','<path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>']];
+ const CHIPS=[['Altman Z','4.14','good'],['IRR','33.6%','good'],[T('دورة النقد','Cash cycle'),'67 '+T('يوم','d'),'warn'],['Sigma','3.99σ','good'],[T('نسبة التداول','Current'),'2.06×','good']];
+ root.innerHTML=`<section class="rp-hero h2-hero"><div class="h2-in">
+   <span class="h2-chip"><i></i>${T('منصة الذكاء المالي','Financial intelligence platform')}</span>
+   <h1 class="h2-title">${T('حلّل. تنبّأ.<br><em>انظر لما وراء الأرقام.</em>','Analyze. Forecast.<br><em>See beyond the numbers.</em>')}</h1>
+   <p class="h2-lead">${T(`${nT} أداة احترافية للتحليل المالي ودراسات الجدوى والسيولة والمخاطر والتدقيق والجودة في مساحة عمل واحدة.`,`${nT} professional tools for financial analysis, feasibility, liquidity, risk, audit and quality in one workspace.`)}</p>
+   <div class="h2-cmd" role="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="h2-q" type="search" autocomplete="off" placeholder="${T('ماذا تريد أن تحلل؟ جرّب: سيولة، IRR، بنفورد، قرض…','What do you want to analyse? Try: liquidity, IRR, Benford, loan…')}" aria-label="${T('ابحث عن أداة','Find a tool')}"><kbd>/</kbd><div class="h2-res" hidden></div></div>
+   <div class="h2-sugg">${SUG.map(([h,a,e])=>`<button type="button" data-h="${h}">${T(a,e)}</button>`).join('')}</div>
+   <div class="h2-cta"><a class="btn big rp-white" href="#statements/input">${T('ابدأ التحليل مجاناً','Start analysing free')}</a><a class="btn big rp-outline" href="#map">${LI(IC.map)}${T('خريطة الأدوات','Tools map')}</a></div>
+  </div>
+  <div class="h2-stats">${[[nT,T('أداة تحليل','analysis tools')],[nS,T('أقسام متخصصة','specialist sections')],[ratioCount(),T('نسبة ومؤشر مالي','ratios & scores')],[countryCount(),T('دولة في المستشار الضريبي','tax countries')],[2,T('لغتان','languages')]].map(([v,l])=>`<div><b data-n="${v}">0</b><span>${l}</span></div>`).join('')}</div></section>
+ <section class="h2-show"><div class="h2-show-copy"><span class="h2-k">${T('مساحة عمل واحدة','One workspace')}</span><h2>${T('كل أرقام شركتك في شاشة واحدة واضحة','All your company’s numbers on one clear screen')}</h2>
+   <ul>${[['درجة صحة مالية من 100 ورادار للقوة والضعف','A 0–100 health score and a strength radar'],['تنبيهات تلقائية بالمؤشرات التي تحتاج انتباهاً','Automatic alerts on indicators that need attention'],['تقرير PDF وExcel جاهز للإدارة بضغطة','A management-ready PDF and Excel report in one click']].map(([a,e])=>`<li>${T(a,e)}</li>`).join('')}</ul><a class="h2-link" href="#xray">${T('جرّب الأشعة المالية','Try the Financial X-Ray')} ${ARW}</a></div>
+  <div class="h2-stage">${heroMock()}${CHIPS.map(([k,v,c],i)=>`<span class="h2-float f${i} ${c}"><small>${k}</small><b dir="ltr">${v}</b></span>`).join('')}</div></section>
+ <section class="h2-flow"><span class="h2-k">${T('كيف يعمل','How it works')}</span><h2>${T('من الأرقام إلى القرار في ثلاث خطوات','From numbers to a decision in three steps')}</h2>
+  <div class="h2-steps">${STEPS.map(([n,a,e,da,de,ic])=>`<div class="h2-step"><span class="h2-n">${n}</span><span class="h2-ic">${LI(ic)}</span><h3>${T(a,e)}</h3><p>${T(da,de)}</p></div>`).join('')}</div></section>
+ <section class="h2-why">${WHY.map(([a,e,da,de,ic])=>`<div><span class="h2-ic">${LI(ic)}</span><b>${T(a,e)}</b><small>${T(da,de)}</small></div>`).join('')}</section>
+ ${homeLanding()}`;
+ /* tool search */
+ const q=$('#h2-q',root), res=$('.h2-res',root); let sel=0, hits=[];
+ const draw=()=>{ const v=normL(q.value).trim(); if(!v){ res.hidden=true; return; } const ws=v.split(' ').filter(Boolean); hits=IX.filter(x=>ws.every(w=>x.s.includes(w)||normL(x.t).includes(w))).map(x=>({x,r:(normL(x.t).includes(v)?0:ws.every(w=>normL(x.t).includes(w))?1:2)+(x.t.includes(' · ')?0.5:0)})).sort((a,b)=>a.r-b.r).map(o=>o.x).slice(0,7); sel=0;
+  res.hidden=false; res.innerHTML=hits.length?hits.map((x,i)=>`<a href="${x.h}" class="${i===sel?'on':''}"><b>${esc(x.t)}</b><small>${esc(x.g)}</small></a>`).join(''):`<p>${T('لا توجد أداة بهذا الاسم. جرّب كلمة أخرى أو افتح خريطة الأدوات.','No tool matches. Try another word or open the tools map.')}</p>`; };
+ q.oninput=draw; q.onfocus=draw; q.onkeydown=e=>{ if(!hits.length) return; if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); sel=(sel+(e.key==='ArrowDown'?1:-1)+hits.length)%hits.length; $$('a',res).forEach((a,i)=>a.classList.toggle('on',i===sel)); } if(e.key==='Enter'){ e.preventDefault(); location.hash=hits[sel].h; } if(e.key==='Escape') res.hidden=true; };
+ document.addEventListener('click',e=>{ if(!e.target.closest('.h2-cmd')) res.hidden=true; });
+ if(!window.__h2k){ window.__h2k=1; document.addEventListener('keydown',e=>{ if(e.key==='/'&&curPage().id==='home'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ const i=$('#h2-q'); if(i){ e.preventDefault(); i.focus(); } } }); }
+ $$('.h2-sugg button',root).forEach(b=>b.onclick=()=>{ if(b.dataset.h==='fcalc'){ if(window.fdCalc) window.fdCalc.open(); } else location.hash=b.dataset.h; });
+ /* count-up + reveal */
+ const cu=el=>{ const n=+el.dataset.n, t0=performance.now(); const f=t=>{ const k=Math.min(1,(t-t0)/1100), e=1-Math.pow(1-k,3); el.textContent=Math.round(n*e); if(k<1&&!RM) requestAnimationFrame(f); else el.textContent=n; }; requestAnimationFrame(f); };
+ if('IntersectionObserver' in window){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); $$('[data-n]',e.target).forEach(cu); io.unobserve(e.target); } }),{threshold:.15}); root.querySelectorAll('.h2-stats,.h2-show,.h2-flow,.h2-why,.land-cta').forEach(x=>{ x.classList.add('rv'); io.observe(x); }); } else $$('[data-n]',root).forEach(el=>el.textContent=el.dataset.n);
 }
+
 /* keep the desktop header on one row without overlaps: tighten step by step until the menu fits */
-function navFit(){ const h=$('.rp-header'), m=$('.rp-menu'); if(!h||!m) return; h.classList.remove('nf1','nf2','nf3','nf4','nf5'); if(innerWidth<=1180) return;
+function navFit(){ const h=$('.rp-header'), m=$('.rp-menu'); if(!h||!m) return; h.classList.remove('nf1','nf2','nf3','nf4','nf5'); return;
  const over=()=>{ const c=[...m.children].filter(e=>e.offsetParent); if(!c.length) return false; const last=c[c.length-1].getBoundingClientRect(), first=c[0].getBoundingClientRect(), mr=m.getBoundingClientRect(); const nxt=[...m.parentElement.children].filter(e=>e!==m&&e.offsetParent&&e.compareDocumentPosition(m)&Node.DOCUMENT_POSITION_PRECEDING); const lim=nxt.length?(lang==='ar'?Math.max(...nxt.map(e=>e.getBoundingClientRect().right)):Math.min(...nxt.map(e=>e.getBoundingClientRect().left))):(lang==='ar'?mr.left:mr.right); return lang==='ar'?Math.min(last.left,first.left)<lim+6:Math.max(last.right,first.right)>lim-6; };
  for(let i=1;i<=5&&over();i++) h.classList.add('nf'+i); }
 addEventListener('resize',()=>{ clearTimeout(navFit._t); navFit._t=setTimeout(navFit,80); });
@@ -7533,22 +7967,23 @@ function rot(p,a,b,t){ const c=Math.cos(t),s=Math.sin(t),x=p[a],y=p[b]; p[a]=x*c
 function proj(p,dist){ let q=p.slice(); while(q.length>3){ const w=q.pop(), k=dist/(dist-w); q=q.map(v=>v*k); } return q; }
 /* ---------- 3D point network (fibonacci sphere) ---------- */
 function sphere(n){ const P=[], g=Math.PI*(3-Math.sqrt(5)); for(let i=0;i<n;i++){ const y=1-(i/(n-1))*2, r=Math.sqrt(1-y*y), th=g*i; P.push([Math.cos(th)*r,y,Math.sin(th)*r]); } return P; }
-const S3=sphere(72);
+const S3=sphere(72), S3H=sphere(170);
 const scenes=new Set(); let raf=0, mx=0, my=0, tm=0;
 function draw(sc,t){ const cv=sc.cv, ctx=sc.ctx, W=cv.clientWidth, H=cv.clientHeight; if(!W||!H) return; const dpr=Math.min(2,window.devicePixelRatio||1);
  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){ cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); }
  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H); ctx.globalAlpha=W<760?0.45:1; const rtl=document.getElementById('app')?.dir==='rtl', side=x=>rtl?W-x:x;
  /* 3D network sphere */
- const R=Math.min(W,H)*(sc.home?0.42:0.55), cx=side(sc.home?W*0.73:W*0.82), cy=H*(sc.home?0.5:0.55), ay=t*0.00018+mx*0.35, ax=0.35+my*0.25;
- const pts=S3.map(p=>{ let [x,y,z]=p; let c=Math.cos(ay),s=Math.sin(ay); [x,z]=[x*c-z*s,x*s+z*c]; c=Math.cos(ax); s=Math.sin(ax); [y,z]=[y*c-z*s,y*s+z*c]; const k=2.6/(2.6+z); return {x:cx+x*R*k,y:cy+y*R*k,z,k}; });
- ctx.lineWidth=0.7; for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){ const a=S3[i],b=S3[j], d=(a[0]-b[0])**2+(a[1]-b[1])**2+(a[2]-b[2])**2; if(d<0.12){ const z=(pts[i].z+pts[j].z)/2, al=(0.28-z*0.18)*(1-d/0.12); ctx.strokeStyle=`rgba(103,232,249,${Math.max(0.03,al)})`; ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); } }
+ const R=sc.home?Math.max(W*0.36,420):Math.min(W,H)*0.55, cx=sc.home?W/2:side(W*0.82), cy=sc.home?H+R*0.42:H*0.55, ay=t*0.00018+mx*0.35, ax=0.35+my*0.25;
+ const SP=sc.home?S3H:S3, TH=sc.home?0.09:0.12; const pts=SP.map(p=>{ let [x,y,z]=p; let c=Math.cos(ay),s=Math.sin(ay); [x,z]=[x*c-z*s,x*s+z*c]; c=Math.cos(ax); s=Math.sin(ax); [y,z]=[y*c-z*s,y*s+z*c]; const k=2.6/(2.6+z); return {x:cx+x*R*k,y:cy+y*R*k,z,k}; });
+ ctx.lineWidth=0.7; for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){ const a=SP[i],b=SP[j], d=(a[0]-b[0])**2+(a[1]-b[1])**2+(a[2]-b[2])**2; if(d<TH){ const z=(pts[i].z+pts[j].z)/2, al=(0.28-z*0.18)*(1-d/TH); ctx.strokeStyle=`rgba(103,232,249,${Math.max(0.03,al)})`; ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); } }
  pts.forEach(p=>{ const a=0.35+(1-p.z)*0.3; ctx.fillStyle=p.z<0?`rgba(165,243,252,${a})`:`rgba(167,139,250,${a*0.7})`; ctx.beginPath(); ctx.arc(p.x,p.y,1.1+p.k*1.4,0,7); ctx.fill(); });
+ if(sc.home){ ctx.save(); const g=ctx.createRadialGradient(cx,cy,R*0.8,cx,cy,R*1.25); g.addColorStop(0,'rgba(34,211,238,0)'); g.addColorStop(0.62,'rgba(34,211,238,.10)'); g.addColorStop(1,'rgba(34,211,238,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,R*1.25,0,7); ctx.fill(); ctx.shadowColor='rgba(34,211,238,.9)'; ctx.shadowBlur=24; ctx.strokeStyle='rgba(103,232,249,.55)'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(cx,cy,R*1.02,Math.PI*1.02,Math.PI*1.98); ctx.stroke(); ctx.restore(); }
  /* 4D tesseract */
  const tes=(G,cx,cy,sz,speed,col,planes)=>{ const P=G.V.map(v=>{ const p=v.slice(); planes.forEach(([a,b,f],i)=>rot(p,a,b,t*speed*f+(i?mx*0.6:my*0.6))); const q=proj(p,3); let [x,y,z]=q; const k=4/(4+z); return [cx+x*sz*k,cy+y*sz*k,z]; });
   ctx.lineWidth=1; G.E.forEach(([i,j])=>{ const z=(P[i][2]+P[j][2])/2; ctx.strokeStyle=col.replace('A',(0.55-z*0.12).toFixed(2)); ctx.beginPath(); ctx.moveTo(P[i][0],P[i][1]); ctx.lineTo(P[j][0],P[j][1]); ctx.stroke(); });
   P.forEach(p=>{ ctx.fillStyle=col.replace('A','0.9'); ctx.beginPath(); ctx.arc(p[0],p[1],1.6,0,7); ctx.fill(); }); };
- if(sc.home){ tes(C4,side(W*0.93),H*0.2,Math.min(W,H)*0.07,0.0006,'rgba(34,211,238,A)',[[0,3,1],[1,2,0.6],[2,3,0.8]]); tes(C5,side(W*0.06),H*0.86,Math.min(W,H)*0.06,0.00045,'rgba(167,139,250,A)',[[0,4,1],[1,3,0.7],[2,4,0.5],[0,1,0.3]]); }
- else if(W>=760) tes(C4,side(W*0.62),H*0.5,Math.min(W,H)*0.16,0.0006,'rgba(34,211,238,A)',[[0,3,1],[1,2,0.6],[2,3,0.8]]);
+ if(sc.home&&false){ tes(C4,side(W*0.93),H*0.2,Math.min(W,H)*0.07,0.0006,'rgba(34,211,238,A)',[[0,3,1],[1,2,0.6],[2,3,0.8]]); tes(C5,side(W*0.06),H*0.86,Math.min(W,H)*0.06,0.00045,'rgba(167,139,250,A)',[[0,4,1],[1,3,0.7],[2,4,0.5],[0,1,0.3]]); }
+ else if(W>=760&&!sc.home) tes(C4,side(W*0.62),H*0.5,Math.min(W,H)*0.16,0.0006,'rgba(34,211,238,A)',[[0,3,1],[1,2,0.6],[2,3,0.8]]);
 }
 function loop(t){ raf=0; tm=t; let any=false; scenes.forEach(sc=>{ if(!sc.el.isConnected){ scenes.delete(sc); return; } if(sc.vis&&!document.hidden){ draw(sc,t); any=true; } }); if(any&&!RM) raf=requestAnimationFrame(loop); }
 const kick=()=>{ if(!raf) raf=requestAnimationFrame(loop); };
