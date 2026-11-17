@@ -2233,6 +2233,10 @@ tbody tr:hover td{background:rgba(47,107,255,.04)}
 .ni-disc{margin-top:16px;font-size:12.5px;line-height:1.7}
 @media (max-width:760px){.ni-row{grid-template-columns:1fr 36px}.ni-row .ni-dir,.ni-row select[data-niz]{grid-column:1/-1}.ni-row select[data-nik]{grid-column:1;grid-row:1}.ni-row .ni-x{grid-column:2;grid-row:1}.ni-bar{grid-template-columns:86px 1fr 64px;gap:6px;font-size:12.5px}}
 .tk-scn{text-decoration:none;white-space:nowrap}
+.ni-hsel{padding:6px 8px!important;background:var(--surface)!important;width:1%;font-family:var(--f-body)!important}
+.ni-hsel select{height:34px;width:220px;max-width:none;font-family:var(--f-body)!important;border-radius:9px;border:1px solid var(--glass-brd);font:inherit;font-size:12.5px;font-weight:700;padding:0 6px;cursor:pointer;background:var(--surface);color:var(--fg)}
+.ni-hsel select.up{border-color:#10B981;background:rgba(16,185,129,.08);color:#047857}
+.ni-hsel select.dn{border-color:#F43F5E;background:rgba(244,63,94,.07);color:#BE123C}
 </style>
 </head><body>
 <div id="app" dir="ltr"></div>
@@ -7024,7 +7028,7 @@ const NI_S=[
   kw:/shutdown|debt ceiling|deficit|downgrade|الإغلاق الحكومي|سقف الدين|العجز|خفض التصنيف/i}];
 const NI_SZ=[[0.5,'مفاجأة صغيرة','Small surprise'],[1,'مفاجأة معتادة','Typical surprise'],[2,'مفاجأة كبيرة','Big surprise'],[3,'صدمة','Shock']];
 const NI_RG=[[0.75,'سوق هادئ','Calm market'],[1,'سوق عادي','Normal market'],[1.5,'سوق متوتر','Stressed market']];
-const NI={sel:[{k:'cpi',d:1,z:1}],rg:1,px:{}};
+const NI={sel:[{k:'cpi',d:1,z:1}],rg:1,px:{},hd:{}};
 try{ const p=JSON.parse(localStorage.getItem('fd.ni.px')||'{}'); if(p&&typeof p==='object') NI.px=p; }catch(e){}
 function niPool(){ const n=Date.now(), D=24*36e5, out=[];
  const heads=LIVE.heads||[]; heads.forEach(h=>{ if(h.t&&Math.abs(n-h.t)<=D) out.push({t:h.t,title:h.title,url:h.url,src:h.src,kind:'news'}); });
@@ -7040,7 +7044,7 @@ function newsimpactRender(root){
  root.innerHTML=pageHead('محلل سيناريو الأخبار على الأسواق','News scenario analyzer','اختر الخبر أو الحدث الاقتصادي واتجاه المفاجأة، فتعرف كيف تتحرك عادةً أهم 10 أصول عالمية: الذهب والفضة والنفط والغاز وS&P 500 وناسداك وداو جونز والدولار وبيتكوين وإيثريوم.','Pick a news event and the direction of the surprise to see how the 10 key global assets usually react: gold, silver, oil, gas, S&P 500, Nasdaq, Dow, the dollar, bitcoin and ethereum.')+`<div class="ni" id="ni"></div><section class="panel"><h3 style="margin:0 0 10px">${T('الأسعار المباشرة لأهم 10 أصول','Live prices of the top 10 assets')}</h3><div id="ni-tv" class="tv-box"><p class="note tv-wait">${T('جارٍ تحميل الأسعار من TradingView… تظهر على موقعك المستضاف figurdiscover.com.','Loading prices from TradingView… they appear on your hosted site figurdiscover.com.')}</p></div></section>
  <p class="note ni-disc">${T('طريقة الحساب: كل رقم هو متوسط تقريبي لردة فعل الأصل في اليوم الأول بعد مفاجأة بحجم معتاد، مستخلص من دراسات أثر الأحداث (التضخم، قرارات الفيدرالي، الوظائف، أوبك، الأزمات الجيوسياسية والمصرفية والتجارية). يُضرب في اتجاه وحجم المفاجأة وحالة السوق، وتُجمع آثار الأخبار المتعددة. هذه تقديرات تعليمية وليست توصية استثمارية؛ ردة الفعل الفعلية تعتمد على ما سعّره السوق مسبقاً، وقد تنعكس في الأيام التالية.','How it is calculated: each figure is an approximate average day-one reaction to a typical-size surprise, drawn from event studies (inflation, Fed decisions, payrolls, OPEC, geopolitical, banking and trade shocks). It is multiplied by the surprise direction and size and the market state, and several news items are added together. These are educational estimates, not investment advice; the real reaction depends on what the market had already priced in and can reverse in the following days.')}</p>`;
  const box=$('#ni',root); niDraw(box);
- box.addEventListener('click',e=>{ const b=e.target.closest('[data-ni]'); if(!b) return; const [act,arg,arg2]=b.dataset.ni.split(':');
+ box.addEventListener('click',e=>{ if(e.target.closest('select,input')) return; const b=e.target.closest('[data-ni]'); if(!b) return; const [act,arg,arg2]=b.dataset.ni.split(':');
   if(act==='add'){ if(!NI.sel.some(x=>x.k===arg)) NI.sel.push({k:arg,d:arg2?+arg2:1,z:1}); else NI.sel.find(x=>x.k===arg).d=arg2?+arg2:NI.sel.find(x=>x.k===arg).d; }
   else if(act==='new'){ const f=NI_S.find(s=>!NI.sel.some(x=>x.k===s.k)); if(f) NI.sel.push({k:f.k,d:1,z:1}); }
   else if(act==='rm'){ NI.sel.splice(+arg,1); }
@@ -7052,7 +7056,8 @@ function newsimpactRender(root){
  box.addEventListener('change',e=>{ const t=e.target;
   if(t.matches('[data-nik]')){ const i=+t.dataset.nik; if(!NI.sel.some((x,j)=>j!==i&&x.k===t.value)) NI.sel[i].k=t.value; niDraw(box); }
   else if(t.matches('[data-niz]')){ NI.sel[+t.dataset.niz].z=+t.value; niDraw(box); }
-  else if(t.matches('#ni-rg')){ NI.rg=+t.value; niDraw(box); } });
+  else if(t.matches('#ni-rg')){ NI.rg=+t.value; niDraw(box); }
+  else if(t.matches('[data-nih]')){ NI.hd[t.dataset.nih]=+t.value; niDraw(box); } });
  box.addEventListener('input',e=>{ const t=e.target; if(!t.matches('[data-nipx]')) return; const v=parseFloat(String(t.value).replace(/,/g,'')); if(v>0) NI.px[t.dataset.nipx]=v; else delete NI.px[t.dataset.nipx];
   try{ localStorage.setItem('fd.ni.px',JSON.stringify(NI.px)); }catch(_){} const r=niCalc().find(r=>r.a[0]===t.dataset.nipx), c=t.closest('tr')?.querySelector('.ni-tp'); if(c&&r) c.innerHTML=niTarget(r); });
  if(!NI._cg){ NI._cg=1; getJSON('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd',8000).then(j=>{ if(j&&j.bitcoin&&!NI.px.btc) NI.px.btc=j.bitcoin.usd; if(j&&j.ethereum&&!NI.px.eth) NI.px.eth=j.ethereum.usd; if(box.isConnected) niDraw(box); }).catch(()=>{}); }
@@ -7089,8 +7094,8 @@ function niDraw(box){ const pool=niPool(), det=niDetect(pool), rs=niCalc(), mx=M
   <div class="tbl-wrap" style="margin-top:16px"><table class="tbl ni-tbl"><thead><tr><th>${T('الأصل','Asset')}</th><th>${T('الاتجاه','Direction')}</th><th>${T('الحركة المتوقعة','Expected move')}</th><th>${T('النطاق المرجّح','Likely range')}</th><th>${T('قوة الإشارة','Signal strength')}</th><th>${T('السعر الحالي','Current price')}</th><th>${T('السعر المتوقع','Expected price')}</th><th>${T('لماذا يتأثر','Why it reacts')}</th></tr></thead><tbody>
   ${rs.map(r=>{ const st=niStrength(r), p=NI.px[r.a[0]]||(r.a[0]==='gold'&&LIVE.gold?LIVE.gold.p:r.a[0]==='silver'&&LIVE.silver?LIVE.silver.p:''); return `<tr><td><b>${T(r.a[1],r.a[2])}</b><br><small class="note" dir="ltr">${r.a[3]}</small></td><td class="ni-arw ${r.dir>0?'up':r.dir<0?'dn':''}">${r.dir>0?'▲ '+T('صعود','Up'):r.dir<0?'▼ '+T('هبوط','Down'):'■ '+T('ثابت','Flat')}</td><td>${niPct(r.m)}</td><td><small>${niPct(r.lo)} … ${niPct(r.hi)}</small></td><td><span class="ni-st ${st[0]}">${st[1]}</span></td><td><input class="ni-px" type="text" inputmode="decimal" dir="ltr" data-nipx="${r.a[0]}" value="${p?String(+(+p).toFixed(4)):''}" placeholder="${T('أدخل السعر','Enter price')}"></td><td class="ni-tp">${niTarget(r)}</td><td><small>${T(r.a[6],r.a[7])}</small></td></tr>`; }).join('')}
   </tbody></table></div></section>`:''}
- <section class="panel"><h3 style="margin:0 0 6px">${T('خريطة الأثر لكل الأخبار','Impact map for every news type')}</h3><p class="note" style="margin:0 0 10px">${T('الحركة المعتادة في اليوم الأول لمفاجأة بحجم معتاد. الأخضر صعود والأحمر هبوط. اضغط أي صف لتحليله وحده.','Typical day-one move for a typical-size surprise. Green is up, red is down. Tap a row to analyse it alone.')}</p>
-  <div class="tbl-wrap"><table class="tbl ni-heat"><thead><tr><th>${T('الخبر','News')}</th>${NI_A.map(a=>`<th>${T(a[1],a[2])}</th>`).join('')}</tr></thead><tbody>${NI_S.map(s=>`<tr data-ni="only:${s.k}:1" tabindex="0"><th>${T(s.ar,s.en)}<small>${T(s.u[0],s.u[1])}</small></th>${s.m.map((v,i)=>{ const z=Math.max(-1,Math.min(1,v/NI_A[i][4]/1.6)); return `<td style="--h:${z>=0?150:0};--a:${Math.abs(z).toFixed(2)}"><bdi dir="ltr">${v===0?'0':(v>0?'+':'')+v.toFixed(1)}</bdi></td>`; }).join('')}</tr>`).join('')}</tbody></table></div>
+ <section class="panel"><h3 style="margin:0 0 6px">${T('خريطة الأثر لكل الأخبار','Impact map for every news type')}</h3><p class="note" style="margin:0 0 10px">${T('الحركة المعتادة في اليوم الأول لمفاجأة بحجم معتاد. غيّر «التوقع» في كل صف (أعلى أو أقل من المتوقع) فتتغير الأرقام. الأخضر صعود والأحمر هبوط. اضغط اسم الخبر لتحليله بالتفصيل.','Typical day-one move for a typical-size surprise. Change the “Expectation” in each row (above or below forecast) and the figures update. Green is up, red is down. Tap a news name to analyse it in detail.')}</p>
+  <div class="tbl-wrap"><table class="tbl ni-heat"><thead><tr><th>${T('التوقع','Expectation')}</th><th>${T('الخبر','News')}</th>${NI_A.map(a=>`<th>${T(a[1],a[2])}</th>`).join('')}</tr></thead><tbody>${NI_S.map(s=>{ const d=NI.hd[s.k]||1; return `<tr data-ni="only:${s.k}:${d}" tabindex="0"><td class="ni-hsel"><select data-nih="${s.k}" aria-label="${T('التوقع','Expectation')}: ${T(s.ar,s.en)}" class="${d>0?'up':'dn'}"><option value="1"${d>0?' selected':''}>${T(s.u[0],s.u[1])}</option><option value="-1"${d<0?' selected':''}>${T(s.d[0],s.d[1])}</option></select></td><th>${T(s.ar,s.en)}</th>${s.m.map((v0,i)=>{ const v=v0*d, z=Math.max(-1,Math.min(1,v/NI_A[i][4]/1.6)); return `<td style="--h:${z>=0?150:0};--a:${Math.abs(z).toFixed(2)}"><bdi dir="ltr">${v===0?'0':(v>0?'+':'')+v.toFixed(1)}</bdi></td>`; }).join('')}</tr>`; }).join('')}</tbody></table></div>
  </section>
 `;
  box.querySelectorAll('.ni-heat tr[data-ni]').forEach(tr=>tr.onkeydown=e=>{ if(e.key==='Enter'){ tr.click(); } }); }
