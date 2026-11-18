@@ -168,20 +168,43 @@ addEv('nfp', '2024-01-05 2024-02-02 2024-03-08 2024-04-05 2024-05-03 2024-06-07 
 
 const P1 = Math.floor(Date.parse('2023-12-01T00:00:00Z') / 1000);
 let mkCache = { t: 0, data: null }, mkPending = null;
+const MK_ST = { phase: 'idle', done: 0, total: 0, ok: 0, yahoo: 0, stooq: 0, last: '' };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function ydaily(sym) {
+  if (MK_ST.yahoo === 0 && MK_ST.yfail >= 8) return null; // Yahoo is blocking this server: go straight to the backup source
   for (const host of ['query1', 'query2']) {
-    try {
-      const j = JSON.parse(await getText(`https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&period1=${P1}&period2=${Math.floor(Date.now() / 1000) + 86400}`, 12000));
-      const r = j && j.chart && j.chart.result && j.chart.result[0]; if (!r || !r.timestamp) continue;
-      const off = (r.meta && r.meta.gmtoffset) || 0, cl = r.indicators.quote[0].close, out = [];
-      r.timestamp.forEach((t, i) => { if (Number.isFinite(cl[i]) && cl[i] > 0) out.push([new Date((t + off) * 1000).toISOString().slice(0, 10), cl[i]]); });
-      // drop duplicated last day that Yahoo sometimes repeats
-      return out.filter((x, i) => i === 0 || x[0] !== out[i - 1][0]);
-    } catch (e) { /* next host */ }
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const j = JSON.parse(await getText(`https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&period1=${P1}&period2=${Math.floor(Date.now() / 1000) + 86400}`, 8000));
+        const r = j && j.chart && j.chart.result && j.chart.result[0]; if (!r || !r.timestamp) break;
+        const off = (r.meta && r.meta.gmtoffset) || 0, cl = r.indicators.quote[0].close, out = [];
+        r.timestamp.forEach((t, i) => { if (Number.isFinite(cl[i]) && cl[i] > 0) out.push([new Date((t + off) * 1000).toISOString().slice(0, 10), cl[i]]); });
+        const res = out.filter((x, i) => i === 0 || x[0] !== out[i - 1][0]); if (res.length) { MK_ST.yahoo++; return res; } break;
+      } catch (e) { MK_ST.last = 'yahoo ' + sym + ': ' + e.message; if (String(e.message) === '429' && attempt === 0 && MK_ST.yahoo > 0) { await sleep(1200); continue; } break; }
+    }
   }
+  MK_ST.yfail = (MK_ST.yfail || 0) + 1;
   return null;
 }
-async function pool(items, n, fn) { const out = new Array(items.length); let i = 0; await Promise.all(Array.from({ length: n }, async () => { while (i < items.length) { const k = i++; out[k] = await fn(items[k]); await new Promise(r => setTimeout(r, 120)); } })); return out; }
+/* backup source: Stooq daily history */
+function stooqSym(s) {
+  const M = { '^GSPC': '^spx', '^NDX': '^ndx', '^DJI': '^dji', '^N225': '^nkx', '^HSI': '^hsi', '^GDAXI': '^dax', '^FCHI': '^cac', '^FTSE': '^ukx', '000001.SS': '^shc', '^KS11': '^kospi', 'GC=F': 'gc.f', 'SI=F': 'si.f', 'BZ=F': 'cb.f', 'NG=F': 'ng.f', 'HG=F': 'hg.f', 'EURUSD=X': 'eurusd', 'JPY=X': 'usdjpy', 'DX-Y.NYB': 'dx.f', 'BTC-USD': 'btcusd', 'ETH-USD': 'ethusd', '^TNX': '10usy.b' };
+  if (M[s]) return M[s];
+  if (/^[A-Z]{1,5}(-[A-Z])?$/.test(s)) return s.toLowerCase() + '.us';
+  const m = /^(.+)\.(L|DE|PA|HK|T)$/.exec(s); if (m) return { L: m[1].toLowerCase() + '.uk', DE: m[1].toLowerCase() + '.de', PA: m[1].toLowerCase() + '.fr', HK: String(+m[1]) + '.hk', T: m[1] + '.jp' }[m[2]];
+  return null;
+}
+async function sdaily(sym) {
+  const q = stooqSym(sym); if (!q) return null;
+  try {
+    const csv = await getText(`https://stooq.com/q/d/l/?s=${encodeURIComponent(q)}&i=d&d1=20231201&d2=20301231`, 9000);
+    const out = csv.trim().split(/\r?\n/).slice(1).map(l => l.split(',')).filter(r => /^\d{4}-\d\d-\d\d$/.test(r[0]) && +r[4] > 0).map(r => [r[0], +r[4]]);
+    if (out.length > 40) { MK_ST.stooq++; return out; }
+  } catch (e) { MK_ST.last = 'stooq ' + sym + ': ' + e.message; }
+  return null;
+}
+async function daily(sym) { const d = (await ydaily(sym)) || (await sdaily(sym)); MK_ST.done++; if (d) MK_ST.ok++; return d; }
+async function pool(items, n, fn) { const out = new Array(items.length); let i = 0; await Promise.all(Array.from({ length: n }, async () => { while (i < items.length) { const k = i++; out[k] = await fn(items[k]); await sleep(150); } })); return out; }
 async function liveWeekEvents() {
   try {
     const j = JSON.parse(await getText('https://nfs.faireconomy.media/ff_calendar_thisweek.json', 10000)); const now = Date.now(), out = [];
@@ -201,7 +224,8 @@ function react(series, closes, t) {
 }
 async function buildReactions() {
   const syms = MK_ASSETS.map(a => a[0]);
-  const ser = await pool(syms, 5, ydaily), now = Date.now();
+  Object.assign(MK_ST, { phase: 'building', done: 0, total: syms.length, ok: 0, yahoo: 0, yfail: 0, stooq: 0, started: Date.now() });
+  const ser = await pool(syms, 6, daily), now = Date.now();
   const vol = {}, ok = {}, cls = {};
   syms.forEach((s, i) => { const d = ser[i]; if (!d || d.length < 40) return; ok[s] = d; const [hm, tz] = closeSpec(s); cls[s] = d.map(x => zoned(x[0], hm, tz)); const r = []; for (let k = 1; k < d.length; k++) r.push(d[k][1] / d[k - 1][1] - 1); const m = r.reduce((a, b) => a + b, 0) / r.length; vol[s] = Math.sqrt(r.reduce((a, b) => a + (b - m) ** 2, 0) / (r.length - 1)) * 100; });
   const evs = MK_EV.filter(e => e.t < now - 20 * 6e4).concat(await liveWeekEvents()).sort((a, b) => b.t - a.t);
@@ -210,24 +234,79 @@ async function buildReactions() {
     return { id: n + '-' + e.type + '-' + e.t, type: e.type, t: e.t, ar: e.ar, en: e.en, live: !!e.live, f: e.f || '', pr: e.pr || '', rows }; }).filter(e => Object.keys(e.rows).length >= 5);
   return { at: now, assets: MK_ASSETS.filter(a => ok[a[0]]).map(a => a.slice(0, 4)), vol: Object.fromEntries(Object.entries(vol).map(([k, v]) => [k, +v.toFixed(2)])), events };
 }
-async function reactions() {
-  if (mkCache.data && Date.now() - mkCache.t < 3 * 36e5) return mkCache.data;
-  if (!mkPending) mkPending = buildReactions().then(d => { if (d.events.length) mkCache = { t: Date.now(), data: d }; return d.events.length ? d : (mkCache.data || d); }).finally(() => { mkPending = null; });
-  if (mkCache.data) return mkCache.data; // serve stale while refreshing
+const MK_FILE = path.join(require('os').tmpdir(), 'figurdiscover-reactions.json');
+try { const c = JSON.parse(fs.readFileSync(MK_FILE, 'utf8')); if (c && c.data && c.data.events && c.data.events.length) mkCache = c; } catch (e) { /* no saved copy yet */ }
+function startBuild() {
+  if (mkPending) return mkPending;
+  mkPending = buildReactions().then(d => {
+    if (d.events.length) { mkCache = { t: Date.now(), data: d }; try { fs.writeFileSync(MK_FILE, JSON.stringify(mkCache)); } catch (e) {} }
+    MK_ST.phase = d.events.length ? 'ready' : 'failed'; MK_ST.at = Date.now(); return d;
+  }).catch(e => { MK_ST.phase = 'failed'; MK_ST.last = String(e && e.message); }).finally(() => { mkPending = null; });
   return mkPending;
 }
+/* returns cached data at once; never makes a visitor wait for the full download */
+function reactions() {
+  if ((!mkCache.data || Date.now() - mkCache.t > 3 * 36e5) && !(MK_ST.phase === 'failed' && Date.now() - (MK_ST.at || 0) < 120000)) startBuild();
+  return mkCache.data || null;
+}
+setTimeout(startBuild, 4000);               // warm up right after the server starts
+setInterval(startBuild, 3 * 36e5);          // refresh every 3 hours
 /* ---------- PRO check: asks Supabase (with the visitor's own login token) whether they hold an active subscription ---------- */
-const SB = (() => { try { const h = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'); const u = /supabaseUrl:"([^"]+)"/.exec(h), k = /supabaseAnonKey:"([^"]+)"/.exec(h); return { url: process.env.SUPABASE_URL || (u && u[1]), key: process.env.SUPABASE_ANON_KEY || (k && k[1]) }; } catch (e) { return {}; } })();
+/* ---------- Firebase login check (verifies the visitor's Firebase ID token with Google's public keys) ---------- */
+const crypto = require('crypto');
+const FBP = (() => { try { const h = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'); const m = /FIGUR_FIREBASE=\{[^}]*projectId:"([^"]*)"/.exec(h); return process.env.FIREBASE_PROJECT_ID || (m && m[1]) || ''; } catch (e) { return process.env.FIREBASE_PROJECT_ID || ''; } })();
+let gKeys = { t: 0, keys: {} };
+async function googleKeys() {
+  if (Date.now() - gKeys.t < 3 * 36e5 && Object.keys(gKeys.keys).length) return gKeys.keys;
+  const j = JSON.parse(await getText('https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com', 8000));
+  gKeys = { t: Date.now(), keys: j }; return j;
+}
+const b64u = s => Buffer.from(s.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
+async function verifyUser(req) {
+  const m = /^Bearer\s+(.+)$/i.exec(req.headers.authorization || ''); if (!m || !FBP) return null;
+  const tok = m[1], parts = tok.split('.'); if (parts.length !== 3) return null;
+  try {
+    const head = JSON.parse(b64u(parts[0]).toString()), pay = JSON.parse(b64u(parts[1]).toString()), now = Date.now() / 1000;
+    if (head.alg !== 'RS256' || pay.aud !== FBP || pay.iss !== 'https://securetoken.google.com/' + FBP || !pay.sub || pay.exp < now || pay.iat > now + 300) return null;
+    const keys = await googleKeys(); const pem = keys[head.kid]; if (!pem) return null;
+    const ok = crypto.verify('RSA-SHA256', Buffer.from(parts[0] + '.' + parts[1]), crypto.createPublicKey(pem), b64u(parts[2]));
+    return ok ? { uid: pay.sub, email: pay.email || '', token: tok } : null;
+  } catch (e) { return null; }
+}
+/* ---------- PRO check: reads subscriptions/{uid} in Firestore with the visitor's own login (Firestore rules allow reading only your own row) ---------- */
 const proCache = new Map();
 async function isPro(req) {
-  const m = /^Bearer\s+(.+)$/i.exec(req.headers.authorization || ''); if (!m || !SB.url || !SB.key) return false;
-  const tok = m[1], c = proCache.get(tok); if (c && Date.now() - c.t < 5 * 6e4) return c.v;
+  const u = await verifyUser(req); if (!u) return false;
+  const c = proCache.get(u.uid); if (c && Date.now() - c.t < 5 * 6e4) return c.v;
   let v = false;
   try {
-    const r = await fetch(`${SB.url}/rest/v1/subscriptions?select=status,current_period_end&limit=1`, { headers: { apikey: SB.key, Authorization: 'Bearer ' + tok } });
-    if (r.ok) { const j = await r.json(); const s = j && j[0]; v = !!(s && /^(active|trialing)$/.test(s.status) && (!s.current_period_end || Date.parse(s.current_period_end) > Date.now())); }
+    const r = await fetch(`https://firestore.googleapis.com/v1/projects/${FBP}/databases/(default)/documents/subscriptions/${encodeURIComponent(u.uid)}`, { headers: { Authorization: 'Bearer ' + u.token } });
+    if (r.ok) { const f = ((await r.json()) || {}).fields || {}; const st = f.status && f.status.stringValue, end = f.current_period_end && (f.current_period_end.timestampValue || f.current_period_end.stringValue);
+      v = !!(st && /^(active|trialing)$/.test(st) && (!end || Date.parse(end) > Date.now())); }
   } catch (e) { v = false; }
-  if (proCache.size > 2000) proCache.clear(); proCache.set(tok, { t: Date.now(), v }); return v;
+  if (proCache.size > 2000) proCache.clear(); proCache.set(u.uid, { t: Date.now(), v }); return v;
+}
+/* ---------- AI assistant: forwards signed-in users' questions to Claude with YOUR key (Railway variable ANTHROPIC_API_KEY) ---------- */
+function readBody(req, max = 300000) { return new Promise((res, rej) => { let n = 0; const ch = []; req.on('data', d => { n += d.length; if (n > max) { rej(new Error('too big')); req.destroy(); } else ch.push(d); }); req.on('end', () => res(Buffer.concat(ch).toString())); req.on('error', rej); }); }
+const aiHits = new Map();
+async function aiHandler(req, res) {
+  const send = (o, st = 200) => { res.writeHead(st, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(o)); };
+  if (req.method !== 'POST') return send({ error: 'method' }, 405);
+  const u = await verifyUser(req); if (!u) return send({ error: 'login' }, 401);
+  const key = process.env.ANTHROPIC_API_KEY; if (!key) return send({ error: 'ANTHROPIC_API_KEY is not set' }, 404);
+  const h = aiHits.get(u.uid) || []; const now = Date.now(); const recent = h.filter(t => now - t < 36e5); if (recent.length >= 60) return send({ error: 'Too many requests, try again later' }, 429); recent.push(now); aiHits.set(u.uid, recent);
+  let body; try { body = JSON.parse(await readBody(req)); } catch (e) { return send({ error: 'bad json' }, 400); }
+  const messages = (body.messages || []).filter(m => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string').slice(-12).map(m => ({ role: m.role, content: m.content.slice(0, 30000) }));
+  if (!messages.length || messages[0].role !== 'user') return send({ error: 'no messages' }, 400);
+  const maxTokens = Math.min(Math.max(Number(body.max_tokens) || 1500, 200), 2500);
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({ model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-5-5', max_tokens: maxTokens, system: "You are the analysis assistant of figurdiscover.com, a financial and statistical analysis website. Answer in the language of the user's message, clearly and concisely, using Markdown. Never invent numbers that are not in the data. Remind users that results are not binding financial, tax or legal advice.", messages }) });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) return send({ error: (data && data.error && data.error.message) || 'anthropic ' + r.status }, 502);
+    const text = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('');
+    return send({ text, truncated: data.stop_reason === 'max_tokens' });
+  } catch (e) { return send({ error: 'ai unavailable' }, 502); }
 }
 function freeView(d) {
   // free visitors: full list of events, but only the 5 strongest reactions of the most recent event
@@ -273,9 +352,12 @@ http.createServer(async (req, res) => {
       return res.end(JSON.stringify({ at: Date.now(), series: d }));
     } catch (e) { res.writeHead(502, { 'Content-Type': 'application/json' }); return res.end('{"series":{}}'); }
   }
+  if (url.pathname === '/api/ai') return aiHandler(req, res);
   if (url.pathname === '/api/reactions') {
     try {
-      const [d, pro] = await Promise.all([reactions(), isPro(req)]);
+      const d = reactions();
+      if (!d) { res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }); return res.end(JSON.stringify({ building: true, phase: MK_ST.phase, done: MK_ST.done, total: MK_ST.total || MK_ASSETS.length, ok: MK_ST.ok, last: MK_ST.phase === 'failed' ? MK_ST.last : '' })); }
+      const pro = await isPro(req);
       const body = JSON.stringify(pro ? { ...d, pro: true } : freeView(d));
       const gz = /\bgzip\b/.test(req.headers['accept-encoding'] || '');
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'Vary': 'Authorization, Accept-Encoding', ...(gz ? { 'Content-Encoding': 'gzip' } : {}) });
