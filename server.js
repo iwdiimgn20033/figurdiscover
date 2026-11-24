@@ -436,7 +436,8 @@ async function payRoutes(req, res, url) {
     const ps = u.email ? storeSub(u.email) : null, ss = u.email ? storeScalp(u.email) : null;
     const later = (a, b) => (!a ? b : !b ? a : Date.parse(a.until) >= Date.parse(b.until) ? a : b);
     const used = !!STORE.trials[u.uid] || Object.values(STORE.trials).some(x => u.email && x.email === u.email);
-    return send({ receipt: r ? { status: r.status, plan: r.plan, at: r.at } : null, pro: later(ps, t && { until: t.until, trial: true }), scalper: later(ss, t && { until: t.until, trial: true }), trialUsed: used, sub: ps });
+    const access = { pro: await isPro(req), scalper: await hasScalper(req) };
+    return send({ access, receipt: r ? { status: r.status, plan: r.plan, at: r.at } : null, pro: later(ps, t && { until: t.until, trial: true }), scalper: later(ss, t && { until: t.until, trial: true }), trialUsed: used, sub: ps });
   }
   if (p === '/api/trial/start' && req.method === 'POST') {
     const u = await verifyUser(req); if (!u) return send({ error: 'login' }, 401);
@@ -446,7 +447,7 @@ async function payRoutes(req, res, url) {
   }
   if (p === '/api/indicator') {
     if (!(await hasScalper(req))) return send({ error: 'pro' }, 403);
-    const f = url.searchParams.get('f') === 'mq5' ? 'FD_Scalper_MT5.mq5' : 'FD_Scalper_Indicator.pine';
+    const f = url.searchParams.get('f') === 'mq5' ? 'Khamisehawi_MT5.mq5' : 'Khamisehawi_Indicator.pine';
     try { const buf = fs.readFileSync(path.join(ROOT, 'indicators', f)); res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8', 'Content-Disposition': 'attachment; filename="' + f + '"', 'Cache-Control': 'no-store' }); return res.end(buf); }
     catch (e) { return send({ error: 'missing' }, 404); }
   }
