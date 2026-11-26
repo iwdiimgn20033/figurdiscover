@@ -263,15 +263,18 @@ async function googleKeys() {
 }
 const b64u = s => Buffer.from(s.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
 async function verifyUser(req) {
-  const m = /^Bearer\s+(.+)$/i.exec(req.headers.authorization || ''); if (!m || !FBP) return null;
-  const tok = m[1], parts = tok.split('.'); if (parts.length !== 3) return null;
+  const fail = why => { req._authErr = why; return null; };
+  const m = /^Bearer\s+(.+)$/i.exec(req.headers.authorization || ''); if (!m) return fail('no token'); if (!FBP) return fail('firebase projectId not found in index.html');
+  const tok = m[1], parts = tok.split('.'); if (parts.length !== 3) return fail('malformed token');
   try {
     const head = JSON.parse(b64u(parts[0]).toString()), pay = JSON.parse(b64u(parts[1]).toString()), now = Date.now() / 1000;
-    if (head.alg !== 'RS256' || pay.aud !== FBP || pay.iss !== 'https://securetoken.google.com/' + FBP || !pay.sub || pay.exp < now || pay.iat > now + 300) return null;
-    const keys = await googleKeys(); const pem = keys[head.kid]; if (!pem) return null;
+    if (head.alg !== 'RS256') return fail('alg'); if (pay.aud !== FBP) return fail(`project mismatch: token ${pay.aud} vs server ${FBP}`);
+    if (pay.iss !== 'https://securetoken.google.com/' + FBP) return fail('issuer'); if (!pay.sub) return fail('no uid');
+    if (pay.exp < now) return fail('token expired (server clock ' + new Date().toISOString() + ')'); if (pay.iat > now + 300) return fail('token from the future: server clock is behind');
+    let keys; try { keys = await googleKeys(); } catch (e) { return fail('cannot download Google keys: ' + e.message); } const pem = keys[head.kid]; if (!pem) { gKeys.t = 0; return fail('unknown key id'); }
     const ok = crypto.verify('RSA-SHA256', Buffer.from(parts[0] + '.' + parts[1]), crypto.createPublicKey(pem), b64u(parts[2]));
-    return ok ? { uid: pay.sub, email: String(pay.email || '').toLowerCase(), verified: pay.email_verified === true, token: tok } : null;
-  } catch (e) { return null; }
+    return ok ? { uid: pay.sub, email: String(pay.email || '').toLowerCase(), verified: pay.email_verified === true, token: tok } : fail('bad signature');
+  } catch (e) { return fail('error: ' + e.message); }
 }
 /* ---------- Manual payments: receipts uploaded by users, approved by the admin from the site (#admin) ----------
    Data is kept in DATA_DIR (Railway Volume mounted at /data recommended, otherwise it resets on each deploy). */
@@ -978,6 +981,7 @@ http.createServer(async (req, res) => {
   if (url.pathname === '/api/whoami') {
     const u = await verifyUser(req), em = adminList(), ids = envList('ADMIN_UIDS');
     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+    if (!u) return res.end(JSON.stringify({ signedIn: false, tokenSent: !!req.headers.authorization, authError: req._authErr || '', adminEmailsSet: em.length, adminUidsSet: ids.length }));
     return res.end(JSON.stringify(u ? { signedIn: true, email: u.email, verified: u.verified, uid: u.uid, adminEmailsSet: em.length, adminUidsSet: ids.length, emailListed: em.includes(u.email), uidListed: ids.includes(u.uid), admin: isAdminU(u), pro: await isPro(req), scalper: await hasScalper(req) } : { signedIn: false, adminEmailsSet: em.length, adminUidsSet: ids.length }));
   }
   if (url.pathname === '/api/history') {
