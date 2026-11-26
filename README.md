@@ -42,4 +42,11 @@ Check: open https://figurdiscover.com/api/capital/status?test=1
 - Each subscriber links their own Capital.com account from the indicator page. Credentials are encrypted with AES-256-GCM.
 - Railway → Variables: `TRADE_SECRET` = any long random text (encryption key). Do not change it later, or saved links stop working.
 - A Railway Volume mounted at `/data` is required so links, bot settings and trade logs survive deploys.
-- Auto-trading runs on the server every 5 s on closed 1-minute candles (indicators/khamisehawi-engine.js).
+- Orders are placed only by the user (auto-trading removed).
+
+## Owner AI trading bot (#aibot)
+- Owner only (ADMIN_EMAILS / ADMIN_UIDS). Paper mode by default.
+- Signals: Khamisehawi engine (closed 1-minute candles) + TradingView webhook `/api/bot/tv?key=...`.
+- Filter: Claude via `ANTHROPIC_API_KEY` (optional `ANTHROPIC_MODEL`); rule filter without a key.
+- Venues: Capital.com (owner's linked wallet account), MetaTrader 5 / CFI (EA `indicators/Khamisehawi_AI_Bot.mq5`, downloaded from the bot page with the key inside), Binance USDⓈ-M futures (`BINANCE_KEY`, `BINANCE_SECRET`, `BINANCE_TESTNET=0` for live; needs a non-US Railway region).
+- Optional `BOT_KEY` to set the webhook / EA key yourself.

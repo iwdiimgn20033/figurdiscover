@@ -285,15 +285,18 @@ STORE.scalp = STORE.scalp || {}; STORE.trials = STORE.trials || {};
 const TRIAL_HOURS = +process.env.TRIAL_HOURS || 3;
 function saveStore() { try { fs.writeFileSync(STORE_FILE + '.tmp', JSON.stringify(STORE)); fs.renameSync(STORE_FILE + '.tmp', STORE_FILE); } catch (e) { console.error('store save failed', e.message); } }
 const persistent = DATA_DIR === '/data' || !!process.env.DATA_DIR;
-function adminList() { return String(process.env.ADMIN_EMAILS || '').toLowerCase().split(/[,;\s]+/).filter(Boolean); }
-async function verifyAdmin(req) { const u = await verifyUser(req); return u && u.verified && u.email && adminList().includes(u.email) ? u : null; }
+const envList = n => String(process.env[n] || '').split(/[,;\s]+/).map(x => x.replace(/^["'<]+|[>"']+$/g, '').trim()).filter(Boolean);
+function adminList() { return envList('ADMIN_EMAILS').map(x => x.toLowerCase()); }
+/* site owner: ADMIN_EMAILS (verified email) or ADMIN_UIDS (Firebase User UID — works even if the email is not verified) */
+function isAdminU(u) { return !!u && ((u.verified && !!u.email && adminList().includes(u.email)) || envList('ADMIN_UIDS').includes(u.uid)); }
+async function verifyAdmin(req) { const u = await verifyUser(req); return isAdminU(u) ? u : null; }
 function storeSub(email) { const s = STORE.subs[email]; return s && Date.parse(s.until) > Date.now() ? s : null; }
 function storeScalp(email) { const s = STORE.scalp[email]; return s && Date.parse(s.until) > Date.now() ? s : null; }
 function trialOf(uid) { const t = STORE.trials[uid]; return t && Date.parse(t.until) > Date.now() ? t : null; }
 const scCache = new Map();
 async function hasScalper(req) {
   const u = await verifyUser(req); if (!u) return false;
-  if (u.verified && u.email && adminList().includes(u.email)) return true;
+  if (isAdminU(u)) return true;
   if (trialOf(u.uid)) return true;
   return !!(u.email && storeScalp(u.email));
 }
@@ -325,8 +328,7 @@ const proCache = new Map();
 async function isPro(req, fresh) {
   const u = await verifyUser(req); if (!u) return false;
   // site owner / admins: Railway variable ADMIN_EMAILS = comma-separated emails (verified emails only)
-  const admins = String(process.env.ADMIN_EMAILS || '').toLowerCase().split(/[,;\s]+/).filter(Boolean);
-  if (u.verified && u.email && admins.includes(u.email)) return true;
+  if (isAdminU(u)) return true;
   if (u.email && storeSub(u.email)) return true;   // approved from the admin page
   if (trialOf(u.uid)) return true;                  // free trial
   // manual PayPal subscribers: Railway variable PRO_EMAILS = "name@mail.com:2026-12-31, other@mail.com:2027-01-15"
@@ -521,7 +523,7 @@ async function brkBars(c, asset) {
   return s.bars;
 }
 function brkLog(rec, ar, en, kind = 'info') { rec.log = rec.log || []; rec.log.unshift({ t: Date.now(), ar, en, kind }); rec.log = rec.log.slice(0, 80); }
-function brkEntitled(rec) { const e = rec.email; return (rec.verified && e && adminList().includes(e)) || !!trialOf(rec.uid) || !!(e && storeScalp(e)); }
+function brkEntitled(rec) { const e = rec.email; return isAdminU({ uid: rec.uid, email: e, verified: rec.verified }) || !!trialOf(rec.uid) || !!(e && storeScalp(e)); }
 const BOT_DEF = { on: false, assets: { gold: true, nas: false }, size: { gold: 0, nas: 0 }, quality: 2, maxDay: 5, maxBars: 30, be: true };
 const round = (v, d = 2) => Math.round(v * 10 ** d) / 10 ** d;
 async function brkOpen(c, rec, o) { // o: {asset, dir, size, sl, tp, src}
@@ -632,6 +634,174 @@ async function brokerRoutes(req, res, url) {
     }
     return send({ error: 'not found' }, 404);
   } catch (e) { return send({ error: 'broker', detail: e.message }, 502); }
+}
+/* ---------- Owner AI trading bot (owner's own accounts only) ----------
+   Signals: Khamisehawi engine on closed 1-minute candles + TradingView webhook alerts.
+   Filter: Claude (ANTHROPIC_API_KEY) approves or rejects each trade with a confidence score; rule-based score when no key.
+   Guards: daily trade limit, max open trades, news blackout around high-impact events.
+   Venues: paper (simulation), Capital.com (owner's linked account), MetaTrader 5 / CFI (EA polls this server), Binance USDⓈ-M futures (BTC). */
+STORE.bot = Object.assign({ on: false, mode: 'paper', ai: true, minConf: 65, maxDay: 6, maxOpen: 2, blackout: 15, quality: 2, maxMin: 30, be: true,
+  venues: { capital: false, mt5: false, binance: false },
+  assets: { gold: { on: true, size: 0.5, mt5: 'XAUUSD', lot: 0.01 }, nas: { on: false, size: 0.5, mt5: 'US100', lot: 0.1 }, btc: { on: false, qty: 0.002, mt5: 'BTCUSD', lot: 0.01 } } }, STORE.bot || {});
+STORE.botLog = STORE.botLog || []; STORE.botQ = STORE.botQ || []; STORE.botPaper = STORE.botPaper || { open: {}, closed: [] }; STORE.botLive = STORE.botLive || {};
+STORE.botDay = STORE.botDay || { d: '', n: 0 }; STORE.botSig = STORE.botSig || {}; STORE.botMt5 = STORE.botMt5 || { seen: 0, acct: '' }; STORE.botTv = STORE.botTv || [];
+if (!STORE.botKey) { STORE.botKey = crypto.randomBytes(18).toString('hex'); saveStore(); }
+const botKey = () => process.env.BOT_KEY || STORE.botKey;
+const BOT_NM = { gold: ['الذهب', 'Gold'], nas: ['US100', 'US100'], btc: ['بيتكوين', 'Bitcoin'] };
+function botLog(ar, en, kind = 'info') { STORE.botLog.unshift({ t: Date.now(), ar, en, kind }); STORE.botLog = STORE.botLog.slice(0, 300); }
+async function botCal() {
+  if (calCache.d && Date.now() - calCache.t < 30 * 6e4) return calCache.d;
+  try { const j = JSON.parse(await getText('https://nfs.faireconomy.media/ff_calendar_thisweek.json', 10000)); if (Array.isArray(j) && j.length) calCache = { t: Date.now(), d: j }; } catch (e) {}
+  return calCache.d || [];
+}
+async function botBars(asset) {
+  if (asset === 'btc') { const k = JSON.parse(await getText('https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=600', 9000)); return k.map(x => [x[0], +x[1], +x[2], +x[3], +x[4], +x[5]]); }
+  const s = await capCandles(asset, '1'); return s ? s.bars : [];
+}
+function botTech(B) { // compact readings for the AI / rule filter
+  const C = B.map(b => b[4]), n = C.length, ema = (p) => { const k = 2 / (p + 1); let e = C[0]; for (let i = 1; i < n; i++) e = C[i] * k + e * (1 - k); return e; };
+  let g = 0, l = 0; for (let i = n - 14; i < n; i++) { const d = C[i] - C[i - 1]; if (d > 0) g += d; else l -= d; } const rsi = l ? 100 - 100 / (1 + g / l) : 100;
+  const e12 = ema(12), e26 = ema(26), e50 = ema(50), e200 = ema(Math.min(200, n - 1)); let atr = 0; for (let i = n - 14; i < n; i++) atr += Math.max(B[i][2] - B[i][3], Math.abs(B[i][2] - C[i - 1]), Math.abs(B[i][3] - C[i - 1])); atr /= 14;
+  const ch = (k) => C[n - 1] - C[n - 1 - k];
+  return { price: C[n - 1], rsi14: +rsi.toFixed(1), macd: +(e12 - e26).toFixed(4), ema50: +e50.toFixed(2), ema200: +e200.toFixed(2), atr14: +atr.toFixed(4), chg5m: +ch(5).toFixed(3), chg15m: +ch(15).toFixed(3), chg60m: +ch(60).toFixed(3) };
+}
+async function botNews(asset) { const now = Date.now(), win = (STORE.bot.blackout || 15) * 6e4, cur = asset === 'btc' ? ['USD'] : ['USD'];
+  const ev = (await botCal()).filter(e => e.impact === 'High' && cur.includes(e.country)).map(e => ({ t: Date.parse(e.date), title: e.title, f: e.forecast, p: e.previous, a: e.actual })).filter(e => e.t);
+  return { block: ev.find(e => Math.abs(e.t - now) <= win) || null, upcoming: ev.filter(e => e.t > now && e.t - now < 6 * 36e5).slice(0, 4) }; }
+async function botJudge(asset, c, tech, news) {
+  const ruleConf = () => { const d = c.dir === 'BUY' ? 1 : -1; let a = 0; if ((tech.ema50 - tech.ema200) * d > 0) a++; if (tech.macd * d > 0) a++; if (d > 0 ? tech.rsi14 < 72 : tech.rsi14 > 28) a++; if (tech.chg15m * d > 0) a++; return { take: a >= 3, conf: 35 + a * 15, reason: `rules ${a}/4`, by: 'rules' }; };
+  const key = process.env.ANTHROPIC_API_KEY; if (!STORE.bot.ai || !key) return ruleConf();
+  const prompt = `You are a strict risk filter for a short-term trading bot. A ${c.src} signal proposes ${c.dir} ${asset.toUpperCase()} at ${c.ent} (stop ${c.sl}, target ${c.tp}). Market readings (1-minute chart): ${JSON.stringify(tech)}. Upcoming high-impact US news (next 6h): ${JSON.stringify(news.upcoming)}.
+Decide whether to TAKE or SKIP this trade. Be conservative: skip when readings conflict, momentum is against the trade, or major news is close. Reply with JSON only: {"decision":"take"|"skip","confidence":0-100,"reason":"max 15 words"}`;
+  try {
+    const ac = new AbortController(), t = setTimeout(() => ac.abort(), 20000);
+    const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', signal: ac.signal, headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' }, body: JSON.stringify({ model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-5-5', max_tokens: 200, messages: [{ role: 'user', content: prompt }] }) });
+    clearTimeout(t); const j = await r.json(); const txt = (j.content || []).map(x => x.text || '').join(''); const m = /\{[\s\S]*\}/.exec(txt); const o = m ? JSON.parse(m[0]) : null;
+    if (!o) throw new Error('no json'); return { take: o.decision === 'take', conf: Math.max(0, Math.min(100, +o.confidence || 0)), reason: String(o.reason || '').slice(0, 160), by: 'ai' };
+  } catch (e) { const r = ruleConf(); r.reason += ' (AI unavailable: ' + e.message + ')'; return r; }
+}
+function ownerBroker() { for (const [uid, rec] of Object.entries(STORE.brokers || {})) if (isAdminU({ uid, email: rec.email, verified: rec.verified })) return uid; return null; }
+/* Binance USDⓈ-M futures (BTCUSDT). BINANCE_KEY / BINANCE_SECRET; testnet unless BINANCE_TESTNET=0. Note: Binance refuses US servers — run Railway in an EU/Asia region. */
+async function bnReq(method, p, params) {
+  const base = process.env.BINANCE_TESTNET === '0' ? 'https://fapi.binance.com' : 'https://testnet.binancefuture.com';
+  const q = new URLSearchParams({ ...params, timestamp: Date.now(), recvWindow: 10000 }).toString(), sig = crypto.createHmac('sha256', process.env.BINANCE_SECRET || '').update(q).digest('hex');
+  const r = await fetch(`${base}${p}?${q}&signature=${sig}`, { method, headers: { 'X-MBX-APIKEY': process.env.BINANCE_KEY || '' } }); const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error((j && j.msg) || 'HTTP ' + r.status); return j;
+}
+async function bnOpen(dir, qty, sl, tp) {
+  const side = dir === 'BUY' ? 'BUY' : 'SELL', opp = side === 'BUY' ? 'SELL' : 'BUY', px = v => (Math.round(v * 10) / 10).toFixed(1);
+  const o = await bnReq('POST', '/fapi/v1/order', { symbol: 'BTCUSDT', side, type: 'MARKET', quantity: qty });
+  try { await bnReq('POST', '/fapi/v1/order', { symbol: 'BTCUSDT', side: opp, type: 'STOP_MARKET', stopPrice: px(sl), closePosition: 'true', workingType: 'MARK_PRICE' }); } catch (e) { botLog('تعذّر وضع وقف Binance: ' + e.message, 'Binance stop failed: ' + e.message, 'bad'); }
+  try { await bnReq('POST', '/fapi/v1/order', { symbol: 'BTCUSDT', side: opp, type: 'TAKE_PROFIT_MARKET', stopPrice: px(tp), closePosition: 'true', workingType: 'MARK_PRICE' }); } catch (e) { botLog('تعذّر وضع هدف Binance: ' + e.message, 'Binance target failed: ' + e.message, 'bad'); }
+  return o;
+}
+async function botExecute(asset, c, j) {
+  const B = STORE.bot, A = B.assets[asset], nm = BOT_NM[asset], dTxt = c.dir === 'BUY' ? ['شراء', 'BUY'] : ['بيع', 'SELL'];
+  const head = `${dTxt[0]} ${nm[0]} @ ${round(c.ent)} · SL ${round(c.sl)} · TP ${round(c.tp)}`, headE = `${dTxt[1]} ${nm[1]} @ ${round(c.ent)} · SL ${round(c.sl)} · TP ${round(c.tp)}`;
+  const why = ` (${j.by === 'ai' ? 'AI' : 'rules'} ${j.conf}% — ${j.reason})`;
+  if (B.mode === 'paper') { STORE.botPaper.open[asset] = { asset, dir: c.dir, ent: c.ent, sl: c.sl, tp: c.tp, t1: c.t1, at: Date.now(), be: false, src: c.src }; botLog('📝 تجريبي: ' + head + why, '📝 Paper: ' + headE + why, 'good'); return; }
+  let done = 0;
+  if (B.venues.capital && asset !== 'btc') { const uid = ownerBroker(), cl = uid && brkClient(uid);
+    if (!cl) botLog('Capital.com: اربط حسابك من صفحة المؤشر (المحفظة والتداول) أولاً.', 'Capital.com: link your account in the wallet first.', 'warn');
+    else { try { const r = await brkOpen(cl, STORE.brokers[uid], { asset, dir: c.dir, size: A.size, sl: c.sl, tp: c.tp }); STORE.botLive[asset] = { dealId: r.dealId, uid, dir: c.dir, level: r.level || c.ent, t1: c.t1, tp: c.tp, at: Date.now(), be: false }; done++; botLog('✅ Capital.com: ' + head + why, '✅ Capital.com: ' + headE + why, 'good'); } catch (e) { botLog('Capital.com رفض الأمر: ' + e.message, 'Capital.com rejected: ' + e.message, 'bad'); } } }
+  if (B.venues.mt5) { const it = { id: crypto.randomBytes(6).toString('hex'), t: Date.now(), asset, sym: A.mt5, dir: c.dir, lot: A.lot, slDist: +Math.abs(c.ent - c.sl).toFixed(5), tpDist: +Math.abs(c.tp - c.ent).toFixed(5), beDist: B.be ? +Math.abs(c.t1 - c.ent).toFixed(5) : 0, maxMin: B.maxMin || 30, st: 'new' };
+    STORE.botQ.unshift(it); STORE.botQ = STORE.botQ.slice(0, 200); done++; botLog(`📨 MT5: أُرسل للمنصة ${A.mt5} ${dTxt[0]} ${A.lot} لوت` + why, `📨 MT5: sent ${A.mt5} ${dTxt[1]} ${A.lot} lot` + why, 'good'); }
+  if (B.venues.binance && asset === 'btc') { try { await bnOpen(c.dir, A.qty, c.sl, c.tp); done++; botLog('✅ Binance: ' + head + why, '✅ Binance: ' + headE + why, 'good'); } catch (e) { botLog('Binance رفض الأمر: ' + e.message, 'Binance rejected: ' + e.message, 'bad'); } }
+  if (!done) botLog('لم يُنفَّذ: لا توجد منصة مفعّلة لهذه الأداة.', 'Not executed: no venue enabled for this instrument.', 'warn');
+}
+async function botConsider(asset, c, last) {
+  const B = STORE.bot, today = new Date().toISOString().slice(0, 10); if (STORE.botDay.d !== today) STORE.botDay = { d: today, n: 0 };
+  const nm = BOT_NM[asset], dTxt = c.dir === 'BUY' ? 'شراء' : 'بيع';
+  const open = Object.values(STORE.botPaper.open).filter(Boolean).length + Object.values(STORE.botLive).filter(Boolean).length;
+  if ((B.mode === 'paper' ? STORE.botPaper.open[asset] : STORE.botLive[asset])) return botLog(`تجاهلت إشارة ${dTxt} ${nm[0]}: توجد صفقة مفتوحة.`, `Skipped ${c.dir} ${nm[1]}: a trade is already open.`);
+  if (STORE.botDay.n >= B.maxDay) return botLog(`تجاهلت إشارة ${nm[0]}: وصل الحد اليومي (${B.maxDay}).`, `Skipped: daily limit (${B.maxDay}) reached.`, 'warn');
+  if (open >= B.maxOpen) return botLog(`تجاهلت إشارة ${nm[0]}: الحد الأقصى للصفقات المفتوحة (${B.maxOpen}).`, `Skipped: max open trades (${B.maxOpen}).`, 'warn');
+  const news = await botNews(asset);
+  if (news.block) return botLog(`تجاهلت إشارة ${nm[0]}: خبر مهم قريب (${news.block.title}).`, `Skipped ${nm[1]}: high-impact news nearby (${news.block.title}).`, 'warn');
+  const tech = botTech(last), j = await botJudge(asset, c, tech, news);
+  if (!j.take || j.conf < B.minConf) return botLog(`🧠 رفض ${j.by === 'ai' ? 'الذكاء الاصطناعي' : 'الفلتر'} ${dTxt} ${nm[0]} (ثقة ${j.conf}%): ${j.reason}`, `🧠 ${j.by === 'ai' ? 'AI' : 'Filter'} rejected ${c.dir} ${nm[1]} (${j.conf}%): ${j.reason}`);
+  STORE.botDay.n++; await botExecute(asset, c, j);
+}
+async function botManage() {
+  const B = STORE.bot;
+  for (const [a, p] of Object.entries(STORE.botPaper.open)) { if (!p) continue; let bars; try { bars = await botBars(a); } catch (e) { continue; } const L = bars[bars.length - 1]; if (!L) continue;
+    const px = L[4], hiSL = p.dir === 'BUY' ? L[3] <= p.sl : L[2] >= p.sl, hiTP = p.dir === 'BUY' ? L[2] >= p.tp : L[3] <= p.tp;
+    if (!p.be && B.be && (p.dir === 'BUY' ? L[2] >= p.t1 : L[3] <= p.t1)) { p.be = true; p.sl = p.ent; }
+    const exit = hiSL ? p.sl : hiTP ? p.tp : Date.now() - p.at > (B.maxMin || 30) * 6e4 ? px : null;
+    if (exit != null) { const r = (p.dir === 'BUY' ? exit - p.ent : p.ent - exit), risk = Math.abs(p.ent - (p.be ? p.ent : p.sl)) || Math.abs(p.ent - p.tp) / 2;
+      STORE.botPaper.closed.unshift({ ...p, exit, pts: +r.toFixed(4), out: Date.now(), why: hiSL ? (p.be ? 'BE' : 'SL') : hiTP ? 'TP' : 'time' }); STORE.botPaper.closed = STORE.botPaper.closed.slice(0, 500); STORE.botPaper.open[a] = null;
+      botLog(`📝 أُغلقت التجريبية ${BOT_NM[a][0]}: ${r >= 0 ? '+' : ''}${round(r)} نقطة (${hiSL ? (p.be ? 'التعادل' : 'الوقف') : hiTP ? 'الهدف' : 'الوقت'})`, `📝 Paper ${BOT_NM[a][1]} closed: ${r >= 0 ? '+' : ''}${round(r)} pts`, r >= 0 ? 'good' : 'bad'); } }
+  for (const [a, d] of Object.entries(STORE.botLive)) { if (!d) continue; const cl = brkClient(d.uid); if (!cl) { STORE.botLive[a] = null; continue; }
+    try { const pos = (await brkReq(cl, 'GET', '/positions')).positions || [], p = pos.find(x => x.position && x.position.dealId === d.dealId);
+      if (!p) { STORE.botLive[a] = null; botLog(`أُغلقت صفقة ${BOT_NM[a][0]} في Capital.com (وقف أو هدف).`, `${BOT_NM[a][1]} closed on Capital.com.`); continue; }
+      const px = d.dir === 'BUY' ? p.market.bid : p.market.offer;
+      if (B.be && !d.be && (d.dir === 'BUY' ? px >= d.t1 : px <= d.t1)) { try { await brkReq(cl, 'PUT', '/positions/' + d.dealId, { stopLevel: round(d.level), profitLevel: round(d.tp) }); d.be = true; botLog('نُقل الوقف لسعر الدخول.', 'Stop moved to entry.', 'good'); } catch (e) {} }
+      if (Date.now() - d.at > (B.maxMin || 30) * 6e4) { await brkReq(cl, 'DELETE', '/positions/' + d.dealId); STORE.botLive[a] = null; botLog(`أُغلقت ${BOT_NM[a][0]} بعد ${B.maxMin} دقيقة.`, `Closed after ${B.maxMin} min.`); }
+    } catch (e) {} }
+}
+let botBusy2 = false;
+async function botTick() {
+  if (botBusy2) return; botBusy2 = true;
+  try {
+    const B = STORE.bot; await botManage();
+    while (STORE.botTv.length) { const c = STORE.botTv.shift(); if (!B.on) { botLog('وصل تنبيه TradingView والبوت متوقف.', 'TradingView alert received while the bot is off.'); continue; }
+      try { const bars = await botBars(c.asset), L = bars.slice(-300); const t = botTech(L), ent = t.price, d = c.dir === 'BUY' ? 1 : -1, sl = c.sl || ent - d * 1.2 * t.atr14, tp = c.tp || ent + d * 2.4 * t.atr14;
+        await botConsider(c.asset, { dir: c.dir, ent, sl, tp, t1: ent + d * Math.abs(ent - sl), src: 'TradingView' }, L); } catch (e) { botLog('تنبيه TradingView: ' + e.message, 'TradingView alert: ' + e.message, 'bad'); } }
+    if (B.on && fdScalpSrv) { const minute = Math.floor(Date.now() / 6e4) * 6e4;
+      for (const a of ['gold', 'nas', 'btc']) { if (!B.assets[a] || !B.assets[a].on) continue;
+        let all; try { all = await botBars(a); } catch (e) { continue; } const closed = all.filter(b => b[0] < minute); if (closed.length < 300) continue;
+        const lastT = closed[closed.length - 1][0]; if (STORE.botSig[a] === lastT) continue; STORE.botSig[a] = lastT;
+        const R = fdScalpSrv(closed.map(b => ({ t: b[0], o: b[1], h: b[2], l: b[3], c: b[4], v: b[5] })), { asset: a === 'btc' ? 'gold' : a, quality: B.quality || 2, session: a !== 'btc' }), s = R.signals[R.signals.length - 1];
+        if (s && s.t === lastT) await botConsider(a, { dir: s.d > 0 ? 'BUY' : 'SELL', ent: s.ent, sl: s.sl, tp: s.t2, t1: s.t1, src: 'Khamisehawi' }, closed); }
+    }
+  } catch (e) { botLog('خطأ في البوت: ' + e.message, 'Bot error: ' + e.message, 'bad'); }
+  finally { botBusy2 = false; saveStore(); }
+}
+setInterval(() => { botTick().catch(() => {}); }, 10000);
+function botEA(base) {
+  try { return fs.readFileSync(path.join(ROOT, 'indicators', 'Khamisehawi_AI_Bot.mq5'), 'utf8').replace('__SERVER__', base).replace('__KEY__', botKey()); } catch (e) { return null; }
+}
+async function botRoutes(req, res, url) {
+  const send = (o, st = 200) => { res.writeHead(st, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(o)); };
+  const p = url.pathname, keyOk = () => (url.searchParams.get('key') || req.headers['x-bot-key']) === botKey();
+  /* MetaTrader 5 EA */
+  if (p === '/api/bot/mt5') { if (!keyOk()) return send({ error: 'key' }, 401); STORE.botMt5 = { seen: Date.now(), acct: String(url.searchParams.get('acct') || '').slice(0, 40) };
+    const items = STORE.botQ.filter(x => x.st === 'new' && Date.now() - x.t < 90000); items.forEach(x => { x.st = 'sent'; });
+    STORE.botQ.filter(x => x.st === 'new' && Date.now() - x.t >= 90000).forEach(x => { x.st = 'expired'; botLog(`انتهت صلاحية أمر MT5 ${x.sym}: لم تتصل المنصة خلال 90 ثانية.`, `MT5 order ${x.sym} expired: terminal did not poll within 90 s.`, 'warn'); });
+    return send({ items: items.map(x => ({ id: x.id, sym: x.sym, dir: x.dir, lot: x.lot, sl: x.slDist, tp: x.tpDist, be: x.beDist, mm: x.maxMin })) }); }
+  if (p === '/api/bot/mt5/ack') { if (!keyOk()) return send({ error: 'key' }, 401); let b = {}; try { b = JSON.parse(await readBody(req, 5000) || '{}'); } catch (e) {}
+    const it = STORE.botQ.find(x => x.id === b.id); if (it) { it.st = b.ok ? 'filled' : 'failed'; it.ticket = b.ticket; it.err = b.err;
+      botLog(b.ok ? `✅ MT5 نفّذ ${it.sym} ${it.dir} (تذكرة ${b.ticket || '—'}) بسعر ${b.price || '—'}` : `MT5 رفض ${it.sym}: ${b.err || ''}`, b.ok ? `✅ MT5 filled ${it.sym} ${it.dir} #${b.ticket || ''}` : `MT5 failed ${it.sym}: ${b.err || ''}`, b.ok ? 'good' : 'bad'); }
+    return send({ ok: true }); }
+  /* TradingView webhook: message {"action":"buy","asset":"gold"} (optional "sl","tp") or plain text like "buy gold" */
+  if (p === '/api/bot/tv') { if (!keyOk()) return send({ error: 'key' }, 401); const raw = await readBody(req, 5000).catch(() => ''); let b = {}; try { b = JSON.parse(raw); } catch (e) { b = { text: raw }; }
+    const txt = String(b.action || b.side || b.text || '').toLowerCase() + ' ' + String(b.asset || b.symbol || b.ticker || b.text || '').toLowerCase();
+    const dir = /\b(buy|long)\b/.test(txt) ? 'BUY' : /\b(sell|short)\b/.test(txt) ? 'SELL' : null, asset = /xau|gold/.test(txt) ? 'gold' : /nas|us100|ndx|nq|ustec/.test(txt) ? 'nas' : /btc|bitcoin/.test(txt) ? 'btc' : null;
+    if (!dir || !asset) return send({ error: 'could not read action/asset', got: txt.slice(0, 80) }, 400);
+    STORE.botTv.push({ dir, asset, sl: +b.sl || 0, tp: +b.tp || 0 }); botLog(`📩 تنبيه TradingView: ${dir === 'BUY' ? 'شراء' : 'بيع'} ${BOT_NM[asset][0]}`, `📩 TradingView alert: ${dir} ${BOT_NM[asset][1]}`); setTimeout(() => botTick().catch(() => {}), 50); return send({ ok: true }); }
+  /* owner only below */
+  const u = await verifyUser(req); if (!isAdminU(u)) return send({ error: 'owner only' }, 403);
+  if (p === '/api/bot/state') { const P = STORE.botPaper, cl = P.closed, wins = cl.filter(x => x.pts > 0).length;
+    return send({ cfg: STORE.bot, key: botKey(), log: STORE.botLog.slice(0, 120), paper: { open: P.open, closed: cl.slice(0, 50), n: cl.length, wins, pts: cl.reduce((s, x) => s + x.pts, 0) }, live: STORE.botLive, day: STORE.botDay, queue: STORE.botQ.slice(0, 20),
+      ready: { capital: !!ownerBroker(), capitalFeed: capOn(), ai: !!process.env.ANTHROPIC_API_KEY, binance: !!(process.env.BINANCE_KEY && process.env.BINANCE_SECRET), binanceTestnet: process.env.BINANCE_TESTNET !== '0', mt5Seen: STORE.botMt5.seen, mt5Acct: STORE.botMt5.acct, persistent } }); }
+  if (p === '/api/bot/config' && req.method === 'POST') { let b = {}; try { b = JSON.parse(await readBody(req, 20000) || '{}'); } catch (e) { return send({ error: 'json' }, 400); }
+    const B = STORE.bot; if (b.mode === 'live' && B.mode !== 'live' && b.ack !== true) return send({ error: 'ack' }, 400);
+    if (['paper', 'live'].includes(b.mode)) { if (b.mode !== B.mode) botLog(b.mode === 'live' ? '⚠️ التحويل إلى التداول الحقيقي.' : 'التحويل إلى الوضع التجريبي.', b.mode === 'live' ? '⚠️ Switched to LIVE trading.' : 'Switched to paper mode.', b.mode === 'live' ? 'warn' : 'info'); B.mode = b.mode; }
+    if (typeof b.on === 'boolean' && b.on !== B.on) { B.on = b.on; botLog(b.on ? '▶️ شُغّل البوت.' : '⏸️ أُوقف البوت.', b.on ? '▶️ Bot started.' : '⏸️ Bot stopped.', b.on ? 'good' : 'info'); if (b.on) STORE.botSig = {}; }
+    if (typeof b.ai === 'boolean') B.ai = b.ai; for (const k of ['minConf', 'maxDay', 'maxOpen', 'blackout', 'quality', 'maxMin']) if (Number.isFinite(+b[k]) && +b[k] >= 0) B[k] = +b[k]; if (typeof b.be === 'boolean') B.be = b.be;
+    if (b.venues) for (const k of ['capital', 'mt5', 'binance']) if (typeof b.venues[k] === 'boolean') B.venues[k] = b.venues[k];
+    if (b.assets) for (const k of ['gold', 'nas', 'btc']) { const s = b.assets[k]; if (!s) continue; const A = B.assets[k]; if (typeof s.on === 'boolean') A.on = s.on; for (const f of ['size', 'lot', 'qty']) if (Number.isFinite(+s[f]) && +s[f] >= 0) A[f] = +s[f]; if (typeof s.mt5 === 'string') A.mt5 = s.mt5.trim().slice(0, 30); }
+    saveStore(); return send({ ok: true, cfg: B }); }
+  if (p === '/api/bot/test' && req.method === 'POST') { const v = url.searchParams.get('v');
+    try { if (v === 'capital') { const uid = ownerBroker(); if (!uid) throw new Error('link your Capital.com account in the wallet first'); const a = await brkReq(brkClient(uid), 'GET', '/accounts'); const x = (a.accounts || [])[0] || {}; return send({ ok: true, info: `${x.accountName || ''} · ${x.currency || ''} ${x.balance && x.balance.balance}` }); }
+      if (v === 'binance') { const a = await bnReq('GET', '/fapi/v2/balance', {}); const usdt = (a || []).find(x => x.asset === 'USDT'); return send({ ok: true, info: 'USDT ' + (usdt ? usdt.balance : '0') + (process.env.BINANCE_TESTNET === '0' ? '' : ' (testnet)') }); }
+      if (v === 'ai') { const j = await botJudge('gold', { dir: 'BUY', ent: 1, sl: 0.9, tp: 1.2, src: 'test' }, { price: 1, rsi14: 50, macd: 0, ema50: 1, ema200: 1, atr14: 0.01, chg5m: 0, chg15m: 0, chg60m: 0 }, { upcoming: [] }); return send({ ok: j.by === 'ai', info: `${j.by} · ${j.conf}% · ${j.reason}` }); }
+      if (v === 'tv') { STORE.botTv.push({ dir: 'BUY', asset: 'gold' }); botLog('🧪 تنبيه تجريبي من صفحة البوت.', '🧪 Test alert from the bot page.'); botTick().catch(() => {}); return send({ ok: true, info: 'queued' }); }
+      return send({ error: 'venue' }, 400); } catch (e) { return send({ ok: false, error: e.message }); } }
+  if (p === '/api/bot/ea') { const base = `https://${req.headers['x-forwarded-host'] || req.headers.host}`; const ea = botEA(base); if (!ea) return send({ error: 'missing' }, 404);
+    res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8', 'Content-Disposition': 'attachment; filename="Khamisehawi_AI_Bot.mq5"', 'Cache-Control': 'no-store' }); return res.end(ea); }
+  if (p === '/api/bot/reset-paper' && req.method === 'POST') { STORE.botPaper = { open: {}, closed: [] }; saveStore(); return send({ ok: true }); }
+  return send({ error: 'not found' }, 404);
 }
 /* ---------- AI assistant: forwards signed-in users' questions to Claude with YOUR key (Railway variable ANTHROPIC_API_KEY) ---------- */
 function readBody(req, max = 300000) { return new Promise((res, rej) => { let n = 0; const ch = []; req.on('data', d => { n += d.length; if (n > max) { rej(new Error('too big')); req.destroy(); } else ch.push(d); }); req.on('end', () => res(Buffer.concat(ch).toString())); req.on('error', rej); }); }
@@ -793,6 +963,7 @@ http.createServer(async (req, res) => {
     return res.end(JSON.stringify({ configured: capOn(), env: String(process.env.CAPITAL_ENV || 'demo').toLowerCase() === 'live' ? 'live' : 'demo', loggedIn: !!CAP.cst, stream: CAPS.open ? 'on' : 'off', node: process.version, lastTick: CAPS.last ? new Date(CAPS.last).toISOString() : null, viewers: CAPS.clients.size, lastOk: CAP.okAt ? new Date(CAP.okAt).toISOString() : null, error: CAP.err || null, epics: { nas: capEpic('nas'), gold: capEpic('gold') }, test }));
   }
   if (url.pathname.startsWith('/api/broker/')) return brokerRoutes(req, res, url);
+  if (url.pathname.startsWith('/api/bot/')) return botRoutes(req, res, url);
   if (url.pathname === '/api/stream') {
     const tk = url.searchParams.get('tk'); if (tk && !req.headers.authorization) req.headers.authorization = 'Bearer ' + tk;
     if (!capOn()) { res.writeHead(404); return res.end(); }
@@ -803,6 +974,11 @@ http.createServer(async (req, res) => {
     const hb = setInterval(() => { try { res.write(': hb\n\n'); } catch (e) {} }, 15000);
     req.on('close', () => { clearInterval(hb); clearTimeout(c.tm); CAPS.clients.delete(c); if (!CAPS.clients.size) capStreamIdle(); });
     return;
+  }
+  if (url.pathname === '/api/whoami') {
+    const u = await verifyUser(req), em = adminList(), ids = envList('ADMIN_UIDS');
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+    return res.end(JSON.stringify(u ? { signedIn: true, email: u.email, verified: u.verified, uid: u.uid, adminEmailsSet: em.length, adminUidsSet: ids.length, emailListed: em.includes(u.email), uidListed: ids.includes(u.uid), admin: isAdminU(u), pro: await isPro(req), scalper: await hasScalper(req) } : { signedIn: false, adminEmailsSet: em.length, adminUidsSet: ids.length }));
   }
   if (url.pathname === '/api/history') {
     const send = (o, st = 200) => { const b = JSON.stringify(o), gz = /\bgzip\b/.test(req.headers['accept-encoding'] || ''); res.writeHead(st, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...(gz ? { 'Content-Encoding': 'gzip' } : {}) }); res.end(gz ? zlib.gzipSync(b) : b); };
