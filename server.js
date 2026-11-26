@@ -781,7 +781,10 @@ http.createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); return res.end(JSON.stringify({ pro }));
   }
   if (url.pathname === '/api/calendar') {
-    if (!calCache.d || Date.now() - calCache.t > 10 * 6e4) { try { const j = JSON.parse(await getText('https://nfs.faireconomy.media/ff_calendar_thisweek.json', 10000)); if (Array.isArray(j) && j.length) calCache = { t: Date.now(), d: j }; } catch (e) {} }
+    if (!calCache.d || Date.now() - calCache.t > 10 * 6e4) { try { const j = JSON.parse(await getText('https://nfs.faireconomy.media/ff_calendar_thisweek.json', 10000));
+        if (Array.isArray(j) && j.length) { let all = j.slice();
+          for (const w of ['lastweek', 'nextweek']) { try { const k = JSON.parse(await getText(`https://nfs.faireconomy.media/ff_calendar_${w}.json`, 8000)); if (Array.isArray(k)) all = all.concat(k); } catch (e) {} }
+          const seen = new Set(); all = all.filter(e => { const id = e.title + '|' + e.country + '|' + e.date; if (seen.has(id)) return false; seen.add(id); return true; }); calCache = { t: Date.now(), d: all }; } } catch (e) {} }
     res.writeHead(calCache.d ? 200 : 502, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }); return res.end(JSON.stringify(calCache.d || []));
   }
   if (url.pathname === '/api/capital/status') {
