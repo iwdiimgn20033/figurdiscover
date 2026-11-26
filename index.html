@@ -6810,7 +6810,9 @@ function loadJs(src){ return new Promise((res,rej)=>{ const s=document.createEle
 async function loadFb(){ if(window.firebase&&window.firebase.auth&&window.firebase.firestore) return;
  for(const n of ['app','auth','firestore']){ try{ await loadJs(FB_CDN(n)); }catch(e){ await loadJs(FB_CDN2(n)); } } }
 const fbUser=u=>u?{id:u.uid,email:u.email||'',phone:u.phoneNumber||'',user_metadata:{full_name:u.displayName||''},_u:u}:null;
-async function authToken(){ try{ return authUser&&authUser._u?await authUser._u.getIdToken():''; }catch(e){ return ''; } }
+async function authToken(force){ try{ let u=(fb&&fb.currentUser)||(authUser&&authUser._u)||null;
+ if(!u&&fb){ u=await new Promise(res=>{ let done=false; const off=fb.onAuthStateChanged(x=>{ if(done) return; done=true; try{ off(); }catch(_){} res(x); }); setTimeout(()=>{ if(!done){ done=true; res(fb.currentUser); } },6000); }); }
+ return u?await u.getIdToken(!!force):''; }catch(e){ return ''; } }
 async function authInit(){ renderAuthChip(); if(!authOn) return;
  try{ await loadFb(); const app=firebase.apps.length?firebase.app():firebase.initializeApp(AUTH_CFG); fb=firebase.auth(); fdb=firebase.firestore();
   try{ fb.languageCode=lang==='ar'?'ar':'en'; }catch(e){}
@@ -7566,10 +7568,10 @@ function adminRender(root){ root.innerHTML=pageHead('لوحة المشرف: ال
   if(a==='rm'){ if(!confirm(T(`إلغاء اشتراك ${id}؟`,`Remove subscription of ${id}?`))) return; await admFetch('/api/admin/sub',{method:'POST',body:JSON.stringify({email:id,remove:true,product:x})}); admDraw(box,true); return; }
   if(a==='add'){ const em=$('#adm-em',box).value.trim(), d=+$('#adm-dd',box).value||7, pr=$('#adm-pp',box).value; if(!em) return; const r=await admFetch('/api/admin/sub',{method:'POST',body:JSON.stringify({email:em,days:d,product:pr})}); if(r.ok){ toast(T('تم ✓','Done ✓')); admDraw(box,true); } else toast(T('بريد غير صحيح','Invalid email')); } }); }
 /* owner diagnosis: tells the owner exactly why the account is not recognised as admin */
-async function admWhoHtml(){ let w=null; try{ const tk=await authToken(); w=await fetch('/api/whoami',{headers:tk?{Authorization:'Bearer '+tk}:{},cache:'no-store'}).then(r=>r.json()); }catch(_){}
+async function admWhoHtml(){ let w=null; try{ const tk=await authToken(true); w=await fetch('/api/whoami',{headers:tk?{Authorization:'Bearer '+tk}:{},cache:'no-store'}).then(r=>r.json()); }catch(_){}
  const row=(ok,txt)=>`<li class="${ok?'ok':'bad'}">${ok?'✅':'❌'} ${txt}</li>`;
  if(!w) return `<section class="panel"><p>${T('تعذّر الفحص. هذه الصفحة تعمل على موقعك المستضاف فقط.','Could not check. This page works on your hosted site only.')}</p></section>`;
- if(!w.signedIn) return `<section class="panel"><h3>${T('صفحة المالك','Owner page')}</h3><p>${T('سجّل الدخول أولاً ثم افتح هذه الصفحة مرة أخرى.','Sign in first, then open this page again.')}</p><button class="btn primary" onclick="openAuth('login')">${T('تسجيل الدخول','Sign in')}</button></section>`;
+ if(!w.signedIn) return `<section class="panel"><h3>${T('صفحة المالك','Owner page')}</h3>${w.tokenSent?`<p>${T('أنت مسجّل في الموقع، لكن السيرفر رفض التحقق من الدخول.','You are signed in, but the server could not verify the sign-in.')}</p><p class="note">${T('السبب','Reason')}: <code dir="ltr">${esc(w.authError||'—')}</code></p>`:`<p>${T('لم يصل إثبات تسجيل الدخول من المتصفح. سجّل الخروج ثم ادخل من جديد واضغط Ctrl+F5.','No sign-in proof reached the server. Sign out, sign in again and press Ctrl+F5.')}</p>`}<button class="btn primary" onclick="openAuth('login')">${T('تسجيل الدخول','Sign in')}</button> <button class="btn ghost" onclick="location.reload()">${T('إعادة المحاولة','Retry')}</button></section>`;
  const fix=!w.adminEmailsSet&&!w.adminUidsSet?T('لم يقرأ السيرفر أي متغير ADMIN_EMAILS أو ADMIN_UIDS. تأكد من كتابة الاسم حرفياً في Railway ← Variables ثم اضغط Deploy.','The server sees no ADMIN_EMAILS or ADMIN_UIDS variable. Check the exact name in Railway → Variables, then Deploy.')
   :!w.emailListed&&!w.uidListed?T('البريد الذي دخلت به غير موجود في ADMIN_EMAILS. انسخ البريد الظاهر أعلاه كما هو وضعه في المتغير، أو استخدم ADMIN_UIDS بالرقم الظاهر أعلاه.','The email you signed in with is not in ADMIN_EMAILS. Copy the email shown above exactly, or use ADMIN_UIDS with the UID shown above.')
   :w.emailListed&&!w.verified&&!w.uidListed?T('بريدك موجود في القائمة لكنه غير موثّق. الحل الأسهل: أضف في Railway المتغير ADMIN_UIDS وقيمته رقم UID الظاهر أعلاه، ثم Deploy.','Your email is listed but not verified. Easiest fix: add the Railway variable ADMIN_UIDS with the UID shown above, then Deploy.'):'';
