@@ -1,0 +1,15 @@
+{
+  "name": "figurdiscover",
+  "version": "1.0.0",
+  "private": true,
+  "description": "figurdiscover - financial & statistical analysis site",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
